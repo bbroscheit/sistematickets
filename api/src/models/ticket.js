@@ -28,11 +28,6 @@ module.exports = ( sequelize ) => {
             defaultValue: "sin detalle",
             allowNull:false,
         },
-        state:{
-            type: DataTypes.STRING,
-            defaultValue: "Generada",
-            allowNull:false,
-        },
         created:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
@@ -47,6 +42,10 @@ module.exports = ( sequelize ) => {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull:false,
+        },
+        isproject:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
         randomdate:{
             type: DataTypes.DATE,
