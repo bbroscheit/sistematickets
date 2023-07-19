@@ -6,7 +6,8 @@ let cors = require('cors');
 require('./bd.js')
 
 // se cargan las rutas 
-
+const sectorRouter = require ('../src/routes/sectorRouter.js')
+const salepointRouter = require('../src/routes/salepointRouter.js')
 
 const server = express();
 server.name = 'API';
@@ -27,6 +28,9 @@ server.use(express.json());
 server.use(cors());
 
 // llamamos a los diferentes Routers
+server.use('/' , sectorRouter);
+server.use('/' , salepointRouter); 
+
 
 
 server.use((err,req,res) => {

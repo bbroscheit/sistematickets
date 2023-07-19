@@ -13,6 +13,11 @@ module.exports = ( sequelize ) => {
             defaultValue: " nombre de usuario sin definir ",
             allowNull:false
         },
+        password:{
+            type: DataTypes.STRING,
+            defaultValue: " password sin ingresar ",
+            allowNull:false
+        },
         firstname:{
             type: DataTypes.STRING,
             defaultValue: " nombre de usuario sin definir ",

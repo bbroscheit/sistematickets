@@ -1,11 +1,12 @@
 const { User, Sector } = require('../../bd');
 
-const postUser = async ({username, firstname, lastname, email, phonenumber, isworker, sectorname,salepoint }) => {
+const postUser = async (username, firstname, lastname, password, email, phonenumber, isworker, sectorname,salepoint ) => {
     try{
         let newUser = await User.create({
             username,
             firstname,
             lastname,
+            password,
             email,
             phonenumber,
             isworker
