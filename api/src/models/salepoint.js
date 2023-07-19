@@ -1,14 +1,14 @@
 const { DataTypes } = require ('sequelize');
 
 module.exports = ( sequelize ) => {
-    sequelize.define( "sector" , {
+    sequelize.define( "salepoint" , {
         id:{
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false,
         },
-        sectorname: {
+        salepoint: {
             type: DataTypes.STRING,
             defaultValue: " Nombre sin definir ",
             allowNull: false,
@@ -22,4 +22,3 @@ module.exports = ( sequelize ) => {
 
     )
 }
-
