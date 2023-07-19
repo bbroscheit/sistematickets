@@ -8,6 +8,7 @@ require('./bd.js')
 // se cargan las rutas 
 const sectorRouter = require ('../src/routes/sectorRouter.js')
 const salepointRouter = require('../src/routes/salepointRouter.js')
+const userRouter = require('../src/routes/userRouter.js')
 
 const server = express();
 server.name = 'API';
@@ -30,6 +31,7 @@ server.use(cors());
 // llamamos a los diferentes Routers
 server.use('/' , sectorRouter);
 server.use('/' , salepointRouter); 
+server.use('/' , userRouter);
 
 
 
