@@ -9,6 +9,7 @@ require('./bd.js')
 const sectorRouter = require ('../src/routes/sectorRouter.js')
 const salepointRouter = require('../src/routes/salepointRouter.js')
 const userRouter = require('../src/routes/userRouter.js')
+const ticketRouter = require('../src/routes/ticketRouter.js')
 
 const server = express();
 server.name = 'API';
@@ -32,6 +33,7 @@ server.use(cors());
 server.use('/' , sectorRouter);
 server.use('/' , salepointRouter); 
 server.use('/' , userRouter);
+server.use('/' , ticketRouter);
 
 
 

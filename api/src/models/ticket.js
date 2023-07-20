@@ -31,31 +31,27 @@ module.exports = ( sequelize ) => {
         created:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
-            allowNull:false,
+            
         },
         startdate:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
-            allowNull:false,
+            
         },
         finishdate:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
-            allowNull:false,
+            
         },
-        isproject:{
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
-        },
+        
         randomdate:{
             type: DataTypes.DATE,
-            defaulValue: DataTypes.NOW,
-            allowNull:false,
+            defaultValue: DataTypes.NOW,
+
         },
         isdelete:{
             type: DataTypes.BOOLEAN,
-            defaulValue: false,
-            allowNull:false,
+            defaultValue: false,
         }
 
     } )

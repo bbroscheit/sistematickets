@@ -7,6 +7,7 @@ const deleteUser = async (id) => {
             { isdelete: true },
             { where: {id:id}}
         )
+        return deleteUser
     }catch(e){
         console.log( "error en controller deleteUser" , e.message)
     }

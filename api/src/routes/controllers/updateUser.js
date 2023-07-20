@@ -2,7 +2,7 @@ const {User, Sector, Salepoint } = require ('../../bd');
 
 const updateUser = async ( id, username, firstname, lastname, password, email, phonenumber, isworker, sectorname,salepoint  ) => {
     try{
-        let setUser = await User.fidnByPk(id , {
+        let setUser = await User.findByPk(id , {
             include:[
                 {
                     model: Sector,
@@ -55,4 +55,4 @@ const updateUser = async ( id, username, firstname, lastname, password, email, p
     }
 }
 
-module.export = updateUser;
+module.exports = updateUser;
