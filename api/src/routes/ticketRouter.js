@@ -1,6 +1,7 @@
 const ticketRouter = require('express').Router()
 const getAllTicket = require('./controllers/getAllTicket');
 const postTicket = require('./controllers/postTicket');
+const updateTicket = require('./controllers/updateTicket');
 
 
 
@@ -25,6 +26,15 @@ ticketRouter.post( '/ticket', async ( req, res ) => {
 })
 
 ticketRouter.put( '/ticket' , async ( req, res ) => {
+    const { id } = req.query
+    const { state, worker, subject, detail, created, startdate, finishdate, randomdate, username } = req.body
+    
+    try {
+        let updatedTicket = await updateTicket(id,state, worker, subject, detail, created, startdate, finishdate, randomdate, username)
+        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put ticket" , e.message)
+    }
     
 })
 
