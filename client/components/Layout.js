@@ -1,10 +1,9 @@
 import React from "react";
-import {PropsWithChildren}  from 'react';
 import Navbar from "./Navbar";
 import Head from "next/head";
 import styles from '../modules/Layout.module.css'
 
-const Layout = ({ children }: PropsWithChildren) => {
+const Layout = ({ children }) => {
   return (
     <>
       <Head>

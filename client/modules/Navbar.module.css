@@ -1,9 +1,8 @@
 .container{
-    background-color: black;
+    background-color: var(--color-background-navbar);
     height: 100vh;
     max-width: 25%;
     overflow: hidden;
-    color: white;
     padding: 4rem;
     display: grid;
     grid-template-columns: 30% 70%;
