@@ -1,20 +1,22 @@
 const { Ticket, User } = require('../../bd');
 
-const getAllTicket = async () => {
+const getTicketsGenerados = async () => {
     try{
         let getTickets = await Ticket.findAll({
+            where: { state: "generado"},
             include:[{
                 model:User,
                 attribute:["username","sectorname","salepoint"]
             }]
         });
 
-        getTickets.sort((a , b) => { return a.id - b.id })
+        getTickets ? getTickets.sort((a , b) => { return a.id - b.id }) : getTickets = 0
+        
 
         return getTickets;
     }catch(e){
-        console.log( "error en controller getAllTicket" , e.message)
+        console.log( "error en controller getTicketsGenerados " , e.message)
     }
 }
 
-module.exports = getAllTicket;
+module.exports = getTicketsGenerados 

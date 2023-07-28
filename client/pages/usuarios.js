@@ -29,7 +29,7 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
-
+import { getAllTickets } from '../actions/getAllTickets'
 
 
 function usuarios() {
@@ -41,13 +41,13 @@ function usuarios() {
           .then((res) => res.json())
           .then((data) => {
             setData(data)
-            console.log("data usuarios", data)
           })
+         
       }, [])
 
   return (
     <div>
-      {data && data.map( ( e ) => <h1>{e.id}</h1>)}
+      {data && data.map( ( e ) => <h1 key={e.id}>{e.id}</h1>)}
     </div>
   )
 }
