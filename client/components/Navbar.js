@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Styles from '../modules/Navbar.module.css'; 
+import { BiMessageDetail } from 'react-icons/bi';
+import { BiUserCircle } from 'react-icons/bi';
+
 
 
 const Navbar = () => {
@@ -11,10 +14,10 @@ const Navbar = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/tickets">Tickets</Link>
+             <Link href="/tickets"><BiMessageDetail /> Soportes</Link>
           </li>
           <li>
-            <Link href="/usuarios">Usuarios</Link>
+            <Link href="/usuarios"><BiUserCircle />Usuarios</Link>
           </li>
         </ul>
       </div>

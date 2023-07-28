@@ -1,5 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Card from '../components/Card.js';
+import styles from '../modules/Ticket.module.css';
+
 
 function tickets() {
   const [ticketGenerados, setTicketsGenerados] = useState(null);
@@ -40,37 +43,37 @@ function tickets() {
   }, []);
 
   return (
-    <div>
-      <h1>Tickets</h1>
+    <div className={styles.ticketContainer}>
+      <h1 className={styles.ticketTitle}>SOPORTES</h1>
       {ticketGenerados  && (
         <div>
-          <h2>Tickets Generados</h2>
+          <h2>Soportes Generados</h2>
           {ticketGenerados.map((e) => (
-            <h3>{e.id}</h3>
-          ))}
+            <Card id= {e.id} subject= {e.subject} />
+             ))}
         </div>
       )}
       {ticketDesarrollo && (
         <div>
-          <h2>Tickets En Desarrollo</h2>
+          <h2>Soportes En Desarrollo</h2>
           {ticketDesarrollo.map((e) => (
-            <h3>{e.id}</h3>
+            <Card id= {e.id} subject= {e.subject} />
           ))}
         </div>
       )}
       {ticketDesarrollo2 && (
         <div>
-          <h2>Tickets que necesitan mas información</h2>
+          <h2>Soportes que necesitan mas información</h2>
           {ticketDesarrollo2.map((e) => (
-            <h3>{e.id}</h3>
+            <Card id= {e.id} subject= {e.subject} />
           ))}
         </div>
       )}
       {ticketCompletado && (
         <div>
-          <h2>Tickets Completados - Solicitan cierre por parte del usuario</h2>
+          <h2>Soportes pendientes de cierre</h2>
           {ticketCompletado.map((e) => (
-            <h3>{e.id}</h3>
+            <Card id= {e.id} subject= {e.subject} />
           ))}
         </div>
       )}
