@@ -1,15 +1,26 @@
 const userRouter = require('express').Router()
-const getAllUser = require('../routes/controllers/getAllUser')
+const getAllUser = require('../routes/controllers/getAllUser');
+const getUser = require('../routes/controllers/getUser');
 const postUser = require('./controllers/postUser')
 const updateUser = require('./controllers/updateUser')
 const deleteUser = require('./controllers/deleteUser')
 
 userRouter.get('/user', async ( req, res ) => {
-    try {
-        let allUser = await getAllUser()
-        allUser ? res.status(200).json(allUser) : res.status(400).send("failure") 
-    } catch (e) {
-        console.log("error en ruta get user ", e.message)
+    const {username, password} = req
+    console.log(req)
+    if( username && password ){
+        try {
+            let user = await getUser( username, password )
+            user ? res.status(200).json(user) : res.status(400).send("failure")
+        } catch (e) {
+            console.log(e.message)
+    }}else{
+        try {
+            let allUser = await getAllUser()
+            allUser ? res.status(200).json(allUser) : res.status(400).send("failure") 
+            } catch (e) {
+            console.log("error en ruta get user ", e.message)
+         }
     }
 })
 

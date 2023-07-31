@@ -1,13 +1,15 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  --color-background-navbar: #7f5af0;
-  --color-background-body: #16161a;
+  --color-background-navbar: #cf2e2e;
+  --color-background-body: #ededf0ee;
   --color-primaryfont: #fffffe;
   --color-paragraph: #94a1b2;
+  /* -color-fontbody:- */
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
 
 @media (prefers-color-scheme: dark) {
   :root {
