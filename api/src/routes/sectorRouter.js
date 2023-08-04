@@ -33,3 +33,4 @@ sectorRouter.delete( '/sector', async ( req, res ) => {
 })
 
 module.exports = sectorRouter
+

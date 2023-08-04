@@ -1,0 +1,21 @@
+.ticketContainer {  
+    margin-top: 5px;
+    display: grid;
+    grid-template-columns: 10% 1fr 10%;
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 0px;
+    grid-auto-flow: row;
+    border: 2px solid black;
+    
+  }
+
+.ticketContainer h3{
+    text-align: center;
+}
+
+.gridElement{
+    padding: 5px;
+    border: 1px solid black;
+}
+  

@@ -11,6 +11,10 @@ function tickets() {
   const [ticketCompletado, setTicketsCompletado] = useState(null);
 
   useEffect(() => {
+    const user = localStorage.getItem('user');
+  },[])
+  
+  useEffect(() => {
     fetch("http://localhost:3001/ticketGenerados")
       .then((res) => res.json())
       .then((data) => {
@@ -46,7 +50,7 @@ function tickets() {
     <div className={styles.ticketContainer}>
       <h1 className={styles.ticketTitle}>SOPORTES</h1>
       {ticketGenerados  && (
-        <div>
+        <div className={styles.gridContainer}>
           <h2>Soportes Generados</h2>
           {ticketGenerados.map((e) => (
             <Card id= {e.id} subject= {e.subject} />
@@ -54,7 +58,7 @@ function tickets() {
         </div>
       )}
       {ticketDesarrollo && (
-        <div>
+        <div className={styles.gridContainer}>
           <h2>Soportes En Desarrollo</h2>
           {ticketDesarrollo.map((e) => (
             <Card id= {e.id} subject= {e.subject} />
@@ -62,7 +66,7 @@ function tickets() {
         </div>
       )}
       {ticketDesarrollo2 && (
-        <div>
+        <div className={styles.gridContainer}>
           <h2>Soportes que necesitan mas información</h2>
           {ticketDesarrollo2.map((e) => (
             <Card id= {e.id} subject= {e.subject} />
@@ -70,7 +74,7 @@ function tickets() {
         </div>
       )}
       {ticketCompletado && (
-        <div>
+        <div className={styles.gridContainer}>
           <h2>Soportes pendientes de cierre</h2>
           {ticketCompletado.map((e) => (
             <Card id= {e.id} subject= {e.subject} />

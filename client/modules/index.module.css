@@ -2,9 +2,9 @@
     display:flex;
     justify-content:center;
     align-items:center;
-    
-    height:100%; 
+    height:100vh;
     width:100%;
+    margin-left: 12.5rem;
     font-family: 'Titillium Web', sans-serif;
     background-image: url("https://st.focusedcollection.com/18590116/i/650/focused_230309614-stock-photo-male-executive-working-desk-office.jpg");
     background-size: cover;
@@ -29,32 +29,47 @@
     padding: 10px;
 }
 
-.indexButton{
-    margin-top: 8px;
-}
-
-.danger{
+.danger , .dangerLogin{
     padding: 2px;
     font-weight: bolder;
     font-size: 12px;
     color: var(--color-primaryfont);
 }
 
-.normal{
+.dangerLogin{
+    visibility: visible;
+}
+
+.normal,  .normalLogin{
     padding: 2px;
     font-weight: bolder;
     font-size: 12px;
-       
 }
 
-.indexButton{
+.normalLogin{
+    visibility:hidden;
+}
+
+
+
+.indexButton, .indexButtonDisabled{
     background-color: var(--color-background-navbar);
     border:none;
     border-radius: 10px;
+    margin-top: 8px;
     padding: 12px 25px;
     font-family: 'Titillium Web', sans-serif;
+    font-weight: 700;
     color: var(--color-primaryfont);
     transition: background-color 2s;
+}
+
+.indexButtonDisabled{
+    background-color: grey;
+}
+
+.indexButton:hover{
+   font-size: 0.9rem;
 }
 
 .indexButton:hover{
