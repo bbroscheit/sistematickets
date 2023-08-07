@@ -3,7 +3,7 @@ const {Sector} = require('../../bd');
 const {Salepoint} = require ('../../bd');
 
 const loginUser = async (username,password) => {
-    console.log("username loginUser" , username)
+    
     try {
         let user = await User.findOne({
             where:{isdelete:false , username:username, password:password}, 

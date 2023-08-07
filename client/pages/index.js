@@ -60,6 +60,7 @@ export default function Home() {
     if(login.id){
       const user = {
         id: login.id,
+        name: login.name,
         email: login.email,
         isWorker: login.isworker,
         phoneNumber: login.phonenumber,

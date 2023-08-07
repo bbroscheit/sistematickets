@@ -7,6 +7,7 @@ const getTicketsGenerados = require('./controllers/getTicketGenerado');
 const postTicket = require('./controllers/postTicket');
 const updateTicket = require('./controllers/updateTicket');
 const getTicketTerminado = require('./controllers/getTicketTerminado');
+const getTicketDetail = require('./controllers/getTicketDetail');
 
 
 
@@ -14,6 +15,16 @@ ticketRouter.get( '/ticket' , async ( req, res ) => {
     try {
         let allTicket = await getAllTicket();
         allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")        
+    } catch (e) {
+        console.log( "error en ruta get tickets" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketDetail/:id' , async ( req, res ) => {
+    const { id } = req.query
+    try {
+        let ticketDetail = await getTicketDetail(id);
+        ticketDetail ? res.status(200).json(ticketDetail) : res.status(400).send("failure")        
     } catch (e) {
         console.log( "error en ruta get tickets" , e.message)
     }

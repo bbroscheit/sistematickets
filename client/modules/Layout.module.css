@@ -3,4 +3,10 @@
     display: flex;
     flex-direction: row;
     background-color: var(--color-background-body);
+
+}
+
+.childrenContainer{
+    width: 100%;
+    
 }
