@@ -1,0 +1,6 @@
+.buttonContainer{
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: right;
+}
