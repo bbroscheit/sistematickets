@@ -1,12 +1,29 @@
-.soporteContainer{
-    padding: 4rem;
-    padding-right: 14rem;
+.minimalGrid{
     width: 100%;
-    min-height: 100vh;
-    margin-left: 12.5rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 25% 1fr; 
+    grid-template-rows: 1fr; 
+    gap: 10px 11px;
+}
+
+.textareaButton , .buttonContainer{
+    margin-bottom: 1rem;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--color-background-bodyalternate);
+    justify-content: right;
+}
+
+.buttonContainer{
+    width: 100%;
+}
+
+.textareaButton button{
+    min-width: 6rem;
+    padding: 9px 12px;
+    margin: 0px 0px 2px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
 }

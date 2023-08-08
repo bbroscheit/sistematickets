@@ -77,10 +77,10 @@ ticketRouter.get( '/ticketTerminado' , async ( req, res ) => {
 })
 
 ticketRouter.post( '/ticket', async ( req, res ) => {
-    const {state, worker, subject, detail, created, startdate, finishdate, randomdate} = req.body;
+    const {state, worker, subject, detail, userresolved, created, startdate, finishdate, randomdate} = req.body;
 
     try {
-        let newTicket = await postTicket(state, worker, subject, detail, created, startdate, finishdate, randomdate)
+        let newTicket = await postTicket(state, worker, subject, detail, userresolved, created, startdate, finishdate, randomdate)
         newTicket ? res.status(200).send("sucess") : res.status(404).send("failure")
     } catch (e) {
         console.log ( "error en ruta post ticket" , e.message)

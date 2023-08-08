@@ -39,7 +39,7 @@ function Sector() {
           <input type="search" />
         </div>
         <div>
-          {hardcoreSector && hardcoreSector.map( e => <CardUser sector={e.sector} salepoint={e.salepoint} />)}
+          {hardcoreSector && hardcoreSector.map( e => <CardSector sector={e.sector} salepoint={e.salepoint} />)}
         </div>
       </div>
     </div>

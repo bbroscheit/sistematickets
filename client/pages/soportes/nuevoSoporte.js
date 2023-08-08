@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import style from '../../modules/newSoporte.module.css'
+import style from "../../modules/newSoporte.module.css";
+import mainStyle from "@/styles/Home.module.css";
+
 
 function nuevoSoporte() {
   const [title, setTitle] = useState({ id: 0 });
   const [option, setOption] = useState({ state: "" });
   const [faq, setFaq] = useState("");
-  
 
   const hardcoreFaq = [
     {
@@ -41,7 +42,7 @@ function nuevoSoporte() {
   function handleSelect(e) {
     e.preventDefault();
     setTitle({
-      ...title,  
+      ...title,
       id: e.target.value,
     });
     // if( e.target.value !== 0 ){
@@ -53,26 +54,26 @@ function nuevoSoporte() {
     //   uresolved: hardcoreFaq[e.target.uresolved].uresolved,
     // });}
     setFaq({
-        ...faq,
-        id: e.target.value
-    })
-    console.log("faq", faq.id)
-    
+      ...faq,
+      id: e.target.value,
+    });
+    console.log("faq", faq.id);
   }
 
   return (
-    <div className={style.soporteContainer}>
-      <h1>Nuevo Soporte</h1>
-      <div>
-        <h3>Título de Soporte : </h3>
-        <select onChange={(e) => handleSelect(e)} name={title.state} >
-          {hardcoreFaq.map((e) => (
-            <option key={e.id} value={e.id} >
-              {e.title}
-            </option>
-          ))}
-          <option value="otros">Otro</option>
-        </select>
+    <div className={mainStyle.container}>
+      <h1 className={mainStyle.title}>Nuevo Soporte</h1>
+      <form className={mainStyle.form}>
+        <div className={style.minimalGrid}>
+          <h3 className={mainStyle.subtitle}>Título de Soporte : </h3>
+          <select onChange={(e) => handleSelect(e)} name={title.state} className={mainStyle.input}>
+            {hardcoreFaq.map((e) => (
+              <option key={e.id} value={e.id} className={mainStyle.input}>
+                {e.title}
+              </option>
+            ))}
+            <option value="otros" className={mainStyle.input}>Otro</option>
+          </select>
         </div>
         {/* esta opcion se activa si el titulo del soporte es distinto de "otro" y si esa opcion puede resolverla el usuario */}
         {/* {title.state !== "otros" && faq.uresolved === true ? (
@@ -86,28 +87,28 @@ function nuevoSoporte() {
           </div>
           
         ) : null} */}
-        <div>
-            <h3>Sugerencia : </h3>
-            <textarea type="text" placeholder={hardcoreFaq[title.id].answer} />
-            <div>
-                <button> Si </button>
-                <button> No </button>
-            </div>
+        <div className={mainStyle.labelWithTextarea}>
+          <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
+          <textarea type="text" placeholder={hardcoreFaq[title.id].answer} rows="10" />
+          <div className={style.textareaButton}>
+            <button> Si </button>
+            <button> No </button>
+          </div>
         </div>
-       
-        <div>
-            <h3>Título</h3>
-            <input type="text" placeholder="Ingrese el Título" />
+
+        <div className={style.minimalGrid}>
+          <h3 className={mainStyle.subtitle}>Título :</h3>
+          <input type="text" placeholder="Ingrese el Título" className={mainStyle.input}/>
         </div>
-        <div>
-            <h3>Descripcíon</h3>
-            <textarea type="text" placeholder="Ingrese el inconveniente" />
+        <div className={mainStyle.labelWithTextarea}>
+          <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
+          <textarea type="text" placeholder="Ingrese el inconveniente" rows="10"/>
         </div>
-        <div>
-            <button> Generar Soporte </button>
-            <button> Borrar </button>
+        <div className={style.buttonContainer}>
+          <button className={mainStyle.button}> Generar Soporte </button>
+          <button className={mainStyle.button}> Borrar </button>
         </div>
-     
+      </form>
     </div>
   );
 }

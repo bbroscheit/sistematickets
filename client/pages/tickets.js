@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Card from '../components/Card.js';
 import styles from '../modules/Ticket.module.css';
+import mainStyles from '@/styles/Home.module.css'
 
 
 function tickets() {
@@ -48,7 +49,7 @@ function tickets() {
 
   return (
     <div className={styles.ticketContainer}>
-      <h1 className={styles.ticketTitle}>SOPORTES</h1>
+      <h1 className={mainStyles.title}>SOPORTES</h1>
       {ticketGenerados  && (
         <div className={styles.gridContainer}>
           <h2>Soportes Generados</h2>

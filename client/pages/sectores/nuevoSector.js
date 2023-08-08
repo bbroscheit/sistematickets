@@ -1,17 +1,18 @@
 import React from 'react'
-import mainStyles from '../styles/Home.module.css'
+import mainStyle from '../../styles/Home.module.css'
+import style from '@/modules/newSector.module.css'
 
 function nuevoSector() {
   return (
-    <div className={mainStyles.container}>
-        <h1>Creación de Sector</h1>
-    <div>
-        <label>Nombre de usuario</label>
-        <input type="text" name ="username" value="username"/>
+    <div className={mainStyle.container}>
+        <h1 className={mainStyle.title}>Creación de Sector</h1>
+    <div className={mainStyle.minimalGrid}>
+        <h3 className={mainStyle.subtitle}>Nombre de Sector</h3>
+        <input type="text" name ="sector" value="sector" className={mainStyle.input}/>
     </div>
-    <div>
-        <button>Crear</button>
-        <button>Limpiar</button>
+    <div className={style.buttonContainer}>
+        <button className={mainStyle.button}>Crear</button>
+        <button className={mainStyle.button}>Limpiar</button>
     </div>
 </div>
   )

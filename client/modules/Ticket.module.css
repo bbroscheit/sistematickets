@@ -9,13 +9,6 @@
     background-color: var(--color-background-bodyalternate);
 }
 
-.ticketTitle{
-    
-    font-family: 'Roboto', sans-serif;
-    margin: 10px auto;
-    padding-bottom: 0px;
-}
-
 .gridContainer{
     width: 100%;
     padding: 10px 20px;
