@@ -1,0 +1,12 @@
+.soporteContainer{
+    padding: 4rem;
+    padding-right: 14rem;
+    width: 100%;
+    min-height: 100vh;
+    margin-left: 12.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-background-bodyalternate);
+}

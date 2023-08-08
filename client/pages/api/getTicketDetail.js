@@ -1,7 +1,7 @@
 export async function getTicketDetail(id) {
     
     const res = await fetch(`http://localhost:3001/ticketDetail/${id}`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       }

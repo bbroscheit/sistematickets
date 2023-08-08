@@ -21,12 +21,13 @@ ticketRouter.get( '/ticket' , async ( req, res ) => {
 })
 
 ticketRouter.get( '/ticketDetail/:id' , async ( req, res ) => {
-    const { id } = req.query
+    const { id } = req.params
+    
     try {
         let ticketDetail = await getTicketDetail(id);
         ticketDetail ? res.status(200).json(ticketDetail) : res.status(400).send("failure")        
     } catch (e) {
-        console.log( "error en ruta get tickets" , e.message)
+        console.log( "error en ruta get ticketDetail" , e.message)
     }
 })
 

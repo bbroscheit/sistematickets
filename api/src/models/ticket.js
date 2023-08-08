@@ -28,6 +28,10 @@ module.exports = ( sequelize ) => {
             defaultValue: "sin detalle",
             allowNull:false,
         },
+        userresolved:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
         created:{
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,

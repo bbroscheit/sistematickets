@@ -28,7 +28,7 @@ const Navbar = () => {
   return (
     
     <div className={Styles.container}>
-        {console.log("soy user",user.response)}
+        
         <ul>
           { user && user.response ? <h2> Bienvenido {user.response.name}</h2> : <li><Link href="/">Ingresa al Sistema</Link></li>}
           <li>
