@@ -1,13 +1,14 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import mainStyle from '../styles/Home.module.css'
+import mainStyles from '../styles/Home.module.css'
+import CardUser from '@/components/CardUsers'
 
 
 function usuarios() {
 
     const [user, setUser] = useState(null)
 
-    let harcoreUser = [{
+    let hardcoreUser = [{
       id : 1,
       username : "username1",
       sector: "Administracion",
@@ -35,7 +36,7 @@ function usuarios() {
     }]
 
     return (
-    <div className={mainStyle.container}>
+    <div className={mainStyles.container}>
       <h1>Usuarios</h1>
       <div>
         <div>
@@ -58,7 +59,7 @@ function usuarios() {
           </select>
         </div>
         <div>
-          
+          {hardcoreUser && hardcoreUser.map( e => <CardUser username={e.username} sector={e.sector} salepoint={e.salepoint}/>)}
         </div>
       </div>
     </div>
