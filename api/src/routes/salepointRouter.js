@@ -14,7 +14,7 @@ salepointRouter.get('/salepoint', async ( req, res ) => {
 })
 
 salepointRouter.post('/salepoint', async ( req, res ) => {
-    const {salepoint} = req.body
+    const salepoint = req.body.salepoint
     
     try{
         let newSalepoint = await postSalepoint(salepoint);

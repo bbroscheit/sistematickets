@@ -13,7 +13,8 @@ sectorRouter.get('/sector', async ( req,res) => {
 })
 
 sectorRouter.post( '/sector', async ( req,res ) => {
-    const {sectorname} = req.body;
+    const sectorname = req.body.sectorName;
+    
     try {
         let newUser = await postSector(sectorname)
         newUser ? res.status(200).send("sucess") : res.status(404).send("failure");

@@ -55,7 +55,14 @@
   padding: 8px 9px;
 }
 
-.button{
+.select, .option{
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 9px;
+}
+
+.button, .buttonDisabled{
   min-width: 6rem;
   padding: 9px 12px;
   margin: 0px 0px 2px 12px;
@@ -74,5 +81,46 @@
   grid-template-rows: 1fr; 
   gap: 10px 11px;
 }
+
+.minimalFlex{
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.minimalFlex h3{
+  font-size: 1.4rem;
+}
+
+.minimalFlex input{
+  width: 80%;
+}
+
+.regularGrid select{
+  width: 60%;
+  
+}
+.regularGrid input{
+  width: 60%;
+  
+}
+
+.danger{
+  width: 100%;
+  visibility: visible;
+  color: var(--color-dangerForm);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.normal{
+  visibility: hidden;
+}
+
+
 
 
