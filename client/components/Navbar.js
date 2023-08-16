@@ -59,6 +59,22 @@ const Navbar = () => {
             </Link>
           </li>
         ) : null}
+        {user.response && user.response.isWorker === true ? (
+          <li>
+            <Link href="/sectores/nuevoSector">
+              <BiUserCircle />
+              Crear Sector
+            </Link>
+          </li>
+        ) : null}
+        {user.response && user.response.isWorker === true ? (
+          <li>
+            <Link href="/puntoventa/nuevoPuntoventa">
+              <BiUserCircle />
+              Crear Punto de venta
+            </Link>
+          </li>
+        ) : null}
         <li>
           <button onClick={(e) => sesionClose(e)}>
             <BiUserCircle />

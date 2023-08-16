@@ -1,6 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { getSector } from "../api/getSector";
+import React, { useState, useEffect }from "react";
+import { postUser } from '../api/postuser'
 import mainStyles from "../../styles/Home.module.css";
 import style from "@/modules/newUser.module.css";
 
@@ -39,13 +38,63 @@ function nuevoUsuario() {
       });
   }, []);
 
-  console.log("salepoint", salepoint);
-  console.log("sector", sector);
+  function validate(input){
+    let errors = []
+      if (!input.username) {
+        errors.username = "El campo no puede estar vacío";
+      }
+      if (!input.password) {
+        errors.password = "El campo no puede estar vacío";
+      }
+      if (!input.name) {
+        errors.name = "El campo no puede estar vacío";
+      }
+      if (!input.surname) {
+        errors.surname = "El campo no puede estar vacío";
+      }
+      if (!input.email) {
+        errors.email = "El campo no puede estar vacío";
+      }
+      if (!input.int) {
+        errors.int = "El campo no puede estar vacío";
+      }
+    return errors
+  }
+
+  function handleChange(e) {
+    e.preventDefault();
+    setInput({
+        ...input,
+        [e.target.name] : e.target.value
+    })
+    setError(validate({
+      ...input,
+      [e.target.name] : e.target.value
+    }))
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(input)
+    postUser(input)
+    // alert("usuario creado con exito")
+    // setInput({
+    //   username: "",
+    //   password: "",
+    //   name: "",
+    //   surname: "",
+    //   email: "",
+    //   int: "",
+    //   isWorker: "",
+    //   sector: "",
+    //   salepoint: "",
+    // })
+  }
 
   return (
     <div className={mainStyles.container}>
       <h1 className={mainStyles.title}>Creación de Usuario</h1>
-      <form className={mainStyles.form}>
+      <form className={mainStyles.form} onSubmit={(e) => handleSubmit(e)}>
         <div className={mainStyles.minimalGrid}>
           <h3 className={mainStyles.subtitle}>Usuario</h3>
           <input
@@ -55,6 +104,15 @@ function nuevoUsuario() {
             className={mainStyles.input}
             onChange={e => handleChange(e)}
           />
+        </div>
+        <p
+          className={
+            error.username ? `${mainStyles.danger}` : `${mainStyles.normal}`
+          }
+        >
+          {error.username}
+        </p>
+        <div className={mainStyles.minimalGrid}>
           <h3 className={mainStyles.subtitle}>Password </h3>
           <input
             type="password"
@@ -91,7 +149,7 @@ function nuevoUsuario() {
         <div className={mainStyles.minimalFlex}>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle}>Interno</h3>
-            <input type="number" name="int" value={input.int} onChange={e => handleChange(e)}/>
+            <input type="text" name="int" value={input.int} onChange={e => handleChange(e)}/>
           </div>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Soporte ?</h3>
@@ -108,17 +166,17 @@ function nuevoUsuario() {
             <option className={mainStyles.option} value="">Elija una Opción</option>
             {sector &&
               sector.map((e) => (
-                <option className={mainStyles.option} value={e.sector}>{e.sectorname}</option>
+                <option className={mainStyles.option} value={e.sector} key={e.id}>{e.sectorname}</option>
               ))}
           </select>
         </div>
         <div className={mainStyles.minimalGrid}>
-          <h3 className={mainStyles.subtitle}>Unidad de negocio</h3>
+          <h3 className={mainStyles.subtitle}>Localidad</h3>
           <select className={mainStyles.select} value={input.salepoint} name="salepoint" onChange={e => handleChange(e)}>
             <option className={mainStyles.option} value="">Elija una Opción</option>
             {salepoint &&
               salepoint.map((e) => (
-                <option className={mainStyles.option} value={e.salepoint}>{e.salepoint}</option>
+                <option className={mainStyles.option} value={e.salepoint} key={e.id}>{e.salepoint}</option>
               ))}
           </select>
         </div>

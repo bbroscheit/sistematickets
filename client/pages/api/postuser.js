@@ -1,6 +1,5 @@
-export async function postSector(input) {
-    
-    const res = await fetch(`http://localhost:3001/sector`, {
+export async function postSalepoint(input) {
+    const res = await fetch(`http://localhost:3001/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
