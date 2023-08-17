@@ -1,9 +1,10 @@
 import React from 'react'
+import mainStyles from '@/styles/Home.module.css'
 
 function detalleUsuario() {
   return (
     <div className={mainStyles.container}>
-    <h1>Creación de Usuario</h1>
+    <h1 className={mainStyles.title}>Creación de Usuario</h1>
     <div>
         <label>Nombre de usuario</label>
         <input type="text" name ="username" value="username"/>

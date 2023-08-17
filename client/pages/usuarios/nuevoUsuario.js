@@ -9,12 +9,12 @@ function nuevoUsuario() {
   const [input, setInput] = useState({
     username: "",
     password: "",
-    name: "",
-    surname: "",
+    firstname: "",
+    lastname: "",
     email: "",
-    int: "",
+    phonenumber: "",
     isWorker: "",
-    sector: "",
+    sectorname: "",
     salepoint: "",
   });
   const [error, setError] = useState("");
@@ -46,17 +46,17 @@ function nuevoUsuario() {
       if (!input.password) {
         errors.password = "El campo no puede estar vacío";
       }
-      if (!input.name) {
-        errors.name = "El campo no puede estar vacío";
+      if (!input.firstname) {
+        errors.firstname = "El campo no puede estar vacío";
       }
-      if (!input.surname) {
-        errors.surname = "El campo no puede estar vacío";
+      if (!input.lastname) {
+        errors.lastname = "El campo no puede estar vacío";
       }
       if (!input.email) {
         errors.email = "El campo no puede estar vacío";
       }
-      if (!input.int) {
-        errors.int = "El campo no puede estar vacío";
+      if (!input.phonenumber) {
+        errors.phonenumber = "El campo no puede estar vacío";
       }
     return errors
   }
@@ -77,18 +77,18 @@ function nuevoUsuario() {
     e.preventDefault();
     console.log(input)
     postUser(input)
-    // alert("usuario creado con exito")
-    // setInput({
-    //   username: "",
-    //   password: "",
-    //   name: "",
-    //   surname: "",
-    //   email: "",
-    //   int: "",
-    //   isWorker: "",
-    //   sector: "",
-    //   salepoint: "",
-    // })
+    alert("usuario creado con exito")
+    setInput({
+      username: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      email: "",
+      phonenumber: "",
+      isWorker: "",
+      sectorname: "",
+      salepoint: "",
+    })
   }
 
   return (
@@ -124,16 +124,16 @@ function nuevoUsuario() {
           <h3 className={mainStyles.subtitle}>Nombre</h3>
           <input
             type="text"
-            name="name"
-            value={input.name}
+            name="firstname"
+            value={input.firstname}
             className={mainStyles.input}
             onChange={e => handleChange(e)}
           />
           <h3 className={mainStyles.subtitle}>Apellido</h3>
           <input
             type="text"
-            name="surname"
-            value={input.surname}
+            name="lastname"
+            value={input.lastname}
             className={mainStyles.input}
             onChange={e => handleChange(e)}
           />
@@ -149,20 +149,20 @@ function nuevoUsuario() {
         <div className={mainStyles.minimalFlex}>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle}>Interno</h3>
-            <input type="text" name="int" value={input.int} onChange={e => handleChange(e)}/>
+            <input type="text" name="phonenumber" value={input.phonenumber} onChange={e => handleChange(e)}/>
           </div>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Soporte ?</h3>
             <select value={input.isWorker} name="isWorker" onChange={e => handleChange(e)} className={mainStyles.select}>
               <option className={mainStyles.option}>Elija una opción</option>
-              <option value="yes" className={mainStyles.option}>Si</option>
+              <option value= "yes" className={mainStyles.option}>Si</option>
               <option value="no" className={mainStyles.option}>No</option>
             </select>
           </div>
         </div>
         <div className={mainStyles.minimalGrid}>
           <h3 className={mainStyles.subtitle}>Sector</h3>
-          <select className={mainStyles.select} value={input.sector} name="sector" onChange={e => handleChange(e)}>
+          <select className={mainStyles.select} value={input.sectorname} name="sectorname" onChange={e => handleChange(e)}>
             <option className={mainStyles.option} value="">Elija una Opción</option>
             {sector &&
               sector.map((e) => (

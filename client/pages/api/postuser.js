@@ -1,4 +1,5 @@
-export async function postSalepoint(input) {
+export async function postUser(input) {
+  
     const res = await fetch(`http://localhost:3001/user`, {
       method: 'POST',
       headers: {

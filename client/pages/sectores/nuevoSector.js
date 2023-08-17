@@ -13,11 +13,11 @@ function nuevoSector() {
   })
 
   function validate(input) {
-    let errors = [];
+    let error = [];
     if (!input.sectorName) {
-      errors.sector = "El campo no puede estar vacío";
+      error.sector = "El campo no puede estar vacío";
     }
-    if(error.sector){
+    if(!error.sector){
       setButton({
         complete:true
       })
@@ -26,7 +26,7 @@ function nuevoSector() {
         complete:false
       })
     }
-    return errors;
+    return error;
   }
 
   function handleChange(e) {

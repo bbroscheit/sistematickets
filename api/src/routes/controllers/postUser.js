@@ -1,37 +1,53 @@
-const { User, Sector } = require('../../bd');
+const { User, Sector, Salepoint } = require("../../bd");
 
-const postUser = async (username, firstname, lastname, password, email, phonenumber, isworker, sectorname,salepoint ) => {
-    try{
-        let newUser = await User.create({
-            username,
-            firstname,
-            lastname,
-            password,
-            email,
-            phonenumber,
-            isworker
-        })
+const postUser = async (
+  username,
+  firstname,
+  lastname,
+  password,
+  email,
+  phonenumber,
+  isworker,
+  sectorname,
+  salepoint
+) => {
+  try {
+    let newUser = await User.create({
+      username,
+      firstname,
+      lastname,
+      password,
+      email,
+      phonenumber,
+      isworker,
+    });
 
-        if(sectorname){
-            let setSector = await Sector.findAll({
-                 sectorname,
-            })
-            newUser.addSector(setSector)
-        }
-
-        if(salepoint){
-            let setSalePoint = await Sector.findAll({
-                 salepoint,
-            })
-            newUser.addSector(setSalePoint)
-        }
-
-
-        return newUser;
-    }catch(e){
-        console.log(" error en controller postUser ",e.message)
+    if (sectorname) {
+      let sector = await Sector.findOne({
+        where: {
+          sectorname: sectorname,
+        },
+      });
+      if (sector) {
+       await newUser.setSector(sector.id);
+      }
     }
+
+    if (salepoint) {
+      let setSalepoint = await Salepoint.findOne({
+        where: {
+          salepoint: salepoint,
+        },
+      });
+      if (setSalepoint) {
+        await newUser.setSalepoint(setSalepoint.id);
+      }
+    }
+
+    return newUser;
+  } catch (e) {
+    console.log(" error en controller postUser ", e.message);
+  }
 };
 
-module.exports= postUser;
-
+module.exports = postUser;

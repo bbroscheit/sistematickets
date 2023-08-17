@@ -1,9 +1,17 @@
-const {User} = require('../../bd');
+const {User, Sector, Salepoint} = require('../../bd');
 
 const getAllUsers = async () => {
     try {
         let allUsers = await User.findAll({
-            where:{isdelete:false},           
+            where:{isdelete:false},  
+            include:[{
+                model:Sector,
+                attribute: ["sectorname"]
+            },{
+                model:Salepoint,
+                attribute:["salepoint"]
+            }]  
+
         });
         return allUsers;
     } catch (e) {
