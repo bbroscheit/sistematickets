@@ -3,9 +3,9 @@ import { useState } from "react";
 import style from "../../modules/newSoporte.module.css";
 import mainStyle from "@/styles/Home.module.css";
 
-
 function nuevoSoporte() {
   const [title, setTitle] = useState({ id: 0 });
+  const [sugerencia , setSugerencia] = useState ({ state : false })
   const [option, setOption] = useState({ state: "" });
   const [faq, setFaq] = useState("");
 
@@ -64,45 +64,57 @@ function nuevoSoporte() {
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Nuevo Soporte</h1>
       <form className={mainStyle.form}>
-        <div className={style.minimalGrid}>
-          <h3 className={mainStyle.subtitle}>Título de Soporte : </h3>
-          <select onChange={(e) => handleSelect(e)} name={title.state} className={mainStyle.input}>
-            {hardcoreFaq.map((e) => (
-              <option key={e.id} value={e.id} className={mainStyle.input}>
-                {e.title}
+        {hardcoreFaq && hardcoreFaq.length > 0 ? (
+          <div className={style.minimalGrid}>
+            <h3 className={mainStyle.subtitle}>Título de Soporte : </h3>
+            <select
+              onChange={(e) => handleSelect(e)}
+              name={title.state}
+              className={mainStyle.input}
+            >
+              <option value="otros" className={mainStyle.input}>
+                Otro
               </option>
-            ))}
-            <option value="otros" className={mainStyle.input}>Otro</option>
-          </select>
-        </div>
+              {hardcoreFaq.map((e) => (
+                <option key={e.id} value={e.id} className={mainStyle.input}>
+                  {e.title}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null
+        
+        //   {title.state !== "otros" && faq.uresolved === true ? (
+        //     <div>
+        //       <h3>Sugerencia : </h3>
+        //       <textarea type="text" placeholder={hardcoreFaq[title.id].answer} />
+        //     <div>
+        //         <button> Si </button>
+        //         <button> No </button>
+        //     </div>
+        //   </div>
+
+        // ) : null}
+        }
+
         {/* esta opcion se activa si el titulo del soporte es distinto de "otro" y si esa opcion puede resolverla el usuario */}
-        {/* {title.state !== "otros" && faq.uresolved === true ? (
-          <div>
-            <h3>Sugerencia : </h3>
-            <textarea type="text" placeholder={hardcoreFaq[title.id].answer} />
-            <div>
-                <button> Si </button>
-                <button> No </button>
-            </div>
-          </div>
-          
-        ) : null} */}
-        <div className={mainStyle.labelWithTextarea}>
-          <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
-          <textarea type="text" placeholder={hardcoreFaq[title.id].answer} rows="10" />
-          <div className={style.textareaButton}>
-            <button> Si </button>
-            <button> No </button>
-          </div>
-        </div>
+        {/*  */}
 
         <div className={style.minimalGrid}>
           <h3 className={mainStyle.subtitle}>Título :</h3>
-          <input type="text" placeholder="Ingrese el Título" className={mainStyle.input}/>
+          <input
+            type="text"
+            placeholder="Ingrese el Título"
+            className={mainStyle.input}
+          />
         </div>
         <div className={mainStyle.labelWithTextarea}>
           <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
-          <textarea type="text" placeholder="Ingrese el inconveniente" rows="10"/>
+          <textarea
+            type="text"
+            placeholder="Ingrese el inconveniente"
+            rows="10"
+          />
         </div>
         <div className={style.buttonContainer}>
           <button className={mainStyle.button}> Generar Soporte </button>

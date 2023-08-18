@@ -37,7 +37,7 @@ const Navbar = () => {
         </li>
         {user.response && user.response.isWorker === true ? (
           <li>
-            <Link href="/newTicket">
+            <Link href="/soportes/nuevoSoporte">
               <BiUserCircle />
               Crear Soporte
             </Link>
