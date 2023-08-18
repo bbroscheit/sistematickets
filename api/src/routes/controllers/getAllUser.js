@@ -13,6 +13,9 @@ const getAllUsers = async () => {
             }]  
 
         });
+
+        allUsers.sort((a , b) => { return a.id - b.id })
+
         return allUsers;
     } catch (e) {
         console.log("Error en controllers/getAllUser.js" , e.message)

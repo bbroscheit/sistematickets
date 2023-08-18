@@ -1,0 +1,18 @@
+.cardContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid rgba(58, 55, 55, 0.904);
+    background-color: rgba(19, 18, 18, 0.637);
+    border-radius: 5%;
+    padding: 1rem;
+}
+
+.Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+}

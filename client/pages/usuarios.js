@@ -1,52 +1,96 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import mainStyles from '../styles/Home.module.css'
-import CardUser from '@/components/CardUsers'
-
+import React from "react";
+import { useState, useEffect } from "react";
+import mainStyles from "../styles/Home.module.css";
+import styles from "@/modules/usuarios.module.css";
+import CardUser from "@/components/CardUsers";
 
 function usuarios() {
+  const [user, setUser] = useState(null);
+  const [userAlt , setUserAlt] = useState(null);
+  const [sector, setSector] = useState(null);
+  const [salepoint, setSalepoint] = useState(null)
 
-    const [user, setUser] = useState(null)
-
-    useEffect(() => {
+  useEffect(() => {
     fetch("http://localhost:3001/user")
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
+        setUserAlt(data)
       });
   }, []);
 
-    console.log("user en usuarios",user)
+  useEffect(() => {
+    fetch("http://localhost:3001/sector")
+      .then((res) => res.json())
+      .then((data) => {
+        setSector(data);
+      });
+  }, []);
 
-    return (
+  useEffect(() => {
+    fetch("http://localhost:3001/salepoint")
+      .then((res) => res.json())
+      .then((data) => {
+        setSalepoint(data);
+      });
+  }, []);
+
+
+  function handleSector(e){
+    e.preventDefault()
+    e.target.value === "todos" ? setUserAlt( user) : setUserAlt( user.filter( user => user.sector ? user.sector.sectorname === e.target.value : null ))
+    
+  }
+
+  function handleSalepoint(e){
+    e.preventDefault()
+    e.target.value === "todos" ? setUserAlt( user) : setUserAlt( user.filter( user =>  user.salepoint ? user.salepoint.salepoint === e.target.value : null ))
+    
+  }
+
+  function handleSearch(e){
+    e.preventDefault()
+    setUserAlt( user.filter( user => user.username.includes(e.target.value)))
+  }
+ 
+  return (
     <div className={mainStyles.container}>
       <h1 className={mainStyles.title}>Usuarios</h1>
-      <div>
-        <div>
-          <h3>Busqueda por usuario</h3>
-          <input type="search" />
+      <div className={styles.mainContainer}>
+        <div className={styles.filterContainer}>
+          <div className={styles.searchContainer}>
+            <h3>Busqueda por usuario</h3>
+            <input type="search" onChange={e => handleSearch(e)}/>
+          </div>
+          <div className={styles.searchContainer}>
+            <h3>Filtro por Sector</h3>
+            <select onChange={ e => handleSector(e)}>
+              <option value="todos">Todos</option>
+              { sector && sector.map( e => <option key={e.id} value={e.sectorname}>{e.sectorname}</option> )}
+            </select>
+          </div>
+          <div className={styles.searchContainer}>
+            <h3>Filtro por Unidad de Negocio</h3>
+            <select onChange={ e => handleSalepoint(e)}>
+              <option value="todos">Todos</option>
+              { salepoint && salepoint.map( e => <option key={e.id} value={e.salepoint}>{e.salepoint}</option> )}
+            </select>
+          </div>
         </div>
-        <div >
-          <h3>Filtro por Sector</h3>
-          <select>
-            <option>Adminstracion</option>
-            <option>Tesoreria</option>
-            <option>Cobranzas</option>
-          </select>
-        </div>
-        <div>
-          <h3>Filtro por Unidad de Negocio</h3>
-          <select>
-            <option>Buenos Aires</option>
-            <option>Neuquen</option>
-          </select>
-        </div>kkk
-        <div>
-          {user && user.map( e => <CardUser key={e.id} username={e.username} sector={e.sector} salepoint={e.salepoint}/>)}
+        <div className={styles.cardContainer}>
+          {userAlt &&
+            userAlt.map((e) => (
+              <CardUser
+                key={e.id}
+                username={e.username}
+                sector={e.sector}
+                salepoint={e.salepoint}
+              />
+            ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default usuarios
+export default usuarios;
