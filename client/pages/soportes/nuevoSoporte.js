@@ -7,7 +7,7 @@ function nuevoSoporte() {
   const [title, setTitle] = useState({ id: 0 });
   const [sugerencia , setSugerencia] = useState ({ state : false })
   const [option, setOption] = useState({ state: "" });
-  const [faq, setFaq] = useState("");
+  const [faq, setFaq] = useState(null);
 
   const hardcoreFaq = [
     {
@@ -41,24 +41,13 @@ function nuevoSoporte() {
 
   function handleSelect(e) {
     e.preventDefault();
-    setTitle({
-      ...title,
-      id: e.target.value,
-    });
-    // if( e.target.value !== 0 ){
-    // setFaq({
-    //   id: hardcoreFaq[e.target.value].id,
-    //   title: hardcoreFaq[e.target.value].title,
-    //   description: hardcoreFaq[e.target.value].description,
-    //   answer: hardcoreFaq[e.target.answer].answer,
-    //   uresolved: hardcoreFaq[e.target.uresolved].uresolved,
-    // });}
-    setFaq({
-      ...faq,
-      id: e.target.value,
-    });
-    console.log("faq", faq.id);
-  }
+    e.target.value !== "otros" ? setSugerencia({state : true }) : setSugerencia({ state : false});
+      
+    }
+
+
+    console.log(sugerencia.state)
+  
 
   return (
     <div className={mainStyle.container}>
@@ -72,33 +61,32 @@ function nuevoSoporte() {
               name={title.state}
               className={mainStyle.input}
             >
-              <option value="otros" className={mainStyle.input}>
-                Otro
-              </option>
+              <option className={mainStyle.input}> Elija una opción </option>
               {hardcoreFaq.map((e) => (
                 <option key={e.id} value={e.id} className={mainStyle.input}>
                   {e.title}
                 </option>
               ))}
+              <option value="otros" className={mainStyle.input}> Otros </option>
             </select>
           </div>
-        ) : null
+        ) : null }
         
-        //   {title.state !== "otros" && faq.uresolved === true ? (
-        //     <div>
-        //       <h3>Sugerencia : </h3>
-        //       <textarea type="text" placeholder={hardcoreFaq[title.id].answer} />
-        //     <div>
-        //         <button> Si </button>
-        //         <button> No </button>
-        //     </div>
-        //   </div>
+        { sugerencia.state === true && hardcoreFaq.uresolved === true ? 
+          (<div className={mainStyle.labelWithTextarea}>
+               <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
+               <textarea type="text" placeholder={hardcoreFaq[title.id].answer} rows="10"/>
+             <div>
+                 <button className={mainStyle.button}> Si </button>
+                 <button className={mainStyle.button}> No </button>
+            </div>
+          </div>)
+          : null}
+            
+        
+       
 
-        // ) : null}
-        }
-
-        {/* esta opcion se activa si el titulo del soporte es distinto de "otro" y si esa opcion puede resolverla el usuario */}
-        {/*  */}
+        
 
         <div className={style.minimalGrid}>
           <h3 className={mainStyle.subtitle}>Título :</h3>
