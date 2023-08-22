@@ -73,6 +73,13 @@
   border-radius: 10px;
 }
 
+.buttonContainer{
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: right;
+}
+
 .minimalGrid{
   width: 100%;
   margin-bottom: 1rem;

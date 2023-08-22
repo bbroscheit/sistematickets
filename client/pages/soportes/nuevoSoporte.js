@@ -6,6 +6,7 @@ import mainStyle from "@/styles/Home.module.css";
 function nuevoSoporte() {
   const [title, setTitle] = useState({ id: 0 });
   const [sugerencia , setSugerencia] = useState ({ state : false })
+  const [faqFilter, setFaqFilter] = useState(null)
   const [option, setOption] = useState({ state: "" });
   const [faq, setFaq] = useState(null);
 
@@ -40,14 +41,16 @@ function nuevoSoporte() {
   ];
 
   function handleSelect(e) {
-    e.preventDefault();
-    e.target.value !== "otros" ? setSugerencia({state : true }) : setSugerencia({ state : false});
-      
-    }
+      e.preventDefault();
+      e.target.value !== "otros" && e.target.value !== "principal" ? setSugerencia({state : true }) : setSugerencia({ state : false});
+      let filter = hardcoreFaq.filter( faq => faq.id == e.target.value)
+      setFaqFilter(filter)
+  }
 
-
-    console.log(sugerencia.state)
-  
+  function handleSubmit(e){
+    e.preventDefaul();
+    
+  }
 
   return (
     <div className={mainStyle.container}>
@@ -61,7 +64,7 @@ function nuevoSoporte() {
               name={title.state}
               className={mainStyle.input}
             >
-              <option className={mainStyle.input}> Elija una opción </option>
+              <option className={mainStyle.input} value="principal"> Elija una opción </option>
               {hardcoreFaq.map((e) => (
                 <option key={e.id} value={e.id} className={mainStyle.input}>
                   {e.title}
@@ -72,23 +75,23 @@ function nuevoSoporte() {
           </div>
         ) : null }
         
-        { sugerencia.state === true && hardcoreFaq.uresolved === true ? 
+        
+        { sugerencia.state === true && faqFilter[0].uresolved === true ? 
           (<div className={mainStyle.labelWithTextarea}>
                <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
                <textarea type="text" placeholder={hardcoreFaq[title.id].answer} rows="10"/>
-             <div>
-                 <button className={mainStyle.button}> Si </button>
-                 <button className={mainStyle.button}> No </button>
+             <div className={mainStyle.buttonContainer}>
+                 <button className={mainStyle.button} onClick={ e => handleSubmit(e) }> Si </button>
+                 <button className={mainStyle.button} onClick={ e => handleOption(e) }> No </button>
             </div>
           </div>)
           : null}
             
-        
-       
+          
 
         
 
-        <div className={style.minimalGrid}>
+        {/* <div className={style.minimalGrid}>
           <h3 className={mainStyle.subtitle}>Título :</h3>
           <input
             type="text"
@@ -107,7 +110,7 @@ function nuevoSoporte() {
         <div className={style.buttonContainer}>
           <button className={mainStyle.button}> Generar Soporte </button>
           <button className={mainStyle.button}> Borrar </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );
