@@ -169,7 +169,7 @@ function nuevoSoporte() {
 
       {hardcoreFaq && hardcoreFaq.length > 0 ? (
         //pregunta si existe algo en la tabla FAQ , si no existe simplemente carga el formulario normal , si existe nos da las opciones para elegir
-        <form className={mainStyle.form}>
+        <div className={mainStyle.form}>
           <div className={style.minimalGrid}>
             <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
             <select
@@ -193,7 +193,7 @@ function nuevoSoporte() {
             </select>
           </div>
           {select.select === "otros" ? <FormNormal user = {user}/> : null}
-        </form>
+        </div>
       ) : ( <FormNormal user = {user}/> )}
     </div>
   );

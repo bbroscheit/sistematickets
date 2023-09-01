@@ -30,6 +30,10 @@
   flex-direction: column;
 }
 
+.interform{
+  width: 100%;
+}
+
 .input{
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
