@@ -24,7 +24,8 @@ module.exports = ( sequelize ) => {
             allowNull:false,
         },
         detail:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(5000),
+            length: 1000,
             defaultValue: "sin detalle",
             allowNull:false,
         },
@@ -33,23 +34,23 @@ module.exports = ( sequelize ) => {
             defaultValue: false,
         },
         created:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             defaultValue: DataTypes.NOW,
             
         },
         startdate:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             defaultValue: DataTypes.NOW,
             
         },
         finishdate:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             defaultValue: DataTypes.NOW,
             
         },
         
         randomdate:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             defaultValue: DataTypes.NOW,
 
         },

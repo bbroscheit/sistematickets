@@ -10,6 +10,7 @@ const sectorRouter = require ('../src/routes/sectorRouter.js')
 const salepointRouter = require('../src/routes/salepointRouter.js')
 const userRouter = require('../src/routes/userRouter.js')
 const ticketRouter = require('../src/routes/ticketRouter.js')
+const faqRouter = require('../src/routes/faqRouter.js')
 
 const server = express();
 server.name = 'API';
@@ -34,7 +35,7 @@ server.use('/' , sectorRouter);
 server.use('/' , salepointRouter); 
 server.use('/' , userRouter);
 server.use('/' , ticketRouter);
-
+server.use('/' , faqRouter);
 
 
 server.use((err,req,res) => {

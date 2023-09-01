@@ -1,4 +1,5 @@
 const ticketRouter = require('express').Router()
+const { format, parseISO, isDate } = require ('date-fns');
 const getAllTicket = require('./controllers/getAllTicket');
 const getTicketsDesarrollo = require('./controllers/getTicketDesarrollo');
 const getTicketsDesarrollo2 = require('./controllers/getTicketDesarrollo2');
@@ -78,7 +79,7 @@ ticketRouter.get( '/ticketTerminado' , async ( req, res ) => {
 
 ticketRouter.post( '/ticket', async ( req, res ) => {
     const {state, worker, subject, detail, userresolved, created, startdate, finishdate, randomdate} = req.body;
-
+    
     try {
         let newTicket = await postTicket(state, worker, subject, detail, userresolved, created, startdate, finishdate, randomdate)
         newTicket ? res.status(200).send("sucess") : res.status(404).send("failure")

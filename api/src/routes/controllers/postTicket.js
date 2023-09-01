@@ -1,6 +1,7 @@
 const { Ticket } = require('../../bd')
 
 const postTicket = async (state, worker, subject, detail, userresolved, created, startdate, finishdate, randomdate) => {
+    
     try {
         let newTicket = await Ticket.create({
             state, 

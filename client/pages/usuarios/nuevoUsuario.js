@@ -13,7 +13,7 @@ function nuevoUsuario() {
     lastname: "",
     email: "",
     phonenumber: "",
-    isWorker: "",
+    isworker: "",
     sectorname: "",
     salepoint: "",
   });
@@ -85,7 +85,7 @@ function nuevoUsuario() {
       lastname: "",
       email: "",
       phonenumber: "",
-      isWorker: "",
+      isworker: "",
       sectorname: "",
       salepoint: "",
     })
@@ -153,7 +153,7 @@ function nuevoUsuario() {
           </div>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Soporte ?</h3>
-            <select value={input.isWorker} name="isWorker" onChange={e => handleChange(e)} className={mainStyles.select}>
+            <select value={input.isworker} name="isworker" onChange={e => handleChange(e)} className={mainStyles.select}>
               <option className={mainStyles.option}>Elija una opción</option>
               <option value= "yes" className={mainStyles.option}>Si</option>
               <option value="no" className={mainStyles.option}>No</option>
