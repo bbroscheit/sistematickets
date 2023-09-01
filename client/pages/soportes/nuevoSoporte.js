@@ -1,26 +1,28 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import  Router from "next/router";
+import Router from "next/router";
 import style from "../../modules/newSoporte.module.css";
 import mainStyle from "@/styles/Home.module.css";
-import {postTicketUserResolved} from '@/pages/api/postTicketUserResolved.js'
-import {postTicket} from '@/pages/api/postTicket.js'
+import { postTicketUserResolved } from "@/pages/api/postTicketUserResolved.js";
+import { postTicket } from "@/pages/api/postTicket.js";
+import FormNormal from "@/components/FormNormal";
 
 function nuevoSoporte() {
   const [title, setTitle] = useState({ id: 0 });
-  const [sugerencia , setSugerencia] = useState ({ state : false })
-  const [select , setSelect] = useState ( { select : ""})
-  const [faqFilter, setFaqFilter] = useState(null)
-  const [input , setInput] = useState({
-    state: "", 
-    worker: "", 
-    subject: "", 
-    detail: "", 
-    userresolved: false, 
-  })
+  const [sugerencia, setSugerencia] = useState({ state: false });
+  const [select, setSelect] = useState({ select: "" });
+  const [faqFilter, setFaqFilter] = useState(null);
+  const [input, setInput] = useState({
+    state: "",
+    worker: "",
+    subject: "",
+    detail: "",
+    userresolved: false,
+  });
   const [option, setOption] = useState({ state: false });
   const [faq, setFaq] = useState(null);
-  const [user, setUser] = useState(null)
+  //se hardcodea user porque no estoy guardando en localstorage
+  const [user, setUser] = useState("bbroscheit");
 
   const hardcoreFaq = [
     {
@@ -54,204 +56,146 @@ function nuevoSoporte() {
 
   useEffect(() => {
     //trae el usuario que generara el soporte
-    const user = localStorage.getItem('user');
-  },[])
+    const user = localStorage.getItem("user");
+  }, []);
 
   useEffect(() => {
     setInput({
-      state: "sin asignar", 
+      state: "sin asignar",
       //usuario que genera el soporte
-      worker: "bbroscheit", 
-      subject: "", 
-      detail: "", 
-      userresolved: false, 
-    })
-  },[])
-
+      worker: "bbroscheit",
+      subject: "",
+      detail: "",
+      userresolved: false,
+    });
+  }, []);
 
   function handleSelect(e) {
-      e.preventDefault()
-      console.log("value" , e.target.value)
-      if(e.target.value === "otros"){
-        console.log("entre caso 1")
-        setSugerencia({ state : false})
-        setSelect({ select : "otros" })
-      }else if( e.target.value === "principal"){
-        console.log("entre caso 2")
-        setSugerencia({ state : false})
-        setSelect({ select : "1" })
-      }else{
-        console.log("entre caso 3")
-        setSugerencia({state : true })
-        setSelect({ select : "1" })
-      }
-      // e.target.value !== "otros" && e.target.value !== "principal" ? setSugerencia({state : true }) : setSugerencia({ state : false});
-      // e.target.value == "otros" ? setSelect({ select : "otros" }) : setSelect({ select : "1" });
-     
-      let filter = hardcoreFaq.filter( faq => faq.id == e.target.value)
-      setFaqFilter(filter)
-      filter.length > 0 ? 
-            setInput({
-              state: "terminado", 
-              //usuario que genera el soporte
-              worker: "bbroscheit", 
-              subject: filter[0].title, 
-              detail: filter[0].description, 
-              userresolved: false, 
-            }) : setInput({
-              state: "", 
-              worker: "", 
-              subject: "", 
-              detail: "", 
-              userresolved: false, 
-            })
-            console.log( "sugerencia" , sugerencia.state)
-            console.log( "select" , select.name)
+    e.preventDefault();
+    //va a consultar por las opciones elegidas, si la opcion es "otros" despliega el formulario normal , si es "principal" no muestra nada, si es cualquier otra muestra o no el soporte para que el usuario lo arregle
+    if (e.target.value === "otros") {
+      console.log("entre caso 1");
+      setSugerencia({ state: false });
+      setSelect({ select: "otros" });
+    } else if (e.target.value === "principal") {
+      console.log("entre caso 2");
+      setSugerencia({ state: false });
+      setSelect({ select: "1" });
+    } else {
+      console.log("entre caso 3");
+      setSugerencia({ state: true });
+      setSelect({ select: "1" });
+    }
+    
+    let filter = hardcoreFaq.filter((faq) => faq.id == e.target.value);
+    setFaqFilter(filter);
+    filter.length > 0
+      ? setInput({
+          state: "terminado",
+          //usuario que genera el soporte
+          worker: "bbroscheit",
+          subject: filter[0].title,
+          detail: filter[0].description,
+          userresolved: false,
+        })
+      : setInput({
+          state: "",
+          worker: "",
+          subject: "",
+          detail: "",
+          userresolved: false,
+        });
   }
 
-  function handleResolved(e){
+  function handleResolved(e) {
     e.preventDefault();
     postTicketUserResolved(input);
-    alert("ticket generado y resuelto con exito")
-    
+    alert("ticket generado y resuelto con exito");
+
     setTimeout(() => {
-      Router.push("/tickets")
-    }, 500)
+      Router.push("/tickets");
+    }, 500);
   }
 
-  function handleChange(e){
-    e.preventDefault()
+  function handleChange(e) {
+    e.preventDefault();
     setInput({
       ...input,
-      [e.target.name] : e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
   }
 
-  function handleOption(e){
+  function handleOption(e) {
     e.preventDefault();
     setOption({
-      state: true
-    })
+      state: true,
+    });
   }
 
-  function handleReset(e){
+  function handleReset(e) {
     e.preventDefault();
     setInput({
-      state: "", 
+      state: "",
       //usuario que genera el soporte
-      worker: "", 
-      subject: "", 
-      detail: "", 
-      userresolved: false, 
-    })
+      worker: "",
+      subject: "",
+      detail: "",
+      userresolved: false,
+    });
 
     setOption({
-      state: false
-    })
+      state: false,
+    });
 
     setSugerencia({
-      state : false 
-    })
+      state: false,
+    });
   }
 
-  function handleSubmitNoFaq(e){
+  function handleSubmitNoFaq(e) {
     e.preventDefault();
-    postTicket(input);
-    alert("ticket generado con exito")
-    
-    setTimeout(() => {
-      Router.push("/tickets")
-    }, 500)
+    console.log("input", input)
+    // postTicket(input);
+    alert("ticket generado con exito");
+
+    // setTimeout(() => {
+    //   Router.push("/tickets");
+    // }, 500);
   }
 
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Nuevo Soporte</h1>
 
-      {hardcoreFaq && hardcoreFaq.length > 0 ?
-        //pregunta si existe algo en la tabla FAQ , si no existe simplemente carga el formulario normal , si existe nos da las opciones para elegir 
-        ( <form className={mainStyle.form}>
+      {hardcoreFaq && hardcoreFaq.length > 0 ? (
+        //pregunta si existe algo en la tabla FAQ , si no existe simplemente carga el formulario normal , si existe nos da las opciones para elegir
+        <form className={mainStyle.form}>
           <div className={style.minimalGrid}>
-          <h3 className={mainStyle.subtitle}>Título de Soporte : </h3>
-          <select
-            onChange={(e) => handleSelect(e)}
-            name={input.title}
-            className={mainStyle.input}
-          >
-            <option className={mainStyle.input} value="principal" > Elija una opción </option>
-            {hardcoreFaq.map((e) => (
-              <option key={e.id} value={e.id} className={mainStyle.input}>
-                {e.title}
+            <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
+            <select
+              onChange={(e) => handleSelect(e)}
+              name={input.title}
+              className={mainStyle.input}
+            >
+              <option className={mainStyle.input} value="principal">
+                
+                Elija una opción
               </option>
-            ))}
-            <option value="otros" className={mainStyle.input}> Otros </option>
-          </select>
-        </div> 
-              {
-
-              }
-        </form> ) : ( 
-          <>
-            { select.select === "otros" ? (
-              <form className={mainStyle.form} onSubmit={e => handleSubmitNoFaq(e)}>
-                <div className={style.minimalGrid}>
-                  <h3 className={mainStyle.subtitle}>Título :</h3>
-                  <input
-                    type="text"
-                    placeholder="Ingrese el Título"
-                    className={mainStyle.input}
-                    name="subject"
-                    value={input.subject}
-                    onChange={e => handleChange(e)}
-                  />
-                </div>
-                <div className={mainStyle.labelWithTextarea}>
-                  <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
-                  <textarea
-                    type="text"
-                    placeholder="Ingrese el inconveniente"
-                    rows="10"
-                    name="detail"
-                    value={input.detail}
-                    onChange={e => handleChange(e)}
-                  />
-                </div>
-                <div className={style.buttonContainer}>
-                  <button className={mainStyle.button} type="submit"> Generar Soporte </button>
-                  <button className={mainStyle.button} onClick={e => handleReset(e)}> Borrar </button>
-                </div>
-              </form> ) : null}
-            {/* <form className={mainStyle.form} onSubmit={e => handleSubmitNoFaq(e)}>
-            
-              <div className={style.minimalGrid}>
-            <h3 className={mainStyle.subtitle}>Título :</h3>
-            <input
-             type="text"
-            placeholder="Ingrese el Título"
-            className={mainStyle.input}
-            name="subject"
-            value={input.subject}
-            onChange={e => handleChange(e)}
-          />
-        </div>
-        <div className={mainStyle.labelWithTextarea}>
-          <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
-          <textarea
-            type="text"
-            placeholder="Ingrese el inconveniente"
-            rows="10"
-            name="detail"
-            value={input.detail}
-            onChange={e => handleChange(e)}
-          />
-        </div>
-        <div className={style.buttonContainer}>
-          <button className={mainStyle.button} type="submit"> Generar Soporte </button>
-          <button className={mainStyle.button} onClick={e => handleReset(e)}> Borrar </button>
-        </div>
-          </form> */}
-          </>) }
-      </div>
+              {hardcoreFaq.map((e) => (
+                <option key={e.id} value={e.id} className={mainStyle.input}>
+                  {e.title}
+                </option>
+              ))}
+              <option value="otros" className={mainStyle.input}>
+                
+                Otros
+              </option>
+            </select>
+          </div>
+          {select.select === "otros" ? <FormNormal user = {user}/> : null}
+        </form>
+      ) : ( <FormNormal user = {user}/> )}
+    </div>
   );
 }
 
