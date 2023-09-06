@@ -1,5 +1,5 @@
 export async function postTicket(input) {
-    
+  console.log("input",input)
     const res = await fetch(`http://localhost:3001/ticket`, {
       method: 'POST',
       headers: {

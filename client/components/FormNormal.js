@@ -5,9 +5,9 @@ import style from "@/modules/Layout.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import { postTicket } from "@/pages/api/postTicket.js";
 
-//formulario funciona pero no guarda usuario de la base de datos , revisar
 
 function FormNormal({ user }) {
+  
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: user,
@@ -41,14 +41,14 @@ function FormNormal({ user }) {
     postTicket(input);
     alert("ticket generado con exito");
 
-    // setTimeout(() => {
-    //   Router.push("/tickets");
-    // }, 500);
+    setTimeout(() => {
+      Router.push("/tickets");
+    }, 500);
   }
 
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}>
-      <div className={style.minimalGrid}>
+      <div className={mainStyle.minimalGrid}>
         <h3 className={mainStyle.subtitle}>Título :</h3>
         <input
           type="text"
@@ -70,7 +70,7 @@ function FormNormal({ user }) {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <div className={style.buttonContainer}>
+      <div className={mainStyle.buttonContainer}>
         <button className={mainStyle.button} type="submit">
           Generar Soporte
         </button>
