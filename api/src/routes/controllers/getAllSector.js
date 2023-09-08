@@ -1,10 +1,16 @@
-const { Sector } = require('../../bd');
+const { Sector, Salepoint } = require('../../bd');
 
 const getAllSector = async() => {
     try{
         let allSector = await Sector.findAll({
-            where: { isdelete: false}
+            where: { isdelete: false},
+            include:{
+                model: Salepoint,
+                attribute:["salepoint"]
+            }
         })
+
+        allSector.sort((a , b) => { return a.sectorname - b.sectorname })
 
         return allSector;
     }catch(e){

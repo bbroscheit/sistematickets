@@ -8,27 +8,37 @@ function Sector() {
 
     const [sector, setSector] = useState(null)
 
-    let hardcoreSector = [{
-      id : 1,
-      sector: "Administracion",
-      salepoint: "buenos aires"
-    },{
-      id : 2,
-      sector: "Tesoreria",
-      salepoint: "buenos aires"
-    },{
-      id : 3,
-      sector: "Cobranzas",
-      salepoint: "buenos aires"
-    },{
-      id : 4,
-      sector: "Administracion",
-      salepoint: "Neuquen"
-    },{
-      id : 5,
-      sector: "Cobranzas",
-      salepoint: "Neuquen"
-    }]
+    useEffect(() => {
+      fetch("http://localhost:3001/sector")
+        .then((res) => res.json())
+        .then((data) => {
+          setSector(data);
+        });
+        
+    }, []);
+
+
+    // let hardcoreSector = [{
+    //   id : 1,
+    //   sector: "Administracion",
+    //   salepoint: "buenos aires"
+    // },{
+    //   id : 2,
+    //   sector: "Tesoreria",
+    //   salepoint: "buenos aires"
+    // },{
+    //   id : 3,
+    //   sector: "Cobranzas",
+    //   salepoint: "buenos aires"
+    // },{
+    //   id : 4,
+    //   sector: "Administracion",
+    //   salepoint: "Neuquen"
+    // },{
+    //   id : 5,
+    //   sector: "Cobranzas",
+    //   salepoint: "Neuquen"
+    // }]
 
     return (
     <div className={mainStyles.container}>
@@ -39,7 +49,8 @@ function Sector() {
           <input type="search" />
         </div>
         <div>
-          {hardcoreSector && hardcoreSector.map( e => <CardSector sector={e.sector} salepoint={e.salepoint} />)}
+          {sector && sector.map( e => <CardSector sectorname={e.sectorname} />)}
+          {/* {sector && console.log("sector",sector)} */}
         </div>
       </div>
     </div>

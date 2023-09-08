@@ -45,7 +45,8 @@ Ticket.belongsTo(User);
 User.belongsTo(Salepoint);
 Salepoint.hasMany(User);
 
-
+Sector.belongsTo(Salepoint);
+Salepoint.hasMany(Sector);
 
 // Autenticamos y conectamos
 

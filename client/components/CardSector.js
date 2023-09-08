@@ -1,10 +1,10 @@
 import React from 'react'
 
-function CardUsers({ sector, salepoint}) {
+function CardUsers({ sectorname }) {
   return (
     <div>
-        <h3>{sector}</h3>
-        <h4>{salepoint}</h4>
+        <h3>{ sectorname }</h3>
+        {/* <h4>{salepoint}</h4> */}
     </div>
   )
 }

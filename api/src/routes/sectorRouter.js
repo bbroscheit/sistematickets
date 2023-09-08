@@ -13,10 +13,10 @@ sectorRouter.get('/sector', async ( req,res) => {
 })
 
 sectorRouter.post( '/sector', async ( req,res ) => {
-    const sectorname = req.body.sectorName;
-    
+    const {sectorname, salepoint} = req.body.sectorName;
+    console.log(req.body)
     try {
-        let newUser = await postSector(sectorname)
+        let newUser = await postSector(sectorname, salepoint)
         newUser ? res.status(200).send("sucess") : res.status(404).send("failure");
     } catch (e) {
         console.log( "error en ruta post de user" , e.message)

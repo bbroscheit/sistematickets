@@ -1,6 +1,6 @@
 const { Sector } = require('../../bd');
 
-const postSector = async (sectorname) => {
+const postSector = async (sectorname, salepoint) => {
     try{
         let postSector = await Sector.create({
             sectorname,
