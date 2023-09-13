@@ -15,6 +15,7 @@ const loginUser = async (username,password) => {
                 attribute:["salepoint"]
             }]
         });
+        console.log(user)
         return user;
     } catch (e) {
         console.log("Error en controllers/getUser.js" , e.message)

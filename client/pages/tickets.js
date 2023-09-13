@@ -48,7 +48,7 @@ function tickets() {
   }, []);
 
   return (
-    <div className={styles.ticketContainer}>
+    <div className={mainStyles.container}>
       <h1 className={mainStyles.title}>SOPORTES</h1>
       {ticketGenerados  && (
         <div className={styles.gridContainer}>

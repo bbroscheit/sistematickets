@@ -1,12 +1,11 @@
 .mainContainer{
     width: 100vw;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 1fr;
+    grid-auto-rows: 1fr;
+    grid-auto-flow: row;
     background-color: var(--color-background-body);
 
 }
 
-.childrenContainer{
-    width: 100%;
-    
-}

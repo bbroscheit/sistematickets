@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import mainStyle from "../../styles/Home.module.css";
 import style from "@/modules/newSector.module.css";
 import { postSector } from "../api/postSector";
 
 function nuevoSector() {
+   
+  const [salepoint, setSalepoint] = useState(null);
   const [input, setInput] = useState({
     sectorName: "",
+    salepoint: "",
   });
   const [error, setError] = useState("");
   const [button, setButton] = useState({
     complete : false
   })
+
+  useEffect(() => {
+    fetch("http://localhost:3001/salepoint")
+      .then((res) => res.json())
+      .then((data) => {
+        setSalepoint(data);
+      });
+  }, []);
 
   function validate(input) {
     let error = [];
@@ -59,8 +70,10 @@ function nuevoSector() {
     alert("sector creado");
     setInput({
       sectorName: "",
+      salepoint:"",
     });
     setButton({complete:false})
+    
   }
 
   return (
@@ -84,6 +97,16 @@ function nuevoSector() {
         >
           {error.sector}
         </p>
+        <div className={mainStyle.minimalGrid}>
+        <h3 className={mainStyle.subtitle}>Localidad</h3>
+          <select className={mainStyle.select} value={input.salepoint} name="salepoint" onChange={e => handleChange(e)}>
+            <option className={mainStyle.option} value="">Elija una Opción</option>
+            {salepoint &&
+              salepoint.map((e) => (
+                <option className={mainStyle.option} value={e.salepoint} key={e.id}>{e.salepoint}</option>
+              ))}
+          </select>
+        </div>
         <div className={style.buttonContainer}>
           {button.complete === false ? (
             <button

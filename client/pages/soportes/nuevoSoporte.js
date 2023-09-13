@@ -1,10 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Router from "next/router";
 import style from "../../modules/newSoporte.module.css";
 import mainStyle from "@/styles/Home.module.css";
-import { postTicketUserResolved } from "@/pages/api/postTicketUserResolved.js";
-import { postTicket } from "@/pages/api/postTicket.js";
 import FormNormal from "@/components/FormNormal";
 import FormFaq from "@/components/FormFaq";
 
@@ -54,15 +51,14 @@ function nuevoSoporte() {
   ];
 
   useEffect(() => {
-    //trae el usuario que generara el soporte
-    const user = localStorage.getItem("user");
+    setUser(localStorage.getItem("user")) 
   }, []);
 
   useEffect(() => {
     setInput({
       state: "sin asignar",
       //usuario que genera el soporte
-      worker: "bbroscheit",
+      worker: user.username,
       subject: "",
       detail: "",
       userresolved: false,

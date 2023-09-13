@@ -75,6 +75,14 @@ const Navbar = () => {
             </Link>
           </li>
         ) : null}
+         {user.response && user.response.isWorker === true ? (
+          <li>
+            <Link href="/dashboard">
+              <BiUserCircle />
+              Dashboard
+            </Link>
+          </li>
+        ) : null}
         <li>
           <button onClick={(e) => sesionClose(e)}>
             <BiUserCircle />

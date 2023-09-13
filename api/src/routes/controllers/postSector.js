@@ -1,12 +1,24 @@
-const { Sector } = require('../../bd');
+const { Sector, Salepoint } = require('../../bd');
 
-const postSector = async (sectorname, salepoint) => {
+const postSector = async (sectorName, salepoint) => {
     try{
-        let postSector = await Sector.create({
-            sectorname,
+        let newSector = await Sector.create({
+            sectorname: sectorName,
         })
 
-        return postSector;
+        if (salepoint) {
+            let setSalepoint = await Salepoint.findOne({
+              where: {
+                salepoint: salepoint,
+              },
+            });
+            if (setSalepoint) {
+              await newSector.setSalepoint(setSalepoint.id);
+            }
+          }
+        
+
+        return newSector;
     }catch(e){
         console.log("error en controller postSector", e.message)
     }

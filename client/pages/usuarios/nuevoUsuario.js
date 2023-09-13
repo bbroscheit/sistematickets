@@ -23,14 +23,6 @@ function nuevoUsuario() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3001/sector")
-      .then((res) => res.json())
-      .then((data) => {
-        setSector(data);
-      });
-  }, []);
-
-  useEffect(() => {
     fetch("http://localhost:3001/salepoint")
       .then((res) => res.json())
       .then((data) => {
@@ -71,6 +63,16 @@ function nuevoUsuario() {
       ...input,
       [e.target.name] : e.target.value
     }))
+  }
+
+  function handleSelect(e){
+    e.preventDefault();
+    setInput({
+        ...input,
+        [e.target.name] : e.target.value
+    })
+    let filterSector = salepoint.filter( t => t.salepoint === e.target.value )
+    setSector(filterSector[0].sectors)
   }
 
   function handleSubmit(e) {
@@ -161,18 +163,8 @@ function nuevoUsuario() {
           </div>
         </div>
         <div className={mainStyles.minimalGrid}>
-          <h3 className={mainStyles.subtitle}>Sector</h3>
-          <select className={mainStyles.select} value={input.sectorname} name="sectorname" onChange={e => handleChange(e)}>
-            <option className={mainStyles.option} value="">Elija una Opción</option>
-            {sector &&
-              sector.map((e) => (
-                <option className={mainStyles.option} value={e.sector} key={e.id}>{e.sectorname}</option>
-              ))}
-          </select>
-        </div>
-        <div className={mainStyles.minimalGrid}>
           <h3 className={mainStyles.subtitle}>Localidad</h3>
-          <select className={mainStyles.select} value={input.salepoint} name="salepoint" onChange={e => handleChange(e)}>
+          <select className={mainStyles.select} value={input.salepoint} name="salepoint" onChange={e => handleSelect(e)}>
             <option className={mainStyles.option} value="">Elija una Opción</option>
             {salepoint &&
               salepoint.map((e) => (
@@ -180,6 +172,18 @@ function nuevoUsuario() {
               ))}
           </select>
         </div>
+        <div className={mainStyles.minimalGrid}>
+          <h3 className={mainStyles.subtitle}>Sector</h3>
+          <select className={mainStyles.select} value={input.sectorname} name="sectorname" onChange={e => handleChange(e)}>
+            <option className={mainStyles.option} value="">Elija una Opción</option>
+            {sector &&
+              sector.map((e) => (
+                <option className={mainStyles.option} value={e.sector} key={e.id}>{e.sectorname}</option>
+              ))}
+            
+          </select>
+        </div>
+
         <div className={style.buttonContainer}>
           <button type="submit" className={mainStyles.button}>
             Crear

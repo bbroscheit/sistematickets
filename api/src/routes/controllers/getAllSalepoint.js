@@ -1,9 +1,13 @@
-const { Salepoint } = require('../../bd');
+const { Salepoint, Sector } = require('../../bd');
 
 const getAllSalepoint = async() => {
     try {
         let allSalepoint = await Salepoint.findAll({
-            where:{isdelete:false}
+            where:{isdelete:false}, 
+            include:[{
+                model: Sector,
+                attribute: ["sectorname"]
+            }]
         });
         return allSalepoint
     } catch (e) {
