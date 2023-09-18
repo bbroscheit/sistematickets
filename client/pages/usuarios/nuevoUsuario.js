@@ -14,6 +14,8 @@ function nuevoUsuario() {
     email: "",
     phonenumber: "",
     isworker: "",
+    isprojectmanager:"",
+    isprojectworker:"",
     sectorname: "",
     salepoint: "",
   });
@@ -88,6 +90,8 @@ function nuevoUsuario() {
       email: "",
       phonenumber: "",
       isworker: "",
+      isprojectmanager:"",
+    isprojectworker:"",
       sectorname: "",
       salepoint: "",
     })
@@ -148,14 +152,31 @@ function nuevoUsuario() {
             onChange={e => handleChange(e)}
           />
         </div>
-        <div className={mainStyles.minimalFlex}>
+        
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle}>Interno</h3>
             <input type="text" name="phonenumber" value={input.phonenumber} onChange={e => handleChange(e)}/>
           </div>
+        <div className={mainStyles.minimalFlex}>  
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Soporte ?</h3>
             <select value={input.isworker} name="isworker" onChange={e => handleChange(e)} className={mainStyles.select}>
+              <option className={mainStyles.option}>Elija una opción</option>
+              <option value= "yes" className={mainStyles.option}>Si</option>
+              <option value="no" className={mainStyles.option}>No</option>
+            </select>
+          </div>
+          <div className={mainStyles.minimalGrid}>
+            <h3 className={mainStyles.subtitle} >Projectos ?</h3>
+            <select value={input.isprojectmanager} name="isprojectmanager" onChange={e => handleChange(e)} className={mainStyles.select}>
+              <option className={mainStyles.option}>Elija una opción</option>
+              <option value= "yes" className={mainStyles.option}>Si</option>
+              <option value="no" className={mainStyles.option}>No</option>
+            </select>
+          </div>
+          <div className={mainStyles.minimalGrid}>
+            <h3 className={mainStyles.subtitle} >Desarrollador ?</h3>
+            <select value={input.isprojectworker} name="isprojectworker" onChange={e => handleChange(e)} className={mainStyles.select}>
               <option className={mainStyles.option}>Elija una opción</option>
               <option value= "yes" className={mainStyles.option}>Si</option>
               <option value="no" className={mainStyles.option}>No</option>

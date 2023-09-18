@@ -34,6 +34,8 @@ userRouter.post("/user", async (req, res) => {
     email,
     phonenumber,
     isworker = false,
+    isprojectmanager = false,
+    isprojectworker = false,
     sectorname,
     salepoint,
   } = req.body;
@@ -47,6 +49,8 @@ userRouter.post("/user", async (req, res) => {
       email,
       phonenumber,
       isworker,
+      isprojectmanager,
+      isprojectworker,
       sectorname,
       salepoint
     );

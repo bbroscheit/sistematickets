@@ -8,6 +8,8 @@ const postUser = async (
   email,
   phonenumber,
   isworker,
+  isprojectmanager,
+  isprojectworker,
   sectorname,
   salepoint
 ) => {
@@ -20,6 +22,8 @@ const postUser = async (
       email,
       phonenumber,
       isworker,
+      isprojectmanager,
+      isprojectworker
     });
 
     if (sectorname) {

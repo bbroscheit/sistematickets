@@ -42,6 +42,14 @@ module.exports = ( sequelize ) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        isprojectmanager:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        isproyectworker:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
         isdelete:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,

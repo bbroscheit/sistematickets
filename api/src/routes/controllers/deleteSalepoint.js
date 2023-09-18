@@ -13,4 +13,4 @@ const deleteSalepoint = async (id) => {
     }
 }
 
-module.exports = deleteSalepoint
+module.expodeletedProject
