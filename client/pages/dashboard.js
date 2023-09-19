@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useEffect} from 'react';
 import mainStyle from '@/styles/Home.module.css';
 import style from '@/modules/dashboard.module.css';
+import Link from 'next/link'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -15,6 +17,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { visuallyHidden } from '@mui/utils';
 
 function createData(name, calories, fat, carbs, protein) {
@@ -27,12 +30,15 @@ function createData(name, calories, fat, carbs, protein) {
   };
 }
 
-const rows = [
-  createData('Desarrollo1', "gisella curcio", "bernardo broscheit", "12-12-2022", "Solicitado"),
-  createData('Desarrollo2',"gisella curcio", "bernardo broscheit", "12-12-2022", "En progreso"),
-  createData('Desarrollo3', "bernardo broscheit","facundo duhalde", "12-12-2022", "Finalizado"),
-  createData('Desarrollo4', "bernardo broscheit", "facundo duhalde", "12-12-2022", "Cancelado"),
-];
+
+
+
+// const rows = [
+//   createData('Desarrollo1', "gisella curcio", "bernardo broscheit", "12-12-2022", "Solicitado"),
+//   createData('Desarrollo2',"gisella curcio", "bernardo broscheit", "12-12-2022", "En progreso"),
+//   createData('Desarrollo3', "bernardo broscheit","facundo duhalde", "12-12-2022", "Finalizado"),
+//   createData('Desarrollo4', "bernardo broscheit", "facundo duhalde", "12-12-2022", "Cancelado"),
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -77,7 +83,7 @@ const headCells = [
     id: 'calories',
     numeric: true,
     disablePadding: false,
-    label: 'Solictado',
+    label: 'Solicitado',
   },
   {
     id: 'fat',
@@ -109,17 +115,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell> */}
+        
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -170,27 +166,15 @@ function EnhancedTableToolbar(props) {
       }}
     >
      <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
+          variant="h5"
           id="tableTitle"
           component="div"
         >
-          Proyectos
+          Nuevo Proyecto
         </Typography>
-
-      {/* {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )} */}
+      <Link href='/proyectos/nuevoProyecto'>
+        <AddCircleOutlineIcon />
+      </Link>
     </Toolbar>
   );
 }
@@ -204,8 +188,19 @@ export default function dashboard() {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [ data, setData ] = React.useState( null );
+
+  let dataLength = 0;
+
+  useEffect(() => {
+    fetch("http://localhost:3001/project")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        dataLength = data.length;
+      });
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -251,24 +246,20 @@ export default function dashboard() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dataLength) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
+  // const visibleRows = React.useMemo(
+  //   () =>
+  //     stableSort(data, getComparator(order, orderBy)).slice(
+  //       page * rowsPerPage,
+  //       page * rowsPerPage + rowsPerPage,
+  //     ),
+  //   [order, orderBy, page, rowsPerPage],
+  // );
 
   return (
     <div className={mainStyle.container}>
@@ -280,7 +271,7 @@ export default function dashboard() {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -288,49 +279,40 @@ export default function dashboard() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={dataLength}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+              {data !== null && data.map((e, index) => {
+                const isItemSelected = isSelected(e.projectname);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    // onClick={(event) => handleClick(event, row.name)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={e.id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell> */}
-                    <TableCell
+                   <TableCell
                       component="th"
                       id={labelId}
                       scope="row"
                       padding="none"
                       align="center"
                     >
-                      {row.name}
+                      {e.projectname}
                     </TableCell>
-                    <TableCell align="center">{row.calories}</TableCell>
-                    <TableCell align="center">{row.fat}</TableCell>
-                    <TableCell align="center">{row.carbs}</TableCell>
-                    <TableCell align="center">{row.protein}</TableCell>
+                    <TableCell align="center">usuario</TableCell>
+                    <TableCell align="center">usuario</TableCell>
+                    <TableCell align="center">12-12-2022</TableCell>
+                    <TableCell align="center">{e.state}</TableCell>
                   </TableRow>
                 );
               })}
+              
               {emptyRows > 0 && (
                 <TableRow
                   style={{
@@ -346,7 +328,7 @@ export default function dashboard() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={dataLength}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

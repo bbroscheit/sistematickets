@@ -4,20 +4,16 @@ const getAllProjects = async () => {
     try {
         let getAllProject = await Project.findAll({
             where: { isdelete : false},
-            include:[
-                {
-                    model: User,
-                    attributes: ["username"],
-                    through: {
-                        attributes: [],
-                    }, where: {isdelete: false}
-                },
-                {
-                    model: Userstories,
-                    // attributes: [""],
-                    where:{isdelete: false}
-                }
-            ]
+            include:[{
+                model: User,
+                attribute: ["username"]
+            }]
+            //     {
+            //         model: Userstories,
+            //         // attributes: [""],
+            //         where:{isdelete: false}
+            //     }
+            // ]
         })
 
         getAllProject.sort(( a, b ) => { return a.id - b.id } )
