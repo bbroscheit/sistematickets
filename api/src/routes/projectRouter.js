@@ -12,10 +12,10 @@ projectRouter.get("/project" , async (req, res) => {
 })
 
 projectRouter.post( '/project' , async (req, res) => {
-    const { state,  projectname, projectdetail,requirer , worker} = req.body
+    const { state, projectname, projectdetail, requirer , worker, finishdate} = req.body
     
     try {
-        let newProject = await postProject(state, projectname, projectdetail, requirer, worker)
+        let newProject = await postProject(state, projectname, projectdetail, requirer, worker, finishdate)
         newProject ? res.status(200).json("sucess")  : res.status(400).send("failure")
     } catch (e) {
         console.log("error en project router", e.message)

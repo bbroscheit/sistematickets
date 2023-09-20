@@ -1,14 +1,25 @@
 const { Project, User } = require("../../bd");
 
+
+function convertFromStringToDate(finishDate) {
+  let datePieces = finishDate.split("-");
+  
+  return(new Date(datePieces[2], (datePieces[1] - 1), datePieces[0]))
+}
+
+
+
 const postProject = async (
   state,
   projectname,
   projectdetail,
   requirer,
-  worker
+  worker,
+  finishdate
 ) => {
   try {
-    let newProject = await Project.create({state, projectname, projectdetail});
+    
+    let newProject = await Project.create({state, projectname, projectdetail, finishdate});
     
     if (requirer) {
       let require = await User.findOne({

@@ -23,6 +23,11 @@ module.exports = (sequelize) => {
             defaultValue:"sin detalle",
             allowNull:false
         },
+        finishdate:{
+            type:DataTypes.STRING,
+            defaultValue:"12-12-2022",
+            allowNull:false
+        },
         isdelete:{
             type:DataTypes.BOOLEAN,
             defaultValue:false,

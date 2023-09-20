@@ -1,0 +1,37 @@
+.formContainer{
+    width: 100%;
+    margin: 25px auto;
+    display: grid; 
+    grid-auto-rows: 1fr; 
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: 1fr; 
+    gap: 10px 11px; 
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 2px 5px;
+}
+
+.labelContainer {
+   display:flex;
+   flex-direction: column;
+   border: 2px solid rgba(138, 132, 132, 0.315);
+   align-items: center; 
+   padding: 15px;
+}
+
+.labelContainer label{
+    margin-bottom: 15px;
+ }
+
+ .checkContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+ }
+
+ .checkContainer label{
+    margin: 0px 30px 0px 10px;
+ }

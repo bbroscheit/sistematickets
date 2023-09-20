@@ -29,6 +29,10 @@
   color: antiquewhite;
 }
 
+.form label{
+  font-weight: 600;
+}
+
 .interform{
   width: 100%;
 }

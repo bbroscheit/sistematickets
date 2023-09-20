@@ -60,7 +60,7 @@ html, body {
   
 }
 
-h1,h2,h3,h4,h5,h6,ul {
+h1,h2,h3,h4,h5,h6,ul, label, p {
   color: var(--color-primaryfont);
 }
 
