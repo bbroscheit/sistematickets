@@ -7,7 +7,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
   
   
   return (
-    <Link href="/proyectos/nuevoProyecto">
+    <Link href={`/proyectos/${id}`}>
     <div className={Style.cardContainer}>
         <div className={Style.projectCardTitle}>
           <h2>{projectName}</h2>

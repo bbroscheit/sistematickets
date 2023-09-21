@@ -4,10 +4,10 @@ const getAllUserstories = async() => {
     try {
         let allUserstories = await Userstories.findAll({
             where: { isdelete:false }, 
-            include:[{
-                model: Task,
-                attribute: ["taskname"]
-            }]
+            // include:[{
+            //     model: Task,
+            //     attribute: ["taskname"]
+            // }]
         });
         return allUserstories
     } catch (e) {

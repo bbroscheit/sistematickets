@@ -1,28 +1,28 @@
 const { Project, User, Userstories} = require('../../bd')
 
-const getAllProjects = async () => {
+const getProjectDetail = async (id) => {
     try {
-        let getAllProject = await Project.findAll({
-            where: { isdelete : false},
+        let getDetail = await Project.findAll({
+            where: [{ isdelete : false},{ id : id}],
             include:[{
                 model: User,
                 attribute: ["username"]
             },
                 {
                     model: Userstories,
-                    attributes: ["storiesname"],
+                    attributes: ["storiesname", "storiesdetail"],
                     where:{isdelete: false}
                 }
             ]
         })
 
-        getAllProject.sort(( a, b ) => { return a.id - b.id } )
+        getDetail.sort(( a, b ) => { return a.id - b.id } )
 
-        return getAllProject
+        return getDetail
 
     } catch (e) {
         console.log("error en ruta getAllProject", e.message)
     }
 }
 
-module.exports = getAllProjects
+module.exports = getProjectDetail

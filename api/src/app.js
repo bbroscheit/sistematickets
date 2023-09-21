@@ -12,6 +12,7 @@ const userRouter = require('../src/routes/userRouter.js')
 const ticketRouter = require('../src/routes/ticketRouter.js')
 const faqRouter = require('../src/routes/faqRouter.js')
 const projectRouter = require('../src/routes/projectRouter.js')
+const userstoriesRouter = require('../src/routes/userstoriesRouter.js')
 
 const server = express();
 server.name = 'API';
@@ -37,7 +38,8 @@ server.use('/' , salepointRouter);
 server.use('/' , userRouter);
 server.use('/' , ticketRouter);
 server.use('/' , faqRouter);
-server.use('/', projectRouter)
+server.use('/', projectRouter);
+server.use('/', userstoriesRouter);
 
 
 server.use((err,req,res) => {

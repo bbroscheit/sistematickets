@@ -1,0 +1,23 @@
+.detailContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: justify;
+    margin: 15px 0px;
+}
+
+.horizontalLine{
+    width: 100%;
+}
+
+.userStorieTitle{
+    margin: 15px 0px;
+    padding: 20px;
+}
+
+.storiesSubtitle{
+    font-size: 1.5rem;
+    font-family: "Roboto", "Helvetica Neue";
+    margin-right: 15px;
+}

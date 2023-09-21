@@ -1,11 +1,22 @@
 const projectRouter = require("express").Router()
 const getAllProject = require('../routes/controllers/getAllProject')
 const postProject = require('./controllers/postProject')
+const getProjectDetail = require('./controllers/getProjectDetail')
 
 projectRouter.get("/project" , async (req, res) => {
     try{
         let allProject = await getAllProject()
         allProject ? res.status(200).json(allProject) : res.status(400).send("failure") 
+    }catch (e){
+        console.log("error en project router", e.message)
+    }
+})
+
+projectRouter.get("/project/:id" , async (req, res) => {
+    const id = req.params.id
+    try{
+        let projectDetail = await getProjectDetail(id)
+        projectDetail ? res.status(200).json(projectDetail) : res.status(400).send("failure") 
     }catch (e){
         console.log("error en project router", e.message)
     }

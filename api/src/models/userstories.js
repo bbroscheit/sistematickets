@@ -13,6 +13,11 @@ module.exports = (sequelize) => {
             defaultValue:'generado',
             allowNull:false,
         },
+        storiesname:{
+            type: DataTypes.STRING,
+            defaultValue:'sin nombre',
+            allowNull:false,
+        },
         storiesdetail:{
             type: DataTypes.STRING,
             defaultValue:"sin detalle",
