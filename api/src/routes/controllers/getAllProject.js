@@ -2,7 +2,8 @@ const { Project, User, Userstories} = require('../../bd')
 
 const getAllProjects = async () => {
     try {
-        let getAllProject = await Project.findAll({
+        let getAllProject = await Project.findAll(
+            {
             where: { isdelete : false},
             include:[{
                 model: User,
@@ -11,10 +12,12 @@ const getAllProjects = async () => {
                 {
                     model: Userstories,
                     attributes: ["storiesname"],
-                    where:{isdelete: false}
+                    where:{isdelete: false},
+                    required:false
                 }
             ]
-        })
+        }
+        )
 
         getAllProject.sort(( a, b ) => { return a.id - b.id } )
 

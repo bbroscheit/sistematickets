@@ -41,7 +41,7 @@ const postProject = async (
         let workerFind = await User.findOne({
           where: [{ isdelete: false }, { username: worker[i] }],
         });
-
+        
         if (workerFind) {
           workerIds.push(workerFind.id);
         }

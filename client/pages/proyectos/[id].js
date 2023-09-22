@@ -16,6 +16,7 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { postUserstorie } from "@/pages/api/postUserstories";
 import UserstoriesCard from "@/components/UserstoriesCard";
 
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -48,6 +49,8 @@ function projectDetail() {
       .then((data) => {
         setData(data);
         setUserstories(data[0].userstories)
+        console.log("data",data)
+        console.log("id",id)
       });
   }, [router.query.id]);
 
@@ -91,6 +94,20 @@ function projectDetail() {
     e.preventDefault();
     postUserstorie(input);
     alert("storie generada con exito");
+    fetch(`http://localhost:3001/project/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        setUserstories(data[0].userstories)
+      });
+
+    setInput({
+      id: router.query.id,
+      state: "generado",
+      storiesname: "",
+      storiesdetail: "",
+      priority: "",
+    });
 
     setTimeout(() => {
       setOpen(false);
@@ -117,9 +134,9 @@ function projectDetail() {
                 <HighlightOffOutlinedIcon onClick={e => handleDelete(e)}/> */}
           </div>
           </div>
-          <div>
+          <div className={Style.containerUserstoriesCard}>
           {
-            userstories && userstories.length > 0 ? userstories.map( e => <UserstoriesCard storiesname={e.storiesname}/>   ): null 
+            userstories && userstories.length > 0 ? userstories.map( e => <UserstoriesCard id={id} storiesname={e.storiesname} storiesdetail={e.storiesdetail} key={id}/>   ): null 
           }
           </div>
         

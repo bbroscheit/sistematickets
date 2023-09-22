@@ -21,3 +21,14 @@
     font-family: "Roboto", "Helvetica Neue";
     margin-right: 15px;
 }
+
+.containerUserstoriesCard{
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-auto-rows: 1fr;
+    gap: 10px 11px;
+    grid-auto-flow: row;      
+}

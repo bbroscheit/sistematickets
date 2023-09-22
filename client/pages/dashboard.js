@@ -353,14 +353,18 @@ function dashboard() {
     const [project, setProject] = useState(null)
 
     useEffect(() => {
+    try {
         fetch("http://localhost:3001/project")
         .then((res) => res.json())
         .then((data) => {
             setProject(data);
+            console.log(data)
         });
+    } catch (e) {
+        console.log(e.message)
+    }
+        
     }, []);
-
-    console.log(project)
 
     return (
         <div className={mainStyle.container}>

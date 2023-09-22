@@ -1,0 +1,22 @@
+.userstoriesCard{
+    border: 2px solid white;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column; 
+    
+}
+
+.userstoriesCard h3{
+   margin: auto;
+   padding: 2px;
+   margin-bottom: 10px;
+    
+}
+
+.userstoriesCard p{
+    padding: 2px;
+    margin-bottom: 10px;
+     
+ }
