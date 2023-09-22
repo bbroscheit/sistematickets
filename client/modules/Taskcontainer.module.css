@@ -1,3 +1,10 @@
-.taskcontainer{
-    margin-top: 3px;
+.task{
+    margin-top: 13px;
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.accordionStyle{
+    color: white;
 }

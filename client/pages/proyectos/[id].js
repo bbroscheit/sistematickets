@@ -16,7 +16,6 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { postUserstorie } from "@/pages/api/postUserstories";
 import UserstoriesCard from "@/components/UserstoriesCard";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -33,8 +32,9 @@ function projectDetail() {
   const router = useRouter();
   const id = router.query.id;
   const [data, setData] = useState(null);
-  const [userstories, setUserstories] = useState(null)
+  const [userstories, setUserstories] = useState(null);
   const [open, setOpen] = useState(false);
+  const [openTask, setOpenTask] = useState(false);
   const [input, setInput] = useState({
     id: router.query.id,
     state: "generado",
@@ -48,13 +48,12 @@ function projectDetail() {
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        setUserstories(data[0].userstories)
-        console.log("data",data)
-        console.log("id",id)
+        setUserstories(data[0].userstories);
       });
   }, [router.query.id]);
 
   const handleOpen = () => setOpen(true);
+  const handleOpenTask = () => setOpenTask(true);
 
   function handleClose(e) {
     setInput({
@@ -66,6 +65,18 @@ function projectDetail() {
     });
 
     setOpen(false);
+  }
+
+  function handleCloseTask(e) {
+    // setInput({
+    //   id: router.query.id,
+    //   state: "generado",
+    //   storiesname: "",
+    //   storiesdetail: "",
+    //   priority: "",
+    // });
+
+    setOpenTask(false);
   }
 
   function handleCheck(e) {
@@ -83,12 +94,27 @@ function projectDetail() {
     });
   }
 
+  function handleChangeTask(e) {
+    // setInput({
+    //   ...input,
+    //   [e.target.name]: e.target.value,
+    // });
+  }
+
   const handleSelect = (e) => {
     setInput({
       ...input,
       priority: e.target.value,
     });
   };
+
+  const handleSelectTask = (e) => {
+    // setInput({
+    //   ...input,
+    //   priority: e.target.value,
+    // });
+  };
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -98,7 +124,7 @@ function projectDetail() {
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        setUserstories(data[0].userstories)
+        setUserstories(data[0].userstories);
       });
 
     setInput({
@@ -114,123 +140,252 @@ function projectDetail() {
     }, 400);
   }
 
-  console.log("data", data)
+  function handleSubmitTask(e) {
+    e.preventDefault();
+    // postUserstorie(input);
+    // alert("storie generada con exito");
+    // fetch(`http://localhost:3001/project/${id}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setData(data);
+    //     setUserstories(data[0].userstories);
+    //   });
+
+    // setInput({
+    //   id: router.query.id,
+    //   state: "generado",
+    //   storiesname: "",
+    //   storiesdetail: "",
+    //   priority: "",
+    // });
+
+    // setTimeout(() => {
+    //   setOpen(false);
+    // }, 400);
+  }
+
+
+  console.log("data", data);
   console.log("userstories", userstories);
   return (
     <div className={mainStyle.container}>
-      { 
-        data !== null && data.length > 0 ? 
+      {data !== null && data.length > 0 ? (
         <>
-        <h1 className={mainStyle.title}>{data[0].projectname}</h1>
-        <p className={Style.detailContainer}>{data[0].projectdetail}</p>
-        <hr className={Style.horizontalLine} />
-        <div className={Style.userStorieTitle}>
-          <div >
-            <h4 className={Style.storiesSubtitle}>User Stories</h4>
-          </div>
-          <div>
-            <AddCircleOutlineIcon onClick={(e) => handleOpen(e)} />
-            {/* <CheckCircleOutlineIcon onClick={e => handleCheck(e)}/>
-                <HighlightOffOutlinedIcon onClick={e => handleDelete(e)}/> */}
-          </div>
+          <h1 className={mainStyle.title}>{data[0].projectname}</h1>
+          <p className={Style.detailContainer}>{data[0].projectdetail}</p>
+          <hr className={Style.horizontalLine} />
+          <div className={Style.userStorieTitle}>
+            <div className={Style.titleContainer}>
+              <div>
+                <h4 className={Style.storiesSubtitle}>Nueva Historia</h4>
+                <AddCircleOutlineIcon onClick={(e) => handleOpen(e)} cursor="pointer" className={Style.titleTarea} />
+              </div>
+              <div>
+                <h4 className={Style.storiesSubtitle}>Nueva Tarea</h4>
+                <AddCircleOutlineIcon cursor="pointer" onClick={(e) => handleOpenTask(e)} />
+              </div>
+            </div>
           </div>
           <div className={Style.containerUserstoriesCard}>
-          {
-            userstories && userstories.length > 0 ? userstories.map( e => <UserstoriesCard id={id} storiesname={e.storiesname} storiesdetail={e.storiesdetail} key={id}/>   ): null 
-          }
+            {userstories && userstories.length > 0
+              ? userstories.map((e) => (
+                  <UserstoriesCard
+                    id={id}
+                    storiesname={e.storiesname}
+                    storiesdetail={e.storiesdetail}
+                    key={id}
+                  />
+                ))
+              : null}
           </div>
-        
 
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <TextField
-                id="outlined-basic"
-                label="Nombre"
-                name="storiesname"
-                onChange={(e) => handleChange(e)}
-                value={input.storiesname}
-                variant="outlined"
-                fullWidth
-                InputProps={{
-                  style: {
-                    color: "white", // Cambia el color del texto
-                    // Puedes agregar más estilos CSS aquí si es necesario
-                  },
-                }}
-                sx={{
-                  marginBottom: "12px",
-                  color: "white",
-                  borderColor: "white",
-                }}
-              />
-              <TextField
-                id="outlined-multiline-flexible"
-                label="Descripcion"
-                fullWidth
-                multiline
-                maxRows={2}
-                name="storiesdetail"
-                value={input.storiesdetail}
-                onChange={(e) => handleChange(e)}
-                sx={{ marginBottom: "12px" }}
-                InputProps={{
-                  style: {
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <form onSubmit={(e) => handleSubmit(e)}>
+                <TextField
+                  id="outlined-basic"
+                  label="Nombre"
+                  name="storiesname"
+                  onChange={(e) => handleChange(e)}
+                  value={input.storiesname}
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    style: {
+                      color: "white", // Cambia el color del texto
+                      // Puedes agregar más estilos CSS aquí si es necesario
+                    },
+                  }}
+                  sx={{
+                    marginBottom: "12px",
                     color: "white",
-                    borderColor: "white", // Cambia el color del texto
-                    // Puedes agregar más estilos CSS aquí si es necesario
-                  },
-                }}
-              />
-              <InputLabel id="demo-simple-select-label" sx={{ color: "white" }}>
-                Prioridad
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                fullWidth
-                value={input.priority}
-                label="Priority"
-                name="priority"
-                onChange={(e) => handleSelect(e)}
-                sx={{ marginBottom: "12px" }}
-                InputProps={{
-                  style: {
-                    color: "white",
-                    borderColor: "white", // Cambia el color del texto
-                    // Puedes agregar más estilos CSS aquí si es necesario
-                  },
-                }}
-                InputLabelProps={{
-                  style: {
-                    color: "white", // Cambia el color del texto del placeholder
-                  },
-                }}
-              >
-                <MenuItem value={"Importante"}>Importante</MenuItem>
-                <MenuItem value={"Deseado"}>Deseado</MenuItem>
-              </Select>
-              <div className={mainStyle.buttonContainer}>
-                <Button
-                  variant="contained"
-                  sx={{ marginRight: "12px" }}
-                  type="submit"
+                    borderColor: "white",
+                  }}
+                />
+                <TextField
+                  id="outlined-multiline-flexible"
+                  label="Descripcion"
+                  fullWidth
+                  multiline
+                  maxRows={2}
+                  name="storiesdetail"
+                  value={input.storiesdetail}
+                  onChange={(e) => handleChange(e)}
+                  sx={{ marginBottom: "12px" }}
+                  InputProps={{
+                    style: {
+                      color: "white",
+                      borderColor: "white", // Cambia el color del texto
+                      // Puedes agregar más estilos CSS aquí si es necesario
+                    },
+                  }}
+                />
+                <InputLabel
+                  id="demo-simple-select-label"
+                  sx={{ color: "white" }}
                 >
-                  Agregar
-                </Button>
-                <Button variant="contained" onClick={(e) => handleClose(e)}>
-                  Cancelar
-                </Button>
-              </div>
-            </form>
-          </Box>
-        </Modal>
-        </> : null }
+                  Prioridad
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  fullWidth
+                  value={input.priority}
+                  label="Priority"
+                  name="priority"
+                  onChange={(e) => handleSelect(e)}
+                  sx={{ marginBottom: "12px" }}
+                  InputProps={{
+                    style: {
+                      color: "white",
+                      borderColor: "white", // Cambia el color del texto
+                      // Puedes agregar más estilos CSS aquí si es necesario
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: {
+                      color: "white", // Cambia el color del texto del placeholder
+                    },
+                  }}
+                >
+                  <MenuItem value={"Importante"}>Importante</MenuItem>
+                  <MenuItem value={"Deseado"}>Deseado</MenuItem>
+                </Select>
+                <div className={mainStyle.buttonContainer}>
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: "12px" }}
+                    type="submit"
+                  >
+                    Agregar
+                  </Button>
+                  <Button variant="contained" onClick={(e) => handleClose(e)}>
+                    Cancelar
+                  </Button>
+                </div>
+              </form>
+            </Box>
+          </Modal>
+
+          <Modal
+            open={openTask}
+            onClose={handleCloseTask}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <form onSubmit={(e) => handleSubmitTask(e)}>
+              <InputLabel
+                  id="demo-simple-select-label"
+                  sx={{ color: "white" }}
+                >
+                  Historia
+                </InputLabel>
+              <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  fullWidth
+                  value={input.priority}
+                  label="Priority"
+                  name="priority"
+                  onChange={(e) => handleSelectTask(e)}
+                  sx={{ marginBottom: "12px" }}
+                  InputProps={{
+                    style: {
+                      color: "white",
+                      borderColor: "white", // Cambia el color del texto
+                      // Puedes agregar más estilos CSS aquí si es necesario
+                    },
+                  }}
+                  InputLabelProps={{
+                    style: {
+                      color: "white", // Cambia el color del texto del placeholder
+                    },
+                  }}
+                >
+                  <MenuItem value={"Importante"}>Importante</MenuItem>
+                  <MenuItem value={"Deseado"}>Deseado</MenuItem>
+                </Select>
+                <TextField
+                  id="outlined-basic"
+                  label="Nombre"
+                  name="storiesname"
+                  onChange={(e) => handleChangeTask(e)}
+                  value={input.storiesname}
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    style: {
+                      color: "white", // Cambia el color del texto
+                      // Puedes agregar más estilos CSS aquí si es necesario
+                    },
+                  }}
+                  sx={{
+                    marginBottom: "12px",
+                    color: "white",
+                    borderColor: "white",
+                  }}
+                />
+                <TextField
+                  id="outlined-multiline-flexible"
+                  label="Descripcion"
+                  fullWidth
+                  multiline
+                  maxRows={2}
+                  name="storiesdetail"
+                  value={input.storiesdetail}
+                  onChange={(e) => handleChangeTask(e)}
+                  sx={{ marginBottom: "12px" }}
+                  InputProps={{
+                    style: {
+                      color: "white",
+                      borderColor: "white", // Cambia el color del texto
+                      // Puedes agregar más estilos CSS aquí si es necesario
+                    },
+                  }}
+                />
+                <div className={mainStyle.buttonContainer}>
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: "12px" }}
+                    type="submit"
+                  >
+                    Agregar
+                  </Button>
+                  <Button variant="contained" onClick={(e) => handleCloseTask(e)}>
+                    Cancelar
+                  </Button>
+                </div>
+              </form>
+            </Box>
+          </Modal>
+        </>
+      ) : null}
     </div>
   );
 }
