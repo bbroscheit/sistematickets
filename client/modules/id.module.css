@@ -50,3 +50,7 @@
 .titleTarea{
     margin-right: 50px;
 }
+
+.placeholder::placeholder{
+   background-color: black;
+}

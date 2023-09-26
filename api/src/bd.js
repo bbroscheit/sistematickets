@@ -55,7 +55,11 @@ Project.hasMany(Userstories);
 Userstories.belongsTo(Project);
 
 Userstories.hasMany(Task);
-Task.belongsTo(Userstories);
+Task.belongsTo(Userstories, {
+    foreignKey: 'userstoryId', // Nombre de la clave externa en la tabla Task
+    as: 'userstory' // Nombre de la relación en singular
+  });
+// Task.belongsTo(Userstories);
 
 User.belongsToMany(Task , { through: 'user_task'})
 Task.belongsToMany(User , { through: 'user_task'})

@@ -19,11 +19,11 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         taskdate:{
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull:false
         },
         taskfinishdate:{
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull:false
         },
         isdelete:{

@@ -21,3 +21,8 @@
     margin-bottom: 10px;
      
  }
+
+ .accordionContainer{
+    display: flex;
+    flex-direction: column;
+ }
