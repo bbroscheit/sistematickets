@@ -25,3 +25,18 @@
     padding: 20px;
     width: 100%;
 }
+
+.subtitleContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subtitleContainer h5{
+    margin-right: 10px;
+}
+
+.subtitleContainer a{
+    padding: 0px;
+    
+}

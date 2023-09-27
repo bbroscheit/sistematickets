@@ -85,6 +85,18 @@ function nuevoProyecto() {
     // console.log(input)
   }
 
+  function handleReset(e){
+    e.preventDefault();
+    setInput({
+      state: "",
+      projectname: "",
+      projectdetail: "",
+      requirer: "",
+      worker: [],
+      finishdate: "",
+    });
+  }
+
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Nuevo Proyecto</h1>
@@ -139,7 +151,7 @@ function nuevoProyecto() {
           <button className={mainStyle.button} type="submit">
             Crear
           </button>
-          <button className={mainStyle.button} onClick={(e) => handleOption(e)}>
+          <button className={mainStyle.button} onClick={(e) => handleReset(e)}>
             Borrar
           </button>
         </div>

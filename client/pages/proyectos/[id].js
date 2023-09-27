@@ -138,6 +138,7 @@ function projectDetail() {
     e.preventDefault();
     postUserstorie(input);
     alert("storie generada con exito");
+    
     fetch(`http://localhost:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -162,19 +163,26 @@ function projectDetail() {
     e.preventDefault();
     postTask(inputTask);
     alert("Tarea generada con exito");
-   
+    
     setInputTask({
       idStorie: "",
       state: "generado",
       taskdetail: "",
       taskfinishdate: "",
     });
+    
+    fetch(`http://localhost:3001/project/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        setUserstories(data[0].userstories);
+      });
 
     setTimeout(() => {
-      setOpen(false);
+      setOpenTask(false);
     }, 400);
 
-   console.log("input", inputTask)
+   
   }
 
    

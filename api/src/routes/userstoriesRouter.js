@@ -2,6 +2,7 @@ const userstoriesRouter = require("express").Router()
 const getAllUserStories = require("./controllers/getAllUserstories")
 const getStoriedetail = require('./controllers/getStoriedetail')
 const postUserStories = require('./controllers/postuserStories')
+const updateUserstorie = require('./controllers/updateUserstorie')
 
 userstoriesRouter.get("/userstories" , async (req, res) => {
     
@@ -35,5 +36,17 @@ userstoriesRouter.post( '/userstories' , async (req, res) => {
         console.log("error en project router", e.message)
     }
 })
+
+userstoriesRouter.put( '/userstories/:id' , async (req, res) => {
+    const { id } = req.params
+    
+    try {
+        let updateUserstories = await updateUserstorie( id )
+        updateUserstories ? res.status(200).json("sucess")  : res.status(400).send("failure")
+    } catch (e) {
+        console.log("error en user storie router put", e.message)
+    }
+})
+
 
 module.exports = userstoriesRouter
