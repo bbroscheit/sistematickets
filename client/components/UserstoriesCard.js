@@ -21,11 +21,13 @@ function UserstoriesCard({ id, storiesname, storiesdetail }) {
   function handleCheck( e , id){
     e.preventDefault();
     updateCheckTask(id)
+    location.reload();
   }
 
   function handleCheckStorie( e , id){
     e.preventDefault();
     updateCheckStorie(id)
+    location.reload();
     
   }
 

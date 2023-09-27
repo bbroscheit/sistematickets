@@ -182,6 +182,7 @@ function projectDetail() {
       setOpenTask(false);
     }, 400);
 
+    location.reload();
    
   }
 
