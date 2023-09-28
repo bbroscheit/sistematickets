@@ -10,7 +10,7 @@ const getProjectDetail = async (id) => {
             },
                 {
                     model: Userstories,
-                    attributes: ["id","storiesname", "storiesdetail"],
+                    attributes: ["id","state","storiesname", "storiesdetail"],
                     where:{isdelete: false},
                     required: false
                 }

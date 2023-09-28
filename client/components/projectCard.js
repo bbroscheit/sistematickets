@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Style from '@/modules/projectCard.module.css';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
@@ -20,6 +19,37 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 function projectCard({id , state, projectName, projectDetail, requirer, worker, finishdate}) {
   
+  const [userstories, setUserstories] = useState (null)
+  const [promedio, setPromedio] = useState(null)
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/project/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserstories(data[0].userstories);
+      });
+  }, [id]);
+
+  console.log("userstories", userstories)
+
+  useEffect(() => {
+    if(userstories !== null){
+      let cantidadCumplidas = userstories.reduce((contador, objeto) => {
+        if (objeto.state === "cumplido") {
+          return contador + 1;
+        }
+        return contador;
+      }, 0);
+      if(userstories.length > 0 ){
+        let promedioTotal = Math.round((cantidadCumplidas * 100 ) / userstories.length);
+        setPromedio(promedioTotal);
+      }else{
+        setPromedio(0);
+      }
+      console.log("cumplidas", cantidadCumplidas);
+    }
+});
+
   
   return (
     <Link href={`/proyectos/${id}`}>
@@ -38,8 +68,8 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
         <div className={Style.progressContainer}>
           <h6>Progreso</h6>
           <div>
-            <BorderLinearProgress variant="determinate" value={50} />
-            <span>50%</span>
+            <BorderLinearProgress variant="determinate" value={promedio} />
+            <span>{promedio} %</span>
           </div>
         </div>
     </div>

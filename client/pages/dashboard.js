@@ -10,40 +10,20 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function dashboard() {
     const [project, setProject] = useState(null)
-    const [stories, setStories] = useState(null)
-
+    
     useEffect(() => {
     try {
         fetch("http://localhost:3001/project")
         .then((res) => res.json())
         .then((data) => {
             setProject(data);
-            setStories(data.userstories)
-            console.log(data)
+                       
         });
     } catch (e) {
         console.log(e.message)
     }
         
     }, []);
-
-    // useEffect(() => {
-    //     if(stories !== null){
-    //       let cantidadStoriesCumplidas = stories.reduce((contador, objeto) => {
-    //         if (objeto.state === "cumplido") {
-    //           return contador + 1;
-    //         }
-    //         return contador;
-    //       }, 0);
-    //       if(stories.length > 0 && stories.length === cantidadStoriesCumplidas){
-    //         setTaskCumplidas(true);
-    //       }else{
-    //         setTaskCumplidas(false);
-    //       }
-    //     }
-    // });
-
-    console.log(stories)
 
     return (
         <div className={mainStyle.container}>

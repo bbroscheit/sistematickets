@@ -57,7 +57,7 @@
 .progressContainer div{
     display: grid; 
     grid-auto-rows: 1fr; 
-    grid-template-columns: 1fr 10%; 
+    grid-template-columns: 1fr 15%; 
     grid-template-rows: auto; 
     gap: 3% 3%; 
     margin-top: 10px;
@@ -66,3 +66,6 @@
     color: white;
 }
 
+.progressContainer span{
+    font-size: 12px;
+}
