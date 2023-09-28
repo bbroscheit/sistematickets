@@ -63,12 +63,14 @@ export default function Home() {
         name: login.username,
         email: login.email,
         isWorker: login.isworker,
+        isprojectmanager: login.isprojectmanager,
+        isprojectworker: login.isprojectworker,
         phoneNumber: login.phonenumber,
         salePoint: login.salepoint.salepoint,
         sector: login.sector.sectorname
       }
       localStorage.setItem('user', JSON.stringify(user));
-      Router.push("/tickets")
+      Router.push("/dashboard")
     }else{
       setErrorLogin({ state: true });
     }

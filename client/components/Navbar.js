@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import MuiDrawer from '@mui/material/Drawer';
@@ -136,6 +137,17 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const [ user, setUser ] = React.useState(null);
+  const [ login, setLogin ] = React.useState(0);
+
+  React.useEffect(() => {
+    let userLogin = JSON.parse(localStorage.getItem('user'))
+    console.log("userLogin", userLogin);
+    userLogin  ? setUser(userLogin)  : null
+    userLogin  ? setLogin(1)  : setLogin(0) 
+  },[]);
+
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -157,7 +169,29 @@ export default function PrimarySearchAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
+  
+  const renderMenu = 
+   login === 1 ?  (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={e => handleLogin(e)}>Desconectar</MenuItem>
+      
+    </Menu>
+  ) :
+  (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -237,6 +271,18 @@ export default function PrimarySearchAppBar() {
     open === false ? setOpen(true) : setOpen(false);
   };
 
+  function handleLogin(e){
+    e.preventDefault();
+    localStorage.removeItem('user');
+    handleMenuClose()
+    setLogin(0)
+    setUser(null)
+    Router.push("/")
+  }
+ 
+  console.log("user", user)
+  console.log("login", login)
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
@@ -311,14 +357,16 @@ export default function PrimarySearchAppBar() {
         </DrawerHeader>
         <Divider />
         {/* habilitar para las funciones del control de tickets */}
+        { user !== null && user.sector === "Sistemas" ?
         <List>
           {['Inicio','Usuarios', 'Nuevo Usuario', 'Sectores', 'Nuevo Sector', 'Punto de venta', 'Nuevo Punto de Venta'].map((text, index) => (
-            <Link href={index === 0 ? '/' : 
-              index === 1 ? '/usuarios' :
-              index === 2 ? '/usuarios/nuevoUsuario' :
-              index === 3 ? '/sector' :
-              index === 4 ? '/sectores/nuevoSector' :
-              index === 5 ? '/puntoventa' : '/puntoventa/nuevoPuntoventa'
+            <Link href={
+                index === 0 ? '/' : 
+                index === 1 ? '/usuarios' :
+                index === 2 ? '/usuarios/nuevoUsuario' :
+                index === 3 ? '/sector' :
+                index === 4 ? '/sectores/nuevoSector' :
+                index === 5 ? '/puntoventa' : '/puntoventa/nuevoPuntoventa'
               } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -344,13 +392,44 @@ export default function PrimarySearchAppBar() {
             </ListItem>
             </Link>
           ))}
-        </List>
+        </List> : <List>
+          {['Inicio'].map((text, index) => (
+            <Link href={
+                index === 0 ? '/' : '/'
+              } >
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                  color:"#404241",
+                  fontfamily:"Roboto"
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {index === 1 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </Link>
+          ))}
+        </List> }
         <Divider />
         <List>
-          
+        
           {['Projectos', 'Tareas'].map((text, index) => (
-            <Link href={index === 0 ? '/dashboard' : 
-                            index === 1 ? '/tareas' : '/'} >
+            <Link href={
+                    index === 0 ? '/dashboard' : 
+                    index === 1 ? '/tareas' : '/'
+                    } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
