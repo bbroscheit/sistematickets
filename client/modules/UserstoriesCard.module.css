@@ -1,12 +1,15 @@
 .userstoriesCard{
-    border: 2px solid white;
+    border: 2px solid rgba(128, 126, 126, 0.281);
     padding: 15px;
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column; 
     width: 45%;
-    
+    border-radius: 10px;
+    box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
+    -webkit-box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
+    -moz-box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
 }
 
 .userstoriesCard h3{
@@ -25,6 +28,7 @@
  .accordionContainer{
     display: flex;
     flex-direction: column;
+    width: 100%;
  }
 
 .accordionDiv{
@@ -34,6 +38,17 @@
     grid-template-rows: auto; 
     gap: 3% 3%; 
     border-bottom: 1px solid white;
-    width: 380px;
+    width: 100%;
     padding: 3px;
  }
+
+ .titleContainer{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+
+ .accordionDate{
+   font-size: 0.8rem;
+ }
+

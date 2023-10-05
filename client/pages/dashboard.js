@@ -29,7 +29,7 @@ function dashboard() {
         <div className={mainStyle.container}>
             <h1 className={mainStyle.title}>Proyectos</h1>
             <div className={style.subtitleContainer}>
-                <h5>Nuevo Proyecto</h5><Link href="proyectos/nuevoProyecto"><AddCircleOutlineIcon sx={{cursor:"pointer", color:"white"}}/></Link>
+                <h5>Nuevo Proyecto</h5><Link href="proyectos/nuevoProyecto"><AddCircleOutlineIcon sx={{cursor:"pointer", color:"#EA6558"}}/></Link>
             </div>
             <hr className={style.divider}/>
             <div className={style.cardContainer}>

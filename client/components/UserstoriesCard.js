@@ -58,33 +58,33 @@ function UserstoriesCard({ id, storiesname, storiesdetail }) {
 
   return (
     <div className={Style.userstoriesCard}>
-      <div>
-      <h3>{storiesname}</h3>
+      <div className={Style.titleContainer}>
+        <h3>{storiesname}</h3>
       {
         taskCumplidas === true ? < CheckCircleOutlinedIcon onClick={event => handleCheckStorie(event, userstorie[0].id)} sx={{cursor:"pointer" , color: "white"}}/> : null 
       }
       </div>
-      <p>{storiesdetail}</p>
+      <p className={Style.titleContainer}>{storiesdetail}</p>
       <hr />
       <div className={StyleTask.task}>
         <div>
-          <Accordion sx={{ display: "flex", flexDirection: "column", width: "400px" }}>
+          <Accordion sx={{ flexDirection: "column", position:"relative", width:"100%" }}>
             <AccordionSummary
               expandIcon={
-                <ArrowCircleDownIcon className={Style.accordionStyle} sx={{ color: "white"}}/>
+                <ArrowCircleDownIcon className={Style.accordionStyle} sx={{cursor:"pointer", color:"#EA6558"}}/>
               }
               aria-controls="panel1a-content"
               id="panel1a-header"
-              sx={{ bgcolor: "#0f0e17", width: "100%" }}
+              sx={{ bgcolor: "#e9e7e7", width: "100%"}}
             >
               <Typography>Tareas</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: "#0f0e17" }} className={Style.accordionContainer}>
+            <AccordionDetails sx={{ bgcolor: "#e9e7e7", width:"100%" }} className={Style.accordionContainer}>
               {task !== null && task !== undefined
                 ? task.map((e) => 
                   <div className={Style.accordionDiv}>
                     <p className={Style.accordionParagraph}>{e.taskdetail}</p>
-                    <p>{e.taskfinishdate}</p>
+                    <p className={Style.accordionDate}>{e.taskfinishdate}</p>
                     < CheckCircleOutlinedIcon onClick={event => handleCheck(event, e.id)} sx={{cursor:e.state === "cumplido" ? false:"pointer", color: e.state === "cumplido" ? "green": "white"}}/>
                   </div>)
                 : null}

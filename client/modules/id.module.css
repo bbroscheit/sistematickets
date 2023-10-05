@@ -54,3 +54,16 @@
 .placeholder::placeholder{
    background-color: black;
 }
+
+.labelContainer{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.labelContainer label{
+    margin-bottom: 5px;
+}

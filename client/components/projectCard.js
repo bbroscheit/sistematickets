@@ -56,7 +56,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     <div className={Style.cardContainer}>
         <div className={Style.projectCardTitle}>
           <h2>{projectName}</h2>
-          <p>{finishdate}</p>
+          <p className={Style.projectDate}>{finishdate}</p>
         </div>
         <div className={Style.projectCardDetail}>
           <p>{projectDetail}</p>
@@ -68,7 +68,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
         <div className={Style.progressContainer}>
           <h6>Progreso</h6>
           <div>
-            <BorderLinearProgress variant="determinate" value={promedio} />
+            <BorderLinearProgress variant="determinate" value={promedio} className={Style.progressBar}/>
             <span>{promedio} %</span>
           </div>
         </div>

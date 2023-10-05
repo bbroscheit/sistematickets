@@ -8,16 +8,15 @@ function Sector() {
 
     const [salepoint, setSalepoint] = useState(null)
 
-    let hardcoreSalepoint = [{
-      id : 1,
-      salepoint: "buenos aires"
-    },{
-      id : 2,
-      salepoint: "Neuquen"
-    },{
-      id : 3,
-      salepoint: "Rosario"
-    }]
+    useEffect(() => {
+      fetch("http://localhost:3001/salepoint")
+        .then((res) => res.json())
+        .then((data) => {
+          setSalepoint(data);
+        });
+        
+    }, []);
+
 
     return (
     <div className={mainStyles.container}>
@@ -28,7 +27,10 @@ function Sector() {
           <input type="search" />
         </div>
         <div>
-          {hardcoreSalepoint && hardcoreSalepoint.map( e => <CardSalepoint salepoint={e.salepoint} />)}
+          { salepoint !== null && salepoint.length > 0 ? 
+              salepoint.map( e => <CardSalepoint salepoint={e.salepoint} />) : 
+              null
+          }
         </div>
       </div>
     </div>

@@ -3,10 +3,13 @@
   --border-radius: 12px;
   --color-background-navbar: #cf2e2e;
   --color-background-body: #ededf0ee;
-  --color-primaryfont: #fffffe;
+  /* --color-primaryfont: #fffffe; */
+  --color-primaryfont: #3C3C3B;
   --color-paragraph: #94a1b2;
-  --color-background-bodyalternate:#0f0e17;
+ /* --color-background-bodyalternate:#0f0e17; */ 
+  --color-background-bodyalternate:#e9e7e7;
   --color-dangerForm: #f02929;
+  --button-color:#1769aa;
   /* -color-fontbody:- */
 }
 
@@ -60,13 +63,14 @@ html, body {
   
 }
 
-h1,h2,h3,h4,h5,h6,ul, label, p {
+h1,h2,h3,h4,h5,h6,ul, label, p, span {
   color: var(--color-primaryfont);
   font-family: 'Roboto', sans-serif;
 }
 
 h1{
   padding-bottom: 2rem;
+
 }
 
 li{

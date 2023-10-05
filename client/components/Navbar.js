@@ -144,7 +144,7 @@ export default function PrimarySearchAppBar() {
     let userLogin = JSON.parse(localStorage.getItem('user'))
     console.log("userLogin", userLogin);
     userLogin  ? setUser(userLogin)  : null
-    userLogin  ? setLogin(1)  : setLogin(0) 
+    userLogin  ? setLogin(1)  : setLogin(0)
   },[]);
 
 
@@ -169,8 +169,8 @@ export default function PrimarySearchAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
-  
-  const renderMenu = 
+
+  const renderMenu =
    login === 1 ?  (
     <Menu
       anchorEl={anchorEl}
@@ -188,7 +188,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={e => handleLogin(e)}>Desconectar</MenuItem>
-      
+
     </Menu>
   ) :
   (
@@ -279,14 +279,14 @@ export default function PrimarySearchAppBar() {
     setUser(null)
     Router.push("/")
   }
- 
+
   console.log("user", user)
   console.log("login", login)
-  
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
-        <Toolbar>
+    <Box sx={{ flexGrow: 1 }} >
+      <AppBar position="fixed" sx={{ backgroundColor:"#EA6558"}}>
+        <Toolbar >
           <IconButton
             size="large"
             edge="start"
@@ -357,11 +357,11 @@ export default function PrimarySearchAppBar() {
         </DrawerHeader>
         <Divider />
         {/* habilitar para las funciones del control de tickets */}
-        { user !== null && user.sector === "Sistemas" ?
+        {/* { user !== null && user.sector === "Sistemas" ? */}
         <List>
           {['Inicio','Usuarios', 'Nuevo Usuario', 'Sectores', 'Nuevo Sector', 'Punto de venta', 'Nuevo Punto de Venta'].map((text, index) => (
             <Link href={
-                index === 0 ? '/' : 
+                index === 0 ? '/' :
                 index === 1 ? '/usuarios' :
                 index === 2 ? '/usuarios/nuevoUsuario' :
                 index === 3 ? '/sector' :
@@ -383,6 +383,7 @@ export default function PrimarySearchAppBar() {
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
+                    color:"#EA6558"
                   }}
                 >
                   {index === 1 ? <InboxIcon /> : <MailIcon />}
@@ -392,7 +393,8 @@ export default function PrimarySearchAppBar() {
             </ListItem>
             </Link>
           ))}
-        </List> : <List>
+        </List> 
+        {/* : <List>
           {['Inicio'].map((text, index) => (
             <Link href={
                 index === 0 ? '/' : '/'
@@ -421,13 +423,13 @@ export default function PrimarySearchAppBar() {
             </ListItem>
             </Link>
           ))}
-        </List> }
+        </List> } */}
         <Divider />
         <List>
-        
+
           {['Projectos', 'Tareas'].map((text, index) => (
             <Link href={
-                    index === 0 ? '/dashboard' : 
+                    index === 0 ? '/dashboard' :
                     index === 1 ? '/tareas' : '/'
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -439,12 +441,13 @@ export default function PrimarySearchAppBar() {
                   color:"#404241"
                 }}
               >
-                
+
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
+                      color:"#EA6558"
                     }}
                   >
                     {index === 0 ? <InboxIcon /> : <MailIcon />}
@@ -453,7 +456,7 @@ export default function PrimarySearchAppBar() {
               </ListItemButton>
             </ListItem>
             </Link>
-            
+
           ))}
         </List>
       </Drawer>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap');
+
 .container{
   padding: 6rem 6rem 6rem 7rem;
   min-height: 100vh;
@@ -10,6 +12,7 @@
 
 .title{
   font-family: 'Roboto', sans-serif;
+  font-weight: 600;
   margin: 10px auto;
   padding-bottom: 20px;
 }
@@ -62,6 +65,15 @@
   padding: 8px 9px;
 }
 
+.textarea{
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 8px 9px;
+}
+
+
 .select, .option{
   font-family: 'Roboto', sans-serif;
   font-size: 0.9rem;
@@ -75,9 +87,17 @@
   margin: 0px 0px 2px 12px;
   font-family: 'Roboto', sans-serif;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 500;
+  color:aliceblue;
   border: none;
+  background-color: var(--button-color);
   border-radius: 10px;
+
+}
+
+.buttonDisabled{
+  background-color: var(--color-paragraph);
+  color: var(--color-primaryfont);
 }
 
 .buttonContainer{

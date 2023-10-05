@@ -29,9 +29,10 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  // width: 400,
   border: "2px solid white",
-  bgcolor: "#121213",
+  borderRadius:"10px",
+  bgcolor: "#e9e7e7",
   boxShadow: 24,
   p: 4,
 };
@@ -198,11 +199,11 @@ function projectDetail() {
             <div className={Style.titleContainer}>
               <div>
                 <h4 className={Style.storiesSubtitle}>Nueva Historia</h4>
-                <AddCircleOutlineIcon onClick={(e) => handleOpen(e)} cursor="pointer" className={Style.titleTarea} />
+                <AddCircleOutlineIcon onClick={(e) => handleOpen(e)} cursor="pointer" sx={{ color:"#EA6558"}} className={Style.titleTarea} />
               </div>
               <div>
                 <h4 className={Style.storiesSubtitle}>Nueva Tarea</h4>
-                <AddCircleOutlineIcon cursor="pointer" onClick={(e) => handleOpenTask(e)} />
+                <AddCircleOutlineIcon cursor="pointer" sx={{ color:"#EA6558"}} onClick={(e) => handleOpenTask(e)} />
               </div>
             </div>
           </div>
@@ -237,7 +238,7 @@ function projectDetail() {
                   fullWidth
                   InputProps={{
                     style: {
-                      color: "white", 
+                      color: "#3C3C3B", 
                       // Cambia el color del texto
                       // Puedes agregar más estilos CSS aquí si es necesario
                     },
@@ -261,7 +262,7 @@ function projectDetail() {
                   className={classes.textField}
                   InputProps={{
                     style: {
-                      color: "white",
+                      color: "#3C3C3B",
                       borderColor: "white", // Cambia el color del texto
                       // Puedes agregar más estilos CSS aquí si es necesario
                     },
@@ -269,7 +270,7 @@ function projectDetail() {
                 />
                 <InputLabel
                   id="demo-simple-select-label"
-                  sx={{ color: "white" , paddingBottom: "5px"}}
+                  sx={{ color: "#3C3C3B" , paddingBottom: "5px"}}
                 >
                   Prioridad
                 </InputLabel>
@@ -281,11 +282,11 @@ function projectDetail() {
                   label="Priority"
                   name="priority"
                   onChange={(e) => handleSelect(e)}
-                  sx={{ marginBottom: "12px", color:"white" }}
+                  sx={{ marginBottom: "12px", color: "#3C3C3B" }}
                   
                   InputProps={{
                     style: {
-                      color: "white",
+                      color: "#3C3C3B",
                     },
                   }}
                   InputLabelProps={{
@@ -324,7 +325,7 @@ function projectDetail() {
               <form onSubmit={(e) => handleSubmitTask(e)}>
               <InputLabel
                   id="demo-simple-select-label"
-                  sx={{ color: "white", paddingBottom: "5px" }}
+                  sx={{ color: "#3C3C3B", paddingBottom: "5px" }}
                 >
                   Historia
                 </InputLabel>
@@ -336,7 +337,7 @@ function projectDetail() {
                   label="Historia"
                   name="idStorie"
                   onChange={(e) => handleSelectTask(e)}
-                  sx={{ marginBottom: "12px" , color:"white"}}
+                  sx={{ marginBottom: "12px" , color: "#3C3C3B"}}
                   InputProps={{
                     style: {
                       color: "white",
@@ -370,7 +371,7 @@ function projectDetail() {
                   sx={{ marginBottom: "12px" }}
                   InputProps={{
                     style: {
-                      color: "white",
+                      color: "#3C3C3B",
                       borderColor: "white", // Cambia el color del texto
                       // Puedes agregar más estilos CSS aquí si es necesario
                     },

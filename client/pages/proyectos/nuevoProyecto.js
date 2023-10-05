@@ -117,11 +117,12 @@ function nuevoProyecto() {
             rows="10"
             value={input.projectdetail}
             onChange={(e) => handleTextarea(e)}
+            className={mainStyle.textarea}
           />
         </div>
         <div className={Style.formContainer}>
           <div className={Style.labelContainer}>
-            <label for="finishDate">Fecha de finalizacion:</label>
+            <label for="finishDate">Fecha de finalizacion</label>
             <input
               type="date"
               id="finishdate"
@@ -131,7 +132,7 @@ function nuevoProyecto() {
             />
           </div>
           <div className={Style.labelContainer}>
-            <label> Elije Desarrollador : </label>
+            <label> Elije Desarrollador </label>
             <div className={Style.checkContainer}>
             {user !== null &&
               user.map((e) => (
