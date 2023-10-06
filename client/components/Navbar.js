@@ -430,7 +430,7 @@ export default function PrimarySearchAppBar() {
           {['Projectos', 'Tareas'].map((text, index) => (
             <Link href={
                     index === 0 ? '/dashboard' :
-                    index === 1 ? '/tareas' : '/'
+                    index === 1 ? '/tareas/tareas' : '/'
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
