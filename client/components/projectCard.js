@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Style from '@/modules/projectCard.module.css';
 import Link from 'next/link';
 import { styled } from '@mui/material/styles';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import {projectChangeState} from '@/pages/api/updateCheckProject'
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
   width: '100%',
@@ -18,7 +21,8 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 function projectCard({id , state, projectName, projectDetail, requirer, worker, finishdate}) {
-  
+  const [project, setProject] = useState(null)
+  const [flag, setFlag] = useState(0)
   const [userstories, setUserstories] = useState (null)
   const [promedio, setPromedio] = useState(null)
 
@@ -26,11 +30,10 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     fetch(`http://localhost:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
+        setProject(data)
         setUserstories(data[0].userstories);
       });
   }, [id]);
-
-  console.log("userstories", userstories)
 
   useEffect(() => {
     if(userstories !== null){
@@ -46,14 +49,24 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
       }else{
         setPromedio(0);
       }
-      console.log("cumplidas", cantidadCumplidas);
+      
     }
 });
 
-  
+  function handleClick(e) {
+    e.preventDefault();
+    projectChangeState(id)
+    
+    flag === 1 ? setFlag(0): setFlag(1)
+    
+    alert("proyecto finalizado")
+  }
+
+    
   return (
-    <Link href={`/proyectos/${id}`}>
-    <div className={Style.cardContainer}>
+   
+    <div className={Style.cardContainer}> 
+      <Link href={`/proyectos/${id}`} className={Style.cardLink}>
         <div className={Style.projectCardTitle}>
           <h2>{projectName}</h2>
           <p className={Style.projectDate}>{finishdate}</p>
@@ -61,6 +74,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
         <div className={Style.projectCardDetail}>
           <p>{projectDetail}</p>
         </div>
+        </Link>
         <div className={Style.projectCardPeople}>
           <h6>Solicitado por : {requirer}</h6>
           <h6>Desarrollado por : {worker}</h6>
@@ -70,10 +84,13 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
           <div>
             <BorderLinearProgress variant="determinate" value={promedio} className={Style.progressBar}/>
             <span>{promedio} %</span>
+            { promedio === 100 ? <span className={Style.progressBarCheck} ><CheckCircleOutlinedIcon sx={{ cursor: state !== "finalizado" ? "pointer": null, color: state === "finalizado" ? "green": "#cf2e2e"}} onClick={e => handleClick(e)}/></span> : null}
+            
           </div>
+          
         </div>
     </div>
-    </Link>
+    
   )
 }
 

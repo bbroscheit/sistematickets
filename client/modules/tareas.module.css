@@ -1,0 +1,25 @@
+.projectContainer{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+}
+
+.accordionContainer{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.tareaAccordeon{
+    margin: auto;
+    width:100%;
+}
+
+.titleContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+   
+}

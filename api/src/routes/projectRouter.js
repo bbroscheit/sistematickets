@@ -8,7 +8,6 @@ const updateProjectState = require("../routes/controllers/updateProjectState")
 projectRouter.get("/project" , async (req, res) => {
     try{
         let allProject = await getAllProject()
-        console.log("project", allProject)
         allProject ? res.status(200).json(allProject) : res.status(400).send("failure") 
     }catch (e){
         console.log("error en project router", e.message)
@@ -18,7 +17,6 @@ projectRouter.get("/project" , async (req, res) => {
 projectRouter.get("/projectStoriesTask" , async (req, res) => {
     try{
         let allProject = await getAllProjectsStoriesTask()
-        console.log("project", allProject)
         allProject ? res.status(200).json(allProject) : res.status(400).send("failure") 
     }catch (e){
         console.log("error en project router", e.message)

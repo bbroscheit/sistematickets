@@ -1,7 +1,4 @@
 .cardContainer{
-    display:flex;
-    align-items: flex-start;
-    flex-direction: column;
     gap: 15px;
     border: 1px solid #88888748;
     border-radius: 10px;
@@ -12,11 +9,20 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.cardLink{
+    display:flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+    padding:25px;
+}
+
 .projectCardTitle{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
     color: var(--color-primaryfont);
 }
 
@@ -28,6 +34,7 @@
 .projectCardTitle p{
     font-size: 0.8rem;
     justify-self: flex-end;
+    
 }
 
 .projectCardDetail{
@@ -52,7 +59,7 @@
 .progressContainer div{
     display: grid; 
     grid-auto-rows: 1fr; 
-    grid-template-columns: 1fr 15%; 
+    grid-template-columns: 1fr 12% 8%; 
     grid-template-rows: auto; 
     gap: 3% 3%; 
     margin-top: 10px;
@@ -70,7 +77,12 @@
     font-weight: 700;
 }
 
+.progressBarCheck{
+    margin:0;
+}
+
 .projectDate {
     font-size: 2rem;
     font-weight: 700;
 }
+
