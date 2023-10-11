@@ -1,6 +1,6 @@
 export async function postProject(input) {
     
-    const res = await fetch(`http://localhost:3001/project`, {
+    const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

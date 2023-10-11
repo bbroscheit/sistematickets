@@ -16,7 +16,7 @@ function tickets() {
   },[])
   
   useEffect(() => {
-    fetch("http://localhost:3001/ticketGenerados")
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
       .then((res) => res.json())
       .then((data) => {
         setTicketsGenerados(data);
@@ -24,7 +24,7 @@ function tickets() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/ticketDesarrollo")
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
       .then((res) => res.json())
       .then((data) => {
         setTicketsDesarrollo(data);
@@ -32,7 +32,7 @@ function tickets() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/ticketDesarrollo2")
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo2`)
       .then((res) => res.json())
       .then((data) => {
         setTicketsDesarrollo2(data);
@@ -40,7 +40,7 @@ function tickets() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/ticketCompletado")
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
       .then((res) => res.json())
       .then((data) => {
         setTicketsCompletado(data);

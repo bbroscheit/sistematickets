@@ -61,9 +61,8 @@ function projectDetail() {
     taskfinishdate: "",
   });
 
-
   useEffect(() => {
-    fetch(`http://localhost:3001/project/${id}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -140,7 +139,7 @@ function projectDetail() {
     postUserstorie(input);
     alert("storie generada con exito");
     
-    fetch(`http://localhost:3001/project/${id}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -172,7 +171,7 @@ function projectDetail() {
       taskfinishdate: "",
     });
     
-    fetch(`http://localhost:3001/project/${id}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);

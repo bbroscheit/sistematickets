@@ -28,7 +28,7 @@ function nuevoProyecto() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/user")
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
       .then((res) => res.json())
       .then((data) => {
         let userFiltered = data.filter((e) => e.isprojectworker === true);

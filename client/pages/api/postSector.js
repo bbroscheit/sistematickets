@@ -1,6 +1,6 @@
 export async function postSector(input) {
     
-    const res = await fetch(`http://localhost:3001/sector`, {
+    const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

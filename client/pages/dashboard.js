@@ -13,7 +13,7 @@ function dashboard() {
     
     useEffect(() => {
     try {
-        fetch("http://localhost:3001/project")
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
         .then((res) => res.json())
         .then((data) => {
             setProject(data);

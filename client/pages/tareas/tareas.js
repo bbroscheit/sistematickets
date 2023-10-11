@@ -42,7 +42,7 @@ function Tareas() {
 
   useEffect(() => {
     try {
-      fetch("http://localhost:3001/projectStoriesTask")
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/projectStoriesTask`)
         .then((res) => res.json())
         .then((data) => {
           setProject(data);

@@ -9,7 +9,7 @@ function Sector() {
     const [salepoint, setSalepoint] = useState(null)
 
     useEffect(() => {
-      fetch("http://localhost:3001/salepoint")
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
         .then((res) => res.json())
         .then((data) => {
           setSalepoint(data);

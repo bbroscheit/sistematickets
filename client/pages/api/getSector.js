@@ -1,5 +1,5 @@
 export async function getSector() {
-    const res = await fetch(`http://localhost:3001/sector`, {
+    const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
