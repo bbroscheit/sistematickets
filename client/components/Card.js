@@ -9,13 +9,13 @@ function Card({id,subject}) {
         <h3 className={styles.gridElement}>Nº Ticket</h3>
         <h3 className={styles.gridElement}>Titulo</h3>
         <h3 className={styles.gridElement}></h3>
-      <Link href={{ pathname: '/soportes/[id]', query: { id: id }, }} >
+      <Link href={`/soportes/${id}`} >
         <h3 className={styles.gridElement}>{id}</h3>
       </Link> 
-      <Link href={{ pathname: '/soportes/[id]', query: { id: id }, }} >
+      <Link href={`/soportes/${id}`} >
         <h3 className={styles.gridElement}>{subject}</h3>
       </Link> 
-      <Link href={{ pathname: '/soportes/[id]', query: { id: id }, }} >
+      <Link href={`/soportes/${id}`} >
         <h3 className={styles.gridElement}></h3>
       </Link> 
     </div>

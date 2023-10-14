@@ -1,5 +1,6 @@
 const userRouter = require("express").Router();
 const getAllUser = require("../routes/controllers/getAllUser");
+const getAllWorker = require("../routes/controllers/getAllWorker");
 const loginUser = require("../routes/controllers/loginUser");
 const postUser = require("./controllers/postUser");
 const updateUser = require("./controllers/updateUser");
@@ -11,6 +12,15 @@ userRouter.get("/user", async (req, res) => {
     allUser ? res.status(200).json(allUser) : res.status(400).send("failure");
   } catch (e) {
     console.log("error en ruta get user ", e.message);
+  }
+});
+
+userRouter.get("/worker", async (req, res) => {
+  try {
+    let allWorker= await getAllWorker();
+    allWorker ? res.status(200).json(allWorker) : res.status(400).send("failure");
+  } catch (e) {
+    console.log("error en ruta get worker ", e.message);
   }
 });
 

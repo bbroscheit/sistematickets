@@ -10,10 +10,11 @@ function FormNormal({ user }) {
   
   const [input, setInput] = useState({
     state: "sin asignar",
-    worker: user,
+    worker: "sin asignar",
     subject: "",
     detail: "",
     userresolved: false,
+    user: user.name
   });
 
   function handleChange(e) {

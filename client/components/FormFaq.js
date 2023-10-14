@@ -10,28 +10,14 @@ function FormFaq({ id, title, description, answer , uresolved, user }) {
     const [ option, setOption ] = useState({ state: false });
     const [ input, setInput ] = useState({
         state: "sin asignar",
-        worker: user,
+        worker: "sin asignar",
         subject: title,
         detail: description,
         answer: answer,
         userresolved: uresolved,
+        user: user.name
       });
     
-    //crea un pre input con los datos que vienen del faq que se selecciono
-    useEffect( () => {
-        setInput({
-            state: "sin asignar",
-            worker: user,
-            subject: title,
-            detail: description,
-            answer: answer,
-            userresolved: uresolved,
-        });
-        setOption({
-            state:false
-        })
-    },[id])
-
     //cambia el estado de options para que aparezca la pantalla de agregar ams datos
     function handleOption(e) {
         e.preventDefault();

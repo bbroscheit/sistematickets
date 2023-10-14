@@ -10,11 +10,12 @@ function nuevoSoporte() {
   const [select, setSelect] = useState({ select: "principal" });
   const [faqFilter, setFaqFilter] = useState(null);
   const [input, setInput] = useState({
-    state: "",
+    state: "sin asignar",
     worker: "",
     subject: "",
     detail: "",
     userresolved: false,
+    user: ""
   });
   const [faq, setFaq] = useState(null);
   //se hardcodea user porque no estoy guardando en localstorage
@@ -51,18 +52,10 @@ function nuevoSoporte() {
   ];
 
   useEffect(() => {
-    setUser(localStorage.getItem("user")) 
-  }, []);
-
-  useEffect(() => {
-    setInput({
-      state: "sin asignar",
-      //usuario que genera el soporte
-      worker: user.username,
-      subject: "",
-      detail: "",
-      userresolved: false,
-    });
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setUser(loginParse);
+   
   }, []);
 
   function handleSelect(e) {
