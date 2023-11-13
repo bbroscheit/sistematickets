@@ -4,6 +4,7 @@ const loginUser = require("../routes/controllers/loginUser");
 const postUser = require("./controllers/postUser");
 const updateUser = require("./controllers/updateUser");
 const deleteUser = require("./controllers/deleteUser");
+const getAllWorker = require("./controllers/getAllWorkre");
 
 userRouter.get("/user", async (req, res) => {
   try {
@@ -13,6 +14,16 @@ userRouter.get("/user", async (req, res) => {
     console.log("error en ruta get user ", e.message);
   }
 });
+
+userRouter.get("/worker", async (req, res) => {
+  try {
+    let allWorker = await getAllWorker();
+    allWorker ? res.status(200).json(allWorker) : res.status(400).send("failure");
+  } catch (e) {
+    console.log("error en ruta get worker ", e.message);
+  }
+});
+
 
 userRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;

@@ -29,6 +29,10 @@ module.exports = ( sequelize ) => {
             defaultValue: "sin detalle",
             allowNull:false,
         },
+        answer:{
+            type: DataTypes.STRING(5000),
+            allowNull: false
+        },
         userresolved:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,

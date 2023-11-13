@@ -13,11 +13,11 @@ module.exports = ( sequelize ) => {
             allowNull: false
         },
         description:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             allowNull: false
         },
         answer:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             allowNull: false
         },
         uresolved:{

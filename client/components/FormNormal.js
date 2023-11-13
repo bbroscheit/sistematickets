@@ -10,10 +10,11 @@ function FormNormal({ user }) {
   
   const [input, setInput] = useState({
     state: "sin asignar",
-    worker: user,
+    worker: "sin asignar",
     subject: "",
     detail: "",
     userresolved: false,
+    user:user.name
   });
 
   function handleChange(e) {
@@ -27,12 +28,12 @@ function FormNormal({ user }) {
   function handleReset(e) {
     e.preventDefault();
     setInput({
-      state: "",
-      //usuario que genera el soporte
-      worker: "",
+      state: "sin asignar",
+      worker: "sin asignar",
       subject: "",
       detail: "",
       userresolved: false,
+      user:user.name
     });
   }
 
