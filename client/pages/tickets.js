@@ -10,10 +10,14 @@ function tickets() {
   const [ticketDesarrollo, setTicketsDesarrollo] = useState(null);
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null);
   const [ticketCompletado, setTicketsCompletado] = useState(null);
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-  },[])
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setUser(loginParse);
+   
+  }, []);
   
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)

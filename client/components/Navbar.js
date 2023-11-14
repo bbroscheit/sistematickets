@@ -464,6 +464,41 @@ export default function PrimarySearchAppBar() {
 
           {['Projectos', 'Tareas'].map((text, index) => (
             <Link href={
+                    index === 0 ? '/tickets' :
+                    index === 1 ? '/soportes/nuevoSoporte' : '/'
+                    } >
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                  color:"#404241"
+                }}
+              >
+
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                      color:"#EA6558"
+                    }}
+                  >
+                    {index === 0 ? <InboxIcon /> : <MailIcon />}
+                  </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </Link>
+
+          ))}
+        </List>
+        <Divider />
+        <List>
+
+          {['Projectos', 'Tareas'].map((text, index) => (
+            <Link href={
                     index === 0 ? '/dashboard' :
                     index === 1 ? '/tareas/tareas' : '/'
                     } >

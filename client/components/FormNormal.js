@@ -14,7 +14,11 @@ function FormNormal({ user }) {
     subject: "",
     detail: "",
     userresolved: false,
+<<<<<<< HEAD
     user:user.name
+=======
+    user: user.name
+>>>>>>> 6ca68fe5e624c8acd0b13a6e750ec3822d9404da
   });
 
   function handleChange(e) {
