@@ -17,7 +17,8 @@ faqRouter.post("/faq", async (req, res) => {
   const { title, description, answer, uresolved, questioner } = req.body;
 
   try {
-    let newFaq = await postFaq(title, description, answer, uresolved, questioner);
+    
+    let newFaq = await postFaq( title, description, answer, uresolved, questioner );
     newFaq ? res.status(200).json(newFaq) : res.status(400).json("failure");
   } catch (e) {
     console.log("error en ruta postfaq ", e.message);

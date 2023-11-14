@@ -32,3 +32,25 @@
     background-color: var(--button-color);
     border-radius: 10px;
 }
+
+.buttonGreen{
+    border:none;
+    background-color: transparent;
+    cursor:pointer;
+    color: green;
+}
+
+.buttonRed{
+    border:none;
+    background-color: transparent;
+    cursor:pointer;
+    color: red;
+}
+
+
+.buttonGrey{
+    border:none;
+    background-color: transparent;
+    cursor:pointer;
+    color: grey;
+}

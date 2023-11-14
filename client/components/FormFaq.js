@@ -10,7 +10,6 @@ import { postTicket } from "@/pages/api/postTicket.js";
 import { updateFaq } from "@/pages/api/updateFaq.js";
 
 
-<<<<<<< HEAD
 const style = {
   position: 'absolute',
   top: '50%',
@@ -42,23 +41,6 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
   })
 
     function handleOpen(e) {
-=======
-function FormFaq({ id, title, description, answer , uresolved, user }) {
-    
-    const [ option, setOption ] = useState({ state: false });
-    const [ input, setInput ] = useState({
-        state: "sin asignar",
-        worker: "sin asignar",
-        subject: title,
-        detail: description,
-        answer: answer,
-        userresolved: uresolved,
-        user: user.name
-      });
-    
-    //cambia el estado de options para que aparezca la pantalla de agregar ams datos
-    function handleOption(e) {
->>>>>>> 6ca68fe5e624c8acd0b13a6e750ec3822d9404da
         e.preventDefault();
         setOpen(true)
     } ;

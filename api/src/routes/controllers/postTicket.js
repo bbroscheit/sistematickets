@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 const { Ticket, User } = require('../../bd')
 
-const postTicket = async (state, worker, subject, detail, answer, userresolved, user, created, startdate, finishdate, randomdate) => {
-=======
-const { Ticket, User} = require('../../bd')
-
-const postTicket = async (state, worker, subject, detail, userresolved, user, created, startdate, finishdate, randomdate) => {
->>>>>>> 6ca68fe5e624c8acd0b13a6e750ec3822d9404da
+const postTicket = async (state, worker, subject, detail, answer = "Sin resolucion", userresolved, user, created, startdate, finishdate, randomdate) => {
     
     try {
         let newTicket = await Ticket.create({
@@ -33,10 +27,6 @@ const postTicket = async (state, worker, subject, detail, userresolved, user, cr
             }
           }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6ca68fe5e624c8acd0b13a6e750ec3822d9404da
         return newTicket
         
     } catch (e) {

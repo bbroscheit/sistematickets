@@ -3,7 +3,7 @@ const { Ticket, User } = require('../../bd');
 const getTicketCompletado = async () => {
     try{
         let getTickets = await Ticket.findAll({
-            where: { state: "completado"},
+            where: { state: "Completado"},
             include:[{
                 model:User,
                 attribute:["username","sectorname","salepoint"]

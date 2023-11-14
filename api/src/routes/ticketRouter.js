@@ -10,6 +10,10 @@ const updateTicket = require('./controllers/updateTicket');
 const getTicketTerminado = require('./controllers/getTicketTerminado');
 const getTicketDetail = require('./controllers/getTicketDetail');
 const updateAssignment = require('./controllers/updateAssignment');
+const updateSolutionTicket = require('./controllers/updateSolutionTicket');
+const updateInfoTicket = require('./controllers/updateInfoTicket');
+const updateInfoTicketByUser = require('./controllers/updateInfoTicketByUser');
+const updateCloseTicket = require('./controllers/updateCloseTicket');
 
 
 
@@ -24,11 +28,6 @@ ticketRouter.get( '/ticket' , async ( req, res ) => {
 
 ticketRouter.get("/ticketDetail/:id" , async ( req, res ) => {
     const { id } = req.params
-<<<<<<< HEAD
-
-=======
-    console.log("id", id)
->>>>>>> 6ca68fe5e624c8acd0b13a6e750ec3822d9404da
     try {
         let ticketDetail = await getTicketDetail(id);
         ticketDetail ? res.status(200).json(ticketDetail) : res.status(400).send("failure")
@@ -83,17 +82,10 @@ ticketRouter.get( '/ticketTerminado' , async ( req, res ) => {
 })
 
 ticketRouter.post( '/ticket', async ( req, res ) => {
-<<<<<<< HEAD
     const {state, worker, subject, detail, answer, userresolved, user, created, startdate, finishdate, randomdate} = req.body;
 
     try {
         let newTicket = await postTicket(state, worker, subject, detail, answer, userresolved, user, created, startdate, finishdate, randomdate)
-=======
-    const {state, worker, subject, detail, userresolved, user, created, startdate, finishdate, randomdate} = req.body;
-    
-    try {
-        let newTicket = await postTicket(state, worker, subject, detail, userresolved, user, created, startdate, finishdate, randomdate)
->>>>>>> 6ca68fe5e624c8acd0b13a6e750ec3822d9404da
         newTicket ? res.status(200).send("sucess") : res.status(404).send("failure")
     } catch (e) {
         console.log ( "error en ruta post ticket" , e.message)
@@ -126,5 +118,60 @@ ticketRouter.put( '/updateAssignment/:id' , async ( req, res ) => {
     }
 
 })
+
+ticketRouter.put( '/updateSolutionTicket/:id' , async ( req, res ) => {
+    const { id } = req.params
+    const { solution } = req.body
+
+    
+    try {
+        let updatedTicket = await updateSolutionTicket(id , solution)
+        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put updateSolutionTicket" , e.message)
+    }
+
+})
+
+ticketRouter.put( '/updateInfoTicket/:id' , async ( req, res ) => {
+    const { id } = req.params
+    const { info } = req.body
+
+    
+    try {
+        let updatedTicket = await updateInfoTicket(id , info)
+        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put updateInfoTicket" , e.message)
+    }
+
+})
+
+ticketRouter.put( '/updateInfoTicketByUser/:id' , async ( req, res ) => {
+    const { id } = req.params
+    const { info } = req.body
+
+    
+    try {
+        let updatedTicket = await updateInfoTicketByUser(id , info)
+        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put updateInfoTicket" , e.message)
+    }
+
+})
+
+ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
+    const { id } = req.params
+        
+    try {
+        let updatedTicket = await updateCloseTicket(id)
+        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put updateInfoTicket" , e.message)
+    }
+
+})
+
 
 module.exports = ticketRouter;
