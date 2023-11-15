@@ -31,7 +31,11 @@ module.exports = ( sequelize ) => {
         },
         answer:{
             type: DataTypes.STRING(5000),
-            allowNull: false
+            
+        },
+        files:{
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: [],
         },
         userresolved:{
             type: DataTypes.BOOLEAN,

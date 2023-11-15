@@ -13,6 +13,7 @@ function FormNormal({ user }) {
     worker: "sin asignar",
     subject: "",
     detail: "",
+    files:[],
     userresolved: false,
     user:user.name
   });
@@ -23,6 +24,14 @@ function FormNormal({ user }) {
       ...input,
       [e.target.name]: e.target.value,
     });
+  }
+
+  function handleChangeFile(e){
+    e.preventDefault();
+    setInput({
+      ...input,
+      files : [...input.files, e.target.value]
+    })
   }
 
   function handleReset(e) {
@@ -47,6 +56,8 @@ function FormNormal({ user }) {
     }, 500);
   }
 
+  console.log("input", input)
+
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}>
       <div className={mainStyle.minimalGrid}>
@@ -69,6 +80,16 @@ function FormNormal({ user }) {
           name="detail"
           value={input.detail}
           onChange={(e) => handleChange(e)}
+        />
+      </div>
+      <div>
+        <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
+        <input
+          type="file"
+          name="files"
+          multiple
+          // value={input.files}
+          onChange={(e) => handleChangeFile(e)}
         />
       </div>
       <div className={mainStyle.buttonContainer}>

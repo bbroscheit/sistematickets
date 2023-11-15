@@ -328,66 +328,7 @@ function Soporte() {
           :  null
       }
 
-{/* <h3>Solución : </h3>
-              <textarea
-                placeholder={faq.answer}
-                disabled
-                cols="80"
-                rows="14"
-              /> */}
-
-      
-     
-        {/* 
-      {/* aparece solo spara el worker --}
-       <div>
-        <div>
-          <h3>Usuario : {soporte.user.username}</h3>
-        </div>
-        <div>
-          <h3>Puede resolverlo el usuario?</h3>
-          <CheckCircleOutlineIcon />
-          <CancelOutlinedIcon />
-          {/* <input type="radio" value="yes" name="resolve" /> 
-          {/* <input type="radio" value="no" name="resolve" /> 
-        </div>
-      </div> 
-      
-      
-      
-
-      <div>
-        {/* bloqueado para el usuario y el worker una vez enviado --}
-        <h3>Solicitud de datos : </h3>
-        <textarea
-          placeholder="Motivo para solicitar mas datos..."
-          cols="80"
-          rows="17"
-        />
-      </div>
-      <div>
-        {/* aparece solo si el estado es "solicita mas datos" ,bloqueado para el usuario y el worker una vez enviado --}
-        <h3>Datos adicionales : </h3>
-        <textarea
-          placeholder="Datos agregados por el usuario"
-          cols="80"
-          rows="17"
-        />
-      </div>
-      <div>
-        {/* bloqueado para el usuario --}
-        <h3>Resolución : </h3>
-        <textarea
-          placeholder="Solucion dada por el Worker"
-          cols="80"
-          rows="17"
-        />
-      </div>
-      <div>
-        <button type="button">Aceptar</button>
-        <button type="button">Cerrar Ticket</button>
-        </div></div>  */}
-      
+   
       </>: <h3> Loading... </h3>
       }
     </div>
