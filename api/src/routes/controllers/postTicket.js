@@ -7,11 +7,11 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
     console.log("body", state, worker, subject, detail, answer, userresolved, user)
 
     try {
-        // Crear un nombre único para la carpeta usando el ID del ticket
+        // Creo el ticket vacio para tener el ID que le va a dar nombre a la carpeta
         const ticketId = (await Ticket.create()).id;
         const folderName = `ticket_${ticketId}`;
 
-       // Ruta donde se guardarán los archivos en la carpeta "documents"
+       // Ruta donde se guardan los archivos en la carpeta "documents", pero ver donde lo guardamos cuando estemos en produccion
        const documentsFolderPath = 'C:\\Users\\broscheitcb\\Documents';
 
        const folderPath = path.join(documentsFolderPath, folderName);
@@ -22,7 +22,7 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
         }
 
 
-        // Mover archivos con el prefijo "new_" desde la carpeta "uploads" a la carpeta del ticket
+        // Mueve todos los archivos con el prefijo "new_" desde la carpeta "uploads" a la carpeta del ticket
         const uploadFolderPath = path.join(__dirname, '../../../../uploads'); // Ruta a la carpeta "uploads"
         const filesWithPrefix = fs.readdirSync(uploadFolderPath).filter(file => file.startsWith('new_'));
 
