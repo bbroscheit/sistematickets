@@ -14,6 +14,8 @@ const updateSolutionTicket = require('./controllers/updateSolutionTicket');
 const updateInfoTicket = require('./controllers/updateInfoTicket');
 const updateInfoTicketByUser = require('./controllers/updateInfoTicketByUser');
 const updateCloseTicket = require('./controllers/updateCloseTicket');
+const uploadFiles = require('./middlewares/uploadFiles');
+
 
 
 
@@ -81,36 +83,18 @@ ticketRouter.get( '/ticketTerminado' , async ( req, res ) => {
     }
 })
 
-// ticketRouter.post( '/ticket', async ( req, res ) => {
-//     // const {state, worker, subject, detail, answer = "Sin resolución", files, userresolved, user, created, startdate, finishdate, randomdate} = req.body;
-//     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user, created, startdate, finishdate, randomdate } = req.body;
-
-//     try {
-//         // let newTicket = await postTicket(state, worker, subject, detail, answer, files, userresolved, user, created, startdate, finishdate, randomdate)
-//         let newTicket = await postTicket(state, worker, subject, detail, answer, req.files, userresolved, user, created, startdate, finishdate, randomdate);
-
-//         newTicket ? res.status(200).send("sucess") : res.status(404).send("failure")
-//     } catch (e) {
-//         console.log ( "error en ruta post ticket" , e.message)
-//     }
-// })
-
-ticketRouter.post('/ticket', async (req, res) => {
-    const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user, created, startdate, finishdate, randomdate } = req.body;
-
+ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
+    const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;
+    
+    
     try {
-        const dummyReq = {
-            body: { ticketId: 'dummyId' }, // Esto es solo para simular el ticketId
-            files: req.files // Pasa los archivos directamente
-        };
-
-        let newTicket = await postTicket(dummyReq, state, worker, subject, detail, answer, userresolved, user, created, startdate, finishdate, randomdate);
-
-        newTicket ? res.status(200).send("sucess") : res.status(404).send("failure");
+        let newTicket = await postTicket(state, worker, subject, detail, answer, userresolved, user, req.file);   
+        newTicket ? res.status(200).send("sucess") : res.status(404).send("failure")
     } catch (e) {
-        console.log("error en ruta post ticket", e.message);
+        console.log ( "error en ruta post ticket" , e.message)
     }
-});
+})
+
 
 ticketRouter.put( '/ticket' , async ( req, res ) => {
     const { id } = req.query

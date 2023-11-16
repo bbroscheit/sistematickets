@@ -4,6 +4,7 @@ import Router from "next/router";
 import style from "@/modules/Layout.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import { postTicket } from "@/pages/api/postTicket.js";
+import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
 
 
 function FormNormal({ user }) {
@@ -26,12 +27,21 @@ function FormNormal({ user }) {
     });
   }
 
-  function handleChangeFile(e){
+  // function handleChangeFile(e){
+  //   e.preventDefault();
+  //   setInput({
+  //     ...input,
+  //     files : [...input.files, e.target.value]
+  //   })
+  // }
+
+  function handleChangeFile(e) {
     e.preventDefault();
+    const filesArray = [...e.target.files];  // Convierte la colección de archivos en un array
     setInput({
       ...input,
-      files : [...input.files, e.target.value]
-    })
+      files: filesArray,
+    });
   }
 
   function handleReset(e) {
@@ -48,7 +58,8 @@ function FormNormal({ user }) {
 
   function handleSubmitNoFaq(e) {
     e.preventDefault();
-    postTicket(input);
+    // postTicket(input);
+    postTicketFormData(input)
     alert("ticket generado con exito");
 
     setTimeout(() => {
@@ -59,7 +70,7 @@ function FormNormal({ user }) {
   console.log("input", input)
 
   return (
-    <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}>
+    <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">
       <div className={mainStyle.minimalGrid}>
         <h3 className={mainStyle.subtitle}>Título :</h3>
         <input
