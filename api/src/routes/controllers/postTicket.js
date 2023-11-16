@@ -26,12 +26,16 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
         const uploadFolderPath = path.join(__dirname, '../../../../uploads'); // Ruta a la carpeta "uploads"
         const filesWithPrefix = fs.readdirSync(uploadFolderPath).filter(file => file.startsWith('new_'));
 
+        const filesArray = [];
+
         for (const filename of filesWithPrefix) {
             const sourcePath = path.join(uploadFolderPath, filename);
             const destinationPath = path.join(folderPath, filename);
 
             // Mover el archivo a la carpeta específica del ticket
             fs.renameSync(sourcePath, destinationPath);
+
+            filesArray.push(destinationPath);
         }
 
         // Actualiza el registro en la base de datos
@@ -55,6 +59,7 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             subject : subject, 
             detail : detail, 
             answer : answer,
+            files: filesArray,
             userresolved: userresolved
         })
     
