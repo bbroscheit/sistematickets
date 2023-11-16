@@ -250,13 +250,13 @@ function Soporte() {
   }
 
 
-  console.log("soporte", soporte)
-  console.log("faq", faq)
-  console.log("worker", worker)
-  console.log("user", user)
-  console.log("asignar", asignar)
-  console.log("control", control)
-  console.log("solution", solution)
+  // console.log("soporte", soporte)
+  // console.log("faq", faq)
+  // console.log("worker", worker)
+  // console.log("user", user)
+  // console.log("asignar", asignar)
+  // console.log("control", control)
+  // console.log("solution", solution)
 
   return (
     <>

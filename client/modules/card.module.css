@@ -15,7 +15,30 @@
 }
 
 .gridElement{
-    padding: 5px;
-    border: 1px solid black;
+    padding: 2px;
+    /* border: 2px solid black; */
+}
+
+.modalTitle{
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.modalSelect{
+    width: 80%;
+    margin-bottom: 1rem;
+}
+
+.modalButton{
+    min-width: 6rem;
+    padding: 9px 12px;
+    margin: 0px 0px 2px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color:aliceblue;
+    border: none;
+    background-color: var(--button-color);
+    border-radius: 10px;
 }
   

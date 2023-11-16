@@ -8,7 +8,7 @@ import mainStyles from '@/styles/Home.module.css'
 function tickets() {
   const [ticketGenerados, setTicketsGenerados] = useState(null);
   const [ticketDesarrollo, setTicketsDesarrollo] = useState(null);
-  const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null);
+  const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
   const [ticketCompletado, setTicketsCompletado] = useState(null);
   const [user, setUser] = useState(null)
 
@@ -51,6 +51,8 @@ function tickets() {
       });
   }, []);
 
+  console.log("sin asignar", )
+
   return (
     <div className={mainStyles.container}>
       <h1 className={mainStyles.title}>SOPORTES</h1>
@@ -58,7 +60,7 @@ function tickets() {
         <div className={styles.gridContainer}>
           <h2>Soportes Generados</h2>
           {ticketGenerados.map((e) => (
-            <Card id= {e.id} subject= {e.subject} />
+            <Card id= {e.id} subject= {e.subject} state={e.state}/>
              ))}
         </div>
       )}
@@ -66,7 +68,7 @@ function tickets() {
         <div className={styles.gridContainer}>
           <h2>Soportes En Desarrollo</h2>
           {ticketDesarrollo.map((e) => (
-            <Card id= {e.id} subject= {e.subject} />
+            <Card id= {e.id} subject= {e.subject} state={e.state}/>
           ))}
         </div>
       )}
@@ -74,7 +76,7 @@ function tickets() {
         <div className={styles.gridContainer}>
           <h2>Soportes que necesitan mas información</h2>
           {ticketDesarrollo2.map((e) => (
-            <Card id= {e.id} subject= {e.subject} />
+            <Card id= {e.id} subject= {e.subject} state={e.state}/>
           ))}
         </div>
       )}
@@ -82,7 +84,7 @@ function tickets() {
         <div className={styles.gridContainer}>
           <h2>Soportes pendientes de cierre</h2>
           {ticketCompletado.map((e) => (
-            <Card id= {e.id} subject= {e.subject} />
+            <Card id= {e.id} subject= {e.subject} state={e.state}/>
           ))}
         </div>
       )}

@@ -70,7 +70,7 @@ export default function Home() {
         sector: login.sector.sectorname
       }
       localStorage.setItem('user', JSON.stringify(user));
-      Router.push("/dashboard")
+      Router.push("/tickets")
     }else{
       setErrorLogin({ state: true });
     }
