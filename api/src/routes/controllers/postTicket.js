@@ -1,6 +1,10 @@
+require('dotenv').config();
+
 const { Ticket, User } = require('../../bd');
 const fs = require('fs');
 const path = require('path');
+
+const { DEST_FILES} = process.env
 
 const postTicket = async (state, worker, subject, detail, answer, userresolved, user, files) => {
     console.log("file", files)
@@ -12,8 +16,8 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
         const folderName = `ticket_${ticketId}`;
 
        // Ruta donde se guardan los archivos en la carpeta "documents", pero ver donde lo guardamos cuando estemos en produccion
-       const documentsFolderPath = 'C:\\Users\\broscheitcb\\Documents';
-
+       const documentsFolderPath = DEST_FILES;
+       
        const folderPath = path.join(documentsFolderPath, folderName);
 
         // Crear la carpeta si no existe
