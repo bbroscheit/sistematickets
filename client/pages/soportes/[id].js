@@ -304,15 +304,22 @@ function Soporte() {
       }
 
       {
-        soporte !== null ?
+        soporte !== null && soporte.files && soporte.files.length > 0? 
           <>
             <h4>
               Adjuntos: 
             </h4>
             {
-              soporte.files && soporte.files.length > 0 ? 
-                soporte.files.map( e => <h6>1</h6>): null
-            }
+              soporte.files && soporte.files.length > 0 ? (
+                soporte.files.map((file, index) => (
+                  <div key={index}>
+                    <a href={file} rel="noopener noreferrer">
+                      {file}
+                    </a>
+                  </div>
+                ))
+              ) : null
+            }         
           </>
           : null
       }
