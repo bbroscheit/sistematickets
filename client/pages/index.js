@@ -56,7 +56,7 @@ export default function Home() {
   async function onHandleSubmit(e) {
     e.preventDefault(e);
     let login = await getUser(input);
-    console.log(login)
+    // console.log(login)
     if(login.id){
       const user = {
         id: login.id,
@@ -70,7 +70,9 @@ export default function Home() {
         sector: login.sector.sectorname
       }
       localStorage.setItem('user', JSON.stringify(user));
+
       Router.push("/tickets")
+
     }else{
       setErrorLogin({ state: true });
     }

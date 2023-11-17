@@ -280,8 +280,8 @@ export default function PrimarySearchAppBar() {
     Router.push("/")
   }
 
-  console.log("user", user)
-  console.log("login", login)
+  // console.log("user", user)
+  // console.log("login", login)
 
   return (
     <Box sx={{ flexGrow: 1 }} >
@@ -307,6 +307,7 @@ export default function PrimarySearchAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            {/* se deshabilito el menu profile en vista general porque no hay algo para agregar ahi */}
             {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
@@ -321,7 +322,7 @@ export default function PrimarySearchAppBar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-            <IconButton
+            {/* <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
@@ -331,10 +332,11 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton> */}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+            {/* se deshabilito el menu de celulares hasta no encontrar algo util que agregar ahi */}
+            {/* <IconButton
               size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -343,21 +345,49 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <MoreIcon />
-            </IconButton>
+            </IconButton> */}
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      {/* {renderMobileMenu} */}
+      {/* {renderMenu} */}
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          {/* <IconButton >
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton> */}
-        </DrawerHeader>
         <Divider />
-        {/* habilitar para las funciones del control de tickets */}
-        {/* { user !== null && user.sector === "Sistemas" ? */}
+
+        {/* Control para agregar el boton de inicio si el usuario no esta logueado */}
+        { user === null ? <List>
+          {['Inicio'].map((text, index) => (
+            <Link href={
+                index === 0 ? '/' : '/'
+              } >
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                  color:"#404241",
+                  fontfamily:"Roboto"
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {index === 1 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </Link>
+          ))}
+        </List> : null}
+
+        {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
+        { user !== null && user.sector === "Sistemas" ? 
         <List>
           {['Inicio','Usuarios', 'Nuevo Usuario', 'Sectores', 'Nuevo Sector', 'Punto de venta', 'Nuevo Punto de Venta'].map((text, index) => (
             <Link href={
@@ -394,7 +424,8 @@ export default function PrimarySearchAppBar() {
             </Link>
           ))}
         </List> 
-        {/* : <List>
+        : 
+        <List>
           {['Inicio'].map((text, index) => (
             <Link href={
                 index === 0 ? '/' : '/'
@@ -423,7 +454,8 @@ export default function PrimarySearchAppBar() {
             </ListItem>
             </Link>
           ))}
-        </List> } */}
+        </List> 
+        } 
         <Divider />
         <List>
 
@@ -460,41 +492,8 @@ export default function PrimarySearchAppBar() {
           ))}
         </List>
         <Divider />
-        <List>
-
-          {['Projectos', 'Tareas'].map((text, index) => (
-            <Link href={
-                    index === 0 ? '/tickets' :
-                    index === 1 ? '/soportes/nuevoSoporte' : '/'
-                    } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#404241"
-                }}
-              >
-
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                      color:"#EA6558"
-                    }}
-                  >
-                    {index === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-
-          ))}
-        </List>
-        <Divider />
+        
+        
         <List>
 
           {['Projectos', 'Tareas'].map((text, index) => (
@@ -529,6 +528,33 @@ export default function PrimarySearchAppBar() {
 
           ))}
         </List>
+        <Divider />
+        { user !== null ? <List>
+          {['Desconectar'].map((text, index) => ( 
+            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={ e => handleLogin(e)}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                  color:"#404241",
+                  fontfamily:"Roboto"
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {index === 1 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List> : null}
       </Drawer>
     </Box>
   );
