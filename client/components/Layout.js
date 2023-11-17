@@ -2,8 +2,17 @@ import React from "react";
 import Navbar from "./Navbar";
 import Head from "next/head";
 import styles from '../modules/Layout.module.css'
+import { useRouter } from 'next/router';
 
 const Layout = ({ children }) => {
+  const router = useRouter();
+
+  // creamos una lista de las rutas donde NO quiero que aparezca el navbar
+  const noNavbarRoutes = ['/'];
+
+  // verificamos si la ruta actual esta dentro de la lista de rutas condicionadas
+  const hideNavbar = noNavbarRoutes.includes(router.pathname);
+
   return (
     <>
       <Head>
@@ -13,8 +22,7 @@ const Layout = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     <div className={styles.mainContainer}>
-      <Navbar />
-      {/* <main className={styles.childrenContainer}>{children}</main> */}
+      {!hideNavbar && <Navbar />}
       <main>{children}</main>
     </div>
   </>

@@ -93,10 +93,10 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
 
   return (
     <>
-    <form className={mainStyle.interform} encType="multipart/form-data">
+    <form className={mainStyle.interform} encType="multipart/form-data" onSubmit={ e => handleSubmit(e)}>
       {uresolved === true ? (
         <div className={mainStyle.labelWithTextarea}>
-          {option === false ? (
+          { option === false ? (
             <>
               <h3 className={mainStyle.subtitle}>Descripción : </h3>
               <textarea readOnly rows="10" value={input.detail} />

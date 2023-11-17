@@ -304,6 +304,20 @@ function Soporte() {
       }
 
       {
+        soporte !== null ?
+          <>
+            <h4>
+              Adjuntos: 
+            </h4>
+            {
+              soporte.files && soporte.files.length > 0 ? 
+                soporte.files.map( e => <h6>1</h6>): null
+            }
+          </>
+          : null
+      }
+
+      {
         user !== null && user.sector !== "Sistemas" ? 
           soporte !== null && soporte.worker !== "sin asignar" && soporte.state === "Informacion" ?
               <button onClick={ e => handleOpenInfoUser(e)}>Agregar Información</button> : null
