@@ -7,6 +7,8 @@ import Modal from '@mui/material/Modal';
 import Router from "next/router";
 import mainStyle from "@/styles/Home.module.css";
 import { postTicket } from "@/pages/api/postTicket.js";
+import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
+
 import { updateFaq } from "@/pages/api/updateFaq.js";
 
 
@@ -79,7 +81,8 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
   //envia el input al back, genera un alert que luego lo cambiare por un sweet alert que es mas lindo y te redirige al home
   function handleSubmit(e) {
     e.preventDefault();
-    postTicket(input);
+    // postTicket(input);
+    postTicketFormData(input)
     updateFaq( updatedFaq )
     alert("ticket generado con exito");
 
@@ -90,7 +93,7 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
 
   return (
     <>
-    <form className={mainStyle.interform} >
+    <form className={mainStyle.interform} encType="multipart/form-data">
       {uresolved === true ? (
         <div className={mainStyle.labelWithTextarea}>
           {option === false ? (
