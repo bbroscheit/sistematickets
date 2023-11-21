@@ -1,0 +1,20 @@
+.buttonContainerNormal{
+    display: contents;
+}
+
+.buttonContainerMobile{
+    display:none;
+}
+
+
+/* media query para Celulares */
+
+@media (max-width: 768px) {
+    .buttonContainerNormal{
+        display: none;
+    }
+    
+    .buttonContainerMobile{
+        display: contents;
+    }
+  }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Router from "next/router";
-import style from "@/modules/Layout.module.css";
+import style from "@/modules/formNormal.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import { postTicket } from "@/pages/api/postTicket.js";
 import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
@@ -99,10 +99,13 @@ function FormNormal({ user }) {
           type="file"
           name="files"
           multiple
+          className={mainStyle.inputFile}
           // value={input.files}
           onChange={(e) => handleChangeFile(e)}
         />
       </div>
+      {/* se crean dos juegos de botones, uno para las vistas en celulares y el otro para las demas */}
+      <div className={style.buttonContainerNormal}>
       <div className={mainStyle.buttonContainer}>
         <button className={mainStyle.button} type="submit">
           Generar Soporte
@@ -110,6 +113,17 @@ function FormNormal({ user }) {
         <button className={mainStyle.button} onClick={(e) => handleReset(e)}>
           Borrar
         </button>
+      </div>
+      </div>
+      <div className={style.buttonContainerMobile}>
+      <div className={mainStyle.buttonContainer}>
+        <button className={mainStyle.button} type="submit">
+          Generar
+        </button>
+        <button className={mainStyle.button} onClick={(e) => handleReset(e)}>
+          Borrar
+        </button>
+      </div>
       </div>
     </form>
   );

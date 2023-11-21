@@ -56,6 +56,7 @@ function tickets() {
   console.log("user", user)
 
   return (
+    <>
     <div className={mainStyles.container}>
       <h1 className={mainStyles.title}>SOPORTES</h1>
       {
@@ -94,7 +95,7 @@ function tickets() {
           }
           { ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ?
               <div className={styles.gridContainer}>
-              <h2>Soportes que necesitan mas información</h2>
+              <h2>Soportes que necesitan más información</h2>
               {ticketDesarrollo2.map((e) => (
                   user !== null &&
                   e.user !== null &&
@@ -172,6 +173,123 @@ function tickets() {
       }
 
     </div>
+    <div className={mainStyles.containerMobile}>
+    <h1 className={mainStyles.title}>SOPORTES</h1>
+    {
+      user !== null && user.sector !== "Sistemas" ?
+      <>
+        {
+          ticketGenerados !== null && ticketGenerados.length > 0 ? (
+            <div className={styles.gridContainer}>
+              <h2>Soportes sin asignar</h2>
+              {ticketGenerados.map((e) => (
+                user !== null &&
+                e.user !== null &&
+                user.name === e.user.username ? (
+                  <React.Fragment key={e.id}>
+                    
+                    <Card id={e.id} subject={e.subject} state={e.state} />
+                  </React.Fragment>
+                ) : null
+              ))}
+            </div> ) : null
+        }
+        { ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? 
+            <div className={styles.gridContainer}>
+            <h2>Soportes En Desarrollo</h2>
+            {ticketDesarrollo.map((e) => (
+                user !== null &&
+                e.user !== null &&
+                user.name === e.user.username ? (
+                  <React.Fragment key={e.id}>
+                    
+                    <Card id={e.id} subject={e.subject} state={e.state} />
+                  </React.Fragment>
+                ) : null
+              ))}
+            </div> : null
+        }
+        { ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ?
+            <div className={styles.gridContainer}>
+            <h2>Soportes que necesitan más información</h2>
+            {ticketDesarrollo2.map((e) => (
+                user !== null &&
+                e.user !== null &&
+                user.name === e.user.username ? (
+                  <React.Fragment key={e.id}>
+                    
+                    <Card id={e.id} subject={e.subject} state={e.state} />
+                  </React.Fragment>
+                ) : null
+              ))}
+            </div> : null
+        }
+        { ticketCompletado !== null && ticketCompletado.length > 0 ? 
+            <div className={styles.gridContainer}>
+            <h2>Soportes pendientes de cierre</h2>
+            {ticketCompletado.map((e) => (
+                user !== null &&
+                e.user !== null &&
+                user.name === e.user.username ? (
+                  <React.Fragment key={e.id}>
+                    
+                    <Card id={e.id} subject={e.subject} state={e.state} />
+                  </React.Fragment>
+                ) : null
+              ))}
+            </div> : null
+        }
+      </> : null
+    }
+
+    {
+      user !== null && user.sector === "Sistemas" ?
+      <>
+        { ticketGenerados !== null && ticketGenerados.length > 0 ?
+          <div className={styles.gridContainer}>
+          <h2>Soportes Generados</h2>
+            {ticketGenerados.map((e) => (
+              <Card id= {e.id} subject= {e.subject} state={e.state}/> ))}
+          </div> : null
+        }
+        { ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? 
+            <div className={styles.gridContainer}>
+            <h2>Soportes En Desarrollo</h2>
+              {ticketDesarrollo.map((e) => (
+                user !== null && user.name === e.worker ? 
+                  <>
+                    
+                    <Card id= {e.id} subject= {e.subject} state={e.state}/> 
+                  </> : null ))}
+            </div> : null
+        }
+        { ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ?
+            <div className={styles.gridContainer}>
+            <h2>Soportes que necesitan mas información</h2>
+            {ticketDesarrollo2.map((e) => (
+                user !== null && user.name === e.worker ? 
+                  <>
+                    
+                    <Card id= {e.id} subject= {e.subject} state={e.state}/> 
+                  </> : null ))}
+            </div> : null
+        }
+        { ticketCompletado !== null && ticketCompletado.length > 0 ? 
+            <div className={styles.gridContainer}>
+            <h2>Soportes pendientes de cierre</h2>
+            {ticketCompletado.map((e) => (
+                user !== null && user.name === e.worker ? 
+                  <>
+                    
+                    <Card id= {e.id} subject= {e.subject} state={e.state}/> 
+                  </> : null ))}
+            </div> : null
+        }
+      </> : null
+    }
+
+  </div>
+  </>
   );
 }
 

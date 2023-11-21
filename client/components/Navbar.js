@@ -66,7 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-const drawerWidth = 240;
+const drawerWidth = 240; // dice cuan ancho es el menu cuando se despliega
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -351,7 +351,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {/* {renderMobileMenu} */}
       {/* {renderMenu} */}
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} >
         <Divider />
 
         {/* Control para agregar el boton de inicio si el usuario no esta logueado */}

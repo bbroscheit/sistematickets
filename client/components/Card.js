@@ -98,7 +98,7 @@ function Card({ id, subject, state}) {
     <>
     <div className={styles.ticketContainer}>
         <h3 className={styles.gridElement}>Nº Ticket</h3>
-        <h3 className={styles.gridElement}>{state}</h3>
+        <h3 className={styles.gridElement}>Título</h3>
         {
           user && user.sector === "Sistemas" && state && state === "sin asignar"? <h3 className={styles.gridElement}>Acción</h3>
             : user && user.sector !== "Sistemas" && state && state === "Completado"? <h3 className={styles.gridElement}>Acción</h3>
@@ -112,13 +112,31 @@ function Card({ id, subject, state}) {
         <h3 className={styles.gridElement}>{subject}</h3>
       </Link> 
       {
-          user && user.sector === "Sistemas" && state && state === "sin asignar"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick= { e => {handleOpen(e)}}/></h3>
-            : user && user.sector !== "Sistemas" && state && state === "Completado"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick={ e => handleOpenCloseTicket(e)}/></h3>
+          user && user.sector === "Sistemas" && state && state === "sin asignar"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick= { e => {handleOpen(e)}} className={styles.icon}/></h3>
+            : user && user.sector !== "Sistemas" && state && state === "Completado"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick={ e => handleOpenCloseTicket(e)} className={styles.icon}/></h3>
             : null
         }
         
     </div>
 
+
+    <div className={styles.ticketContainerMobile}>
+                         
+      <Link href={`/soportes/${id}`} >
+        <h3 className={styles.gridElement}>{id}</h3>
+      </Link> 
+      <Link href={`/soportes/${id}`} >
+        <h3 className={styles.gridElement}>{subject}</h3>
+      </Link> 
+      {
+          user && user.sector === "Sistemas" && state && state === "sin asignar"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick= { e => {handleOpen(e)}} className={styles.icon}/></h3>
+            : user && user.sector !== "Sistemas" && state && state === "Completado"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick={ e => handleOpenCloseTicket(e)} className={styles.icon}/></h3>
+            : null
+        }
+        
+    </div>
+
+    
 <Modal
 open={open}
 onClose={handleClose}

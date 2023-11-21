@@ -57,6 +57,7 @@ function nuevoSoporte() {
   }
 
   return (
+    <>
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Nuevo Soporte</h1>
         {faq && faq.length > 0 ? (
@@ -98,6 +99,50 @@ function nuevoSoporte() {
         </div>
       ) : ( <FormNormal user={user}/> )}
     </div>
+
+    <div className={mainStyle.containerMobile}>
+      <h1 className={mainStyle.title}>Nuevo Soporte</h1>
+        {faq && faq.length > 0 ? (
+        //pregunta si existe algo en la tabla FAQ , si no existe simplemente carga el formulario normal , si existe nos da las opciones para elegir
+        <div className={mainStyle.form}>
+          <div className={style.minimalGrid}>
+            <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
+            <select
+              onChange={(e) => handleSelect(e)}
+              name={input.title}
+              className={mainStyle.input}
+            >
+              <option className={mainStyle.input} value="principal">
+                
+                Elija una opción
+              </option>
+              {faq.map((e) => (
+                <option key={e.id} value={e.id} className={mainStyle.input}>
+                  {e.title}
+                </option>
+              ))}
+              <option value="otros" className={mainStyle.input}>
+                Otros
+              </option>
+            </select>
+          </div> 
+            {select.select === "otros" ? <FormNormal user = {user}/> 
+              : select.select !== "otros" && select.select !== "principal" ? 
+                  <FormFaq  
+                    id={faqFilter[0].id} 
+                    title = {faqFilter[0].title}
+                    description = {faqFilter[0].description}
+                    answer={faqFilter[0].answer}
+                    uresolved={faqFilter[0].uresolved}
+                    user={user.name}
+                  />
+                  
+              : null} 
+        </div>
+      ) : ( <FormNormal user={user}/> )}
+    </div>
+
+    </>
   );
 }
 

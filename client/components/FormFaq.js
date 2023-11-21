@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Router from "next/router";
+import styles from '@/modules/formFaq.module.css'
 import mainStyle from "@/styles/Home.module.css";
 import { postTicket } from "@/pages/api/postTicket.js";
 import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
@@ -17,11 +18,15 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 350,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 
@@ -138,6 +143,7 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
                 value={input.detail}
                 onChange={(e) => handleTextarea(e)}
               />
+              <div className={styles.buttonContainerNormal}>
               <div className={mainStyle.buttonContainer}>
                 <button className={mainStyle.button} type="submit">
                   Generar Soporte
@@ -148,6 +154,20 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
                 >
                   Borrar
                 </button>
+              </div>
+              </div>
+              <div className={styles.buttonContainerMobile}>
+              <div className={mainStyle.buttonContainer}>
+                <button className={mainStyle.button} type="submit">
+                  Generar
+                </button>
+                <button
+                  className={mainStyle.button}
+                  onClick={handleReset}
+                >
+                  Borrar
+                </button>
+              </div>
               </div>
             </>
           )}
@@ -209,7 +229,7 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             ¿ Deseas cerrar el Soporte ?
           </Typography>
-            <div className={mainStyle.buttonContainer}>
+            <div className={mainStyle.buttonModalContainer}>
                 <button className={mainStyle.button} onClick={(e) => handleSubmit(e)}>
                   Si
                 </button>
