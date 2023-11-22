@@ -69,7 +69,26 @@
 
 }
 
+.stateContainer2 p{
+    font-family: 'Roboto', sans-serif;
+    margin: 3px 3px 3px 13px;
+
+}
+
 .stateContainer button{
+    min-width: 6rem;
+    padding: 7px 10px;
+    margin: 0px 0px 2px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color:aliceblue;
+    border: none;
+    background-color: var(--button-color);
+    border-radius: 10px;
+}
+
+.stateContainer2 button{
     min-width: 6rem;
     padding: 7px 10px;
     margin: 0px 0px 2px 12px;
@@ -106,7 +125,8 @@
 
 .adjuntos{
     color: black;
-    margin-top: 8px;
+    margin: 8px 0px  ;
+    
 }
 
 .modalTitle{
@@ -117,6 +137,30 @@
 .modalSelect{
     width: 80%;
     margin-bottom: 1rem;
+}
+
+.modalSubtitleContainer{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalTextarea{
+    width: 100%;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 8px 9px;
+}
+
+.modalSubitle{
+    font-size: 0.9rem;
+    margin: 8px 0px;
+}
+
+.modalChecks{
+    margin-bottom: 8px;
 }
 
 .modalButton{
@@ -201,7 +245,7 @@
     }
   
     .title{
-      font-size: 1.5rem;
+      font-size: 1.2rem;
     }
   
     .subtitle{
@@ -217,5 +261,43 @@
       grid-template-rows: 1fr; 
       gap: 10px 11px;
     }
+
+    .titleContainer{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-bottom: 15px;
+    }
+
+    .stateContainer2{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stateContainer h3{
+        font-size: 1rem;
+    }
+
+    .stateContainer2 h3{
+        font-size: 1rem;
+    }
+
+    .stateContainer p{
+        font-size: 1rem;
+    }
+
+    .stateContainer button{
+        display: block;
+    }
+
+    .assigmentContainer2{
+        display: flex;
+        flex-direction: row;
+    }
+
+   
     
   }

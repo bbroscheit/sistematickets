@@ -23,6 +23,14 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
+import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
+import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
+import CreateNewFolderRoundedIcon from '@mui/icons-material/CreateNewFolderRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
+import InputRoundedIcon from '@mui/icons-material/InputRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 const Search = styled('div')(({ theme }) => ({
@@ -389,14 +397,11 @@ export default function PrimarySearchAppBar() {
         {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
         { user !== null && user.sector === "Sistemas" ? 
         <List>
-          {['Inicio','Usuarios', 'Nuevo Usuario', 'Sectores', 'Nuevo Sector', 'Punto de venta', 'Nuevo Punto de Venta'].map((text, index) => (
+          {['Inicio','Usuarios', 'Nuevo Usuario'].map((text, index) => (
             <Link href={
                 index === 0 ? '/' :
-                index === 1 ? '/usuarios' :
-                index === 2 ? '/usuarios/nuevoUsuario' :
-                index === 3 ? '/sector' :
-                index === 4 ? '/sectores/nuevoSector' :
-                index === 5 ? '/puntoventa' : '/puntoventa/nuevoPuntoventa'
+                index === 1 ? '/usuarios' : '/usuarios/nuevoUsuario'
+                
               } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -416,7 +421,12 @@ export default function PrimarySearchAppBar() {
                     color:"#EA6558"
                   }}
                 >
-                  {index === 1 ? <InboxIcon /> : <MailIcon />}
+                  {/* { index === 1 ? <InsertDriveFileRoundedIcon /> : <MailIcon />} */
+                    index === 0 ? <InputRoundedIcon /> :
+                    index === 1 ? <PersonRoundedIcon /> :
+                    index === 2 ? <PersonAddAltRoundedIcon /> : <MailIcon />
+                     
+                  }
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -447,7 +457,7 @@ export default function PrimarySearchAppBar() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index === 1 ? <InboxIcon /> : <MailIcon />}
+                  {index === 1 ? <InsertDriveFileRoundedIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -482,7 +492,7 @@ export default function PrimarySearchAppBar() {
                       color:"#EA6558"
                     }}
                   >
-                    {index === 0 ? <InboxIcon /> : <MailIcon />}
+                    {index === 0 ? <InsertDriveFileRoundedIcon /> : <NoteAddRoundedIcon />}
                   </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -519,7 +529,7 @@ export default function PrimarySearchAppBar() {
                       color:"#EA6558"
                     }}
                   >
-                    {index === 0 ? <InboxIcon /> : <MailIcon />}
+                    {index === 0 ? <FolderRoundedIcon /> : <CreateNewFolderRoundedIcon />}
                   </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -548,12 +558,12 @@ export default function PrimarySearchAppBar() {
                     justifyContent: 'center',
                   }}
                 >
-                  {index === 1 ? <InboxIcon /> : <MailIcon />}
+                  {index === 1 ? <ExitToAppRoundedIcon /> : <ExitToAppRoundedIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-          ))}
+           ))}
         </List> : null}
       </Drawer>
     </Box>

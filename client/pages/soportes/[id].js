@@ -344,11 +344,11 @@ function Soporte() {
                   soporte.state !== "Completado" &&
                   soporte.state !== "Terminado" &&
                   soporte.state !== "Informacion" ? (
-                  <div>
-                    <button onClick={(e) => handleOpenSolution(e)}>
+                  <div className={mainStyle.buttonContainer}>
+                    <button onClick={(e) => handleOpenSolution(e)} className={mainStyle.button}>
                       Resolver
                     </button>
-                    <button onClick={(e) => handleOpenInfo(e)}>Mas Info</button>
+                    <button onClick={(e) => handleOpenInfo(e)} className={mainStyle.button}>Mas Info</button>
                   </div>
                 ) : null}
 
@@ -356,11 +356,11 @@ function Soporte() {
                   soporte !== null &&
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Completado" ? (
-                    <div>
-                      <button onClick={(e) => handleOpenInfoUser(e)}>
+                    <div className={mainStyle.buttonContainer}>
+                      <button onClick={(e) => handleOpenInfoUser(e)} className={mainStyle.button}>
                         Agregar Información
                       </button>
-                      <button onClick={(e) => SubmitCloseTicket(e)}>
+                      <button onClick={(e) => SubmitCloseTicket(e)} className={mainStyle.button}>
                         Cerrar Ticket
                       </button>
                     </div>
@@ -384,13 +384,15 @@ function Soporte() {
                   {user !== null && user.sector !== "Sistemas" ? (
                     <div className={style.stateContainer}>
                       <div className={style.assigmentContainer}>
-                        <h3> Asignado a : </h3> <p>{soporte.worker}</p>
+                        <h3> Asignado: </h3> <p>{soporte.worker}</p>
                       </div>
                     </div>
                   ) : (
-                    <div className={style.stateContainer}>
-                      <h3>Asignado a : </h3>
+                    <div className={style.stateContainer2}>
+                      <div className={style.assigmentContainer2}>
+                      <h3>Asignado: </h3>
                       <p>{soporte.worker}</p>
+                      </div>
                       <button
                         onClick={(e) => {
                           handleOpen(e);
@@ -399,7 +401,8 @@ function Soporte() {
                         {" "}
                         Cambiar{" "}
                       </button>
-                    </div>
+                      </div>
+                    
                   )}
                 </div>
               </div>
@@ -410,8 +413,6 @@ function Soporte() {
                   <textarea
                     placeholder={soporte.detail}
                     readOnly
-                    cols="80"
-                    rows="5"
                     className={style.textarea}
                   />
                 </div>
@@ -424,8 +425,7 @@ function Soporte() {
                     <textarea
                       placeholder={soporte.answer}
                       disabled
-                      cols="80"
-                      rows="14"
+                      
                       className={style.textarea}
                     />
                   </div>
@@ -453,7 +453,7 @@ function Soporte() {
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Informacion" ? (
                     <button onClick={(e) => handleOpenInfoUser(e)}>
-                      Agregar Información
+                      Mas Info
                     </button>
                   ) : null
                 ) : soporte !== null &&
@@ -558,19 +558,19 @@ function Soporte() {
               value={solution.solution}
               name="solution"
               onChange={(e) => handleChangeSolution(e)}
-              cols="40"
-              rows="10"
+              className={style.modalTextarea}
             />
           ) : null}
-          <div>
+          <div className={style.modalSubtitleContainer}>
             <Typography
               id="modal-modal-title"
               variant="h6"
               component="h2"
-              className={style.modalTitle}
+              className={style.modalSubitle}
             >
               ¿ Puede resolverlo el usuario ?
             </Typography>
+            <div className={style.modalChecks}>
             <button
               className={
                 yesState === true ? style.buttonGreen : style.buttonGrey
@@ -585,6 +585,7 @@ function Soporte() {
             >
               <CancelOutlinedIcon />
             </button>
+            </div>
           </div>
           <button
             onClick={(e) => {

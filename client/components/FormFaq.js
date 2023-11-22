@@ -52,8 +52,11 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
         setOpen(true)
     } ;
 
-    const handleClose = () => setOpen(false);
-  
+  const handleClose = () => {
+    setOpen(false)
+  }
+ 
+     
    //cambia el estado de options para que aparezca la pantalla de agregar ams datos
    
    function handleOption(e) {
@@ -62,7 +65,11 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
     } ;
 
   //cambia el estado de opstion para que no aparezca en la pantalla la parte de agregar mas datos
-  const handleReset = () => setOption(false);
+  function handleReset(e) {
+    e.preventDefault();
+    setOption(false)
+  } ;
+  
 
   //añade al detail que viene por props los detalles que se le agrega por formulario
   function handleTextarea(e) {
@@ -150,7 +157,7 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
                 </button>
                 <button
                   className={mainStyle.button}
-                  onClick={handleReset}
+                  onClick={(e) => handleReset(e)}
                 >
                   Borrar
                 </button>
@@ -163,7 +170,7 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
                 </button>
                 <button
                   className={mainStyle.button}
-                  onClick={handleReset}
+                  onClick={(e) => handleReset(e)}
                 >
                   Borrar
                 </button>
@@ -206,10 +213,10 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
               <div className={mainStyle.buttonContainer}>
                 
                 <button className={mainStyle.button} onClick={(e) => handleSubmit(e)}>
-                  Cargar Soporte
+                  Crear
                 </button>
 
-                <button className={mainStyle.button}  onClick={handleReset}>
+                <button className={mainStyle.button}  onClick={(e) => handleReset(e)}>
                   Borrar
                 </button>
               </div>
@@ -235,7 +242,7 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
                 </button>
                 <button
                   className={mainStyle.button}
-                  onClick={handleReset}
+                  onClick={(e) => handleReset(e)}
                 >
                   No
                 </button>
