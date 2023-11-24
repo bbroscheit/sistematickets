@@ -461,11 +461,11 @@ function Soporte() {
                   soporte.state !== "Completado" &&
                   soporte.state !== "Terminado" &&
                   soporte.state !== "Informacion" ? (
-                  <div>
-                    <button onClick={(e) => handleOpenSolution(e)}>
+                  <div className={mainStyle.buttonContainer}>
+                    <button onClick={(e) => handleOpenSolution(e)} className={mainStyle.button}>
                       Resolver
                     </button>
-                    <button onClick={(e) => handleOpenInfo(e)}>Mas Info</button>
+                    <button onClick={(e) => handleOpenInfo(e)} className={mainStyle.button}>Mas Info</button>
                   </div>
                 ) : null}
 
@@ -473,11 +473,11 @@ function Soporte() {
                   soporte !== null &&
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Completado" ? (
-                    <div>
-                      <button onClick={(e) => handleOpenInfoUser(e)}>
-                        Agregar Información
+                    <div className={mainStyle.buttonContainer}>
+                      <button onClick={(e) => handleOpenInfoUser(e)} className={mainStyle.button}>
+                        Más Info
                       </button>
-                      <button onClick={(e) => SubmitCloseTicket(e)}>
+                      <button onClick={(e) => SubmitCloseTicket(e)} className={mainStyle.button}>
                         Cerrar Ticket
                       </button>
                     </div>

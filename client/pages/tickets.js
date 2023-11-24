@@ -51,9 +51,9 @@ function tickets() {
       });
   }, []);
 
-  console.log("desarrollo", ticketDesarrollo )
-  console.log("generados", ticketGenerados )
-  console.log("user", user)
+  // console.log("desarrollo", ticketDesarrollo )
+  // console.log("generados", ticketGenerados )
+  // console.log("user", user)
 
   return (
     <>

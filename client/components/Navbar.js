@@ -31,6 +31,7 @@ import CreateNewFolderRoundedIcon from '@mui/icons-material/CreateNewFolderRound
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import InputRoundedIcon from '@mui/icons-material/InputRounded';
+import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 const Search = styled('div')(({ theme }) => ({
@@ -467,12 +468,17 @@ export default function PrimarySearchAppBar() {
         </List> 
         } 
         <Divider />
+
+
+        {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
+        { user !== null && user.sector === "Sistemas" ? 
         <List>
 
-          {['Soportes', 'Nuevo Soporte'].map((text, index) => (
+          {['Soportes', 'Nuevo Soporte', 'Faq'].map((text, index) => (
             <Link href={
                     index === 0 ? '/tickets' :
-                    index === 1 ? '/soportes/nuevoSoporte' : '/'
+                    index === 1 ? '/soportes/nuevoSoporte' :
+                    index === 2 ? '/faq': '/'
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -492,7 +498,9 @@ export default function PrimarySearchAppBar() {
                       color:"#EA6558"
                     }}
                   >
-                    {index === 0 ? <InsertDriveFileRoundedIcon /> : <NoteAddRoundedIcon />}
+                    {
+                      index === 0 ? <InsertDriveFileRoundedIcon /> :
+                      index === 1 ?  <NoteAddRoundedIcon /> : <LiveHelpRoundedIcon />}
                   </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -501,9 +509,45 @@ export default function PrimarySearchAppBar() {
 
           ))}
         </List>
+        
+        : <List>
+
+        {['Soportes', 'Nuevo Soporte'].map((text, index) => (
+          <Link href={
+                  index === 0 ? '/tickets' :
+                  index === 1 ? '/soportes/nuevoSoporte' : '/'
+                  
+                  } >
+          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+                color:"#404241"
+              }}
+            >
+
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                    color:"#EA6558"
+                  }}
+                >
+                  {index === 0 ? <InsertDriveFileRoundedIcon /> : <NoteAddRoundedIcon />}
+                </ListItemIcon>
+              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          </Link>
+
+        ))}
+      </List>
+        
+        }
         <Divider />
-        
-        
         <List>
 
           {['Projectos', 'Tareas'].map((text, index) => (

@@ -2,6 +2,7 @@ const faqRouter = require("express").Router();
 const getAllFaq = require("../routes/controllers/getAllFaq");
 const postFaq = require("../routes/controllers/postFaq");
 const updateUserFaq = require("../routes/controllers/updateUserFaq");
+const getFaqDetail = require("../routes/controllers/getFaqDetail");
 
 
 faqRouter.get("/faq", async (req, res) => {
@@ -11,6 +12,17 @@ faqRouter.get("/faq", async (req, res) => {
   } catch (e) {
     console.log("error en ruta get Faq ", e.message);
   }
+});
+
+faqRouter.get("/faqDetail/:id", async (req, res) => {
+  const { id } = req.params
+  console.log("id",id)
+    try {
+        let faqDetail = await getFaqDetail(id);
+        faqDetail ? res.status(200).json(faqDetail) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get faqDetail" , e.message)
+    }
 });
 
 faqRouter.post("/faq", async (req, res) => {
