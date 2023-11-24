@@ -40,24 +40,23 @@ function Soporte() {
   // const [openSolution, setOpenSolution] = useState(false);
   // const [openInfo, setOpenInfo] = useState(false);
   // const [openInfoUser, setOpenInfoUser] = useState(false);
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   // const [user, setUser] = useState(null);
   const [faq, setFaq] = useState(null);
   const [usuarios, setUsuarios] = useState(null)
-  // const [worker, setWorker] = useState(null);
+  const [modify, setModify] = useState(false);
   // const [asignar, setAsignar] = useState({ name: "sin asignar" });
   // const [control, setControl] = useState(0);
   // const [faq, setFaq] = useState(null);
   // const [solution, setSolution] = useState({ solution: "" });
   // const [info, setInfo] = useState({ info: "" });
   // const [yesState, setYesState] = useState(0);
-  // const [inputFaq, setInputFaq] = useState({
-  //   title: "",
-  //   description: "",
-  //   answer: "",
-  //   uresolved: false,
-  //   questioner: "",
-  // });
+  const [inputFaq, setInputFaq] = useState({
+    title: "",
+    description: "",
+    answer: "",
+    uresolved: false,
+  });
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqDetail/${id}`)
@@ -65,29 +64,33 @@ function Soporte() {
       .then((data) => {
         setFaq(data);
         setUsuarios(contarUsuarios(data.questioner))
+        setInputFaq({
+          title: data.title,
+          description: data.description,
+          answer: data.answer,
+          uresolved: data.uresolved,
+        })
       });
   }, [router.query.id]);
 
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   
-  // function handleOpen(e) {
-  //   e.preventDefault();
-  //   setOpen(true);
-  // }
+  function openModalModify(e) {
+    e.preventDefault();
+    setOpen(true);
+  }
 
-  // function handleClose() {
-  //   control === 0 ? setControl(1) : setControl(0);
-  //   setOpen(false);
-  // }
+  function closeModalModify() {
+    control === 0 ? setControl(1) : setControl(0);
+    setOpen(false);
+  }
 
   // asigna un worker al soporte
   
-  // function handleAsignar(e) {
-  //   e.preventDefault();
-  //   setAsignar({
-  //     name: e.target.value,
-  //   });
-  // }
+  function handleModify(e) {
+    e.preventDefault();
+    setModify(true);
+  }
 
   //guarda en el soporte la asignacion del desarrollador
   
@@ -268,9 +271,14 @@ function Soporte() {
                     ))}
                   </div>
                 <div className={mainStyle.buttonContainer}>
-                    <button className={mainStyle.button}> Modificar </button>
-                    <button className={mainStyle.button}> Borrar </button>
-                    <button className={mainStyle.button}> Borrar y unificar </button>
+                  {
+                    modify === false ? <button className={mainStyle.button} onClick={ e => handleModify(e)}> Modificar </button> : null
+                  }
+                  {
+                    modify === false ? null : <button className={mainStyle.button} onClick={ e => openModalModify(e)}> Guardar </button>
+                  }
+                  <button className={mainStyle.button}> Borrar </button>
+                  <button className={mainStyle.button}> Borrar y unificar </button>
                 </div>
               </form>
             </div>
@@ -283,9 +291,9 @@ function Soporte() {
         )}
       </div>
 
-      {/* <Modal
+       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={closeModalModify}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -296,23 +304,9 @@ function Soporte() {
             component="h2"
             className={style.modalTitle}
           >
-            ¿ A quien deseas asignarle el soporte?
+            ¿ Deseas guardar los cambios ?
           </Typography>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={asignar.name}
-            className={style.modalSelect}
-            onChange={(e) => handleAsignar(e)}
-          >
-            {worker !== null && worker.length > 0
-              ? worker.map((e) => (
-                  <MenuItem value={e.username} key={worker.id}>
-                    {e.username}{" "}
-                  </MenuItem>
-                ))
-              : null}
-          </Select>
+          <div className={mainStyle.buttonContainer}>
           <button
             onClick={(e) => {
               submitAsignar(e);
@@ -320,11 +314,21 @@ function Soporte() {
             }}
             className={style.modalButton}
           >
-            Asignar
+            Guardar
           </button>
+          <button
+            onClick={(e) => {
+              submitAsignar(e);
+              handleClose();
+            }}
+            className={style.modalButton}
+          >
+            Cancelar
+          </button>
+          </div>
         </Box>
       </Modal>
-
+            {/*
       <Modal
         open={openSolution}
         onClose={handleCloseSolution}
