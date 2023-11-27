@@ -17,6 +17,8 @@ import { updateInfoTicket } from "../api/updateInfoTicket";
 import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
 import { updateCloseTicket } from "../api/updateCloseTicket";
 import { contarUsuarios } from "@/functions/contarUsuarios";
+import { updateCompleteFaq } from '../api/updateCompleteFaq';
+import { deleteFaq } from '../api/deleteFaq';
 
 const styles = {
   position: "absolute",
@@ -39,7 +41,7 @@ function Soporte() {
 
   // const [openSolution, setOpenSolution] = useState(false);
   // const [openInfo, setOpenInfo] = useState(false);
-  // const [openInfoUser, setOpenInfoUser] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
   // const [user, setUser] = useState(null);
   const [faq, setFaq] = useState(null);
@@ -50,7 +52,7 @@ function Soporte() {
   // const [faq, setFaq] = useState(null);
   // const [solution, setSolution] = useState({ solution: "" });
   // const [info, setInfo] = useState({ info: "" });
-  // const [yesState, setYesState] = useState(0);
+  const [yesState, setYesState] = useState(0);
   const [inputFaq, setInputFaq] = useState({
     title: "",
     description: "",
@@ -73,7 +75,7 @@ function Soporte() {
       });
   }, [router.query.id]);
 
-  // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
+  // abre y cierra el modal para aceptar las modificaciones
   
   function openModalModify(e) {
     e.preventDefault();
@@ -85,11 +87,24 @@ function Soporte() {
     setOpen(false);
   }
 
-  // asigna un worker al soporte
+  // habilita las opciones de modificacion
   
   function handleModify(e) {
     e.preventDefault();
     setModify(true);
+  }
+
+   function handleChange(e) {
+    setInputFaq({
+      ...inputFaq,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+    function handleClose(e) {
+      e.preventDefault(e)
+      setModify(false);
+      setOpen(false);
   }
 
   //guarda en el soporte la asignacion del desarrollador
@@ -125,52 +140,52 @@ function Soporte() {
 
   // dentro del modal de la solucion permite decir si el usuario puede resolverlo o no
   
-  // function handleClickUresolvedYes(e) {
-  //   e.preventDefault();
-  //   setYesState(true);
-  //   setInputFaq({
-  //     ...inputFaq,
-  //     uresolved: true,
-  //   });
-  // }
+  function handleClickUresolvedYes(e) {
+    e.preventDefault();
+    setYesState(true);
+    setInputFaq({
+      ...inputFaq,
+      uresolved: true,
+    });
+  }
 
-  // function handleClickUresolvedNo(e) {
-  //   e.preventDefault();
-  //   setYesState(false);
-  //   setInputFaq({
-  //     ...inputFaq,
-  //     uresolved: false,
-  //   });
-  // }
+  function handleClickUresolvedNo(e) {
+    e.preventDefault();
+    setYesState(false);
+    setInputFaq({
+      ...inputFaq,
+      uresolved: false,
+    });
+  }
 
-  // function submitSolution(e) {
-  //   e.preventDefault();
-  //   updateSolutionTicket(soporte.id, solution);
-  //   postFaq(inputFaq);
+  function submitUpdateFaq(e) {
+    e.preventDefault();
+    updateCompleteFaq(id, inputFaq);
+    
+    setTimeout(() => {
+      router.push("/faq");
+    }, 300);
+  }
 
-  //   setTimeout(() => {
-  //     router.push("/tickets");
-  //   }, 300);
-  // }
+  // las siguientes 2 funciones abren y cierran el modal del borrado de faq
 
-  // las siguientes 2 funciones abren y cierran el modal del pedido de mas informacion
+  function handleOpenDelete(e) {
+    e.preventDefault();
+    setOpenDelete(true);
+  }
 
-  // function handleOpenInfo(e) {
-  //   e.preventDefault();
-  //   setOpenInfo(true);
-  // }
+  function handleCloseDelete() {
+    setOpenDelete(false);
+  }
 
-  // function handleCloseInfo() {
-  //   control === 0 ? setControl(1) : setControl(0);
-  //   setOpenInfo(false);
-  // }
+  function submitDeleteFaq(e) {
+    e.preventDefault(e)
+    deleteFaq(id)
 
-  // function handleChangeInfo(e) {
-  //   setInfo({
-  //     ...info,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // }
+    setTimeout(() => {
+      router.push("/faq");
+    }, 300);
+  }
 
   // function submitInfo(e) {
   //   e.preventDefault();
@@ -234,39 +249,55 @@ function Soporte() {
               <form className={mainStyle.form}>
                 <label > Título : </label>
                 <input 
-                  className={mainStyle.input}>
-                </input>
+                  className={mainStyle.input} 
+                  disabled = {modify === true ? false : true}
+                  name= "title"
+                  value = {inputFaq.title}
+                  onChange = { e => handleChange(e)}
+                />
                 <label > Detalle : </label>
                 <input 
-                  className={mainStyle.input}>
-                </input>
+                  className={mainStyle.input}
+                  disabled = {modify === true ? false : true}
+                  name= "description"
+                  value = {inputFaq.description}
+                  onChange = { e => handleChange(e)}
+                />
+                
                 <label > Respuesta : </label>
                 <input 
-                  className={mainStyle.input}>
-                </input>
+                  className={mainStyle.input} 
+                  disabled = {modify === true ? false : true}
+                  name= "answer"
+                  value = {inputFaq.answer}
+                  onChange = { e => handleChange(e)}
+                />
+                
                 <div className={style.modalChecks}>
                   <h4>¿ Resuelve el usuario ?</h4>
                   <button
-                    className={ faq.uresolved === true ? style.buttonGreen : style.buttonGrey}
+                    className={ inputFaq.uresolved === true ? style.buttonGreen : style.buttonGrey}
                     onClick={(e) => handleClickUresolvedYes(e)}
+                    disabled = {modify === true ? false : true}
                   >
                     <CheckCircleOutlineIcon />
                   </button>
                   <button
-                    className={ faq.uresolved === true ? style.buttonGrey : style.buttonRed}
+                    className={ inputFaq.uresolved === true ? style.buttonGrey : style.buttonRed}
                     onClick={(e) => handleClickUresolvedNo(e)}
+                    disabled = {modify === true ? false : true}
                   >
                     <CancelOutlinedIcon />
                   </button>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "auto auto" }}>
-                  <div style={{ fontWeight: "bold" }}>Usuario</div>
-                  <div style={{ fontWeight: "bold" }}>Frecuencia</div>
+                  <div ><h4>Usuario</h4></div>
+                  <div ><h4>Frecuencia</h4></div>
 
                   {Object.keys(usuarios).map((usuario) => (
                     <>
-                      <div>{usuario}</div>
-                      <div>{usuarios[usuario]} veces</div>
+                      <div><p>{usuario}</p></div>
+                      <div><p>{usuarios[usuario]} veces</p></div>
                     </>
                     ))}
                   </div>
@@ -277,8 +308,8 @@ function Soporte() {
                   {
                     modify === false ? null : <button className={mainStyle.button} onClick={ e => openModalModify(e)}> Guardar </button>
                   }
-                  <button className={mainStyle.button}> Borrar </button>
-                  <button className={mainStyle.button}> Borrar y unificar </button>
+                  <button className={mainStyle.button} onClick={ e => handleOpenDelete(e)}> Borrar </button>
+                  <button className={mainStyle.button}> Unificar y Borrar </button>
                 </div>
               </form>
             </div>
@@ -309,8 +340,7 @@ function Soporte() {
           <div className={mainStyle.buttonContainer}>
           <button
             onClick={(e) => {
-              submitAsignar(e);
-              handleClose();
+              submitUpdateFaq(e);
             }}
             className={style.modalButton}
           >
@@ -318,8 +348,7 @@ function Soporte() {
           </button>
           <button
             onClick={(e) => {
-              submitAsignar(e);
-              handleClose();
+              handleClose(e);
             }}
             className={style.modalButton}
           >
@@ -328,10 +357,10 @@ function Soporte() {
           </div>
         </Box>
       </Modal>
-            {/*
+           
       <Modal
-        open={openSolution}
-        onClose={handleCloseSolution}
+        open={openDelete}
+        onClose={handleCloseDelete}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -342,59 +371,31 @@ function Soporte() {
             component="h2"
             className={style.modalTitle}
           >
-            Anota la solución
+            ¿ Deseas borrar esta FAQ ?
           </Typography>
-          {soporte !== null ? (
-            <textarea
-              placeholder={
-                soporte !== null && soporte.answer === "Sin resolucion"
-                  ? ""
-                  : soporte.answer
-              }
-              value={solution.solution}
-              name="solution"
-              onChange={(e) => handleChangeSolution(e)}
-              className={style.modalTextarea}
-            />
-          ) : null}
-          <div className={style.modalSubtitleContainer}>
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              className={style.modalSubitle}
-            >
-              ¿ Puede resolverlo el usuario ?
-            </Typography>
-            <div className={style.modalChecks}>
-            <button
-              className={
-                yesState === true ? style.buttonGreen : style.buttonGrey
-              }
-              onClick={(e) => handleClickUresolvedYes(e)}
-            >
-              <CheckCircleOutlineIcon />
-            </button>
-            <button
-              className={yesState === true ? style.buttonGrey : style.buttonRed}
-              onClick={(e) => handleClickUresolvedNo(e)}
-            >
-              <CancelOutlinedIcon />
-            </button>
-            </div>
-          </div>
+          <div>
           <button
             onClick={(e) => {
-              submitSolution(e);
-              handleCloseSolution();
+              submitDeleteFaq(e);
+              
             }}
             className={style.modalButton}
           >
-            Cerrar Ticket
+            Aceptar
           </button>
+          <button
+            onClick={(e) => {
+
+              handleCloseDelete(e);
+            }}
+            className={style.modalButton}
+          >
+            Cancelar
+          </button>
+          </div>
         </Box>
       </Modal>
-
+             {/*
       <Modal
         open={openInfo}
         onClose={handleCloseInfo}

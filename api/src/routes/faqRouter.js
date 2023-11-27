@@ -2,7 +2,9 @@ const faqRouter = require("express").Router();
 const getAllFaq = require("../routes/controllers/getAllFaq");
 const postFaq = require("../routes/controllers/postFaq");
 const updateUserFaq = require("../routes/controllers/updateUserFaq");
+const updateFaq = require("../routes/controllers/updateFaq");
 const getFaqDetail = require("../routes/controllers/getFaqDetail");
+const deleteFaq = require ("../routes/controllers/deleteFaq")
 
 
 faqRouter.get("/faq", async (req, res) => {
@@ -48,6 +50,31 @@ faqRouter.put("/faq", async (req, res) => {
   }
 
 });
+
+faqRouter.put("/updateFaq/:id", async (req, res) => {
+  const { id } = req.params
+
+  try {
+    let updateCompleteFaq = await updateFaq(id , req.body);
+    updateCompleteFaq ? res.status(200).json(updateCompleteFaq) : res.status(400).json("failure");
+  } catch (e) {
+    console.log("error en ruta updatefaq ", e.message);
+  }
+
+});
+
+faqRouter.put("/deleteFaq/:id", async (req, res) => {
+  const { id } = req.params
+
+  try {
+    let faq = await deleteFaq(id);
+    faq ? res.status(200).json(faq) : res.status(400).json("failure");
+  } catch (e) {
+    console.log("error en ruta updatefaq ", e.message);
+  }
+
+});
+
 
 
 module.exports = faqRouter;
