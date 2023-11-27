@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import style from "../../modules/detail.module.css";
+import style from "../../modules/detailFaq.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -9,16 +9,10 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { updateWorker } from "../api/updateWorker";
-import { updateSolutionTicket } from "../api/updateSolutionTicket";
-import { postFaq } from "../api/postFaq";
-import { updateInfoTicket } from "../api/updateInfoTicket";
-import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
-import { updateCloseTicket } from "../api/updateCloseTicket";
 import { contarUsuarios } from "@/functions/contarUsuarios";
 import { updateCompleteFaq } from '../api/updateCompleteFaq';
 import { deleteFaq } from '../api/deleteFaq';
+import { unifyFaq } from '../api/unifyFaq';
 
 const styles = {
   position: "absolute",
@@ -39,19 +33,14 @@ function Soporte() {
   const router = useRouter();
   const id = router.query.id;
 
-  // const [openSolution, setOpenSolution] = useState(false);
-  // const [openInfo, setOpenInfo] = useState(false);
+  const [openUnify, setOpenUnify] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
-  // const [user, setUser] = useState(null);
   const [faq, setFaq] = useState(null);
   const [usuarios, setUsuarios] = useState(null)
   const [modify, setModify] = useState(false);
-  // const [asignar, setAsignar] = useState({ name: "sin asignar" });
-  // const [control, setControl] = useState(0);
-  // const [faq, setFaq] = useState(null);
-  // const [solution, setSolution] = useState({ solution: "" });
-  // const [info, setInfo] = useState({ info: "" });
+  const [allFaq, setAllFaq] = useState(null);
+  const [filterFaq, setFilterFaq] = useState(null);
   const [yesState, setYesState] = useState(0);
   const [inputFaq, setInputFaq] = useState({
     title: "",
@@ -72,6 +61,14 @@ function Soporte() {
           answer: data.answer,
           uresolved: data.uresolved,
         })
+      });
+  }, [router.query.id]);
+
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAllFaq(data);
       });
   }, [router.query.id]);
 
@@ -107,36 +104,25 @@ function Soporte() {
       setOpen(false);
   }
 
-  //guarda en el soporte la asignacion del desarrollador
-  
-  // function submitAsignar(e) {
-  //   e.preventDefault();
-  //   updateWorker(id, asignar);
-  //   window.location.reload(true);
-  // }
+   // las siguientes 2 funciones abren y cierran el modal de la unificacion
 
-  // las siguientes 2 funciones abren y cierran el modal de la solucion
+  function handleOpenUnify(e) {
+    e.preventDefault();
+    setOpenUnify(true);
+  }
 
-  // function handleOpenSolution(e) {
-  //   e.preventDefault();
-  //   setOpenSolution(true);
-  // }
+  function handleCloseUnify() {
+    setOpenUnify(false);
+  }
 
-  // function handleCloseSolution() {
-  //   control === 0 ? setControl(1) : setControl(0);
-  //   setOpenSolution(false);
-  // }
-
-  // function handleChangeSolution(e) {
-  //   setSolution({
-  //     ...solution,
-  //     [e.target.name]: e.target.value,
-  //   });
-  //   setInputFaq({
-  //     ...inputFaq,
-  //     answer: e.target.value,
-  //   });
-  // }
+  function handleSubmitUnify(e) {
+    e.preventDefault();
+    unifyFaq(id, filterFaq);
+    
+    setTimeout(() => {
+      router.push("/faq");
+    }, 300);
+  }
 
   // dentro del modal de la solucion permite decir si el usuario puede resolverlo o no
   
@@ -187,64 +173,101 @@ function Soporte() {
     }, 300);
   }
 
-  // function submitInfo(e) {
-  //   e.preventDefault();
-  //   updateInfoTicket(soporte.id, info);
+  function handleAsignar(e) {
+    setFilterFaq( allFaq.filter( f => f.title === e.target.value));
+  }
 
-  //   setTimeout(() => {
-  //     router.push("/tickets");
-  //   }, 300);
-  // }
+  function handleSubmitUnify(e) {
+    e.preventDefault();
+    unifyFaq(id, filterFaq);
 
-  // las siguientes 2 funciones abren y cierran el modal del pedido de mas informacion
-
-  // function handleOpenInfoUser(e) {
-  //   e.preventDefault();
-  //   setOpenInfoUser(true);
-  // }
-
-  // function handleCloseInfoUser() {
-  //   control === 0 ? setControl(1) : setControl(0);
-  //   setOpenInfoUser(false);
-  // }
-
-  // function handleChangeInfo(e) {
-  //   setInfo({
-  //     ...info,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // }
-
-  // function submitInfoUser(e) {
-  //   e.preventDefault();
-  //   updateInfoTicketByUser(soporte.id, info);
-
-  //   setTimeout(() => {
-  //     router.push("/tickets");
-  //   }, 300);
-  // }
-
-  // funcion para pasar el estado del ticket a Terminado
-
-  // function SubmitCloseTicket(e) {
-  //   e.preventDefault();
-  //   updateCloseTicket(soporte.id);
-
-  //   setTimeout(() => {
-  //     router.push("/tickets");
-  //   }, 300);
-  // }
-
-
-  console.log("faq", faq)
-  console.log("usuarios", usuarios)
+    setTimeout(() => {
+      router.push("/faq");
+    }, 300);
+  }
 
   return (
     <>
       <div >
         {faq !== null ? (
           <>
-            <div className={mainStyle.container}>
+            <div className={style.container}>
+              <h1 className={style.title}>Detalle de FAQ</h1>
+              <form className={mainStyle.form}>
+                <div className={mainStyle.minimalGrid}>
+                  <label className={style.label}> Título : </label>
+                  <input 
+                    className={mainStyle.input} 
+                    disabled = {modify === true ? false : true}
+                    name= "title"
+                    value = {inputFaq.title}
+                    onChange = { e => handleChange(e)}
+                  />
+                </div>
+                <div className={mainStyle.minimalGrid}>
+                  <label > Detalle : </label>
+                  <textarea
+                    className={mainStyle.textarea}
+                    disabled = {modify === true ? false : true}
+                    name= "description"
+                    value = {inputFaq.description}
+                    onChange = { e => handleChange(e)}
+                  />
+                </div>
+                <div className={mainStyle.minimalGrid}>
+                  <label > Respuesta : </label>
+                  <textarea 
+                    className={mainStyle.textarea} 
+                    disabled = {modify === true ? false : true}
+                    name= "answer"
+                    value = {inputFaq.answer}
+                    onChange = { e => handleChange(e)}
+                  />
+                </div>
+                <div className={style.modalChecks}>
+                  <h4>¿ Resuelve el usuario ?</h4>
+                  <div>
+                    <button
+                      className={ inputFaq.uresolved === true ? style.buttonGreen : style.buttonGrey}
+                      onClick={(e) => handleClickUresolvedYes(e)}
+                      disabled = {modify === true ? false : true}
+                    >
+                      <CheckCircleOutlineIcon />
+                    </button>
+                    <button
+                      className={ inputFaq.uresolved === true ? style.buttonGrey : style.buttonRed}
+                      onClick={(e) => handleClickUresolvedNo(e)}
+                      disabled = {modify === true ? false : true}
+                    >
+                      <CancelOutlinedIcon />
+                    </button>
+                  </div>
+                </div>
+                <div className={style.grid}>
+                  <div ><h4>Usuario</h4></div>
+                  <div ><h4>Frecuencia</h4></div>
+
+                  {Object.keys(usuarios).map((usuario) => (
+                    <>
+                      <div><p>{usuario}</p></div>
+                      <div><p>{usuarios[usuario]} veces</p></div>
+                    </>
+                    ))}
+                  </div>
+                <div className={style.buttonContainer}>
+                  {
+                    modify === false ? <button className={style.button} onClick={ e => handleModify(e)}> Modificar </button> : null
+                  }
+                  {
+                    modify === false ? null : <button className={style.button} onClick={ e => openModalModify(e)}> Guardar </button>
+                  }
+                  <button className={style.button} onClick={ e => handleOpenDelete(e)}> Borrar </button>
+                  <button className={style.button} onClick={ e => handleOpenUnify(e)}> Unificar y Borrar </button>
+                </div>
+              </form>
+            </div>
+            
+            <div className={style.visibilityContainerMobile}>
               <h1 className={mainStyle.title}>Detalle de FAQ</h1>
               <form className={mainStyle.form}>
                 <label > Título : </label>
@@ -256,8 +279,8 @@ function Soporte() {
                   onChange = { e => handleChange(e)}
                 />
                 <label > Detalle : </label>
-                <input 
-                  className={mainStyle.input}
+                <textarea
+                  className={style.textarea}
                   disabled = {modify === true ? false : true}
                   name= "description"
                   value = {inputFaq.description}
@@ -265,8 +288,8 @@ function Soporte() {
                 />
                 
                 <label > Respuesta : </label>
-                <input 
-                  className={mainStyle.input} 
+                <textarea
+                  className={style.textarea} 
                   disabled = {modify === true ? false : true}
                   name= "answer"
                   value = {inputFaq.answer}
@@ -275,6 +298,7 @@ function Soporte() {
                 
                 <div className={style.modalChecks}>
                   <h4>¿ Resuelve el usuario ?</h4>
+                  <div>
                   <button
                     className={ inputFaq.uresolved === true ? style.buttonGreen : style.buttonGrey}
                     onClick={(e) => handleClickUresolvedYes(e)}
@@ -289,8 +313,9 @@ function Soporte() {
                   >
                     <CancelOutlinedIcon />
                   </button>
+                  </div>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "auto auto" }}>
+                <div className={style.grid}>
                   <div ><h4>Usuario</h4></div>
                   <div ><h4>Frecuencia</h4></div>
 
@@ -301,20 +326,17 @@ function Soporte() {
                     </>
                     ))}
                   </div>
-                <div className={mainStyle.buttonContainer}>
+                <div className={style.buttonContainer}>
                   {
-                    modify === false ? <button className={mainStyle.button} onClick={ e => handleModify(e)}> Modificar </button> : null
+                    modify === false ? <button className={style.button} onClick={ e => handleModify(e)}> Modificar </button> : null
                   }
                   {
-                    modify === false ? null : <button className={mainStyle.button} onClick={ e => openModalModify(e)}> Guardar </button>
+                    modify === false ? null : <button className={style.button} onClick={ e => openModalModify(e)}> Guardar </button>
                   }
-                  <button className={mainStyle.button} onClick={ e => handleOpenDelete(e)}> Borrar </button>
-                  <button className={mainStyle.button}> Unificar y Borrar </button>
+                  <button className={style.button} onClick={ e => handleOpenDelete(e)}> Borrar </button>
+                  <button className={style.button} onClick={ e => handleOpenUnify(e)}> Unificar </button>
                 </div>
               </form>
-            </div>
-            
-            <div className={style.visibilityContainerMobile}>
             </div>
             </>
         ) : (
@@ -395,10 +417,10 @@ function Soporte() {
           </div>
         </Box>
       </Modal>
-             {/*
+             
       <Modal
-        open={openInfo}
-        onClose={handleCloseInfo}
+        open={openUnify}
+        onClose={handleCloseUnify}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -409,66 +431,45 @@ function Soporte() {
             component="h2"
             className={style.modalTitle}
           >
-            Solicita mas Información
+            Elije con que FAQ quieres unificar
           </Typography>
-          {soporte !== null ? (
-            <textarea
-              value={info.info}
-              name="info"
-              onChange={(e) => handleChangeInfo(e)}
-              cols="40"
-              rows="10"
-            />
-          ) : null}
-
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            // value={asignar.name}
+            className={style.modalSelect}
+            onChange={(e) => handleAsignar(e)}
+          >
+            {allFaq !== null && allFaq.length > 0
+              ? allFaq.map((e) => (
+                  <MenuItem value={e.title} key={e.id}>
+                    {e.title}{" "}
+                  </MenuItem>
+                ))
+              : null}
+          </Select>
+            <div>
           <button
             onClick={(e) => {
-              submitInfo(e);
-              handleCloseInfo();
+              handleSubmitUnify(e);
             }}
             className={style.modalButton}
           >
             Aceptar
           </button>
+          <button
+            onClick={(e) => {
+              
+              handleCloseUnify(e);
+            }}
+            className={style.modalButton}
+          >
+            Cancelar
+          </button>
+          </div>
         </Box>
       </Modal>
-
-      <Modal
-        open={openInfoUser}
-        onClose={handleCloseInfoUser}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styles}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            className={style.modalTitle}
-          >
-            Agrega más Información
-          </Typography>
-          {soporte !== null ? (
-            <textarea
-              value={info.info}
-              name="info"
-              onChange={(e) => handleChangeInfo(e)}
-              cols="40"
-              rows="10"
-            />
-          ) : null}
-
-          <button
-            onClick={(e) => {
-              submitInfoUser(e);
-              handleCloseInfoUser();
-            }}
-            className={style.modalButton}
-          >
-            Aceptar
-          </button>
-        </Box>
-      </Modal> */}
+          
     </>
   );
 }

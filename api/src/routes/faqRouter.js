@@ -5,6 +5,7 @@ const updateUserFaq = require("../routes/controllers/updateUserFaq");
 const updateFaq = require("../routes/controllers/updateFaq");
 const getFaqDetail = require("../routes/controllers/getFaqDetail");
 const deleteFaq = require ("../routes/controllers/deleteFaq")
+const unifyFaq = require ("../routes/controllers/unifyFaq.js")
 
 
 faqRouter.get("/faq", async (req, res) => {
@@ -71,6 +72,18 @@ faqRouter.put("/deleteFaq/:id", async (req, res) => {
     faq ? res.status(200).json(faq) : res.status(400).json("failure");
   } catch (e) {
     console.log("error en ruta updatefaq ", e.message);
+  }
+
+});
+
+faqRouter.put("/unifyFaq/:id", async (req, res) => {
+  const { id } = req.params
+  
+  try {
+    let faq = await unifyFaq(id, req.body);
+    faq ? res.status(200).json(faq) : res.status(400).json("failure");
+  } catch (e) {
+    console.log("error en ruta unifyfaq ", e.message);
   }
 
 });

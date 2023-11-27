@@ -1,0 +1,256 @@
+/* /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap'); */
+
+.container{
+    padding: 6rem 6rem 6rem 7rem;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-background-bodyalternate);
+}
+
+.visibilityContainerMobile{
+    display: none;
+}
+
+.title{
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 0px;
+    text-align: center;
+}
+
+.subtitle{
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+    margin: auto;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+.infoContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titleContainer{
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+}
+
+.minimalGrid{
+    width: 100%;
+    margin-bottom: 1rem;
+    display: block;
+    grid-template-columns: 25% 1fr; 
+    grid-template-rows: 1fr; 
+    gap: 10px 11px;
+  }
+
+.form{
+    width: 80%;
+    margin: 2px auto ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;    
+}
+
+.label{
+    margin-bottom: 8px;
+}
+
+.textarea{
+    margin-top: 5px;
+    margin-bottom: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 8px 9px;
+    width: 100%;
+}
+
+.grid{ 
+    display: grid; 
+    grid-auto-rows: 1fr; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 5px 16px;
+    text-align: center;
+    margin: 10px auto 15px;
+
+}
+
+.buttonContainer{
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: right;
+}
+
+.button, .buttonDisabled{
+    min-width: 6rem;
+    padding: 9px 12px;
+    margin: 0px 0px 2px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color:aliceblue;
+    border: none;
+    background-color: var(--button-color);
+    border-radius: 10px;
+  
+  }
+
+.modalTitle{
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.modalSelect{
+    width: 80%;
+    margin-bottom: 1rem;
+}
+
+.modalSubtitleContainer{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modalTextarea{
+    width: 100%;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 8px 9px;
+}
+
+.modalSubitle{
+    font-size: 0.9rem;
+    margin: 8px 0px;
+}
+
+.modalChecks{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 8px auto ;
+}
+
+.modalChecks h4{
+    margin-bottom: 8px;
+}
+
+.modalButton{
+    min-width: 6rem;
+    padding: 9px 12px;
+    margin: 0px 0px 2px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color:aliceblue;
+    border: none;
+    background-color: var(--button-color);
+    border-radius: 10px;
+}
+
+.buttonGreen{
+    border:none;
+    background-color: transparent;
+    cursor:pointer;
+    color: green;
+}
+
+.buttonRed{
+    border:none;
+    background-color: transparent;
+    cursor:pointer;
+    color: red;
+}
+
+
+.buttonGrey{
+    border:none;
+    background-color: transparent;
+    cursor:pointer;
+    color: grey;
+}
+
+/* media query para tablets */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .visibilityContainerMobile{
+        display: none;
+    }
+  
+  }
+  
+  /* media query para Celulares */
+  
+@media (max-width: 768px) {
+    
+    .container{
+      display: none;
+    }
+  
+    .visibilityContainerMobile{
+        padding: 4rem 2rem 3rem 4rem;
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: var(--color-background-bodyalternate);
+    }
+  
+    .title{
+      font-size: 1.2rem;
+    }
+  
+    .subtitle{
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+  
+    .minimalGrid{
+      width: 100%;
+      margin-bottom: 1rem;
+      display: block;
+      grid-template-columns: 25% 1fr; 
+      grid-template-rows: 1fr; 
+      gap: 10px 11px;
+    }
+
+    .titleContainer{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        margin-bottom: 15px;
+    }
+
+    .buttonContainer{
+        width: 100%;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .button{
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        
+    }
+   
+    
+  }
