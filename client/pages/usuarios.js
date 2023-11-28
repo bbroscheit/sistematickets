@@ -53,8 +53,51 @@ function usuarios() {
     setUserAlt( user.filter( user => user.username.includes(e.target.value)))
   }
  
+  console.log("user", user)
+
   return (
+    <>
     <div className={mainStyles.container}>
+      <h1 className={mainStyles.title}>Usuarios</h1>
+      <div className={styles.mainContainer}>
+        <div className={styles.filterContainer}>
+          <div className={styles.searchContainer}>
+            <h3>Busqueda por usuario</h3>
+            <input type="search" onChange={e => handleSearch(e)}/>
+          </div>
+          <div className={styles.searchContainer}>
+            <h3>Filtro por Sector</h3>
+            <select onChange={ e => handleSector(e)}>
+              <option value="todos">Todos</option>
+              { sector && sector.map( e => <option key={e.id} value={e.sectorname}>{e.sectorname}</option> )}
+            </select>
+          </div>
+          <div className={styles.searchContainer}>
+            <h3>Filtro por Unidad de Negocio</h3>
+            <select onChange={ e => handleSalepoint(e)}>
+              <option value="todos">Todos</option>
+              { salepoint && salepoint.map( e => <option key={e.id} value={e.salepoint}>{e.salepoint}</option> )}
+            </select>
+          </div>
+        </div>
+        <div className={styles.cardContainer}>
+          {userAlt &&
+            userAlt.map((e) => (
+              <CardUser
+                key={e.id}
+                username={e.username}
+                firstname={e.firstname}
+                lastname={e.lastname}
+                phonenumber={e.phonenumber}
+                sector={e.sector}
+                salepoint={e.salepoint}
+              />
+            ))}
+        </div>
+      </div>
+    </div>
+
+    <div className={mainStyles.containerMobile}>
       <h1 className={mainStyles.title}>Usuarios</h1>
       <div className={styles.mainContainer}>
         <div className={styles.filterContainer}>
@@ -90,6 +133,8 @@ function usuarios() {
         </div>
       </div>
     </div>
+
+  </>
   );
 }
 

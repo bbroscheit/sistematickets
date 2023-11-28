@@ -3,17 +3,16 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-left: 15px;
     width: 100%;
 }
 
 .filterContainer{
-    width: 95%;
+    width: 80%;
     display: grid; 
     grid-auto-rows: 1fr; 
     grid-template-columns: repeat(3, 1fr); 
     grid-template-rows: 1fr; 
-    gap: 10px 11px; 
+    gap: 8px 5px; 
     margin-bottom: 20px;
     padding: 10px;
 }
@@ -33,11 +32,50 @@
 }
 
 .searchContainer h3{
+    font-size: 1rem;
     margin-bottom: 10px;
 }
 
+.searchContainer input, .searchContainer select{
+    width: 80%;
+}
+
 .searchContainer input, .searchContainer select , .searchContainer option{
-   font-size: 0.9rem;
+   font-size: 0.8rem;
    font-weight: 600;
    padding: 4px;
 }
+
+@media (max-width: 768px) {
+    
+    .filterContainer{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 1px 1px 1px 15px;
+        padding: 10px;
+    }
+    
+    .cardContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 10px;
+        padding: 10px;
+        margin: 1px 1px 1px 15px;
+    }
+    
+    .searchContainer{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .searchContainer input, .searchContainer select{
+        width: 100%;
+    }
+    
+        
+  }
+  
