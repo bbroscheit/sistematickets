@@ -278,14 +278,14 @@ function Soporte() {
                     <div className={style.stateContainer}>
                       <h3>Asignado a : </h3>
                       <p>{soporte.worker}</p>
-                      <button
-                        onClick={(e) => {
-                          handleOpen(e);
-                        }}
+                      { soporte.state !== "terminado" ? 
+                        <button
+                          onClick={(e) => { handleOpen(e)}}
                       >
                         {" "}
                         Cambiar{" "}
-                      </button>
+                      </button> : null}
+                      
                     </div>
                   )}
                 </div>

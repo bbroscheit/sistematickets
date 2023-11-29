@@ -32,6 +32,7 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import InputRoundedIcon from '@mui/icons-material/InputRounded';
 import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
+import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 const Search = styled('div')(({ theme }) => ({
@@ -474,11 +475,11 @@ export default function PrimarySearchAppBar() {
         { user !== null && user.sector === "Sistemas" ? 
         <List>
 
-          {['Soportes',  'Faq'].map((text, index) => (
+          {['Soportes',  'Faq', ' Hist. Soportes'].map((text, index) => (
             <Link href={
                     index === 0 ? '/tickets' :
-                    // index === 1 ? '/soportes/nuevoSoporte' :
-                    index === 1 ? '/faq': null
+                    index === 1 ? '/faq' :
+                    index === 2 ? '/soportes/historicoSoportes': null
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -500,7 +501,7 @@ export default function PrimarySearchAppBar() {
                   >
                     {
                       index === 0 ? <InsertDriveFileRoundedIcon /> :
-                      index === 1 ? <LiveHelpRoundedIcon />: null}
+                      index === 1 ? <LiveHelpRoundedIcon />: <FindInPageRoundedIcon />}
                   </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
