@@ -69,6 +69,10 @@ function Soporte() {
           uresolved: false,
           questioner: user ? user.name : "sin usuario",
         });
+        setSolution({
+          ...solution,
+          solution: user ? data.answer : "Sin resolución",
+        });
       });
   }, [router.query.id]);
 

@@ -474,11 +474,11 @@ export default function PrimarySearchAppBar() {
         { user !== null && user.sector === "Sistemas" ? 
         <List>
 
-          {['Soportes', 'Nuevo Soporte', 'Faq'].map((text, index) => (
+          {['Soportes',  'Faq'].map((text, index) => (
             <Link href={
                     index === 0 ? '/tickets' :
-                    index === 1 ? '/soportes/nuevoSoporte' :
-                    index === 2 ? '/faq': '/'
+                    // index === 1 ? '/soportes/nuevoSoporte' :
+                    index === 1 ? '/faq': null
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -500,7 +500,7 @@ export default function PrimarySearchAppBar() {
                   >
                     {
                       index === 0 ? <InsertDriveFileRoundedIcon /> :
-                      index === 1 ?  <NoteAddRoundedIcon /> : <LiveHelpRoundedIcon />}
+                      index === 1 ? <LiveHelpRoundedIcon />: null}
                   </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
