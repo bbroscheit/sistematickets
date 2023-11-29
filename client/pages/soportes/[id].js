@@ -619,8 +619,8 @@ function Soporte() {
               value={info.info}
               name="info"
               onChange={(e) => handleChangeInfo(e)}
-              cols="40"
-              rows="10"
+              className={style.modalTextarea}
+              
             />
           ) : null}
 
@@ -656,8 +656,8 @@ function Soporte() {
               value={info.info}
               name="info"
               onChange={(e) => handleChangeInfo(e)}
-              cols="40"
-              rows="10"
+              className={style.modalTextarea}
+              
             />
           ) : null}
 

@@ -548,6 +548,9 @@ export default function PrimarySearchAppBar() {
         
         }
         <Divider />
+        {
+          user !== null ? 
+          user.isprojectmanager === true || user.isprojectworker === true ?
         <List>
 
           {['Projectos', 'Tareas'].map((text, index) => (
@@ -581,7 +584,9 @@ export default function PrimarySearchAppBar() {
             </Link>
 
           ))}
-        </List>
+        </List> : null :null }
+
+
         <Divider />
         { user !== null ? <List>
           {['Desconectar'].map((text, index) => ( 
