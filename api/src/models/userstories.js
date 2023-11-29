@@ -14,12 +14,12 @@ module.exports = (sequelize) => {
             allowNull:false,
         },
         storiesname:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             defaultValue:'sin nombre',
             allowNull:false,
         },
         storiesdetail:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             defaultValue:"sin detalle",
             allowNull:false
         },

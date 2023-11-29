@@ -14,12 +14,12 @@ module.exports = (sequelize) => {
             allowNull:false
         },
         projectname:{
-            type:DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             defaultValue:"sin nombrar",
             allowNull:false
         },
         projectdetail:{
-            type:DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             defaultValue:"sin detalle",
             allowNull:false
         },

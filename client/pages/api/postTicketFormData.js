@@ -1,5 +1,5 @@
 export async function postTicketFormData(input) {
-    console.log("inputrecibido", input);
+    // console.log("inputrecibido", input);
   
     const formData = new FormData();
   
@@ -16,7 +16,7 @@ export async function postTicketFormData(input) {
       }
     });
   
-    console.log("formData", formData);
+    // console.log("formData", formData);
   
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {
       method: 'POST',

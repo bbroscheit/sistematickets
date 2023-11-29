@@ -19,6 +19,19 @@ function FormNormal({ user }) {
     user:user.name
   });
 
+  const [login, setLogin] = useState(null)
+
+  useEffect(() => {
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setLogin(loginParse);
+    setInput({
+      ...input,
+      user:loginParse.name
+    })
+   
+  }, []);
+
   function handleChange(e) {
     e.preventDefault();
     setInput({
@@ -67,7 +80,8 @@ function FormNormal({ user }) {
     }, 500);
   }
 
-  console.log("input", input)
+  console.log("userForm Data", user)
+  console.log("inputForm Data", input)
 
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">
