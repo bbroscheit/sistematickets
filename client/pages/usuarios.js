@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import mainStyles from "../styles/Home.module.css";
 import styles from "@/modules/usuarios.module.css";
-import CardUser from "@/components/CardUsers";
+import CardUsers from "@/components/CardUsers";
 
 function usuarios() {
   const [user, setUser] = useState(null);
@@ -53,7 +53,7 @@ function usuarios() {
     setUserAlt( user.filter( user => user.username.includes(e.target.value)))
   }
  
-  console.log("user", user)
+  // console.log("user", user)
 
   return (
     <>
@@ -83,12 +83,13 @@ function usuarios() {
         <div className={styles.cardContainer}>
           {userAlt &&
             userAlt.map((e) => (
-              <CardUser
-                key={e.id}
+              <CardUsers
+                id={e.id}
                 username={e.username}
                 firstname={e.firstname}
                 lastname={e.lastname}
                 phonenumber={e.phonenumber}
+                email={e.email}
                 sector={e.sector}
                 salepoint={e.salepoint}
               />
@@ -123,9 +124,13 @@ function usuarios() {
         <div className={styles.cardContainer}>
           {userAlt &&
             userAlt.map((e) => (
-              <CardUser
-                key={e.id}
+              <CardUsers
+                id={e.id}
                 username={e.username}
+                firstname={e.firstname}
+                lastname={e.lastname}
+                phonenumber={e.phonenumber}
+                email={e.email}
                 sector={e.sector}
                 salepoint={e.salepoint}
               />

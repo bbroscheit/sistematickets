@@ -1,5 +1,6 @@
 const userRouter = require("express").Router();
 const getAllUser = require("../routes/controllers/getAllUser");
+const getUserDetail = require("../routes/controllers/getUserDetail");
 const getAllWorker = require("../routes/controllers/getAllWorker");
 const loginUser = require("../routes/controllers/loginUser");
 const postUser = require("./controllers/postUser");
@@ -14,6 +15,16 @@ userRouter.get("/user", async (req, res) => {
   } catch (e) {
     console.log("error en ruta get user ", e.message);
   }
+});
+
+userRouter.get("/userDetail/:id", async (req, res) => {
+  const { id } = req.params
+    try {
+        let userDetail = await getUserDetail(id);
+        userDetail ? res.status(200).json(userDetail) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get userDetail" , e.message)
+    }  
 });
 
 userRouter.get("/worker", async (req, res) => {

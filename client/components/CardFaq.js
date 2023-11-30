@@ -1,13 +1,10 @@
 import React from 'react';
-import { useRouter } from "next/router";
 import styles from '@/modules/cardFaq.module.css';
 import Link from 'next/link';
 
 
 
 function CardFaq({ id, title }) {
-  const router = useRouter();
-
   return (
     <>
     <div className={styles.faqContainer}>

@@ -16,7 +16,7 @@ function faq() {
           });
       }, []);
 
-    console.log(faq)
+    // console.log(faq)
 
   return (
     <>
