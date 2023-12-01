@@ -16,6 +16,7 @@ import { postFaq } from "../api/postFaq";
 import { updateInfoTicket } from "../api/updateInfoTicket";
 import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
 import { updateCloseTicket } from "../api/updateCloseTicket";
+import { sendEmail } from '../api/sendEmail';
 
 const styles = {
   position: "absolute",
@@ -121,6 +122,7 @@ function Soporte() {
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
+    sendEmail()
     window.location.reload(true);
   }
 

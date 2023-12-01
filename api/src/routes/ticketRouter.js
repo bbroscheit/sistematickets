@@ -15,6 +15,7 @@ const updateInfoTicket = require('./controllers/updateInfoTicket');
 const updateInfoTicketByUser = require('./controllers/updateInfoTicketByUser');
 const updateCloseTicket = require('./controllers/updateCloseTicket');
 const uploadFiles = require('./middlewares/uploadFiles');
+const sendEmail = require('./helpers/sendEmail');
 
 
 
@@ -177,6 +178,27 @@ ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
     }
 
 })
+
+ticketRouter.post('/sendEmail', async (req, res) => {
+    // Lógica para crear el soporte
+   
+    // Enviar notificación al usuario
+    const usuarioEmail = 'bernardo.broscheit@basani.com.ar';
+    const usuarioSubject = 'Nuevo soporte creado';
+    const usuarioText = 'Su soporte ha sido creado con éxito.';
+  
+    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
+  
+    // Enviar notificación al desarrollador
+    const desarrolladorEmail = 'lucas.llamanzarez@basani.com.ar';
+    const desarrolladorSubject = 'Nuevo soporte asignado';
+    const desarrolladorText = 'Has sido asignado para trabajar en un nuevo soporte.';
+  
+    await sendEmail(desarrolladorEmail, desarrolladorSubject, desarrolladorText);
+  
+    // Respuesta al cliente
+    res.send('Soporte creado exitosamente');
+  });
 
 
 module.exports = ticketRouter;
