@@ -135,6 +135,7 @@ function nuevoSoporte() {
                     answer={faqFilter[0].answer}
                     uresolved={faqFilter[0].uresolved}
                     user={user.name}
+                    useremail={user.email}
                   />
                   
               : null} 

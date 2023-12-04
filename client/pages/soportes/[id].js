@@ -17,6 +17,11 @@ import { updateInfoTicket } from "../api/updateInfoTicket";
 import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
 import { updateCloseTicket } from "../api/updateCloseTicket";
 import { sendEmail } from '../api/sendEmail';
+import { sendEmailAssigment } from '../api/sendEmailAssigment';
+import { sendEmailComplete } from '../api/sendEmailComplete';
+import { sendEmailMoreInfo } from '../api/sendEmailMoreInfo';
+import { sendEmailInfoUser } from "../api/sendEmailInfoUser";
+import { sendEmailCloseTicket } from "../api/sendEmailCloseTicket";
 
 const styles = {
   position: "absolute",
@@ -50,6 +55,11 @@ function Soporte() {
   const [solution, setSolution] = useState({ solution: "" });
   const [info, setInfo] = useState({ info: "" });
   const [yesState, setYesState] = useState(0);
+  const [useremail, setUseremail] = useState({email: ""})
+  const [email, setEmail] = useState({
+    useremail : "",
+    worker:""
+  })
   const [inputFaq, setInputFaq] = useState({
     title: "",
     description: "",
@@ -74,6 +84,14 @@ function Soporte() {
           ...solution,
           solution: user ? data.answer : "Sin resolución",
         });
+        setEmail({
+          ...email,
+          useremail: user.email
+        })
+        setUseremail({
+          ...email,
+          useremail: user.email
+        })
       });
   }, [router.query.id]);
 
@@ -116,12 +134,17 @@ function Soporte() {
     setAsignar({
       name: e.target.value,
     });
+    setEmail({
+      ...email,
+      worker: e.target.value
+    })
   }
 
   //guarda en el soporte la asignacion del desarrollador
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
+    sendEmailAssigment(email)
     sendEmail()
     window.location.reload(true);
   }
@@ -172,7 +195,7 @@ function Soporte() {
     e.preventDefault();
     updateSolutionTicket(soporte.id, solution);
     postFaq(inputFaq);
-
+    sendEmailComplete(useremail)
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -200,7 +223,7 @@ function Soporte() {
   function submitInfo(e) {
     e.preventDefault();
     updateInfoTicket(soporte.id, info);
-
+    sendEmailMoreInfo(email)
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -228,7 +251,7 @@ function Soporte() {
   function submitInfoUser(e) {
     e.preventDefault();
     updateInfoTicketByUser(soporte.id, info);
-
+    sendEmailInfoUser(email)
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -239,7 +262,7 @@ function Soporte() {
   function SubmitCloseTicket(e) {
     e.preventDefault();
     updateCloseTicket(soporte.id);
-
+    sendEmailCloseTicket(email)
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -445,7 +468,7 @@ function Soporte() {
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                           <div key={index} className={style.adjuntos}>
-                            <a href={file} rel="noopener noreferrer">
+                            <a href={file} download={`documento_${index + 1}.pdf`}>
                               {file}
                             </a>
                           </div>

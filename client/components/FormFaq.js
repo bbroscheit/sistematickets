@@ -1,15 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Router from "next/router";
 import styles from '@/modules/formFaq.module.css'
 import mainStyle from "@/styles/Home.module.css";
-import { postTicket } from "@/pages/api/postTicket.js";
 import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
-
+import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 import { updateFaq } from "@/pages/api/updateFaq.js";
 
 
@@ -30,9 +28,10 @@ const style = {
 };
 
 
-function FormFaq({ id, title, description, answer, uresolved, user }) {
+function FormFaq({ id, title, description, answer, uresolved, user, useremail }) {
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado
+  const [email, setEmail] = useState({email: useremail})
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: "sin asignar",
@@ -93,9 +92,9 @@ function FormFaq({ id, title, description, answer, uresolved, user }) {
   //envia el input al back, genera un alert que luego lo cambiare por un sweet alert que es mas lindo y te redirige al home
   function handleSubmit(e) {
     e.preventDefault();
-    // postTicket(input);
     postTicketFormData(input)
     updateFaq( updatedFaq )
+    sendEmailNewTicket(email)
     alert("ticket generado con exito");
 
     setTimeout(() => {

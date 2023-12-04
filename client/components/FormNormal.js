@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import style from "@/modules/formNormal.module.css";
 import mainStyle from "@/styles/Home.module.css";
-import { postTicket } from "@/pages/api/postTicket.js";
 import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
+import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 
 
 function FormNormal({ user }) {
@@ -20,6 +20,7 @@ function FormNormal({ user }) {
   });
 
   const [login, setLogin] = useState(null)
+  const [email, setEmail] = useState({email: ""})
 
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
@@ -29,7 +30,9 @@ function FormNormal({ user }) {
       ...input,
       user:loginParse.name
     })
-   
+    setEmail({
+      email:loginParse.email
+    })
   }, []);
 
   function handleChange(e) {
@@ -39,14 +42,6 @@ function FormNormal({ user }) {
       [e.target.name]: e.target.value,
     });
   }
-
-  // function handleChangeFile(e){
-  //   e.preventDefault();
-  //   setInput({
-  //     ...input,
-  //     files : [...input.files, e.target.value]
-  //   })
-  // }
 
   function handleChangeFile(e) {
     e.preventDefault();
@@ -71,8 +66,8 @@ function FormNormal({ user }) {
 
   function handleSubmitNoFaq(e) {
     e.preventDefault();
-    // postTicket(input);
     postTicketFormData(input)
+    sendEmailNewTicket(email)
     alert("ticket generado con exito");
 
     setTimeout(() => {
@@ -80,8 +75,8 @@ function FormNormal({ user }) {
     }, 500);
   }
 
-  console.log("userForm Data", user)
-  console.log("inputForm Data", input)
+  // console.log("userForm Data", user)
+  // console.log("inputForm Data", input)
 
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">

@@ -7,8 +7,8 @@ const path = require('path');
 const { DEST_FILES} = process.env
 
 const postTicket = async (state, worker, subject, detail, answer, userresolved, user, files) => {
-    console.log("file", files)
-    console.log("body", state, worker, subject, detail, answer, userresolved, user)
+    // console.log("file", files)
+    // console.log("body", state, worker, subject, detail, answer, userresolved, user)
 
     try {
         // Creo el ticket vacio para tener el ID que le va a dar nombre a la carpeta
@@ -27,7 +27,7 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
 
 
         // Mueve todos los archivos con el prefijo "new_" desde la carpeta "uploads" a la carpeta del ticket
-        const uploadFolderPath = path.join(__dirname, '../../../../uploads'); // Ruta a la carpeta "uploads"
+        const uploadFolderPath = path.join(__dirname, '../../../../public'); // Ruta a la carpeta "uploads"
         const filesWithPrefix = fs.readdirSync(uploadFolderPath).filter(file => file.startsWith('new_'));
 
         const filesArray = [];
