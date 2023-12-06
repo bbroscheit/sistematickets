@@ -1,4 +1,4 @@
-const { User, Ticket } = require("../../bd");
+const { User } = require("../../bd");
 const nodemailer = require("nodemailer");
 
 // Configuración del transporter (SMTP)
@@ -13,29 +13,28 @@ const transporter = nodemailer.createTransport({
 });
 
 // Función para enviar correo electrónico
-const sendEmail = async (id, to, subject, text) => {
+const sendEmail = async (id, desarrolladorEmail , desarrolladorSubject, desarrolladorText) => {
+    let desarrolador = desarrolladorEmail
+    let subject = desarrolladorSubject
+    let text = desarrolladorText
+
   if(id){
     try {
-      let ticket = await Ticket.findOne({
-        where: { id : id },
-      });
-  
-      if(ticket){
         let user = await User.findOne({
-          where: { username: ticket.worker },
+          where: { username: desarrolador },
         });
         
         const to = user.email;
 
-        console.log("user.email" , user.email)
+        // console.log("user.email" , user.email)
   
-        // const info = await transporter.sendMail({
-        //   from: "sistemas@basani.com.ar",
-        //   to,
-        //   subject,
-        //   text,
-        // });
-      }
+        const info = await transporter.sendMail({
+          from: "sistemas@basani.com.ar",
+          to,
+          subject,
+          text,
+        });
+      
   
       console.log("Correo electrónico enviado:", user.email);
     } catch (error) {

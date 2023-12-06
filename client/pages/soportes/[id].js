@@ -55,8 +55,8 @@ function Soporte() {
   const [solution, setSolution] = useState({ solution: "" });
   const [info, setInfo] = useState({ info: "" });
   const [yesState, setYesState] = useState(0);
-  const [useremail, setUseremail] = useState({email: ""})
   const [email, setEmail] = useState({
+    idTicket: id,
     useremail : "",
     worker:""
   })
@@ -86,11 +86,7 @@ function Soporte() {
         });
         setEmail({
           ...email,
-          useremail: user.email
-        })
-        setUseremail({
-          ...email,
-          useremail: user.email
+          useremail: data.user.email
         })
       });
   }, [router.query.id]);
@@ -145,7 +141,6 @@ function Soporte() {
     e.preventDefault();
     updateWorker(id, asignar);
     sendEmailAssigment(email)
-    sendEmail()
     window.location.reload(true);
   }
 
@@ -195,7 +190,7 @@ function Soporte() {
     e.preventDefault();
     updateSolutionTicket(soporte.id, solution);
     postFaq(inputFaq);
-    sendEmailComplete(useremail)
+    sendEmailComplete(email)
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -269,6 +264,7 @@ function Soporte() {
   }
 
   // console.log("soporte", soporte)
+  console.log("email ", email)
   // console.log("faq", faq)
   // console.log("worker", worker)
   // console.log("user", user)
@@ -292,6 +288,10 @@ function Soporte() {
                   <div className={style.stateContainer}>
                     <h3> Estado: </h3>
                     <p>{soporte.state}</p>
+                  </div>
+                  <div className={style.stateContainer}>
+                    <h3> Solicitante: </h3>
+                    <p>{soporte.user.firstname} {soporte.user.lastname}</p>
                   </div>
                   {user !== null && user.sector !== "Sistemas" ? (
                     <div className={style.stateContainer}>
@@ -364,7 +364,7 @@ function Soporte() {
                   soporte !== null &&
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Informacion" ? (
-                    <button onClick={(e) => handleOpenInfoUser(e)}>
+                    <button onClick={(e) => handleOpenInfoUser(e)} className={mainStyle.button}>
                       Agregar Información
                     </button>
                   ) : null

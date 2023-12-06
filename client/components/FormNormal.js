@@ -20,7 +20,7 @@ function FormNormal({ user }) {
   });
 
   const [login, setLogin] = useState(null)
-  const [email, setEmail] = useState({email: ""})
+  const [email, setEmail] = useState({ email: "" })
 
   useEffect(() => {
     let userLogin = localStorage.getItem("user");

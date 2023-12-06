@@ -31,7 +31,8 @@ const style = {
 function FormFaq({ id, title, description, answer, uresolved, user, useremail }) {
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado
-  const [email, setEmail] = useState({email: useremail})
+  const [email, setEmail] = useState({ email: "" })
+  
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: "sin asignar",
@@ -45,6 +46,15 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
     id : id,
     userQuestioner: user
   })
+
+  useEffect(() => {
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setEmail({
+      ...input,
+      email:loginParse.email
+    })
+  }, []);
 
     function handleOpen(e) {
         e.preventDefault();

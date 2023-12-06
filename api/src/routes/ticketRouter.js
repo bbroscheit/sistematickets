@@ -16,6 +16,12 @@ const updateInfoTicketByUser = require('./controllers/updateInfoTicketByUser');
 const updateCloseTicket = require('./controllers/updateCloseTicket');
 const uploadFiles = require('./middlewares/uploadFiles');
 const sendEmail = require('./helpers/sendEmail');
+const sendEmailWorker = require('./helpers/sendEmailWorker');
+const sendEmailWorkerAssigment = require ('./helpers/sendEmailWorkerAssigment');
+const sendEmailInfoToWorker = require('./helpers/sendEmailInfoToWorker');
+const sendEmailWorkerComplete = require('./helpers/sendEmailWorkerComplete');
+const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
+const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
 
 
 
@@ -180,91 +186,117 @@ ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
 })
 
 ticketRouter.post('/sendEmailNewTicket', async (req, res) => {
-    // const {email} = req.body
-    console.log("body", req.body)
+    const {email} = req.body
     
     // Envia notificación al usuario
-    const usuarioEmail = 'bernardo.broscheit@basani.com.ar';
+    const usuarioEmail = email;
     const usuarioSubject = 'Nuevo soporte creado';
     const usuarioText = 'Su soporte ha sido creado con éxito.';
   
     await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
+
+    const desarrolladorSubject = 'Nuevo soporte creado';
+    const desarrolladorText = `el usuario ${email} ha creado un nuevo soporte`;
+  
+    await sendEmailNewTicket(desarrolladorSubject, desarrolladorText);
+
+
   
     res.send('Soporte creado exitosamente');
   });
 
 ticketRouter.post('/sendEmailAssigment', async (req, res) => {
-    const { useremail, worker} = req.body
-        
+    const { idTicket, useremail, worker} = req.body
+    let msj = idTicket !== undefined ? `Has sido asignado para trabajar en el soporte Nº ${idTicket}.` : "se te ha asignado un nuevo soporte"
+    
     // Envia notificación al usuario
     const usuarioEmail = useremail;
-    const usuarioSubject = 'Soporte Asignado';
-    const usuarioText = 'Su soporte ha sido asignado a un desarrollador';
+    const usuarioSubject = `Soporte Asignado`;
+    const usuarioText = `Su soporte le ha sido asignado a ${worker} y será resuelto el las siguientes 24Hs.`;
   
-    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
+    await sendEmail( usuarioEmail, usuarioSubject, usuarioText);
   
     // Envia notificación al desarrollador
     const desarrolladorEmail = worker;
     const desarrolladorSubject = 'Nuevo soporte asignado';
-    const desarrolladorText = 'Has sido asignado para trabajar en un nuevo soporte.';
+    const desarrolladorText = msj ;
   
-    await sendEmailWorker(desarrolladorEmail, desarrolladorSubject, desarrolladorText);
+    await sendEmailWorkerAssigment( idTicket, desarrolladorEmail, desarrolladorSubject, desarrolladorText);
   
     // Respuesta al cliente
     res.send('Soporte creado exitosamente');
   });
 
 ticketRouter.post('/sendEmailComplete', async (req, res) => {
-    const { useremail } = req.body
+    const { idTicket, useremail } = req.body
+
+    let msj = idTicket !== undefined ? `El soporte Nº ${idTicket} ha sido cerrado por el desarrollador, por favor verificar y dar por completado` : `Tú soporte ha sido cerrado por el desarrollador, por favor verificar y dar por completado`
+    let msjWorker = idTicket !== undefined ? `Has cerrado el soporte Nº ${idTicket} con exito.` : "El soporte fue cerrado exitosamente"
         
     // Envia notificación al usuario
     const usuarioEmail = useremail;
     const usuarioSubject = 'Soporte Cerrado';
-    const usuarioText = 'Su soporte ha sido cerrado por el desarrollador, por favor verificar y dar por completado';
+    const usuarioText = msj
   
     await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
-  
-    // Respuesta al cliente
+        console.log("ruta complete", idTicket)
+
+        const id = idTicket;
+        const desarrolladorSubject = 'Soporte Cerrado';
+        const desarrolladorText = msjWorker ;
+        // Envia notificación al desarrollador
+        
+        await sendEmailWorkerComplete( id, desarrolladorSubject, desarrolladorText);
+   
+        // Respuesta al cliente
     res.send('Soporte creado exitosamente');
   });
 
-ticketRouter.post('/sendEmailComplete', async (req, res) => {
-    const { useremail } = req.body
+ticketRouter.post('/sendEmailMoreInfo', async (req, res) => {
+    const { idTicket, useremail, worker } = req.body
+    
+    // Envia notificación al usuario
+    const usuarioEmail = useremail;
+    const usuarioSubject = 'Se solicita más información';
+    const usuarioText = idTicket ? `El desarrollador ${worker} solicita más información sobre el soporte Nº ${idTicket}`:'Se solicita más información sobre el soporte requerido.';
+  
+    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
+  
+    res.send('Soporte creado exitosamente');
+});
+
+ticketRouter.post('/sendEmailInfoUser', async (req, res) => {
+    const { idTicket, useremail } = req.body
+ 
+    // Envia notificación al desarrollador
+    const user = useremail;
+    const desarrolladorSubject = 'El Usuario a enviado mas información';
+  
+    await sendEmailInfoToWorker( idTicket, user , desarrolladorSubject );
+  
+    // Respuesta al cliente
+    res.send('Soporte creado exitosamente');
+});
+
+  ticketRouter.post('/sendEmailCloseTicket', async (req, res) => {
+    const { idTicket, useremail , worker } = req.body
+
+    let msj = idTicket !== undefined ? `Has cerrado el soporte Nº ${idTicket} exitosamente` : ` Has cerrado el soporte exitosamente`
+    let msjWorker = idTicket !== undefined ? `El usuario ha cerrado el soporte Nº ${idTicket} con exito.` : "El soporte fue cerrado exitosamente"
         
     // Envia notificación al usuario
     const usuarioEmail = useremail;
-    const usuarioSubject = 'Desarrollador solicita mas información';
-    const usuarioText = 'El desarrollador solicita mas información para poder resolver su soporte';
-  
+    const usuarioSubject = 'Soporte Cerrado';
+    const usuarioText = msj
+
     await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
-  
-    // Respuesta al cliente
-    res.send('Soporte creado exitosamente');
-  });
-
-  ticketRouter.post('/sendEmailInfoUser', async (req, res) => {
-    const { worker } = req.body
  
     // Envia notificación al desarrollador
-    const desarrolladorEmail = worker;
-    const desarrolladorSubject = 'El Usuario a enviado mas información';
-    const desarrolladorText = 'El usuario a agreado mas información a su soporte.';
-  
-    await sendEmailWorker(desarrolladorEmail, desarrolladorSubject, desarrolladorText);
-  
-    // Respuesta al cliente
-    res.send('Soporte creado exitosamente');
-  });
-
-  ticketRouter.post('/sendEmailCloseTicket', async (req, res) => {
-    const { worker } = req.body
- 
-    // Envia notificación al desarrollador
-    const desarrolladorEmail = worker;
+    
     const desarrolladorSubject = 'El soporte fue cerrado por el usuario';
-    const desarrolladorText = 'El Soporte fue cerrado exitosamente.';
+    const desarrolladorText = msjWorker;
   
-    await sendEmailWorker(desarrolladorEmail, desarrolladorSubject, desarrolladorText);
+    await sendEmailWorkerFinish( idTicket , desarrolladorSubject, desarrolladorText);
   
     // Respuesta al cliente
     res.send('Soporte creado exitosamente');
