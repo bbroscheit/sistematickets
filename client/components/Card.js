@@ -11,6 +11,7 @@ import Modal from '@mui/material/Modal';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import { updateWorker } from '@/pages/api/updateWorker';
 import { updateCloseTicket  } from '@/pages/api/updateCloseTicket';
+import { sendEmailCloseTicket } from '@/pages/api/sendEmailCloseTicket';
 
 const style = {
   position: 'absolute',
@@ -89,7 +90,7 @@ function Card({ id, subject, state}) {
   function SubmitCloseTicket(e){
     e.preventDefault()
     updateCloseTicket(id)
-
+    
     window.location.reload(true)
   }
 

@@ -16,9 +16,8 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
         const folderName = `ticket_${ticketId}`;
 
        // Ruta donde se guardan los archivos en la carpeta "documents", pero ver donde lo guardamos cuando estemos en produccion
-       const documentsFolderPath = DEST_FILES;
-       
-       const folderPath = path.join(documentsFolderPath, folderName);
+        const documentsFolderPath = path.join(DEST_FILES);
+        const folderPath = path.join(documentsFolderPath, folderName);
 
         // Crear la carpeta si no existe
         if (!fs.existsSync(folderPath)) {

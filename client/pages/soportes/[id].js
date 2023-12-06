@@ -467,8 +467,8 @@ function Soporte() {
                     <h4>Adjuntos:</h4>
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
-                          <div key={index} className={style.adjuntos}>
-                            <a href={file} download={`documento_${index + 1}.pdf`}>
+                          <div key={index} className={style.adjuntos} >
+                            <a href={file} download >
                               {file}
                             </a>
                           </div>
