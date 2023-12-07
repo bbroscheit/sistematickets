@@ -17,7 +17,8 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
 
        // Ruta donde se guardan los archivos en la carpeta "documents", pero ver donde lo guardamos cuando estemos en produccion
         const documentsFolderPath = path.join(DEST_FILES);
-        const folderPath = path.join(documentsFolderPath, folderName);
+        // const folderPath = path.join(documentsFolderPath, folderName);
+        const folderPath = path.join(__dirname, '../../../../public', folderName);
 
         // Crear la carpeta si no existe
         if (!fs.existsSync(folderPath)) {
@@ -26,7 +27,7 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
 
 
         // Mueve todos los archivos con el prefijo "new_" desde la carpeta "uploads" a la carpeta del ticket
-        const uploadFolderPath = path.join(__dirname, '../../../../public'); // Ruta a la carpeta "uploads"
+        const uploadFolderPath = path.join(__dirname, '../../../../public/uploads');
         const filesWithPrefix = fs.readdirSync(uploadFolderPath).filter(file => file.startsWith('new_'));
 
         const filesArray = [];
@@ -38,7 +39,8 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             // Mover el archivo a la carpeta específica del ticket
             fs.renameSync(sourcePath, destinationPath);
 
-            filesArray.push(destinationPath);
+            const relativePath = path.relative(path.join(__dirname, '../../../../public'), destinationPath);
+            filesArray.push(relativePath);
         }
 
         // Actualiza el registro en la base de datos

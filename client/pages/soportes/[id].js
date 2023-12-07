@@ -350,11 +350,11 @@ function Soporte() {
                     <h4>Adjuntos:</h4>
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
-                          <div key={index} className={style.adjuntos}>
-                            <a href={file} rel="noopener noreferrer">
-                              {file}
-                            </a>
-                          </div>
+                        <div key={index} className={style.adjuntos} >
+                        <a href={file} download >
+                          {file}
+                        </a>
+                      </div>
                         ))
                       : null}
                   </>
@@ -468,8 +468,8 @@ function Soporte() {
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                           <div key={index} className={style.adjuntos} >
-                            <a href={file} download >
-                              {file}
+                            <a href={`https://res.cloudinary.com/de2od3piw/image/upload/v1680908560/9-1024x677_k47gzv.webp`} download >
+                              {'https://res.cloudinary.com/de2od3piw/image/upload/v1680908560/9-1024x677_k47gzv.webp'}
                             </a>
                           </div>
                         ))
