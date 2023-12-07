@@ -22,6 +22,7 @@ import { sendEmailComplete } from '../api/sendEmailComplete';
 import { sendEmailMoreInfo } from '../api/sendEmailMoreInfo';
 import { sendEmailInfoUser } from "../api/sendEmailInfoUser";
 import { sendEmailCloseTicket } from "../api/sendEmailCloseTicket";
+import  getFilename  from "../../functions/getFilename";
 
 const styles = {
   position: "absolute",
@@ -352,7 +353,7 @@ function Soporte() {
                       ? soporte.files.map((file, index) => (
                         <div key={index} className={style.adjuntos} >
                         <a href={file} download >
-                          {file}
+                          {getFilename(file)}
                         </a>
                       </div>
                         ))
@@ -468,8 +469,8 @@ function Soporte() {
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                           <div key={index} className={style.adjuntos} >
-                            <a href={`https://res.cloudinary.com/de2od3piw/image/upload/v1680908560/9-1024x677_k47gzv.webp`} download >
-                              {'https://res.cloudinary.com/de2od3piw/image/upload/v1680908560/9-1024x677_k47gzv.webp'}
+                            <a href={file} download >
+                              {getFilename(file)}
                             </a>
                           </div>
                         ))
