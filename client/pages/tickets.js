@@ -56,7 +56,7 @@ function tickets() {
   return (
     <>
       {/* a pedido de Gcurcio se crea una vista para que ella pueda ver todos los soportes activos, en caso de que el usuario no sea curcio, el programa entra por la via normal y cada usuario solo ve su soporte creado o Asignado */}
-      {user !== null && user.name === "Gcurcio" ? (
+      {user !== null && (user.name === "Gcurcio" || user.name === "Administrador") ? (
         <div className={mainStyles.container}>
           <h1 className={mainStyles.title}>SOPORTES</h1>
           
@@ -293,7 +293,7 @@ function tickets() {
 
 
       {
-        user !== null && user.name === "Gcurcio" ? 
+        user !== null && (user.name === "Gcurcio" || user.name === "Administrador") ? 
         <div className={mainStyles.containerMobile}>
         <h1 className={mainStyles.title}>SOPORTES</h1>
         {user !== null ? (

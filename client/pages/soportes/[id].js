@@ -16,13 +16,12 @@ import { postFaq } from "../api/postFaq";
 import { updateInfoTicket } from "../api/updateInfoTicket";
 import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
 import { updateCloseTicket } from "../api/updateCloseTicket";
-import { sendEmail } from '../api/sendEmail';
-import { sendEmailAssigment } from '../api/sendEmailAssigment';
-import { sendEmailComplete } from '../api/sendEmailComplete';
-import { sendEmailMoreInfo } from '../api/sendEmailMoreInfo';
+import { sendEmailAssigment } from "../api/sendEmailAssigment";
+import { sendEmailComplete } from "../api/sendEmailComplete";
+import { sendEmailMoreInfo } from "../api/sendEmailMoreInfo";
 import { sendEmailInfoUser } from "../api/sendEmailInfoUser";
 import { sendEmailCloseTicket } from "../api/sendEmailCloseTicket";
-import  getFilename  from "../../functions/getFilename";
+import getFilename from "../../functions/getFilename";
 
 const styles = {
   position: "absolute",
@@ -58,9 +57,9 @@ function Soporte() {
   const [yesState, setYesState] = useState(0);
   const [email, setEmail] = useState({
     idTicket: id,
-    useremail : "",
-    worker:""
-  })
+    useremail: "",
+    worker: "",
+  });
   const [inputFaq, setInputFaq] = useState({
     title: "",
     description: "",
@@ -87,8 +86,8 @@ function Soporte() {
         });
         setEmail({
           ...email,
-          useremail: data.user.email
-        })
+          useremail: data.user.email,
+        });
       });
   }, [router.query.id]);
 
@@ -133,15 +132,15 @@ function Soporte() {
     });
     setEmail({
       ...email,
-      worker: e.target.value
-    })
+      worker: e.target.value,
+    });
   }
 
   //guarda en el soporte la asignacion del desarrollador
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
-    sendEmailAssigment(email)
+    sendEmailAssigment(email);
     window.location.reload(true);
   }
 
@@ -191,7 +190,7 @@ function Soporte() {
     e.preventDefault();
     updateSolutionTicket(soporte.id, solution);
     postFaq(inputFaq);
-    sendEmailComplete(email)
+    sendEmailComplete(email);
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -219,7 +218,7 @@ function Soporte() {
   function submitInfo(e) {
     e.preventDefault();
     updateInfoTicket(soporte.id, info);
-    sendEmailMoreInfo(email)
+    sendEmailMoreInfo(email);
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -247,7 +246,7 @@ function Soporte() {
   function submitInfoUser(e) {
     e.preventDefault();
     updateInfoTicketByUser(soporte.id, info);
-    sendEmailInfoUser(email)
+    sendEmailInfoUser(email);
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -258,7 +257,7 @@ function Soporte() {
   function SubmitCloseTicket(e) {
     e.preventDefault();
     updateCloseTicket(soporte.id);
-    sendEmailCloseTicket(email)
+    sendEmailCloseTicket(email);
     setTimeout(() => {
       router.push("/tickets");
     }, 300);
@@ -275,7 +274,7 @@ function Soporte() {
 
   return (
     <>
-      <div >
+      <div>
         {soporte !== null ? (
           <>
             <div className={style.visibilityContainer}>
@@ -292,26 +291,41 @@ function Soporte() {
                   </div>
                   <div className={style.stateContainer}>
                     <h3> Solicitante: </h3>
-                    <p>{soporte.user.firstname} {soporte.user.lastname}</p>
+                    <p>
+                      {soporte.user.firstname} {soporte.user.lastname}
+                    </p>
                   </div>
                   {user !== null && user.sector !== "Sistemas" ? (
                     <div className={style.stateContainer}>
                       <div className={style.assigmentContainer}>
                         <h3> Asignado a : </h3> <p>{soporte.worker}</p>
                       </div>
+                      {user.name === "Administrador" &&
+                      soporte.state !== "Terminado" ? (
+                        <button
+                          onClick={(e) => {
+                            handleOpen(e);
+                          }}
+                        >
+                          {" "}
+                          Cambiar{" "}
+                        </button>
+                      ) : null}
                     </div>
                   ) : (
                     <div className={style.stateContainer}>
                       <h3>Asignado a : </h3>
                       <p>{soporte.worker}</p>
-                      { soporte.state !== "terminado" ? 
+                      {soporte.state !== "Terminado" ? (
                         <button
-                          onClick={(e) => { handleOpen(e)}}
-                      >
-                        {" "}
-                        Cambiar{" "}
-                      </button> : null}
-                      
+                          onClick={(e) => {
+                            handleOpen(e);
+                          }}
+                        >
+                          {" "}
+                          Cambiar{" "}
+                        </button>
+                      ) : null}
                     </div>
                   )}
                 </div>
@@ -351,11 +365,11 @@ function Soporte() {
                     <h3 className={style.label}>Adjuntos:</h3>
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
-                        <div key={index} className={style.adjuntos} >
-                        <a href={file} download >
-                          {getFilename(file)}
-                        </a>
-                      </div>
+                          <div key={index} className={style.adjuntos}>
+                            <a href={file} download>
+                              {getFilename(file)}
+                            </a>
+                          </div>
                         ))
                       : null}
                   </>
@@ -365,7 +379,10 @@ function Soporte() {
                   soporte !== null &&
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Informacion" ? (
-                    <button onClick={(e) => handleOpenInfoUser(e)} className={mainStyle.button}>
+                    <button
+                      onClick={(e) => handleOpenInfoUser(e)}
+                      className={mainStyle.button}
+                    >
                       Agregar Información
                     </button>
                   ) : null
@@ -375,10 +392,18 @@ function Soporte() {
                   soporte.state !== "Terminado" &&
                   soporte.state !== "Informacion" ? (
                   <div className={mainStyle.buttonContainer}>
-                    <button onClick={(e) => handleOpenSolution(e)} className={mainStyle.button}>
+                    <button
+                      onClick={(e) => handleOpenSolution(e)}
+                      className={mainStyle.button}
+                    >
                       Resolver
                     </button>
-                    <button onClick={(e) => handleOpenInfo(e)} className={mainStyle.button}>Mas Info</button>
+                    <button
+                      onClick={(e) => handleOpenInfo(e)}
+                      className={mainStyle.button}
+                    >
+                      Mas Info
+                    </button>
                   </div>
                 ) : null}
 
@@ -387,10 +412,16 @@ function Soporte() {
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Completado" ? (
                     <div className={mainStyle.buttonContainer}>
-                      <button onClick={(e) => handleOpenInfoUser(e)} className={mainStyle.button}>
+                      <button
+                        onClick={(e) => handleOpenInfoUser(e)}
+                        className={mainStyle.button}
+                      >
                         Agregar Información
                       </button>
-                      <button onClick={(e) => SubmitCloseTicket(e)} className={mainStyle.button}>
+                      <button
+                        onClick={(e) => SubmitCloseTicket(e)}
+                        className={mainStyle.button}
+                      >
                         Cerrar Ticket
                       </button>
                     </div>
@@ -420,8 +451,8 @@ function Soporte() {
                   ) : (
                     <div className={style.stateContainer2}>
                       <div className={style.assigmentContainer2}>
-                      <h3>Asignado: </h3>
-                      <p>{soporte.worker}</p>
+                        <h3>Asignado: </h3>
+                        <p>{soporte.worker}</p>
                       </div>
                       <button
                         onClick={(e) => {
@@ -431,8 +462,7 @@ function Soporte() {
                         {" "}
                         Cambiar{" "}
                       </button>
-                      </div>
-                    
+                    </div>
                   )}
                 </div>
               </div>
@@ -455,7 +485,6 @@ function Soporte() {
                     <textarea
                       placeholder={soporte.answer}
                       disabled
-                      
                       className={style.textarea}
                     />
                   </div>
@@ -468,8 +497,8 @@ function Soporte() {
                     <h3>Adjuntos:</h3>
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
-                          <div key={index} className={style.adjuntos} >
-                            <a href={file} download >
+                          <div key={index} className={style.adjuntos}>
+                            <a href={file} download>
                               {getFilename(file)}
                             </a>
                           </div>
@@ -492,10 +521,18 @@ function Soporte() {
                   soporte.state !== "Terminado" &&
                   soporte.state !== "Informacion" ? (
                   <div className={mainStyle.buttonContainer}>
-                    <button onClick={(e) => handleOpenSolution(e)} className={mainStyle.button}>
+                    <button
+                      onClick={(e) => handleOpenSolution(e)}
+                      className={mainStyle.button}
+                    >
                       Resolver
                     </button>
-                    <button onClick={(e) => handleOpenInfo(e)} className={mainStyle.button}>Mas Info</button>
+                    <button
+                      onClick={(e) => handleOpenInfo(e)}
+                      className={mainStyle.button}
+                    >
+                      Mas Info
+                    </button>
                   </div>
                 ) : null}
 
@@ -504,10 +541,16 @@ function Soporte() {
                   soporte.worker !== "sin asignar" &&
                   soporte.state === "Completado" ? (
                     <div className={mainStyle.buttonContainer}>
-                      <button onClick={(e) => handleOpenInfoUser(e)} className={mainStyle.button}>
+                      <button
+                        onClick={(e) => handleOpenInfoUser(e)}
+                        className={mainStyle.button}
+                      >
                         Más Info
                       </button>
-                      <button onClick={(e) => SubmitCloseTicket(e)} className={mainStyle.button}>
+                      <button
+                        onClick={(e) => SubmitCloseTicket(e)}
+                        className={mainStyle.button}
+                      >
                         Cerrar Ticket
                       </button>
                     </div>
@@ -601,20 +644,22 @@ function Soporte() {
               ¿ Puede resolverlo el usuario ?
             </Typography>
             <div className={style.modalChecks}>
-            <button
-              className={
-                yesState === true ? style.buttonGreen : style.buttonGrey
-              }
-              onClick={(e) => handleClickUresolvedYes(e)}
-            >
-              <CheckCircleOutlineIcon />
-            </button>
-            <button
-              className={yesState === true ? style.buttonGrey : style.buttonRed}
-              onClick={(e) => handleClickUresolvedNo(e)}
-            >
-              <CancelOutlinedIcon />
-            </button>
+              <button
+                className={
+                  yesState === true ? style.buttonGreen : style.buttonGrey
+                }
+                onClick={(e) => handleClickUresolvedYes(e)}
+              >
+                <CheckCircleOutlineIcon />
+              </button>
+              <button
+                className={
+                  yesState === true ? style.buttonGrey : style.buttonRed
+                }
+                onClick={(e) => handleClickUresolvedNo(e)}
+              >
+                <CancelOutlinedIcon />
+              </button>
             </div>
           </div>
           <button
@@ -650,7 +695,6 @@ function Soporte() {
               name="info"
               onChange={(e) => handleChangeInfo(e)}
               className={style.modalTextarea}
-              
             />
           ) : null}
 
@@ -687,7 +731,6 @@ function Soporte() {
               name="info"
               onChange={(e) => handleChangeInfo(e)}
               className={style.modalTextarea}
-              
             />
           ) : null}
 
