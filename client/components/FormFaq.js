@@ -93,7 +93,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
     e.preventDefault();
     setInput({
       ...input,
-      state: "terminado",
+      state: "Terminado",
     });
   }
 

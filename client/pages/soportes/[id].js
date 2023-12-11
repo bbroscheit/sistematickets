@@ -264,8 +264,8 @@ function Soporte() {
     }, 300);
   }
 
-  // console.log("soporte", soporte)
-  console.log("email ", email)
+  console.log("soporte", soporte)
+  // console.log("email ", email)
   // console.log("faq", faq)
   // console.log("worker", worker)
   // console.log("user", user)
@@ -348,7 +348,7 @@ function Soporte() {
                 soporte.files &&
                 soporte.files.length > 0 ? (
                   <>
-                    <h4>Adjuntos:</h4>
+                    <h3 className={style.label}>Adjuntos:</h3>
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                         <div key={index} className={style.adjuntos} >
@@ -465,7 +465,7 @@ function Soporte() {
                 soporte.files &&
                 soporte.files.length > 0 ? (
                   <>
-                    <h4>Adjuntos:</h4>
+                    <h3>Adjuntos:</h3>
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                           <div key={index} className={style.adjuntos} >

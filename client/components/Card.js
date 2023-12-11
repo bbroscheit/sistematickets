@@ -28,7 +28,7 @@ const style = {
   alignItems: 'center',
 };
 
-function Card({ id, subject, state}) {
+function Card({ id, subject, state, created}) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openCloseTicket, setOpenCloseTicket] = useState(false);
@@ -100,6 +100,7 @@ function Card({ id, subject, state}) {
     <div className={styles.ticketContainer}>
         <h3 className={styles.gridElement}>Nº Ticket</h3>
         <h3 className={styles.gridElement}>Título</h3>
+        <h3 className={styles.gridElement}>Creado el</h3>
         {
           user && user.sector === "Sistemas" && state && state === "sin asignar"? <h3 className={styles.gridElement}>Acción</h3>
             : user && user.sector !== "Sistemas" && state && state === "Completado"? <h3 className={styles.gridElement}>Acción</h3>
@@ -112,6 +113,10 @@ function Card({ id, subject, state}) {
       <Link href={`/soportes/${id}`} >
         <h3 className={styles.gridElement}>{subject}</h3>
       </Link> 
+       
+      <Link href={`/soportes/${id}`} >
+        <h3 className={styles.gridElement}>{created}</h3>
+      </Link>
       {
           user && user.sector === "Sistemas" && state && state === "sin asignar"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick= { e => {handleOpen(e)}} className={styles.icon}/></h3>
             : user && user.sector !== "Sistemas" && state && state === "Completado"? <h3 className={styles.gridElement}><AddCircleOutlineRoundedIcon onClick={ e => handleOpenCloseTicket(e)} className={styles.icon}/></h3>
@@ -126,6 +131,9 @@ function Card({ id, subject, state}) {
       <Link href={`/soportes/${id}`} >
         <h3 className={styles.gridElement}>{id}</h3>
       </Link> 
+      <Link href={`/soportes/${id}`} >
+        <h3 className={styles.gridElement}>{subject}</h3>
+      </Link>
       <Link href={`/soportes/${id}`} >
         <h3 className={styles.gridElement}>{subject}</h3>
       </Link> 

@@ -513,11 +513,11 @@ export default function PrimarySearchAppBar() {
         
         : <List>
 
-        {['Soportes', 'Nuevo Soporte'].map((text, index) => (
+        {['Soportes', 'Nuevo Soporte', ' Hist. Soportes'].map((text, index) => (
           <Link href={
                   index === 0 ? '/tickets' :
-                  index === 1 ? '/soportes/nuevoSoporte' : '/'
-                  
+                  index === 1 ? '/soportes/nuevoSoporte':
+                  index === 2 ? '/soportes/historicoSoportes': null
                   } >
           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
             <ListItemButton
@@ -537,7 +537,8 @@ export default function PrimarySearchAppBar() {
                     color:"#EA6558"
                   }}
                 >
-                  {index === 0 ? <InsertDriveFileRoundedIcon /> : <NoteAddRoundedIcon />}
+                  {index === 0 ? <InsertDriveFileRoundedIcon /> :
+                  index === 1 ? <LiveHelpRoundedIcon />: <FindInPageRoundedIcon />}
                 </ListItemIcon>
               <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>

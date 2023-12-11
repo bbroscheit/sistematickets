@@ -24,7 +24,7 @@ function historicoSoportes() {
           {soportes !== null && soportes.length > 0
             ? soportes.map((e) => (
                 <React.Fragment key={e.id}>
-                  <Card id={e.id} subject={e.subject} state={e.state} />
+                  <Card id={e.id} subject={e.subject} state={e.state} created={e.created}/>
                 </React.Fragment>
               ))
             : null}
