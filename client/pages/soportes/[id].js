@@ -264,7 +264,7 @@ function Soporte() {
     }, 300);
   }
 
-  console.log("soporte", soporte)
+  // console.log("soporte", soporte)
   // console.log("email ", email)
   // console.log("faq", faq)
   // console.log("worker", worker)
