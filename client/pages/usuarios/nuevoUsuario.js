@@ -91,7 +91,7 @@ function nuevoUsuario() {
       phonenumber: "",
       isworker: "",
       isprojectmanager:"",
-    isprojectworker:"",
+      isprojectworker:"",
       sectorname: "",
       salepoint: "",
     })

@@ -1,6 +1,8 @@
 const {User, Sector, Salepoint } = require ('../../bd');
 
-const updateUser = async ( id, username, firstname, lastname, password, email, phonenumber, isworker, sectorname,salepoint  ) => {
+const updateUser = async ( id, username, firstname, lastname, password, email, phonenumber, isworker,
+    isprojectmanager,
+    isprojectworker, sectorname,salepoint  ) => {
     try{
         let setUser = await User.findByPk(id , {
             include:[
@@ -43,6 +45,8 @@ const updateUser = async ( id, username, firstname, lastname, password, email, p
                 email, 
                 phonenumber, 
                 isworker, 
+                isprojectmanager ,
+                isprojectworker ,
             },
             {
                 where: { id: id}

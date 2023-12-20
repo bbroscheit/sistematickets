@@ -83,9 +83,9 @@ userRouter.post("/user", async (req, res) => {
   }
 });
 
-userRouter.put("/user", async (req, res) => {
-  const { id } = req.query;
-  const {
+userRouter.put("/updateUser/:id", async (req, res) => {
+  let { id } = req.params;
+  let {
     username,
     firstname,
     lastname,
@@ -93,10 +93,13 @@ userRouter.put("/user", async (req, res) => {
     email,
     phonenumber,
     isworker = false,
+    isprojectmanager = false,
+    isprojectworker = false,
     sectorname = null,
     salepoint = null,
   } = req.body;
 
+  
   try {
     let updatedUser = await updateUser(
       id,
@@ -107,6 +110,8 @@ userRouter.put("/user", async (req, res) => {
       email,
       phonenumber,
       isworker,
+      isprojectmanager = false,
+      isprojectworker,
       sectorname,
       salepoint
     );
@@ -118,8 +123,9 @@ userRouter.put("/user", async (req, res) => {
   }
 });
 
-userRouter.delete("/user", async (req, res) => {
-  const { id } = req.query;
+userRouter.put("/deleteUser/:id", async (req, res) => {
+  
+  const { id } = req.params;
 
   try {
     let deletedUser = await deleteUser(id);

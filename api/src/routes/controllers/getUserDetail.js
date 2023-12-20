@@ -1,12 +1,21 @@
-const { User } = require('../../bd');
+const { User, Sector, Salepoint } = require('../../bd');
 
 const getUserDetail = async (id) => {
     
-    try {
-        let userDetail = await User.findOne({
-            where:{id: id}
+    try{
+        const user = await User.findByPk(id, {
+            include:[
+                {
+                    model:Sector,
+                    attribute: ["sectorname"],
+                },
+                {
+                    model:Salepoint,
+                    attribute: ["salepoint"],
+                }
+            ]
         });
-        return userDetail;
+        return user;
     } catch (e) {
         console.log("Error en controllers/getUserDetail.js" , e.message)
     }

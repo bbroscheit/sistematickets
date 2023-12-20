@@ -40,6 +40,7 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             fs.renameSync(sourcePath, destinationPath);
 
             const relativePath = path.relative(path.join(__dirname, '../../../../public'), destinationPath);
+            console.log("relative path", relativePath)
             filesArray.push(relativePath);
         }
 
