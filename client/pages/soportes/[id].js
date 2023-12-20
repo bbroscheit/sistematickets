@@ -345,7 +345,7 @@ function Soporte() {
 
                 {user !== null &&
                 user.sector !== "Sistemas" ? null : soporte !== null &&
-                  soporte.answer !== "Sin resolucion" ? (
+                  soporte.answer !== "Sin resolución" ? (
                   <div>
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
@@ -479,7 +479,7 @@ function Soporte() {
 
                 {user !== null &&
                 user.sector !== "Sistemas" ? null : soporte !== null &&
-                  soporte.answer !== "Sin resolucion" ? (
+                  soporte.answer !== "Sin resolución" ? (
                   <div>
                     <h3 className={style.label}>Solución : </h3>
                     <textarea

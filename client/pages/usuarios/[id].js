@@ -2,20 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import style from "../../modules/detail.module.css";
 import mainStyles from "@/styles/Home.module.css";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
-import { updateWorker } from "../api/updateWorker";
-import { updateSolutionTicket } from "../api/updateSolutionTicket";
-import { postFaq } from "../api/postFaq";
-import { updateInfoTicket } from "../api/updateInfoTicket";
-import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
-import { updateCloseTicket } from "../api/updateCloseTicket";
 import { deleteUser } from "../api/deleteUser";
 import { updateUser } from "../api/updateUser";
 
@@ -38,21 +27,13 @@ function Soporte() {
   const router = useRouter();
   const id = router.query.id;
 
-//   const [openSolution, setOpenSolution] = useState(false);
-//   const [openInfo, setOpenInfo] = useState(false);
   const [openChange, setOpenChange] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [sector, setSector] = useState(null);
   const [salepoint, setSalepoint] = useState(null);
   const [modify, setModify] = useState(false);
-//   const [asignar, setAsignar] = useState({ name: "sin asignar" });
-//   const [control, setControl] = useState(0);
-//   const [faq, setFaq] = useState(null);
-//   const [solution, setSolution] = useState({ solution: "" });
-//   const [info, setInfo] = useState({ info: "" });
-//   const [yesState, setYesState] = useState(0);
-const [input, setInput] = useState({
+  const [input, setInput] = useState({
   username: "",
   password: "",
   firstname: "",
@@ -82,7 +63,7 @@ const [error, setError] = useState("");
           isworker: data.isworker,
           isprojectmanager:data.isprojectmanager,
           isprojectworker: data.isprojectworker,
-          sectorname: data.sectorname,
+          sectorname: data.sector.sectorname,
           salepoint: data.salepoint.salepoint,
         })
         });
@@ -141,27 +122,6 @@ const [error, setError] = useState("");
       router.push("/usuarios");
     }, 300);
   }
-//   useEffect(() => {
-//     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setWorker(data);
-//       });
-//   }, [router.query.id]);
-
-//   useEffect(() => {
-//     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setFaq(data);
-//       });
-//   }, [router.query.id]);
-
-//   useEffect(() => {
-//     let userLogin = localStorage.getItem("user");
-//     let loginParse = JSON.parse(userLogin);
-//     setUser(loginParse);
-//   }, []);
 
   // abre y cierra el modal del borrado del usuario
   function handleOpen(e) {
@@ -223,22 +183,8 @@ const [error, setError] = useState("");
     updateUser(id, input)
     setModify(false)
   }
-//   // asigna un worker al soporte
-//   function handleAsignar(e) {
-//     e.preventDefault();
-//     setAsignar({
-//       name: e.target.value,
-//     });
-//   }
 
-//   //guarda en el soporte la asignacion del desarrollador
-//   function submitAsignar(e) {
-//     e.preventDefault();
-//     updateWorker(id, asignar);
-//     window.location.reload(true);
-//   }
-
-  // las siguientes 2 funciones abren y cierran el modal de la solucion
+  // las siguientes 2 funciones abren y cierran el modal de modificar
 
   function handleOpenChange(e) {
     e.preventDefault();
@@ -250,120 +196,8 @@ const [error, setError] = useState("");
     setOpenChange(false);
   }
 
-//   function handleChangeSolution(e) {
-//     setSolution({
-//       ...solution,
-//       [e.target.name]: e.target.value,
-//     });
-//     setInputFaq({
-//       ...inputFaq,
-//       answer: e.target.value,
-//     });
-//   }
-
-//   // dentro del modal de la solucion permite decir si el usuario puede resolverlo o no
-//   function handleClickUresolvedYes(e) {
-//     e.preventDefault();
-//     setYesState(true);
-//     setInputFaq({
-//       ...inputFaq,
-//       uresolved: true,
-//     });
-//   }
-
-//   function handleClickUresolvedNo(e) {
-//     e.preventDefault();
-//     setYesState(false);
-//     setInputFaq({
-//       ...inputFaq,
-//       uresolved: false,
-//     });
-//   }
-
-//   function submitSolution(e) {
-//     e.preventDefault();
-//     updateSolutionTicket(soporte.id, solution);
-//     postFaq(inputFaq);
-
-//     setTimeout(() => {
-//       router.push("/tickets");
-//     }, 300);
-//   }
-
-//   // las siguientes 2 funciones abren y cierran el modal del pedido de mas informacion
-
-//   function handleOpenInfo(e) {
-//     e.preventDefault();
-//     setOpenInfo(true);
-//   }
-
-//   function handleCloseInfo() {
-//     control === 0 ? setControl(1) : setControl(0);
-//     setOpenInfo(false);
-//   }
-
-//   function handleChangeInfo(e) {
-//     setInfo({
-//       ...info,
-//       [e.target.name]: e.target.value,
-//     });
-//   }
-
-//   function submitInfo(e) {
-//     e.preventDefault();
-//     updateInfoTicket(soporte.id, info);
-
-//     setTimeout(() => {
-//       router.push("/tickets");
-//     }, 300);
-//   }
-
-//   // las siguientes 2 funciones abren y cierran el modal del pedido de mas informacion
-
-//   function handleOpenInfoUser(e) {
-//     e.preventDefault();
-//     setOpenInfoUser(true);
-//   }
-
-//   function handleCloseInfoUser() {
-//     control === 0 ? setControl(1) : setControl(0);
-//     setOpenInfoUser(false);
-//   }
-
-//   function handleChangeInfo(e) {
-//     setInfo({
-//       ...info,
-//       [e.target.name]: e.target.value,
-//     });
-//   }
-
-//   function submitInfoUser(e) {
-//     e.preventDefault();
-//     updateInfoTicketByUser(soporte.id, info);
-
-//     setTimeout(() => {
-//       router.push("/tickets");
-//     }, 300);
-//   }
-
-//   // funcion para pasar el estado del ticket a Terminado
-
-//   function SubmitCloseTicket(e) {
-//     e.preventDefault();
-//     updateCloseTicket(soporte.id);
-
-//     setTimeout(() => {
-//       router.push("/tickets");
-//     }, 300);
-//   }
-
-//   // console.log("soporte", soporte)
-//   // console.log("faq", faq)
-  console.log("id id", id)
-  console.log("user", user)
-//   // console.log("asignar", asignar)
-//   // console.log("control", control)
-//   // console.log("solution", solution)
+  // console.log("id id", id)
+  // console.log("user", user)
 
   return (
     <>
@@ -435,25 +269,55 @@ const [error, setError] = useState("");
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Soporte ?</h3>
             <select value={input.isworker} name="isworker" onChange={e => handleChange(e)} className={mainStyles.select} disabled= {modify === false ? true : false}>
-              <option className={mainStyles.option}>Elija una opción</option>
-              <option value= "yes" className={mainStyles.option}>Si</option>
-              <option value="no" className={mainStyles.option}>No</option>
+              {
+               input.isworker ? 
+                <>
+                  <option value= "yes" className={mainStyles.option}>Si</option>
+                  <option className={mainStyles.option}>No</option>
+                </>
+                  : 
+                <>
+                  <option className={mainStyles.option}>No</option>
+                  <option value= "yes" className={mainStyles.option}>Si</option>
+                </>
+              
+              }             
             </select>
           </div>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Projectos ?</h3>
             <select value={input.isprojectmanager} name="isprojectmanager" onChange={e => handleChange(e)} className={mainStyles.select} disabled= {modify === false ? true : false}>
-              <option className={mainStyles.option}>Elija una opción</option>
-              <option value= "yes" className={mainStyles.option}>Si</option>
-              <option value="no" className={mainStyles.option}>No</option>
+            {
+               input.isprojectmanager ? 
+                <>
+                  <option value= "yes" className={mainStyles.option}>Si</option>
+                  <option className={mainStyles.option}>No</option>
+                </>
+                  : 
+                <>
+                  <option className={mainStyles.option}>No</option>
+                  <option value= "yes" className={mainStyles.option}>Si</option>
+                </>
+              
+              } 
             </select>
           </div>
           <div className={mainStyles.minimalGrid}>
             <h3 className={mainStyles.subtitle} >Desarrollador ?</h3>
             <select value={input.isprojectworker} name="isprojectworker" onChange={e => handleChange(e)} className={mainStyles.select} disabled= {modify === false ? true : false}>
-              <option className={mainStyles.option}>Elija una opción</option>
-              <option value= "yes" className={mainStyles.option}>Si</option>
-              <option value="no" className={mainStyles.option}>No</option>
+            {
+               input.isprojectworker ? 
+                <>
+                  <option value= "yes" className={mainStyles.option}>Si</option>
+                  <option className={mainStyles.option}>No</option>
+                </>
+                  : 
+                <>
+                  <option className={mainStyles.option}>No</option>
+                  <option value= "yes" className={mainStyles.option}>Si</option>
+                </>
+              
+              } 
             </select>
           </div>
         </div>

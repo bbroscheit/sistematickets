@@ -4,9 +4,11 @@ const {Salepoint} = require ('../../bd');
 
 const loginUser = async (username,password) => {
     
+    let modifiedUsername = username.charAt(0).toUpperCase() + username.slice(1)
+    
     try {
         let user = await User.findOne({
-            where:{isdelete:false , username:username, password:password}, 
+            where:{ isdelete:false , username:modifiedUsername, password:password}, 
             include:[{
                 model:Sector,
                 attribute:["sector"]
