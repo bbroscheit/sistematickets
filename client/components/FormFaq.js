@@ -109,7 +109,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
 
     setTimeout(() => {
       Router.push("/tickets");
-    }, 400);
+    }, 0);
   }
 
   return (

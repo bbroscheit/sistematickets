@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import style from "../../modules/newSoporte.module.css";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import mainStyle from "@/styles/Home.module.css";
 import FormNormal from "@/components/FormNormal";
 import FormFaq from "@/components/FormFaq";
@@ -8,6 +10,7 @@ import FormFaq from "@/components/FormFaq";
 function nuevoSoporte() {
   
   const [select, setSelect] = useState({ select: "principal" });
+  const [control, setControl] = useState(false)
   const [faqFilter, setFaqFilter] = useState(null);
   const [input, setInput] = useState({
     state: "sin asignar",
@@ -18,16 +21,42 @@ function nuevoSoporte() {
     user: ""
   });
   const [faq, setFaq] = useState(null);
-  //se hardcodea user porque no estoy guardando en localstorage
   const [user, setUser] = useState("bbroscheit");
+  const [faqList, setFaqList] = useState([
+    { label: 'otros' },
+  ]);
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
       .then((res) => res.json())
       .then((data) => {
         setFaq(data);
-      });
+      // Obtener todas las etiquetas
+      const allLabels = data.map((e) => e.title);
+
+      // Filtrar las etiquetas duplicadas
+      const uniqueLabels = allLabels.reduce((acc, label) => {
+        if (!acc.some((faqItem) => faqItem.label === label)) {
+          acc.push({ label });
+        }
+        return acc;
+      }, []);
+
+      // Actualizar el estado con las etiquetas únicas
+      setFaqList((prevFaqList) => [...prevFaqList, ...uniqueLabels]);
+    });
   }, []);
+
+  useEffect(() => {
+    // Filtrar duplicados usando un conjunto (Set) y un identificador único
+    const uniqueLabelsSet = new Set(faqList.map((item) => item.label));
+  
+    // Convertir el conjunto nuevamente a un array de objetos
+    const uniqueLabelsArray = Array.from(uniqueLabelsSet).map((label) => ({ label }));
+  
+    // Actualizar el estado con las etiquetas únicas
+    setFaqList(uniqueLabelsArray);
+  }, [faq]);
 
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
@@ -38,7 +67,6 @@ function nuevoSoporte() {
   useEffect(() => {
     setInput({
       state: "sin asignar",
-      //usuario que genera el soporte
       worker: user.username,
       subject: "",
       detail: "",
@@ -49,12 +77,15 @@ function nuevoSoporte() {
   function handleSelect(e) {
     e.preventDefault();
     //va a consultar por las opciones elegidas, si la opcion es "otros" despliega el formulario normal , si es "principal" no muestra nada, si es cualquier otra muestra o no el soporte para que el usuario lo arregle
-    e.target.value === "otros" ? setSelect({ select: "otros" }) : e.target.value === "principal" ? setSelect({ select: "principal" }): setSelect({ select: "1" })
+    e.target.innerHTML === "otros" ? setSelect({ select: "otros" }) : e.target.innerHTML === "principal" ? setSelect({ select: "principal" }): setSelect({ select: "1" })
     // filtra la opcion que se elige para guardar el resultado en ele stado " faqFilter"
-    let filter = faq.filter((faq) => faq.id == e.target.value);
+    let filter = faq.filter((faq) => faq.title == e.target.innerHTML);
     setFaqFilter(filter);
-
+    
   }
+
+
+  console.log("filter", faqFilter);
 
   return (
     <>
@@ -63,26 +94,21 @@ function nuevoSoporte() {
         {faq && faq.length > 0 ? (
         //pregunta si existe algo en la tabla FAQ , si no existe simplemente carga el formulario normal , si existe nos da las opciones para elegir
         <div className={mainStyle.form}>
+          {/* vamos a probar un select - select original */}
           <div className={style.minimalGrid}>
+            
+            {/* probando select - prueba de nuevo select */}
             <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
-            <select
-              onChange={(e) => handleSelect(e)}
-              name={input.title}
-              className={mainStyle.input}
-            >
-              <option className={mainStyle.input} value="principal">
-                
-                Elija una opción
-              </option>
-              {faq.map((e) => (
-                <option key={e.id} value={e.id} className={mainStyle.input}>
-                  {e.title}
-                </option>
-              ))}
-              <option value="otros" className={mainStyle.input}>
-                Otros
-              </option>
-            </select>
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={faqList}
+                fullWidth
+                renderInput={(params) => <TextField {...params}/>}
+                onChange={(e) => handleSelect(e)}
+            />
+
+
           </div> 
             {select.select === "otros" ? <FormNormal user = {user}/> 
               : select.select !== "otros" && select.select !== "principal" ? 
@@ -107,24 +133,16 @@ function nuevoSoporte() {
         <div className={mainStyle.form}>
           <div className={style.minimalGrid}>
             <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
-            <select
-              onChange={(e) => handleSelect(e)}
-              name={input.title}
-              className={mainStyle.input}
-            >
-              <option className={mainStyle.input} value="principal">
-                
-                Elija una opción
-              </option>
-              {faq.map((e) => (
-                <option key={e.id} value={e.id} className={mainStyle.input}>
-                  {e.title}
-                </option>
-              ))}
-              <option value="otros" className={mainStyle.input}>
-                Otros
-              </option>
-            </select>
+            {/* probando select - prueba de nuevo select */}
+            <h3 className={mainStyle.subtitle}>Sugerencia : </h3>
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={faqList}
+                fullWidth
+                renderInput={(params) => <TextField {...params}/>}
+                onChange={(e) => handleSelect(e)}
+            />
           </div> 
             {select.select === "otros" ? <FormNormal user = {user}/> 
               : select.select !== "otros" && select.select !== "principal" ? 

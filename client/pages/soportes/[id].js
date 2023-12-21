@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { updateWorker } from "../api/updateWorker";
 import { updateSolutionTicket } from "../api/updateSolutionTicket";
 import { postFaq } from "../api/postFaq";
