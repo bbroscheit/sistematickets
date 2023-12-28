@@ -281,6 +281,14 @@ export default function PrimarySearchAppBar() {
     open === false ? setOpen(true) : setOpen(false);
   };
 
+  const handleDrawerOpenOnMouseOver = () => {
+    setOpen(true)
+  };
+
+  const handleDrawerOpenOnMouseLeave = () => {
+    setOpen(false)
+  };
+
   function handleLogin(e){
     e.preventDefault();
     localStorage.removeItem('user');
@@ -304,6 +312,7 @@ export default function PrimarySearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
             onClick={ e => handleDrawerOpen(e)}
+            
           >
             <MenuIcon />
           </IconButton>
@@ -361,7 +370,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {/* {renderMobileMenu} */}
       {/* {renderMenu} */}
-      <Drawer variant="permanent" open={open} >
+      <Drawer variant="permanent" open={open} onMouseOver={ e => handleDrawerOpenOnMouseOver(e)} onMouseLeave={e => handleDrawerOpenOnMouseLeave(e)}>
         <Divider />
 
         {/* Control para agregar el boton de inicio si el usuario no esta logueado */}

@@ -10,7 +10,9 @@ function uploadFile(){
   
     // const upload = multer({ storage: storage }).single('files')
     const upload = multer({ storage: storage }).array('files', 10)
-  
+    
+    
+
   return upload
 }
 

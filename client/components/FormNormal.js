@@ -67,7 +67,7 @@ function FormNormal({ user }) {
   function handleSubmitNoFaq(e) {
     e.preventDefault();
     postTicketFormData(input)
-    sendEmailNewTicket(email)
+    // sendEmailNewTicket(email)
     alert("ticket generado con exito");
 
     setTimeout(() => {
@@ -76,7 +76,7 @@ function FormNormal({ user }) {
   }
 
   // console.log("userForm Data", user)
-  // console.log("inputForm Data", input)
+  console.log("inputForm Data", input)
 
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">

@@ -93,7 +93,6 @@ ticketRouter.get( '/ticketTerminado' , async ( req, res ) => {
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;
     
-    // console.log("body", req.body)
     try {
          
         let newTicket = await postTicket(state, worker, subject, detail, answer, userresolved, user, req.files);  
@@ -102,7 +101,6 @@ ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
         console.log ( "error en ruta post ticket" , e.message)
     }
 })
-
 
 ticketRouter.put( '/ticket' , async ( req, res ) => {
     const { id } = req.query

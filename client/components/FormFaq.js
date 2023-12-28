@@ -104,7 +104,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
     e.preventDefault();
     postTicketFormData(input)
     updateFaq( updatedFaq )
-    sendEmailNewTicket(email)
+    // sendEmailNewTicket(email)
     alert("ticket generado con exito");
 
     setTimeout(() => {
