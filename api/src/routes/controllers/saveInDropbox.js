@@ -5,15 +5,26 @@ const fs = require("fs");
 const path = require("path");
 const { DROPBOX } = process.env;
 
-const saveInDropbox = async (files) => {
-  // console.log("file", files);
+  // let accessTokenApp =
+  //   "sl.Bsi-bzrq3_cDGLEIZb89Q8KqiL65TZy8h5SwEE1apPno2o7lNRkL_tGeqbejkwAgsSKtcuU1TWLEPUG5p7-XJyQBoqskEGW_SF_bl7Sc5u6LprrgwUetYozMWVVOgJCj-8WzS3jxd7a4nS7XPtj0";
+  let appKey = "87u82u2klpmzv1s";
+  // let appSecret = "6dogolkeiglrtnh";
+  
+  let ACCESS_TOKEN = DROPBOX;
+
+  const saveInDropbox = async (files) => {
+  console.log("file", files);
+
+  let token = await fetch(`https://www.dropbox.com/oauth2/authorize?client_id=${appKey}&response_type=token&code_challenge=S256&code_challenge_method=S256`)
+                .then((data) => {
+                return data;
+                 
+  });
+
+  console.log("token", token);
 
   const UPLOAD_FILE_SIZE_LIMIT = 150 * 1024 * 1024;
-  let accessTokenApp =
-    "sl.Bsi-bzrq3_cDGLEIZb89Q8KqiL65TZy8h5SwEE1apPno2o7lNRkL_tGeqbejkwAgsSKtcuU1TWLEPUG5p7-XJyQBoqskEGW_SF_bl7Sc5u6LprrgwUetYozMWVVOgJCj-8WzS3jxd7a4nS7XPtj0";
-  let appKey = "87u82u2klpmzv1s";
-  let appSecret = "6dogolkeiglrtnh";
-  let ACCESS_TOKEN = DROPBOX;
+
   let dbx = new Dropbox({ accessToken: ACCESS_TOKEN });
 
   files.map((e) => {
