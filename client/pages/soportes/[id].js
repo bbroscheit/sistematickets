@@ -322,7 +322,7 @@ function Soporte() {
                           }}
                         >
                           {" "}
-                          Cambiar{" "}
+                          Modificar{" "}
                         </button>
                       ) : null}
                     </div>

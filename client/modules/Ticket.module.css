@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+
 .ticketContainer{
     visibility: visible;
     padding: 4rem;
@@ -24,7 +26,9 @@
 }
 
 .gridContainer h2{
-   margin-bottom: 8px;
+    margin-bottom: 8px;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 600;
 }
 
 /* media query para tablets */

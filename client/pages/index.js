@@ -96,7 +96,7 @@ export default function Home() {
           >
             "Usuario o contraseña incorrecta"
           </p>
-          <label className={styles.indexLabel}>Nombre de Usuario</label>
+          <label className={styles.indexLabel}>Usuario</label>
           <input
             type="text"
             name="username"

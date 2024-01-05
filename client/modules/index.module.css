@@ -5,27 +5,40 @@
     height:100vh;
     width:100%;
     font-family: 'Titillium Web', sans-serif;
-    background-image: url("https://st.focusedcollection.com/18590116/i/650/focused_230309614-stock-photo-male-executive-working-desk-office.jpg");
+    background-image: url("https://res.cloudinary.com/de2od3piw/image/upload/v1704380961/Mesa_de_trabajo_1_copia_7-100_jz0nxd.jpg");
     background-size: cover;
-    background-position: center center;
+    background-position: initial;
+    background-repeat: no-repeat;
 
 }
 
 .indexForm{
     margin: auto;
-    padding: 2rem;
+    padding: 1rem 2rem;
     display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
     background-color: rgba(236, 238, 240, 0.432);
-    backdrop-filter: blur(3px);
-    border-radius: 10px;
+    backdrop-filter: blur(0.5px);
+    border-radius: 15px;
+}
+
+.indexForm input{
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color:black;
+    font-size: 0.9rem;
+    font-family: 'Titillium Web', sans-serif;
+    
 }
 
 .indexLabel{
     font-weight: bolder;
     padding: 10px;
+    
 }
 
 .danger , .dangerLogin{
@@ -52,31 +65,24 @@
 
 
 .indexButton, .indexButtonDisabled{
-    background-color: var(--color-background-navbar);
+    background-color: var(--color-basani);
     border:none;
     border-radius: 10px;
     margin-top: 8px;
     padding: 12px 25px;
     font-family: 'Titillium Web', sans-serif;
     font-weight: 700;
-    color: var(--color-primaryfont);
-    transition: background-color 2s;
+    color: var(--color-secondaryfont);
+    transition: font-size 0.2s;
 }
 
 .indexButtonDisabled{
-    background-color: grey;
+    background-color: var(--color-basani);
 }
 
 .indexButton:hover{
    font-size: 0.9rem;
 }
 
-.indexButton:hover{
-    background-color: var(--color-background-navbar);
-    border:none;
-    border-radius: 10px;
-    padding: 12px 25px;
-    font-family: 'Titillium Web', sans-serif;
-    color: var(--color-primaryfont);
-}
+
 

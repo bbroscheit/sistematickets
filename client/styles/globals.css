@@ -3,14 +3,14 @@
   --border-radius: 12px;
   --color-background-navbar: #cf2e2e;
   --color-background-body: #ededf0ee;
-  /* --color-primaryfont: #fffffe; */
+  --color-secondaryfont: #fffffe; 
   --color-primaryfont: #3C3C3B;
   --color-paragraph: #94a1b2;
  /* --color-background-bodyalternate:#0f0e17; */ 
   --color-background-bodyalternate:#e9e7e7;
   --color-dangerForm: #f02929;
   --button-color:#1769aa;
-  /* -color-fontbody:- */
+  --color-basani: #EA6558  
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
@@ -53,7 +53,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  
+  font-family: 'Titillium Web';
 }
 
 html, body {

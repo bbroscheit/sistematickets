@@ -10,7 +10,7 @@ const { DEST_FILES} = process.env
 
 const postTicket = async (state, worker, subject, detail, answer, userresolved, user, files) => {
     // console.log("file", files)
-    // console.log("body", state, worker, subject, detail, answer, userresolved, user)
+    console.log("body", state, worker, subject, detail, answer, userresolved, user)
 
     try {
         // Creo el ticket vacio para tener el ID que le va a dar nombre a la carpeta
@@ -40,11 +40,11 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             const destinationPath = path.join('/', filename);
 
             // Mover el archivo a la carpeta específica del ticket
-            await saveInDropbox(files);
+            // await saveInDropbox(files);
 
-            const sharedLink = await getSharedLink(destinationPath);
+            // const sharedLink = await getSharedLink(destinationPath);
             
-            filesArray.push(sharedLink);
+            // filesArray.push(sharedLink);
         }
 
         // Actualiza el registro en la base de datos
@@ -71,7 +71,9 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             files: filesArray,
             userresolved: userresolved
         })
-    
+        
+        console.log("newticket", newTicket);
+
         return newTicket
 
     } catch (e) {

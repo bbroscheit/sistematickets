@@ -1,16 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap');
-
-.detailContainer{
-    padding: 4rem;
-    padding-right: 14rem;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    margin-left: 12.5rem;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--color-background-bodyalternate);
-} */
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
 
 .visibilityContainer{
     display: contents;
@@ -19,7 +7,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: flex-end;
     background-color: var(--color-background-bodyalternate);
 }
 
@@ -29,32 +17,36 @@
 
 .title{
     width: 100%;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web', sans-serif;
+    color:var(--color-basani);
     font-weight: 600;
     margin-bottom: 20px;
     padding-bottom: 0px;
 }
 
 .subtitle{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web', sans-serif;
     font-size: 1.3rem;
     margin: auto;
     margin-bottom: 15px;
-    text-align: center;
+    
   }
 
 .infoContainer{
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    
 }
 
 .titleContainer{
-    width: 80%;
+    width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    gap: 32px;
     margin-bottom: 15px;
+    color: var(--color-basani);
 }
 
 .stateContainer{
@@ -64,13 +56,12 @@
 }
 
 .stateContainer p{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web', sans-serif;
     margin: 3px 3px 3px 13px;
-
 }
 
 .stateContainer2 p{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web', sans-serif;
     margin: 3px 3px 3px 13px;
 
 }
@@ -79,34 +70,31 @@
     min-width: 6rem;
     padding: 7px 10px;
     margin: 0px 0px 2px 12px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color:aliceblue;
     border: none;
-    background-color: var(--button-color);
-    border-radius: 10px;
+    background-color: var(--color-basani);
+    border-radius: 8px;
 }
 
 .stateContainer2 button{
     min-width: 6rem;
     padding: 7px 10px;
     margin: 0px 0px 2px 12px;
-    font-family: 'Roboto', sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
     color:aliceblue;
     border: none;
-    background-color: var(--button-color);
-    border-radius: 10px;
+    background-color: var(--color-basani);
+    border-radius: 8px;
 }
 
 .form{
-    width: 80%;
-    margin: 2px auto ;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
     color: antiquewhite;
 }
@@ -117,10 +105,19 @@
 
 .textarea{
     margin-bottom: 10px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Titillium Web', sans-serif;
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 400;
+    width: 80vw;
+    height: 120px;
     padding: 8px 9px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 7px 8px 0px -4px rgba(69,69,69,0.26);
+    -webkit-box-shadow: 7px 8px 0px -4px rgba(69,69,69,0.26);
+    -moz-box-shadow: 7px 8px 0px -4px rgba(69,69,69,0.26);
+
   }
 
 .adjuntos{
@@ -177,7 +174,7 @@
     font-weight: 500;
     color:aliceblue;
     border: none;
-    background-color: var(--button-color);
+    background-color: var(--color-basani);
     border-radius: 10px;
 }
 
