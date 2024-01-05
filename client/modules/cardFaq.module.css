@@ -1,8 +1,17 @@
 .faqContainer {  
-    margin-top: 5px;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 10% 1fr 10% 10%;
+  gap: 0px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+  -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+  -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
     
   }
 
@@ -21,10 +30,18 @@
       }
     
     .faqContainerMobile{
-        display: flex;
-        margin-top: 8px;
-        border: 2px solid black;
-        border-radius: 10px;
-        padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 6px;
+      display: grid;
+      grid-template-columns: 10% 1fr 10% 10%;
+      gap: 0px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+      -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+      -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
     }
 }

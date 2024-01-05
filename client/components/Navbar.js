@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
+import styles from '../modules/Navbar.module.css'
 import Router from 'next/router';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
@@ -35,47 +36,6 @@ import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
 import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-
 const drawerWidth = 240; // dice cuan ancho es el menu cuando se despliega
 
 const openedMixin = (theme) => ({
@@ -98,15 +58,6 @@ const closedMixin = (theme) => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -146,7 +97,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const [ user, setUser ] = React.useState(null);
   const [ login, setLogin ] = React.useState(0);
 
@@ -381,12 +331,13 @@ export default function PrimarySearchAppBar() {
               } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                className={styles.listItemButton}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                  color:"#404241",
-                  fontfamily:"Roboto"
+                  color:"#000000",
+                  
                 }}
               >
                 <ListItemIcon
@@ -416,12 +367,13 @@ export default function PrimarySearchAppBar() {
               } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                className={styles.listItemButton}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                  color:"#404241",
-                  fontfamily:"Roboto"
+                  color:"#000000",
+                  
                 }}
               >
                 <ListItemIcon
@@ -453,12 +405,13 @@ export default function PrimarySearchAppBar() {
               } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                className={styles.listItemButton}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                  color:"#404241",
-                  fontfamily:"Roboto"
+                  color:"#000000",
+                  
                 }}
               >
                 <ListItemIcon
@@ -492,11 +445,12 @@ export default function PrimarySearchAppBar() {
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                className={styles.listItemButton}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                  color:"#404241"
+                  color:"#000000"
                 }}
               >
 
@@ -529,12 +483,14 @@ export default function PrimarySearchAppBar() {
                   index === 2 ? '/soportes/historicoSoportes': null
                   } >
           <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+            
             <ListItemButton
+              className={styles.listItemButton}
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
-                color:"#404241"
+                color:"#000000"
               }}
             >
 
@@ -564,18 +520,20 @@ export default function PrimarySearchAppBar() {
           user.isprojectmanager === true || user.isprojectworker === true ?
         <List>
 
-          {['Projectos', 'Tareas'].map((text, index) => (
+          {['Proyectos', 'Tareas'].map((text, index) => (
             <Link href={
                     index === 0 ? '/dashboard' :
                     index === 1 ? '/tareas/tareas' : '/'
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                className={styles.listItemButton}
                 sx={{
+                  
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                  color:"#404241"
+                  color:"#000000"
                 }}
               >
 
@@ -601,14 +559,15 @@ export default function PrimarySearchAppBar() {
         <Divider />
         { user !== null ? <List>
           {['Desconectar'].map((text, index) => ( 
-            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={ e => handleLogin(e)}>
+            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={ e => handleLogin(e)} >
               <ListItemButton
+                className={styles.listItemButton}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
-                  color:"#404241",
-                  fontfamily:"Roboto"
+                  color:"#000000",
+                  fontFamily:"Titillium Web"
                 }}
               >
                 <ListItemIcon

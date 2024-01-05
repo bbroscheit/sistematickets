@@ -120,19 +120,18 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
           { option === false ? (
             <>
               <h3 className={mainStyle.subtitle}>Descripción : </h3>
-              <textarea readOnly rows="10" value={input.detail} />
+              <textarea readOnly value={input.detail} />
               <h3 className={mainStyle.subtitle}>
                 Prueba los siguientes pasos :
               </h3>
               <textarea
                 readOnly
-                rows="10"
                 value={input.answer}
                 onChange={(e) => handleTextarea(e)}
               />
 
-              <h3 className={mainStyle.subtitle}>Pudiste Resolverlo ? : </h3>
-              <div className={mainStyle.buttonContainer}>
+              <h3 className={ mainStyle.subtitleAnswer}>¿ Pudiste resolver tu problema ?</h3>
+              <div className={mainStyle.buttonContainerAnswer}>
                 <button
                   className={mainStyle.button}
                   onClick={(e) => {

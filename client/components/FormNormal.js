@@ -96,7 +96,6 @@ function FormNormal({ user }) {
         <textarea
           type="text"
           placeholder="Ingrese el inconveniente"
-          rows="10"
           name="detail"
           value={input.detail}
           onChange={(e) => handleChange(e)}

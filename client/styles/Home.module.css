@@ -26,7 +26,11 @@
 
 .subtitle{
   font-family: 'Titillium Web', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.subtitleAnswer{
+  margin: auto;
 }
 
 .form{
@@ -39,27 +43,13 @@
   color: antiquewhite;
 }
 
-.form label{
-  font-weight: 600;
-}
-
 .interform{
   width: 100%;
 }
 
-.input{
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  padding: 2px 5px;
-}
-
 .inputFile{
-  font-family: 'Roboto', sans-serif;
-  border-radius: 10px;
+  font-family: 'Titillium Web', sans-serif;
   font-size: 0.9rem;
-  font-weight: 700;
-  padding: 2px 5px;
   margin: 10px 0px;
   
 }
@@ -74,35 +64,11 @@
   margin-bottom: 10px;
 }
 
-.labelWithTextarea textarea{
-  margin-bottom: 20px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  padding: 8px 9px;
-}
-
-.textarea{
-  margin-bottom: 20px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  padding: 8px 9px;
-}
-
-
-.select, .option{
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 8px 9px;
-}
-
 .button, .buttonDisabled{
   min-width: 6rem;
   padding: 9px 12px;
   margin: 0px 0px 2px 12px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   color:aliceblue;
@@ -122,6 +88,13 @@
   margin-bottom: 1rem;
   display: flex;
   justify-content: right;
+}
+
+.buttonContainerAnswer{
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .minimalGrid{

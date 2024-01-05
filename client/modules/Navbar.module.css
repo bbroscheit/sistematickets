@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
+
 .container{
     background-color: var(--color-basani);
     height: 100vh;
     overflow: hidden;
     padding: 3rem;
+}
+
+.listItemButton{
+    font-family: 'Titillium Web', sans-serif;
 }
 
 

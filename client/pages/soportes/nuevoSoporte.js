@@ -140,6 +140,7 @@ function nuevoSoporte() {
                 id="combo-box-demo"
                 options={faqList}
                 fullWidth
+                className={style.autocomplete}
                 renderInput={(params) => <TextField {...params}/>}
                 onChange={(e) => handleSelect(e)}
             />

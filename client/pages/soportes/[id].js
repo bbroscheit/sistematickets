@@ -296,9 +296,9 @@ function Soporte() {
                   </div>
                   {user !== null && user.sector !== "Sistemas" ? (
                     <div className={style.stateContainer}>
-                      <div className={style.assigmentContainer}>
+                      
                         <h3> Asignado a : </h3> <p>{soporte.worker}</p>
-                      </div>
+                      
                       {user.name === "Administrador" &&
                       soporte.state !== "Terminado" ? (
                         <button
