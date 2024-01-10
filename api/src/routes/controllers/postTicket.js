@@ -39,7 +39,15 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             const sourcePath = path.join(uploadFolderPath, filename);
             const destinationPath = path.join('/', filename);
 
-            // Mover el archivo a la carpeta específica del ticket
+            fs.renameSync(sourcePath, destinationPath);
+
+            const relativePath = path.relative(path.join(__dirname, '../../../../public'), destinationPath);
+            // console.log("relative path", relativePath)
+            
+            filesArray.push(relativePath);
+            
+            //Mover el archivo a dropbox
+            
             // await saveInDropbox(files);
 
             // const sharedLink = await getSharedLink(destinationPath);

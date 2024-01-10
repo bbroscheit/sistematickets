@@ -47,6 +47,21 @@
   width: 100%;
 }
 
+.input{
+  font-family: 'Titillium Web';
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 2px 8px;
+  color: #000000;
+  background-color: white;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+  -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+  -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+  
+}
+
 .inputFile{
   font-family: 'Titillium Web', sans-serif;
   font-size: 0.9rem;
