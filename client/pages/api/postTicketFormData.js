@@ -19,6 +19,7 @@ export async function postTicketFormData(input) {
   // console.log("formData", formData);
 
   const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {
+    // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {
     method: 'POST',
     body: formData,
   //   headers: {

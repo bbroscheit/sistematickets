@@ -1,6 +1,7 @@
 export async function sendEmailNewTicket(email) {
     // console.log(email)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailNewTicket`, {
+      // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailNewTicket`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

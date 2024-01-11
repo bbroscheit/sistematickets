@@ -39,6 +39,7 @@ function Card({ id, subject, state, created }) {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
       .then((res) => res.json())
       .then((data) => {
         setWorker(data);

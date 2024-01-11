@@ -28,6 +28,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
 
   useEffect(() => {
     fetch(`http://localhost:3001/project/${id}`)
+    // fetch(`https://localhost:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProject(data)

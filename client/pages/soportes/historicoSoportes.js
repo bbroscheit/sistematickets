@@ -9,6 +9,7 @@ function historicoSoportes() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketTerminado`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketTerminado`)
       .then((res) => res.json())
       .then((data) => {
         setSoportes(data);

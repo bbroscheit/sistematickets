@@ -69,6 +69,7 @@ function Soporte() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setSoporte(data);
@@ -92,6 +93,7 @@ function Soporte() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
       .then((res) => res.json())
       .then((data) => {
         setWorker(data);
@@ -100,6 +102,7 @@ function Soporte() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
       .then((res) => res.json())
       .then((data) => {
         setFaq(data);
@@ -365,7 +368,8 @@ function Soporte() {
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                           <div key={index} className={style.adjuntos}>
-                            <a href={file} download>
+                            {/* <a href={encodeURI("/ticket_22/new_Free tour Munich.pdf")} download> */}
+                            <a href={encodeURI(file)} download>
                               {getFilename(file)}
                             </a>
                           </div>

@@ -1,6 +1,7 @@
 export async function updateInfoTicketByUser(id, info) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateInfoTicketByUser/${id}`, {
+      // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateInfoTicketByUser/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

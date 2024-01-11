@@ -1,6 +1,7 @@
 export async function unifyFaq(id, filterFaq) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/unifyFaq/${id}`, {
+      // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/unifyFaq/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

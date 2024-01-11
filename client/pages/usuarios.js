@@ -12,6 +12,7 @@ function usuarios() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
@@ -21,6 +22,7 @@ function usuarios() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
       .then((res) => res.json())
       .then((data) => {
         setSector(data);
@@ -29,6 +31,7 @@ function usuarios() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
       .then((res) => res.json())
       .then((data) => {
         setSalepoint(data);

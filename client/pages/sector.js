@@ -10,6 +10,7 @@ function Sector() {
 
     useEffect(() => {
       fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
         .then((res) => res.json())
         .then((data) => {
           setSector(data);

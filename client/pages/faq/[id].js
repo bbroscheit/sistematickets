@@ -51,6 +51,7 @@ function Soporte() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqDetail/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqDetail/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setFaq(data);
@@ -66,6 +67,7 @@ function Soporte() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
       .then((res) => res.json())
       .then((data) => {
         setAllFaq(data);

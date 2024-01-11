@@ -50,6 +50,7 @@ const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
@@ -71,6 +72,7 @@ const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
       .then((res) => res.json())
       .then((data) => {
         setSalepoint(data);
@@ -95,6 +97,7 @@ const [error, setError] = useState("");
   function handleModifyReset(e){
     e.preventDefault()
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setUser(data);

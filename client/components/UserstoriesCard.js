@@ -33,6 +33,7 @@ function UserstoriesCard({ id, storiesname, storiesdetail }) {
 
   useEffect(() => {
     fetch(`http://localhost:3001/userstories/${storieId}`)
+    // fetch(`https://localhost:3001/userstories/${storieId}`)
       .then((res) => res.json())
       .then((data) => {
         setUserstorie(data);
