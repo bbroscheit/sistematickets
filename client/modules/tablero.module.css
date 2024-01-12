@@ -1,0 +1,52 @@
+.dashboardCardContainer{
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap:10px;
+}
+
+.dashboardCard{
+    width: 25%;
+    height: 120px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    
+}
+
+.dashboardCardTitles{
+    font-size: 0.85rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.dashboardCardIcons{
+    width: 50%;
+    font-size: 3rem;
+    color: #fafafa;
+}
+
+.green{
+    background-color: rgba(56, 150, 56, 0.959);
+}
+
+.yellow{
+    background-color: rgba(245, 245, 74, 0.973);
+}
+
+.red{
+    background-color: rgb(250, 62, 62);
+}

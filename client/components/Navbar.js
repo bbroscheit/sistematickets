@@ -34,6 +34,7 @@ import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import InputRoundedIcon from '@mui/icons-material/InputRounded';
 import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
 import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
+import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 const drawerWidth = 240; // dice cuan ancho es el menu cuando se despliega
@@ -512,9 +513,9 @@ export default function PrimarySearchAppBar() {
 
         ))}
       </List>
-        
         }
         <Divider />
+        
         {
           user !== null ? 
           user.isprojectmanager === true || user.isprojectworker === true ?
@@ -557,6 +558,49 @@ export default function PrimarySearchAppBar() {
 
 
         <Divider />
+
+        {
+          user !== null ? 
+          user.isprojectmanager === true || user.isprojectworker === true ?
+        <List>
+
+          {['Dashboard'].map((text, index) => (
+            <Link href={
+                    index === 0 ? '/tablero' :'/'
+                    } >
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                className={styles.listItemButton}
+                sx={{
+                  
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                  color:"#000000"
+                }}
+              >
+
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center',
+                      color:"#EA6558"
+                    }}
+                  >
+                    {index === 0 ? <LeaderboardRoundedIcon /> : <CreateNewFolderRoundedIcon />}
+                  </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </Link>
+
+          ))}
+        </List> : null :null }
+
+
+        <Divider />
+        
         { user !== null ? <List>
           {['Desconectar'].map((text, index) => ( 
             <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={ e => handleLogin(e)} >

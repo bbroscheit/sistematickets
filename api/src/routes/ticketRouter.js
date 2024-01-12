@@ -22,6 +22,7 @@ const sendEmailInfoToWorker = require('./helpers/sendEmailInfoToWorker');
 const sendEmailWorkerComplete = require('./helpers/sendEmailWorkerComplete');
 const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
 const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
+const getTicketsPendientes24 = require('./controllers/getTicketsPendientes24')
 
 
 
@@ -89,6 +90,16 @@ ticketRouter.get( '/ticketTerminado' , async ( req, res ) => {
         console.log( "error en ruta get ticketTerminado" , e.message)
     }
 })
+
+ticketRouter.get( '/ticketsPendientes24' , async ( req, res ) => {
+    try {
+        let ticketPendiente = await getTicketsPendientes24();
+        ticketPendiente ? res.status(200).json(ticketPendiente) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get ticketPendiente" , e.message)
+    }
+})
+
 
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;
