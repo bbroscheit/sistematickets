@@ -67,7 +67,7 @@ function FormNormal({ user }) {
   function handleSubmitNoFaq(e) {
     e.preventDefault();
     postTicketFormData(input)
-    // sendEmailNewTicket(email)
+    sendEmailNewTicket(email)
     alert("ticket generado con exito");
 
     setTimeout(() => {
