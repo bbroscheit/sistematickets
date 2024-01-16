@@ -12,6 +12,7 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import { updateWorker } from "@/pages/api/updateWorker";
 import { updateCloseTicket } from "@/pages/api/updateCloseTicket";
 import { sendEmailCloseTicket } from "@/pages/api/sendEmailCloseTicket";
+import giraFechas from '@/functions/girafechas'
 
 const style = {
   position: "absolute",
@@ -107,7 +108,7 @@ function Card({ id, subject, state, created }) {
         <div>
           <h4 className={styles.gridElementH4}>Creado el</h4>
           <Link href={`/soportes/${id}`}>
-            <h4 className={styles.gridElementH4}>{created}</h4>
+            <h4 className={styles.gridElementH4}>{giraFechas(created)}</h4>
           </Link>
         </div>
 
@@ -155,7 +156,7 @@ function Card({ id, subject, state, created }) {
         <div>
           <h4 className={styles.gridElementH4}>Creado el</h4>
           <Link href={`/soportes/${id}`}>
-            <h4 className={styles.gridElementH4}>{created}</h4>
+            <h4 className={styles.gridElementH4}>{giraFechas(created)}</h4>
           </Link>
         </div>
 

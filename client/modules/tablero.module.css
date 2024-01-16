@@ -74,11 +74,26 @@
    
 }
 
+.tableContainerMargin{
+    margin-top: 2rem;
+}
+
 .tableContainer{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     gap: 5px;
+}
+
+.tableContainerProyect{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.tableContainerProyect table{
+   width: 100%;
 }
 
 .dashboardCardSoporte{
@@ -122,6 +137,27 @@
     padding: 5px;
     
 }
+
+.tableSubtitle{
+    background-color: #000000;
+}
+
+.progressBarContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3% 3%; 
+    margin-top: 10px;
+    width: 100%;
+    font-size: 14px;
+    color: white;
+}
+
+.progressBar{
+    width: 80%;
+    border: 1px solid var(--color-primaryfont);
+}
+
 
 /* .primaryTable  */
 

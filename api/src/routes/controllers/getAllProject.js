@@ -4,14 +4,14 @@ const getAllProjects = async () => {
     try {
         let getAllProject = await Project.findAll(
             {
-            where: { isdelete : false},
-            include:[{
-                model: User,
-                attribute: ["username"]
-            },
+                where: { isdelete : false},
+                include:[{
+                    model: User,
+                    attribute: ["username"]
+                },
                 {
                     model: Userstories,
-                    attributes: ["storiesname"],
+                    attributes: ["storiesname","state"],
                     where:{isdelete: false},
                     required:false
                 }

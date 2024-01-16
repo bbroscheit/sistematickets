@@ -338,7 +338,7 @@ function Soporte() {
                   <h3 className={style.label}>Detalle : </h3>
                   <textarea
                     placeholder={soporte.detail}
-                    readOnly
+                    // readOnly
                     cols="80"
                     rows="5"
                     className={style.textarea}
