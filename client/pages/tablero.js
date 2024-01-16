@@ -138,7 +138,7 @@ function tablero() {
               
                 { proyecto !== null && proyecto.length > 0 ? 
                     proyecto.map( e => 
-                      <tr>
+                      <tr key={e.id}>
                         <td colSpan={5}>{e.projectname}</td>
                         <td colSpan={3}>{e.state}</td>
                         <td colSpan={2}>{extraeFecha(e.createdAt)}</td>

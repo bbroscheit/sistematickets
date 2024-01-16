@@ -309,7 +309,7 @@ function tickets() {
                   user !== null &&
                   e.user !== null  ? (
                     <React.Fragment key={e.id}>
-                      <Card id={e.id} subject={e.subject} state={e.state} />
+                      <Card id={e.id} subject={e.subject} state={e.state} created={e.created}/>
                     </React.Fragment>
                   ) : null
                 )}
