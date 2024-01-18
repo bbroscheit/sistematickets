@@ -1,20 +1,19 @@
 .cardContainer{
     gap: 15px;
     border: 1px solid #88888748;
+    background-color: white;
     border-radius: 10px;
-    padding:25px;
-    box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
-    -webkit-box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
-    -moz-box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
-    font-family: 'Roboto', sans-serif;
+    padding: 8px 20px;
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .cardLink{
     display:flex;
     align-items: flex-start;
     flex-direction: column;
-    gap: 15px;
-    padding:25px;
+    padding: 8px 0px;
 }
 
 .projectCardTitle{
@@ -22,7 +21,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 20px;
+    margin: 8px 0px 0px 0px;
     color: var(--color-primaryfont);
 }
 
@@ -32,6 +31,7 @@
 }
 
 .projectCardTitle p{
+    color: #b2b2b2;
     font-size: 0.8rem;
     justify-self: flex-end;
     
@@ -39,13 +39,17 @@
 
 .projectCardDetail{
     font-size: 0.8rem;
-    padding: 0px 8px;
+    margin: 8px 0px;
+    font-weight: 600;
+}
+
+.projectCardDetail p{
+    color: #b2b2b2;
 }
 
 .projectCardPeople{
     display: flex;
     justify-content: flex-start;
-    gap:5px;
     font-size: 1rem;
     flex-direction: column;
 }
@@ -59,22 +63,21 @@
 .progressContainer div{
     display: grid; 
     grid-auto-rows: 1fr; 
-    grid-template-columns: 1fr 12% 8%; 
+    grid-template-columns: 1fr 5%; 
     grid-template-rows: auto; 
-    gap: 3% 3%; 
+    gap: 1%; 
     margin-top: 10px;
-    width: 100%;
-    font-size: 14px;
     color: white;
 }
 
 .progressBar{
-    border: 1px solid var(--color-primaryfont);
+    border: 1px solid #b2b2b2;
 }
 
 .progressContainer span{
     font-size: 12px;
     font-weight: 700;
+    color: #b2b2b2;
 }
 
 .progressBarCheck{

@@ -8,9 +8,9 @@
     padding: 16px;
     background-color: rgb(42, 42, 230);
     border-radius: 10px;
-    box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .cardWorkerUser{

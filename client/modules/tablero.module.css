@@ -8,18 +8,18 @@
 }
 
 .dashboardCard{
-    width: 25%;
-    height: 120px;
+    width: 30%;
+    height: 130px;
     padding: 15px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-direction: row;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     
 }
 
@@ -106,9 +106,9 @@
     flex-direction: row;
     background-color: rgb(42, 42, 230);
     border-radius: 10px;
-    box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     
 }
 
@@ -118,9 +118,9 @@
     table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 1px;
-    box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-    -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .primaryTable th {

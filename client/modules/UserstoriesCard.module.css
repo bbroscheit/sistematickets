@@ -1,28 +1,27 @@
 .userstoriesCard{
     border: 2px solid rgba(128, 126, 126, 0.281);
+    background-color: #ededed;
     padding: 15px;
     display: flex;
     justify-content: center;
     align-content: center;
-    flex-direction: column; 
+    flex-direction: column;
     width: 45%;
     border-radius: 10px;
-    box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
-    -webkit-box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
-    -moz-box-shadow: 7px 10px 24px -6px rgba(0,0,0,0.82);
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+   -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+   -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .userstoriesCard h3{
    margin: auto;
    padding: 2px;
-   margin-bottom: 10px;
-    
 }
 
 .userstoriesCard p{
     padding: 2px;
     margin-bottom: 10px;
-     
+
  }
 
  .accordionContainer{
@@ -32,14 +31,16 @@
  }
 
 .accordionDiv{
-    display: grid; 
-    grid-auto-rows: 1fr; 
-    grid-template-columns: 1fr 30% 10%; 
-    grid-template-rows: auto; 
-    gap: 3% 3%; 
-    border-bottom: 1px solid white;
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 1fr 30% 10%;
+    grid-template-rows: auto;
+    gap: 3% 3%;
+    align-items: center;
+    border-bottom: 1px solid rgb(219, 219, 219);
     width: 100%;
-    padding: 3px;
+    margin: auto;
+    
  }
 
  .titleContainer{
@@ -50,5 +51,9 @@
 
  .accordionDate{
    font-size: 0.8rem;
+ }
+
+ .task{
+   margin-top: 12px;
  }
 

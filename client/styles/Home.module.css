@@ -56,9 +56,9 @@
   background-color: white;
   border-radius: 12px;
   border: none;
-  box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-  -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
-  -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
+  box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
   
 }
 
@@ -103,6 +103,7 @@
   margin-bottom: 1rem;
   display: flex;
   justify-content: right;
+  gap: 16px;
 }
 
 .buttonContainerAnswer{
@@ -110,6 +111,49 @@
   margin-bottom: 1rem;
   display: flex;
   justify-content: center;
+}
+
+.labelModal{
+  display: block;
+  margin-left: 16px;
+}
+
+.inputModal{
+  margin: 6px 0px;
+  width: 100%;
+  padding: 10px;
+  
+}
+
+.selectModal{
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.buttonModal, .buttonModalCancel{
+  background-color: var(--color-basani);
+  font-size: 1rem;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+}
+
+.buttonModalCancel{
+  background-color: rgb(148, 146, 146);
+}
+
+.buttonModal:hover{
+  background-color: var(--color-basani);
+  font-size: 1rem;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .minimalGrid{

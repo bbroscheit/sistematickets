@@ -67,26 +67,26 @@ function UserstoriesCard({ id, storiesname, storiesdetail }) {
       </div>
       <p className={Style.titleContainer}>{storiesdetail}</p>
       <hr />
-      <div className={StyleTask.task}>
+      <div className={Style.task}>
         <div>
-          <Accordion sx={{ flexDirection: "column", position:"relative", width:"100%" }}>
+          <Accordion sx={{ flexDirection: "column", position:"relative", width:"90%", margin:"auto", borderRadius:"15px"}}>
             <AccordionSummary
               expandIcon={
                 <ArrowCircleDownIcon className={Style.accordionStyle} sx={{cursor:"pointer", color:"#EA6558"}}/>
               }
               aria-controls="panel1a-content"
               id="panel1a-header"
-              sx={{ bgcolor: "#e9e7e7", width: "100%"}}
+              sx={{ backgroundColor:"#ffffff", width:"90%", margin:"auto"}}
             >
-              <Typography>Tareas</Typography>
+              <Typography sx={{fontWeight:600}}>Tareas</Typography>
             </AccordionSummary>
-            <AccordionDetails sx={{ bgcolor: "#e9e7e7", width:"100%" }} className={Style.accordionContainer}>
+            <AccordionDetails sx={{ backgroundColor:"#ffffff", margin:"auto"}} className={Style.accordionContainer}>
               {task !== null && task !== undefined
                 ? task.map((e) => 
-                  <div className={Style.accordionDiv}>
+                  <div className={Style.accordionDiv} key={e.id}>
                     <p className={Style.accordionParagraph}>{e.taskdetail}</p>
                     <p className={Style.accordionDate}>{e.taskfinishdate}</p>
-                    < CheckCircleOutlinedIcon onClick={event => handleCheck(event, e.id)} sx={{cursor:e.state === "cumplido" ? false:"pointer", color: e.state === "cumplido" ? "green": "white"}}/>
+                    < CheckCircleOutlinedIcon onClick={event => handleCheck(event, e.id)} sx={{cursor:e.state === "cumplido" ? false:"pointer", color: e.state === "cumplido" ? "green": "red"}}/>
                   </div>)
                 : null}
             </AccordionDetails>

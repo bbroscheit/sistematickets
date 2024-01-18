@@ -363,7 +363,7 @@ export default function PrimarySearchAppBar() {
           {['Inicio','Usuarios', 'Nuevo Usuario'].map((text, index) => (
             <Link href={
                 index === 0 ? '/' :
-                index === 1 ? '/usuarios' : '/usuarios/nuevoUsuario'
+                index === 1 ? '/Usuarios' : '/usuarios/nuevoUsuario'
                 
               } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -440,8 +440,8 @@ export default function PrimarySearchAppBar() {
 
           {['Soportes',  'Faq', ' Hist. Soportes'].map((text, index) => (
             <Link href={
-                    index === 0 ? '/tickets' :
-                    index === 1 ? '/faq' :
+                    index === 0 ? '/Tickets' :
+                    index === 1 ? '/Faq' :
                     index === 2 ? '/soportes/historicoSoportes': null
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -479,7 +479,7 @@ export default function PrimarySearchAppBar() {
 
         {['Soportes', 'Nuevo Soporte', ' Hist. Soportes'].map((text, index) => (
           <Link href={
-                  index === 0 ? '/tickets' :
+                  index === 0 ? '/Tickets' :
                   index === 1 ? '/soportes/nuevoSoporte':
                   index === 2 ? '/soportes/historicoSoportes': null
                   } >
@@ -523,7 +523,7 @@ export default function PrimarySearchAppBar() {
 
           {['Proyectos', 'Tareas'].map((text, index) => (
             <Link href={
-                    index === 0 ? '/dashboard' :
+                    index === 0 ? '/Dashboard' :
                     index === 1 ? '/tareas/tareas' : '/'
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -566,7 +566,7 @@ export default function PrimarySearchAppBar() {
 
           {['Dashboard'].map((text, index) => (
             <Link href={
-                    index === 0 ? '/tablero' :'/'
+                    index === 0 ? '/Tablero' :'/'
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton

@@ -114,9 +114,9 @@
     border: none;
     border-radius: 10px;
     background-color: white;
-    box-shadow: 7px 8px 0px -4px rgba(69,69,69,0.26);
-    -webkit-box-shadow: 7px 8px 0px -4px rgba(69,69,69,0.26);
-    -moz-box-shadow: 7px 8px 0px -4px rgba(69,69,69,0.26);
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 
   }
 

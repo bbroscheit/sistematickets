@@ -5,7 +5,7 @@ import mainStyles from '@/styles/Home.module.css';
 import CardFaq from "@/components/CardFaq";
 
 
-function faq() {
+function Faq() {
     const [faq, setFaq] = useState(null);
 
     useEffect(() => {
@@ -44,4 +44,4 @@ function faq() {
     )
 }
 
-export default faq;
+export default Faq;

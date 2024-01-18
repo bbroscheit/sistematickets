@@ -7,6 +7,10 @@
     margin: 15px 0px;
 }
 
+.margin{
+    padding: 0px;
+}
+
 .horizontalLine{
     width: 100%;
 }
@@ -26,12 +30,6 @@
 .containerUserstoriesCard{
     width: 100%;
     margin: auto;
-    /* display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-    grid-auto-rows: 1fr;
-    gap: 10px 11px;
-    grid-auto-flow: row;       */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -44,11 +42,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     width: 100%;
-}
 
-.titleTarea{
-    margin-right: 50px;
 }
 
 .placeholder::placeholder{
@@ -66,4 +62,30 @@
 
 .labelContainer label{
     margin-bottom: 5px;
+}
+
+.button{
+    width: 16%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    background-color: var(--color-basani);
+    border-radius: 10px;
+    padding: 8px 12px;
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+}
+
+.button h5{
+    color: white;
+    letter-spacing: 1px;
+}
+
+.button hr{
+    height: 1.4rem;
+    width: 1px;
+    border: none;
+    background-color: white;
 }

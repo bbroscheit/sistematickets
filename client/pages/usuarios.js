@@ -4,7 +4,7 @@ import mainStyles from "../styles/Home.module.css";
 import styles from "@/modules/usuarios.module.css";
 import CardUsers from "@/components/CardUsers";
 
-function usuarios() {
+function Usuarios() {
   const [user, setUser] = useState(null);
   const [userAlt , setUserAlt] = useState(null);
   const [sector, setSector] = useState(null);
@@ -146,4 +146,4 @@ function usuarios() {
   );
 }
 
-export default usuarios;
+export default Usuarios;

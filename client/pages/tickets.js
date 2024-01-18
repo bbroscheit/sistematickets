@@ -4,7 +4,7 @@ import Card from "../components/Card.js";
 import styles from "../modules/Ticket.module.css";
 import mainStyles from "@/styles/Home.module.css";
 
-function tickets() {
+function Tickets() {
   const [ticketGenerados, setTicketsGenerados] = useState(null);
   const [ticketDesarrollo, setTicketsDesarrollo] = useState(null);
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
@@ -72,6 +72,7 @@ function tickets() {
                     e.user !== null ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -90,6 +91,7 @@ function tickets() {
                     e.user !== null  ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -108,6 +110,7 @@ function tickets() {
                     e.user !== null  ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -126,6 +129,7 @@ function tickets() {
                     e.user !== null  ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -153,6 +157,7 @@ function tickets() {
                     user.name === e.user.username ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -172,6 +177,7 @@ function tickets() {
                     user.name === e.user.username ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -191,6 +197,7 @@ function tickets() {
                     user.name === e.user.username ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -210,6 +217,7 @@ function tickets() {
                     user.name === e.user.username ? (
                       <React.Fragment key={e.id}>
                         <Card
+                        key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
@@ -229,12 +237,15 @@ function tickets() {
                 <div className={styles.gridContainer}>
                   <h2>Soportes Generados</h2>
                   {ticketGenerados.map((e) => (
+                    <React.Fragment key={e.id}>
                     <Card
+                      key={e.id}
                       id={e.id}
                       subject={e.subject}
                       state={e.state}
                       created={e.created}
                     />
+                    </React.Fragment>
                   ))}
                 </div>
               ) : null}
@@ -243,14 +254,15 @@ function tickets() {
                   <h2>Soportes En Desarrollo</h2>
                   {ticketDesarrollo.map((e) =>
                     user !== null && user.name === e.worker ? (
-                      <>
+                      <React.Fragment key={e.id}>
                         <Card
+                          key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
                           created={e.created}
                         />
-                      </>
+                      </React.Fragment>
                     ) : null
                   )}
                 </div>
@@ -260,14 +272,15 @@ function tickets() {
                   <h2>Soportes que necesitan mas información</h2>
                   {ticketDesarrollo2.map((e) =>
                     user !== null && user.name === e.worker ? (
-                      <>
+                      <React.Fragment key={e.id}>
                         <Card
+                          key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
                           created={e.created}
                         />
-                      </>
+                      </React.Fragment>
                     ) : null
                   )}
                 </div>
@@ -277,14 +290,15 @@ function tickets() {
                   <h2>Soportes pendientes de cierre</h2>
                   {ticketCompletado.map((e) =>
                     user !== null && user.name === e.worker ? (
-                      <>
+                      <React.Fragment key={e.id}>
                         <Card
+                         key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
                           created={e.created}
                         />
-                      </>
+                      </React.Fragment>
                     ) : null
                   )}
                 </div>
@@ -309,7 +323,7 @@ function tickets() {
                   user !== null &&
                   e.user !== null  ? (
                     <React.Fragment key={e.id}>
-                      <Card id={e.id} subject={e.subject} state={e.state} created={e.created}/>
+                      <Card key={e.id} id={e.id} subject={e.subject} state={e.state} created={e.created}/>
                     </React.Fragment>
                   ) : null
                 )}
@@ -323,6 +337,7 @@ function tickets() {
                   e.user !== null  ? (
                     <React.Fragment key={e.id}>
                       <Card
+                      key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
@@ -341,6 +356,7 @@ function tickets() {
                   e.user !== null  ? (
                     <React.Fragment key={e.id}>
                       <Card
+                      key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
@@ -359,6 +375,7 @@ function tickets() {
                   e.user !== null  ? (
                     <React.Fragment key={e.id}>
                       <Card
+                      key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
@@ -387,7 +404,7 @@ function tickets() {
                   e.user !== null &&
                   user.name === e.user.username ? (
                     <React.Fragment key={e.id}>
-                      <Card id={e.id} subject={e.subject} state={e.state} />
+                      <Card key={e.id} id={e.id} subject={e.subject} state={e.state} />
                     </React.Fragment>
                   ) : null
                 )}
@@ -402,6 +419,7 @@ function tickets() {
                   user.name === e.user.username ? (
                     <React.Fragment key={e.id}>
                       <Card
+                      key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
@@ -421,6 +439,7 @@ function tickets() {
                   user.name === e.user.username ? (
                     <React.Fragment key={e.id}>
                       <Card
+                      key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
@@ -440,6 +459,7 @@ function tickets() {
                   user.name === e.user.username ? (
                     <React.Fragment key={e.id}>
                       <Card
+                      key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
@@ -459,12 +479,14 @@ function tickets() {
               <div className={styles.gridContainer}>
                 <h2>Soportes Generados</h2>
                 {ticketGenerados.map((e) => (
+                  <React.Fragment key={e.id}>
                   <Card
+                  key={e.id}
                     id={e.id}
                     subject={e.subject}
                     state={e.state}
                     created={e.created}
-                  />
+                  /></React.Fragment>
                 ))}
               </div>
             ) : null}
@@ -473,14 +495,15 @@ function tickets() {
                 <h2>Soportes En Desarrollo</h2>
                 {ticketDesarrollo.map((e) =>
                   user !== null && user.name === e.worker ? (
-                    <>
+                    <React.Fragment key={e.id}>
                       <Card
+                        key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
                         created={e.created}
                       />
-                    </>
+                    </React.Fragment>
                   ) : null
                 )}
               </div>
@@ -490,14 +513,15 @@ function tickets() {
                 <h2>Soportes que necesitan mas información</h2>
                 {ticketDesarrollo2.map((e) =>
                   user !== null && user.name === e.worker ? (
-                    <>
+                    <React.Fragment key={e.id}>
                       <Card
+                        key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
                         created={e.created}
                       />
-                    </>
+                    </React.Fragment>
                   ) : null
                 )}
               </div>
@@ -507,14 +531,15 @@ function tickets() {
                 <h2>Soportes pendientes de cierre</h2>
                 {ticketCompletado.map((e) =>
                   user !== null && user.name === e.worker ? (
-                    <>
+                    <React.Fragment key={e.id}>
                       <Card
+                        key={e.id}
                         id={e.id}
                         subject={e.subject}
                         state={e.state}
                         created={e.created}
                       />
-                    </>
+                    </React.Fragment>
                   ) : null
                 )}
               </div>
@@ -526,4 +551,4 @@ function tickets() {
   );
 }
 
-export default tickets;
+export default Tickets;

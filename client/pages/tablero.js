@@ -24,7 +24,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-function tablero() {
+function Tablero() {
   const [proyecto, setProyecto] = useState(null)
   const [worker, setWorker] = useState(null)
   
@@ -158,4 +158,4 @@ function tablero() {
   );
 }
 
-export default tablero;
+export default Tablero;

@@ -90,13 +90,11 @@ function Tareas() {
       <h1 className={mainStyles.title}>Desarrollos</h1>
       <div className={style.titleContainer}>
         <h2 className={mainStyles.subtitle}>Proyectos</h2>
-        <h2 className={mainStyles.subtitle}>
-          Nueva Tarea{" "}
-          <AddCircleOutlineIcon
-            onClick={(e) => handleOpen(e)}
-            sx={{ cursor: "pointer", color: "#EA6558" }}
-          />
-        </h2>
+        <div className={style.button}>
+                <h5 >Nueva Historia</h5>
+                <hr />
+                <AddCircleOutlineIcon onClick={(e) => handleOpen(e)} cursor="pointer" sx={{ color:"#ffffff"}} className={style.titleTarea} />
+              </div>
       </div>
       <div className={style.tareaAccordeon}>
         {project != null && project.length > 0 ? (
@@ -109,6 +107,7 @@ function Tareas() {
                   width: "100%",
                   marginBottom: "15px",
                   marginTop: "10px",
+                  backgroundColor:"#b2b2b2"
                 }}
               >
                 <AccordionSummary
@@ -165,21 +164,23 @@ function Tareas() {
       >
         <Box sx={styles}>
           <form onSubmit={(e) => handleSubmit(e)}>
-            <InputLabel
-              id="demo-simple-select-label"
-              sx={{ color: "#3C3C3B", paddingBottom: "5px" }}
-            >
-              Proyecto
-            </InputLabel>
-            <Select
+            <label className={mainStyles.labelModal}>Proyecto</label>
+            <select value={input.priority} name="priority" onChange={(e) => handleSelect(e)} className={mainStyles.selectModal}>
+              <option value = "" className={mainStyles.optionModal}>Elige un Proyecto</option>
+              {
+                project !== null && project.length > 0 ?
+                project.map( e => <option value={e.id}>{e.projectname}</option> ):null
+              }
+            </select>
+            {/* <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               fullWidth
               label="Proyecto"
               onChange={(e) => handleSelect(e)}
-              sx={{ marginBottom: "12px", color: "#3C3C3B" }}
-              // InputProps={{
-              //   style: {
+              sx={{ marginBottom: "12px", color: "#3C3C3B" }} */}
+              {/* // InputProps={{ */}
+              {/* //   style: {
               //     color: "white",
               //     borderColor: "white", // Cambia el color del texto
               //     // Puedes agregar más estilos CSS aquí si es necesario
@@ -196,14 +197,17 @@ function Tareas() {
                 project !== null && project.length > 0 ?
                 project.map( e => <MenuItem value={e.id}>{e.projectname}</MenuItem> ):null
               }
-            </Select>
-            <InputLabel
-              id="demo-simple-select-label"
-              sx={{ color: "#3C3C3B", paddingBottom: "5px" }}
-            >
-              Historia
-            </InputLabel>
-            <Select
+            </Select> */}
+            <label className={mainStyles.labelModal}>Historia</label>
+            <select value={input.idStorie} name="idStorie" onChange={(e) => handleSelect(e)} className={mainStyles.selectModal}>
+              <option value = "" className={mainStyles.optionModal}>Elige una Historia</option>
+                {
+                  storiesname !== null && storiesname.length > 0 ?
+                  storiesname[0].stories.map( e => <option value={e.id}>{e.storiesname}</option> ):null
+                }
+            </select>
+            
+            {/* <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               fullWidth
@@ -230,15 +234,23 @@ function Tareas() {
                     storiesname !== null && storiesname.length > 0 ?
                     storiesname[0].stories.map( e => <MenuItem value={e.id}>{e.storiesname}</MenuItem> ):null
                   }
-            </Select>
-            <InputLabel
+            </Select> */}
+            {/* <InputLabel
               id="demo-simple-select-label"
               sx={{ color: "#3C3C3B", paddingBottom: "5px" }}
             >
               Tarea
-            </InputLabel>
-
-            <TextField
+            </InputLabel> */}
+            <label className={mainStyles.labelModal}>Tarea</label>
+            <input
+                  name="taskdetail"
+                  placeholder="Titulo"
+                  onChange={(e) => handleChange(e)}
+                  value={input.taskdetail}
+                  type="text"
+                  className={mainStyles.inputModal}
+                />
+            {/* <TextField
               id="outlined-multiline-flexible"
               label="Tarea"
               fullWidth
@@ -247,15 +259,15 @@ function Tareas() {
               name="taskdetail"
               value={input.taskdetail}
               onChange={(e) => handleChange(e)}
-              sx={{ marginBottom: "12px" }}
-              // InputProps={{
+              sx={{ marginBottom: "12px" }} */}
+              {/* // InputProps={{
               //   style: {
               //     color: "#3C3C3B",
               //     borderColor: "white", // Cambia el color del texto
               //     // Puedes agregar más estilos CSS aquí si es necesario
               //   },
               // }}
-            />
+            /> */}
             <div className={style.labelContainer}>
               <label for="finishDate">Fecha de finalizacion:</label>
               <input

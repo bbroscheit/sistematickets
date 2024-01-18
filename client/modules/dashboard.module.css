@@ -1,12 +1,6 @@
-.Container{
-    display:flex;
-    flex-direction: column;
-}
-
 .divider{
-    font-size: 2rem;
     width: 100%;
-    margin: 12px 0px ;
+    margin: 12px 0px ;    
 }
 
 .noproject{
@@ -17,10 +11,6 @@
 }
 
 .cardContainer{
-    /* display: grid; 
-    grid-auto-rows: 1fr; 
-    grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: auto;  */
     display: flex;
     flex-direction: column;
     gap: 1.8rem; 
@@ -29,18 +19,29 @@
 }
 
 .subtitleContainer{
+    width: 16%;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap:10px;
+    background-color: var(--color-basani);
+    border-radius: 10px;
+    padding: 8px 12px;
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+-moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .subtitleContainer h5{
-    margin-right: 10px;
+    color: white;
+    letter-spacing: 1px;
 }
 
-.subtitleContainer a{
-    padding: 0px;
-    
+.subtitleContainer hr{
+    height: 1.4rem;
+    width: 1%;
+    border: none;
+    background-color: white;
 }
 
 @media (min-width: 768px) and (max-width: 1024 ){

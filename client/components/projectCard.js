@@ -5,18 +5,19 @@ import { styled } from '@mui/material/styles';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import {projectChangeState} from '@/pages/api/updateCheckProject'
+import  girafechas  from '@/functions/girafechas'
 import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
   width: '100%',
-  height: 15,
-  borderRadius: "9999px",
+  height: 20,
+  borderRadius: "15px",
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
   },
   [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+    borderRadius: 2,
+    backgroundColor: theme.palette.mode === 'light' ? '#EA6558' : '#EA6558',
   },
 }));
 
@@ -70,7 +71,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
       <Link href={`/proyectos/${id}`} className={Style.cardLink}>
         <div className={Style.projectCardTitle}>
           <h2>{projectName}</h2>
-          <p className={Style.projectDate}>{finishdate}</p>
+          <p className={Style.projectDate}>{girafechas(finishdate)}</p>
         </div>
         <div className={Style.projectCardDetail}>
           <p>{projectDetail}</p>
@@ -81,11 +82,11 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
           <h6>Desarrollado por : {worker}</h6>
         </div>
         <div className={Style.progressContainer}>
-          <h6>Progreso</h6>
+          <h6>Progreso :</h6>
           <div>
             <BorderLinearProgress variant="determinate" value={promedio} className={Style.progressBar}/>
             <span>{promedio} %</span>
-            { promedio === 100 ? <span className={Style.progressBarCheck} ><CheckCircleOutlinedIcon sx={{ cursor: state !== "finalizado" ? "pointer": null, color: state === "finalizado" ? "green": "#cf2e2e"}} onClick={e => handleClick(e)}/></span> : null}
+            {/* { promedio === 100 ? <span className={Style.progressBarCheck} ><CheckCircleOutlinedIcon sx={{ cursor: state !== "finalizado" ? "pointer": null, color: state === "finalizado" ? "green": "#cf2e2e"}} onClick={e => handleClick(e)}/></span> : null} */}
             
           </div>
           

@@ -4,7 +4,7 @@ import mainStyles from '../styles/Home.module.css'
 import CardSalepoint from '@/components/CardSalepoint'
 
 
-function Sector() {
+function Puntoventa() {
 
     const [salepoint, setSalepoint] = useState(null)
 
@@ -38,4 +38,4 @@ function Sector() {
   )
 }
 
-export default Sector
+export default Puntoventa
