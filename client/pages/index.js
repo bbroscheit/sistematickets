@@ -71,7 +71,7 @@ export default function Home() {
       }
       localStorage.setItem('user', JSON.stringify(user));
 
-      Router.push("/tickets")
+      Router.push("/Tickets")
 
     }else{
       setErrorLogin({ state: true });
