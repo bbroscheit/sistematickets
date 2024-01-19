@@ -50,10 +50,10 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
-    setEmail({
-      ...input,
-      email:loginParse.email
-    })
+    // setEmail({
+    //   ...input,
+    //   email:loginParse.email
+    // })
   }, []);
 
     function handleOpen(e) {
@@ -104,11 +104,11 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
     e.preventDefault();
     postTicketFormData(input)
     updateFaq( updatedFaq )
-    sendEmailNewTicket(email)
+    // sendEmailNewTicket(email)
     alert("ticket generado con exito");
 
     setTimeout(() => {
-      Router.push("/tickets");
+      Router.push("/Tickets");
     }, 0);
   }
 

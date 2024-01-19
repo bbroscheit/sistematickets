@@ -21,6 +21,7 @@ import { sendEmailMoreInfo } from "../api/sendEmailMoreInfo";
 import { sendEmailInfoUser } from "../api/sendEmailInfoUser";
 import { sendEmailCloseTicket } from "../api/sendEmailCloseTicket";
 import getFilename from "../../functions/getFilename";
+import { ticketAssigment } from "../api/ticketAssigment";
 
 const styles = {
   position: "absolute",
@@ -142,7 +143,7 @@ function Soporte() {
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
-    sendEmailAssigment(email);
+    // sendEmailAssigment(email);
     window.location.reload(true);
   }
 
@@ -192,9 +193,9 @@ function Soporte() {
     e.preventDefault();
     updateSolutionTicket(soporte.id, solution);
     postFaq(inputFaq);
-    sendEmailComplete(email);
+    // sendEmailComplete(email);
     setTimeout(() => {
-      router.push("/tickets");
+      router.push("/Tickets");
     }, 300);
   }
 
@@ -220,9 +221,9 @@ function Soporte() {
   function submitInfo(e) {
     e.preventDefault();
     updateInfoTicket(soporte.id, info);
-    sendEmailMoreInfo(email);
+    // sendEmailMoreInfo(email);
     setTimeout(() => {
-      router.push("/tickets");
+      router.push("/Tickets");
     }, 300);
   }
 
@@ -248,9 +249,9 @@ function Soporte() {
   function submitInfoUser(e) {
     e.preventDefault();
     updateInfoTicketByUser(soporte.id, info);
-    sendEmailInfoUser(email);
+    // sendEmailInfoUser(email);
     setTimeout(() => {
-      router.push("/tickets");
+      router.push("/Tickets");
     }, 300);
   }
 
@@ -259,20 +260,20 @@ function Soporte() {
   function SubmitCloseTicket(e) {
     e.preventDefault();
     updateCloseTicket(soporte.id);
-    sendEmailCloseTicket(email);
+    // sendEmailCloseTicket(email);
     setTimeout(() => {
-      router.push("/tickets");
+      router.push("/Tickets");
     }, 300);
   }
 
-  // console.log("soporte", soporte)
-  // console.log("email ", email)
-  // console.log("faq", faq)
-  // console.log("worker", worker)
-  // console.log("user", user)
-  // console.log("asignar", asignar)
-  // console.log("control", control)
-  // console.log("solution", solution)
+  function submitAcceptAssigment(e) {
+    e.preventDefault();
+    ticketAssigment(id);
+    // sendEmailCloseTicket(email);
+    setTimeout(() => {
+      router.push("/Tickets");
+    }, 300);
+  }
 
   return (
     <>
@@ -390,25 +391,35 @@ function Soporte() {
                     </button>
                   ) : null
                 ) : soporte !== null &&
-                  soporte.worker !== "sin asignar" &&
-                  soporte.state !== "Completado" &&
-                  soporte.state !== "Terminado" &&
-                  soporte.state !== "Informacion" ? (
-                  <div className={mainStyle.buttonContainer}>
-                    <button
-                      onClick={(e) => handleOpenSolution(e)}
-                      className={mainStyle.button}
-                    >
-                      Resolver
-                    </button>
-                    <button
-                      onClick={(e) => handleOpenInfo(e)}
-                      className={mainStyle.button}
-                    >
-                      Mas Info
-                    </button>
-                  </div>
-                ) : null}
+                        soporte.state === "Asignado"  ? (
+                          <div className={mainStyle.buttonContainer}>
+                            <button
+                              onClick={(e) => submitAcceptAssigment(e)}
+                              className={mainStyle.button}
+                            >
+                              Comenzar Desarrollo
+                            </button>
+                          </div>
+                        ): soporte !== null &&
+                        soporte.worker !== "sin asignar" &&
+                        soporte.state !== "Completado" &&
+                        soporte.state !== "Terminado" &&
+                        soporte.state !== "Informacion" ? (
+                          <div className={mainStyle.buttonContainer}>
+                            <button
+                              onClick={(e) => handleOpenSolution(e)}
+                              className={mainStyle.button}
+                            >
+                              Resolver
+                            </button>
+                            <button
+                              onClick={(e) => handleOpenInfo(e)}
+                              className={mainStyle.button}
+                            >
+                              Mas Info
+                            </button>
+                          </div>
+                        ) : null}
 
                 {user !== null && user.sector !== "Sistemas" ? (
                   soporte !== null &&

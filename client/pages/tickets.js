@@ -6,6 +6,7 @@ import mainStyles from "@/styles/Home.module.css";
 
 function Tickets() {
   const [ticketGenerados, setTicketsGenerados] = useState(null);
+  const [ticketAsignados, setTicketsAsignados] = useState(null);
   const [ticketDesarrollo, setTicketsDesarrollo] = useState(null);
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
   const [ticketCompletado, setTicketsCompletado] = useState(null);
@@ -23,6 +24,15 @@ function Tickets() {
       .then((res) => res.json())
       .then((data) => {
         setTicketsGenerados(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTicketsAsignados(data);
       });
   }, []);
 
@@ -53,9 +63,7 @@ function Tickets() {
       });
   }, []);
 
-  // console.log("ticketGenerados", ticketGenerados);
-  // console.log("generados", ticketGenerados )
-  // console.log("user", user)
+  console.log("asignados", ticketAsignados)
 
   return (
     <>
@@ -83,6 +91,27 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
+              {ticketAsignados !== null && ticketAsignados.length > 0 ? (
+                <div className={styles.gridContainer}>
+                  <h2>Soportes Asignados</h2>
+                  {ticketAsignados.map((e) =>
+                    user !== null &&
+                    e.user !== null ? (
+                      <React.Fragment key={e.id}>
+                        <Card
+                          key={e.id}
+                          id={e.id}
+                          subject={e.subject}
+                          state={e.state}
+                          created={e.created}
+                        />
+                      </React.Fragment>
+                    ) : null
+                  )}
+                </div>
+              ) : null}
+
               {ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes En Desarrollo</h2>
@@ -102,6 +131,7 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
               {ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes que necesitan más información</h2>
@@ -121,6 +151,7 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
               {ticketCompletado !== null && ticketCompletado.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes pendientes de cierre</h2>
@@ -168,6 +199,28 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
+              {ticketAsignados !== null && ticketAsignados.length > 0 ? (
+                <div className={styles.gridContainer}>
+                  <h2>Soportes Asignados</h2>
+                  {ticketAsignados.map((e) =>
+                    user !== null &&
+                    e.user !== null &&
+                    user.name === e.user.username ? (
+                      <React.Fragment key={e.id}>
+                        <Card
+                        key={e.id}
+                          id={e.id}
+                          subject={e.subject}
+                          state={e.state}
+                          created={e.created}
+                        />
+                      </React.Fragment>
+                    ) : null
+                  )}
+                </div>
+              ) : null}
+
               {ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes En Desarrollo</h2>
@@ -188,6 +241,7 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
               {ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes que necesitan más información</h2>
@@ -208,6 +262,7 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
               {ticketCompletado !== null && ticketCompletado.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes pendientes de cierre</h2>
@@ -249,6 +304,26 @@ function Tickets() {
                   ))}
                 </div>
               ) : null}
+
+              {ticketAsignados !== null && ticketAsignados.length > 0 ? (
+                <div className={styles.gridContainer}>
+                  <h2>Soportes Asignados</h2>
+                  {ticketAsignados.map((e) =>
+                    user !== null && user.name === e.worker ? (
+                      <React.Fragment key={e.id}>
+                        <Card
+                          key={e.id}
+                          id={e.id}
+                          subject={e.subject}
+                          state={e.state}
+                          created={e.created}
+                        />
+                      </React.Fragment>
+                    ) : null
+                  )}
+                </div>
+              ) : null} 
+
               {ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes En Desarrollo</h2>
@@ -267,6 +342,7 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
               {ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes que necesitan mas información</h2>
@@ -285,6 +361,7 @@ function Tickets() {
                   )}
                 </div>
               ) : null}
+
               {ticketCompletado !== null && ticketCompletado.length > 0 ? (
                 <div className={styles.gridContainer}>
                   <h2>Soportes pendientes de cierre</h2>
@@ -329,6 +406,27 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
+            {ticketAsignados !== null && ticketAsignados.length > 0 ? (
+                <div className={styles.gridContainer}>
+                  <h2>Soportes Asignados</h2>
+                  {ticketAsignados.map((e) =>
+                    user !== null &&
+                    e.user !== null ? (
+                      <React.Fragment key={e.id}>
+                        <Card
+                          key={e.id}
+                          id={e.id}
+                          subject={e.subject}
+                          state={e.state}
+                          created={e.created}
+                        />
+                      </React.Fragment>
+                    ) : null
+                  )}
+                </div>
+              ) : null}
+
             {ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes En Desarrollo</h2>
@@ -348,6 +446,7 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
             {ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes que necesitan más información</h2>
@@ -367,6 +466,7 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
             {ticketCompletado !== null && ticketCompletado.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes pendientes de cierre</h2>
@@ -410,6 +510,28 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
+            {ticketAsignados !== null && ticketAsignados.length > 0 ? (
+              <div className={styles.gridContainer}>
+                <h2>Soportes Asignados</h2>
+                {ticketAsignados.map((e) =>
+                  user !== null &&
+                  e.user !== null &&
+                  user.name === e.user.username ? (
+                    <React.Fragment key={e.id}>
+                      <Card
+                      key={e.id}
+                        id={e.id}
+                        subject={e.subject}
+                        state={e.state}
+                        created={e.created}
+                      />
+                    </React.Fragment>
+                  ) : null
+                )}
+              </div>
+            ) : null}
+
             {ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes En Desarrollo</h2>
@@ -430,6 +552,7 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
             {ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes que necesitan más información</h2>
@@ -450,6 +573,7 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
             {ticketCompletado !== null && ticketCompletado.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes pendientes de cierre</h2>
@@ -490,6 +614,26 @@ function Tickets() {
                 ))}
               </div>
             ) : null}
+            
+            {ticketAsignados !== null && ticketAsignados.length > 0 ? (
+              <div className={styles.gridContainer}>
+                <h2>Soportes En Desarrollo</h2>
+                {ticketAsignados.map((e) =>
+                  user !== null && user.name === e.worker ? (
+                    <React.Fragment key={e.id}>
+                      <Card
+                        key={e.id}
+                        id={e.id}
+                        subject={e.subject}
+                        state={e.state}
+                        created={e.created}
+                      />
+                    </React.Fragment>
+                  ) : null
+                )}
+              </div>
+            ) : null}
+
             {ticketDesarrollo !== null && ticketDesarrollo.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes En Desarrollo</h2>
@@ -508,6 +652,7 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
             {ticketDesarrollo2 !== null && ticketDesarrollo2.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes que necesitan mas información</h2>
@@ -526,6 +671,7 @@ function Tickets() {
                 )}
               </div>
             ) : null}
+
             {ticketCompletado !== null && ticketCompletado.length > 0 ? (
               <div className={styles.gridContainer}>
                 <h2>Soportes pendientes de cierre</h2>

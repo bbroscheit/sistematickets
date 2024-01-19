@@ -1,8 +1,9 @@
-const { Ticket } = require('../../bd')
+const { Ticket, sequelize } = require('../../bd')
+
 
 const updateAssignment = async (id, name) => {
     let setTicket = await Ticket.update(
-        { worker: name , state: "Desarrollo"},
+        { worker: name , state: "Asignado",created: sequelize.literal('CURRENT_TIMESTAMP') },
         { where: { id:id } } 
       );
 

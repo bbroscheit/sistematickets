@@ -11,8 +11,10 @@ import Modal from "@mui/material/Modal";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { updateWorker } from "@/pages/api/updateWorker";
 import { updateCloseTicket } from "@/pages/api/updateCloseTicket";
+import { ticketAssigment } from '@/pages/api/ticketAssigment'
 import { sendEmailCloseTicket } from "@/pages/api/sendEmailCloseTicket";
 import giraFechas from '@/functions/girafechas'
+import { extraeFecha } from "@/functions/extraeFecha";
 
 const style = {
   position: "absolute",
@@ -33,6 +35,7 @@ function Card({ id, subject, state, created }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [openCloseTicket, setOpenCloseTicket] = useState(false);
+  const [openAssigment, setOpenAssigment] = useState(false);
   const [asignar, setAsignar] = useState({ name: "sin asignar" });
   const [worker, setWorker] = useState(null);
   const [control, setControl] = useState(0);
@@ -73,6 +76,16 @@ function Card({ id, subject, state, created }) {
     setOpenCloseTicket(false);
   }
 
+  function handleOpenAssigment(e) {
+    e.preventDefault();
+    setOpenAssigment(true);
+  }
+
+  function handleCloseAssigment() {
+    control === 0 ? setControl(1) : setControl(0);
+    setOpenAssigment(false);
+  }
+
   // asigna un worker al soporte
   function handleAsignar(e) {
     e.preventDefault();
@@ -85,6 +98,14 @@ function Card({ id, subject, state, created }) {
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
+    window.location.reload(true);
+  }
+
+   //desarrollador acepta el comienzo del desarrollo
+   function SubmitAssigmentAcept(e) {
+    e.preventDefault();
+    ticketAssigment(id);
+    console.log("entre al assigment")
     window.location.reload(true);
   }
 
@@ -103,19 +124,16 @@ function Card({ id, subject, state, created }) {
           <h4 className={styles.gridElementH4}>{`Ticket N° ${id}`} </h4>
         </Link>
         <Link href={`/soportes/${id}`} className={styles.gridElementBolder}>
-          <h4>{`Título: ${subject}`}</h4>
+          <h4>{`${subject}`}</h4>
         </Link>
         <div>
           <h4 className={styles.gridElementH4}>Creado el</h4>
           <Link href={`/soportes/${id}`}>
-            <h4 className={styles.gridElementH4}>{giraFechas(created)}</h4>
+            <h4 className={styles.gridElementH4}>{extraeFecha(created)}</h4>
           </Link>
         </div>
 
-        {user &&
-        user.sector === "Sistemas" &&
-        state &&
-        state === "sin asignar" ? (
+        {user && user.sector === "Sistemas" && state && state === "sin asignar" ? (
           <div>
           <h4 className={styles.gridElementH4}>
             <AddCircleOutlineRoundedIcon
@@ -126,10 +144,21 @@ function Card({ id, subject, state, created }) {
             />
           </h4>
           </div>
-        ) : user &&
-          user.sector !== "Sistemas" &&
-          state &&
-          state === "Completado" ? (
+        ) : null }
+
+        {user && user.sector === "Sistemas" && state && state === "Asignado" ? (
+            <div>
+              <h4 className={styles.gridElementH4}>
+                <AddCircleOutlineRoundedIcon
+              onClick={(e) => handleOpenAssigment(e)}
+              className={styles.icon}
+            />
+          </h4>
+            </div>
+          
+        ) : ( null )}
+        
+        {user && user.sector !== "Sistemas" && state && state === "Completado" ? (
             <div>
               <h4 className={styles.gridElementH4}>
                 <AddCircleOutlineRoundedIcon
@@ -139,9 +168,7 @@ function Card({ id, subject, state, created }) {
           </h4>
             </div>
           
-        ) : (
-          null
-        )}
+        ) : ( null )}
 
        
       </div>
@@ -151,7 +178,7 @@ function Card({ id, subject, state, created }) {
           <h4 className={styles.gridElementH4}>{`Ticket N° ${id}`} </h4>
         </Link>
         <Link href={`/soportes/${id}`} className={styles.gridElementBolder}>
-          <h4>{`Título: ${subject}`}</h4>
+          <h4>{`${subject}`}</h4>
         </Link>
         <div>
           <h4 className={styles.gridElementH4}>Creado el</h4>
@@ -260,6 +287,34 @@ function Card({ id, subject, state, created }) {
           </button>
         </Box>
       </Modal>
+
+      <Modal
+        open={openAssigment}
+        onClose={handleCloseAssigment}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className={styles.modalTitle}
+          >
+            ¿ Deseas comenzar el desarrollo ?
+          </Typography>
+          <button
+            onClick={(e) => {
+              SubmitAssigmentAcept(e);
+              handleCloseAssigment();
+            }}
+            className={styles.modalButton}
+          >
+            Aceptar
+          </button>
+        </Box>
+      </Modal>
+      
     </>
   );
 }

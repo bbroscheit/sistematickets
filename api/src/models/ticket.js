@@ -42,17 +42,17 @@ module.exports = ( sequelize ) => {
             defaultValue: false,
         },
         created:{
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             
         },
         startdate:{
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             
         },
         finishdate:{
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             
         },

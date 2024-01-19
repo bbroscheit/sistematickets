@@ -4,11 +4,13 @@ const getAllTicket = require('./controllers/getAllTicket');
 const getTicketsDesarrollo = require('./controllers/getTicketDesarrollo');
 const getTicketsDesarrollo2 = require('./controllers/getTicketDesarrollo2');
 const getTicketCompletado = require('./controllers/getTicketCompletado');
+const getTicketsAsignados = require('./controllers/getTicketAsignados')
 const getTicketsGenerados = require('./controllers/getTicketGenerado');
 const postTicket = require('./controllers/postTicket');
 const updateTicket = require('./controllers/updateTicket');
 const getTicketTerminado = require('./controllers/getTicketTerminado');
 const getTicketDetail = require('./controllers/getTicketDetail');
+const assigmentAcepted = require('./controllers/assigmentAcepted')
 const updateAssignment = require('./controllers/updateAssignment');
 const updateSolutionTicket = require('./controllers/updateSolutionTicket');
 const updateInfoTicket = require('./controllers/updateInfoTicket');
@@ -53,6 +55,15 @@ ticketRouter.get( '/ticketGenerados' , async ( req, res ) => {
         ticketGenerados ? res.status(200).json(ticketGenerados) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta get ticketGenerados" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketAsignados' , async ( req, res ) => {
+    try {
+        let ticketAsignados = await getTicketsAsignados();
+        ticketAsignados ? res.status(200).json(ticketAsignados) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get ticketAsignados" , e.message)
     }
 })
 
@@ -148,6 +159,18 @@ ticketRouter.put( '/updateAssignment/:id' , async ( req, res ) => {
         updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateAssignment" , e.message)
+    }
+
+})
+
+ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
+    const { id } = req.params
+    console.log("assigment", id)   
+    try {
+        let acepted = await assigmentAcepted(id)
+        acepted ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put assigmentAcepted" , e.message)
     }
 
 })

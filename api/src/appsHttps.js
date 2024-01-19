@@ -1,11 +1,23 @@
+//archivo generado para cuando tengamos certificados HTTPS
+
 const express = require ('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require ('body-parser');
 const morgan = require('morgan');
 let cors = require('cors');
 const cron = require('node-cron');
+const https = require('https')
+const fs = require('fs')
+const path = require('path')
 
 require('./bd.js')
+
+let key = fs.readFileSync('./certificates/localhost-key.key');
+let cert = fs.readFileSync('./certificates/localhost-cert.crt');
+let options = {
+  key: key, 
+  cert: cert
+};
 
 // se cargan las rutas 
 const sectorRouter = require ('../src/routes/sectorRouter.js')
@@ -26,15 +38,14 @@ cron.schedule('0 12 * * *', () => {
     // closeTicketByTime();
   });
 
+const httpsServer = express();
+httpsServer.name = 'API';
 
-const server = express();
-server.name = 'API';
-
-server.use(bodyParser.urlencoded({ extended:true, limit: '50mb'}));
-server.use(bodyParser.json({limit: '50mb'}));
-server.use(cookieParser());
-server.use(morgan('dev'))
-server.use((req, res, next) => {
+httpsServer.use(bodyParser.urlencoded({ extended:true, limit: '50mb'}));
+httpsServer.use(bodyParser.json({limit: '50mb'}));
+httpsServer.use(cookieParser());
+httpsServer.use(morgan('dev'))
+httpsServer.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -50,26 +61,29 @@ server.use((req, res, next) => {
     }
 });
 
-server.use(express.json());
-server.use(cors());
+httpsServer.use(express.json());
+httpsServer.use(cors());
 
 // llamamos a los diferentes Routers
-server.use('/' , sectorRouter);
-server.use('/' , salepointRouter); 
-server.use('/' , userRouter);
-server.use('/' , ticketRouter);
-server.use('/' , faqRouter);
-server.use('/', projectRouter);
-server.use('/', userstoriesRouter);
-server.use('/', taskRouter);
-server.use('/' , downloadRouter);
 
-server.use((err,req,res) => {
+httpsServer.use('/' , sectorRouter);
+httpsServer.use('/' , salepointRouter); 
+httpsServer.use('/' , userRouter);
+httpsServer.use('/' , ticketRouter);
+httpsServer.use('/' , faqRouter);
+httpsServer.use('/', projectRouter);
+httpsServer.use('/', userstoriesRouter);
+httpsServer.use('/', taskRouter);
+httpsServer.use('/' , downloadRouter);
+
+httpsServer.use((err,req,res) => {
     const status = err.status || 500;
     const message = err.message || err;
     console.log(err);
     res.status (status).send(message)
 })
 
-module.exports = server;
+let server = https.createServer(options, httpsServer)
 
+
+module.exports = server;

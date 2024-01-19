@@ -7,7 +7,8 @@ const { DB_HOST, DB_PASSWORD, DB_USER, DB_PORT} = process.env
 
 const sequelize = new Sequelize(`postgres://${DB_HOST}:${DB_PASSWORD}@${DB_USER}:${DB_PORT}/sistemasTicket` , {
     logging : false,
-    native: false
+    native: false,
+    // timezone: '-03:00'
 });
 
 const basename = path.basename ( __filename);
@@ -79,6 +80,7 @@ sequelize.authenticate()
 
 module.exports = {
     ...sequelize.models,
+    sequelize,
     conn: sequelize,
     Op
 }
