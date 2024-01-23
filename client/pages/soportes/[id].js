@@ -22,6 +22,7 @@ import { sendEmailInfoUser } from "../api/sendEmailInfoUser";
 import { sendEmailCloseTicket } from "../api/sendEmailCloseTicket";
 import getFilename from "../../functions/getFilename";
 import { ticketAssigment } from "../api/ticketAssigment";
+import { updatePriority } from "../api/updatePriority";
 
 const styles = {
   position: "absolute",
@@ -40,12 +41,14 @@ const styles = {
 
 function Soporte() {
   const router = useRouter();
-  const id = router.query.id;
+  const id = router.query.id ;
 
   const [openSolution, setOpenSolution] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
   const [openInfoUser, setOpenInfoUser] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openPriority, setOpenPriority] = useState(false);
+  const [newPriority, setNewPriority] = useState({ name: "sin asignar" });
   const [user, setUser] = useState(null);
   const [soporte, setSoporte] = useState(null);
   const [worker, setWorker] = useState(null);
@@ -90,32 +93,28 @@ function Soporte() {
           useremail: data.user.email,
         });
       });
-  }, [router.query.id]);
 
-  useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
       .then((res) => res.json())
       .then((data) => {
         setWorker(data);
       });
-  }, [router.query.id]);
 
-  useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
       .then((res) => res.json())
       .then((data) => {
         setFaq(data);
       });
+
+      let userLogin = localStorage.getItem("user");
+      let loginParse = JSON.parse(userLogin);
+      setUser(loginParse);
+
   }, [router.query.id]);
 
-  useEffect(() => {
-    let userLogin = localStorage.getItem("user");
-    let loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
-  }, []);
-
+ 
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpen(e) {
     e.preventDefault();
@@ -125,6 +124,16 @@ function Soporte() {
   function handleClose() {
     control === 0 ? setControl(1) : setControl(0);
     setOpen(false);
+  }
+
+  function handleOpenPriority(e) {
+    e.preventDefault();
+    setOpenPriority(true);
+  }
+
+  function handleClosePriority() {
+    control === 0 ? setControl(1) : setControl(0);
+    setOpenPriority(false);
   }
 
   // asigna un worker al soporte
@@ -139,11 +148,24 @@ function Soporte() {
     });
   }
 
+  function handleAsignarPriority(e) {
+    e.preventDefault();
+    setNewPriority({
+      state: e.target.value,
+    });
+  }
+
   //guarda en el soporte la asignacion del desarrollador
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
     // sendEmailAssigment(email);
+    window.location.reload(true);
+  }
+
+  function submitAsignarPriority(e) {
+    e.preventDefault();
+    updatePriority(id, newPriority);
     window.location.reload(true);
   }
 
@@ -275,6 +297,9 @@ function Soporte() {
     }, 300);
   }
 
+  console.log("newPriority", newPriority)
+
+
   return (
     <>
       <div>
@@ -331,6 +356,24 @@ function Soporte() {
                       ) : null}
                     </div>
                   )}
+
+                  {user !== null && user.sector === "Sistemas" ? (
+                    <div className={style.stateContainer}>
+                      <h3> Prioridad : </h3> <p>{soporte.priority}</p>
+                      
+                      
+                        <button
+                          onClick={(e) => {
+                            handleOpenPriority(e);
+                          }}
+                        >
+                          {" "}
+                          Cambiar{" "}
+                        </button>
+                      
+                    </div>
+                  ) : null}
+
                 </div>
               </div>
 
@@ -612,6 +655,45 @@ function Soporte() {
             onClick={(e) => {
               submitAsignar(e);
               handleClose();
+            }}
+            className={style.modalButton}
+          >
+            Asignar
+          </button>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openPriority}
+        onClose={handleClosePriority}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styles}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className={style.modalTitle}
+          >
+            Asigna una prioridad
+          </Typography>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={asignar.name}
+            className={style.modalSelect}
+            onChange={(e) => handleAsignarPriority(e)}
+          >
+              <MenuItem value="Alta">Alta</MenuItem>
+              <MenuItem value="Media">Media</MenuItem>
+              <MenuItem value="Baja">Baja</MenuItem>
+               
+          </Select>
+          <button
+            onClick={(e) => {
+              submitAsignarPriority(e);
+              handleClosePriority();
             }}
             className={style.modalButton}
           >

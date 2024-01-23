@@ -31,7 +31,11 @@ module.exports = ( sequelize ) => {
         },
         answer:{
             type: DataTypes.STRING(5000),
-            
+            defaultValue: "sin detalle",
+        },
+        priority:{
+            type: DataTypes.STRING,
+            defaultValue: "Media",
         },
         files:{
             type: DataTypes.ARRAY(DataTypes.STRING),

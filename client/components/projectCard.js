@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useRouter } from "next/router";
 import Style from '@/modules/projectCard.module.css';
-import Link from 'next/link';
 import { styled } from '@mui/material/styles';
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import {projectChangeState} from '@/pages/api/updateCheckProject'
 import  girafechas  from '@/functions/girafechas'
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
+
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
   width: '100%',
@@ -26,15 +25,30 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
   const [flag, setFlag] = useState(0)
   const [userstories, setUserstories] = useState (null)
   const [promedio, setPromedio] = useState(null)
+  const router = useRouter();
 
   useEffect(() => {
-    fetch(`http://localhost:3001/project/${id}`)
-    // fetch(`https://localhost:3001/project/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProject(data)
-        setUserstories(data[0].userstories);
+    console.log(id)
+    if(id !== undefined){
+      fetch(`http://localhost:3001/project/${id}`)
+      // fetch(`https://localhost:3001/project/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setProject(data)
+          setUserstories(data[0].userstories);
       });
+    }else{
+      let idProyecto = localStorage.getItem("idProyecto");
+      let idParse = JSON.parse(idProyecto);
+      fetch(`http://localhost:3001/project/${idParse}`)
+      // fetch(`https://localhost:3001/project/${idParse}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setProject(data)
+          setUserstories(data[0].userstories);
+      });
+    }
+    
   }, [id]);
 
   useEffect(() => {
@@ -55,6 +69,12 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     }
 });
 
+  function idKeep(e) {
+    e.preventDefault();
+    const idProyecto = id;
+    localStorage.setItem("idProyecto", JSON.stringify(idProyecto));
+  }
+
   function handleClick(e) {
     e.preventDefault();
     projectChangeState(id)
@@ -64,22 +84,27 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     alert("proyecto finalizado")
   }
 
-    
+    console.log("project", project, projectName )
   return (
    
     <div className={Style.cardContainer}> 
-      <Link href={`/proyectos/${id}`} className={Style.cardLink}>
+      {/* <Link href={`/proyectos/${id}`} className={Style.cardLink}> */}
+      <div className={Style.cardLink} onClick={(e) => {
+            idKeep(e);
+            router.push(`/proyectos/[id]`, `/proyectos/${id}`);
+          }}>
         <div className={Style.projectCardTitle}>
-          <h2>{projectName}</h2>
+          <h2>{ project && project !== null ? project[0].projectname : projectName}</h2>
           <p className={Style.projectDate}>{girafechas(finishdate)}</p>
         </div>
         <div className={Style.projectCardDetail}>
-          <p>{projectDetail}</p>
+          <p>{project && project !== null ? project[0].projectdetail : projectDetail}</p>
         </div>
-        </Link>
+        {/* </Link> */}
+      </div>
         <div className={Style.projectCardPeople}>
-          <h6>Solicitado por : {requirer}</h6>
-          <h6>Desarrollado por : {worker}</h6>
+          <h6>Solicitado por : { requirer }</h6>
+          <h6>Desarrollado por : { worker }</h6>
         </div>
         <div className={Style.progressContainer}>
           <h6>Progreso :</h6>

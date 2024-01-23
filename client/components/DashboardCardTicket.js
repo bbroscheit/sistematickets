@@ -9,6 +9,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 function DashboardCardTicket({id}) {
     const [pendientes, setPendientes] = useState(null)
     const [desarrollo, setDesarrollo] = useState(null) 
+    const [asignados, setAsignados] = useState(null) 
     const [desarrolloPendiente, setDesarrolloPendiente] = useState(null)
 
     useEffect(() => {
@@ -19,6 +20,15 @@ function DashboardCardTicket({id}) {
             setPendientes(data);
           });
     }, []);
+
+    useEffect(() => {
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
+        .then((res) => res.json())
+        .then((data) => {
+          setAsignados(data);
+        });
+  }, []);
 
     useEffect(() => {
         fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
@@ -39,18 +49,21 @@ function DashboardCardTicket({id}) {
     }, []);
     
   return (
-    <div className={ `${style.dashboardCard} ${ id === 1 ? style.green : id === 2 ? style.yellow : style.red }`   } >
+    <div className={ `${style.dashboardCard} ${ id === 1 ? style.green : id === 2 ? style.orange : id === 3 ? style.yellow : style.red }`   } >
         { id === 1 ? <NotificationsRoundedIcon className={style.dashboardCardIcons}/>
             : id === 2 ? <HandymanIcon className={style.dashboardCardIcons}/>
+              : id === 3 ? <HandymanIcon className={style.dashboardCardIcons}/>
                 : <WarningAmberIcon className={style.dashboardCardIcons}/>
         }
         <div className={style.dashboardCardTitles}>
             { id === 1 ? <h3>Tickets pendientes de asignación</h3>
-                : id === 2 ? <h3>Tickets en Desarrollo</h3>
+                : id === 2 ? <div><h3>Tickets Asignados</h3><h5>pendientes de desarrollo</h5></div>
+                  : id === 3 ? <h3>Tickets en Desarrollo</h3>
                     : <div><h3>Tickets en Desarrollo</h3><h5>más de 24hs</h5></div>
             }
             { id === 1 ? <h3>{ pendientes !== null && pendientes.length > 0 ? pendientes.length : 0}</h3>
-                : id === 2 ? <h3>{ desarrollo !== null && desarrollo.length > 0 ? desarrollo.length : 0}</h3>
+                : id === 2 ? <h3>{ asignados !== null && asignados.length > 0 ? asignados.length : 0}</h3>
+                  : id === 3 ? <h3>{ desarrollo !== null && desarrollo.length > 0 ? desarrollo.length : 0}</h3>
                     : <h3>{ desarrolloPendiente !== null && desarrolloPendiente.length > 0 ? desarrolloPendiente.length : 0}</h3>
             }
         </div>

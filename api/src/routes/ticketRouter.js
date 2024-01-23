@@ -26,6 +26,8 @@ const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
 const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
 const getTicketsPendientes24 = require('./controllers/getTicketsPendientes24')
 const getTicketByWorker = require('./controllers/getTicketByWorker')
+const updatePriority = require('./controllers/updatePriority')
+const getPriority = require('./controllers/getPriority')
 
 
 
@@ -113,6 +115,16 @@ ticketRouter.get( '/ticketsPendientes24' , async ( req, res ) => {
     }
 })
 
+ticketRouter.get( '/priority' , async ( req, res ) => {
+    console.log("entre en la ruta de prioridad")
+    try {
+        let prioridades = await getPriority();
+        prioridades ? res.status(200).json(prioridades) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get prioridades" , e.message)
+    }
+})
+
 ticketRouter.get( '/ticketsByWorker' , async ( req, res ) => {
     const workerName = req.query.worker
     
@@ -163,9 +175,23 @@ ticketRouter.put( '/updateAssignment/:id' , async ( req, res ) => {
 
 })
 
+ticketRouter.put( '/priorityAssigment/:id' , async ( req, res ) => {
+    const { id } = req.params
+    const { state } = req.body
+
+    try {
+        let updatedTicket = await updatePriority(id , state)
+        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put updatePriority" , e.message)
+    }
+
+})
+
+
 ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
     const { id } = req.params
-    console.log("assigment", id)   
+    
     try {
         let acepted = await assigmentAcepted(id)
         acepted ? res.status(200).send("sucess") : res.status(400).send("failure")

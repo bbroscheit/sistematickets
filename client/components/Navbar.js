@@ -103,7 +103,6 @@ export default function PrimarySearchAppBar() {
 
   React.useEffect(() => {
     let userLogin = JSON.parse(localStorage.getItem('user'))
-    console.log("userLogin", userLogin);
     userLogin  ? setUser(userLogin)  : null
     userLogin  ? setLogin(1)  : setLogin(0)
   },[]);

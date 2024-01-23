@@ -2,39 +2,37 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import style from '../modules/tablero.module.css'
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import { horasPromedio } from '@/functions/horasPromedio';
 
-function ticketCard({id}) {
-    const [pendientes, setPendientes] = useState(null)
-    const [desarrollo, setDesarrollo] = useState(null) 
-    const [desarrolloPendiente, setDesarrolloPendiente] = useState(null)
+function ticketCard() {
+    const [soportesCompletados, setSoportesCompletados] = useState(null)
+    const [soportesTerminados, setSoportesTerminados] = useState(null)
+    let promedioHoras = 0
 
     useEffect(() => {
-        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
-        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
+        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
           .then((res) => res.json())
           .then((data) => {
-            setPendientes(data);
+            setSoportesCompletados(data || []);           
           });
     }, []);
 
     useEffect(() => {
-        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
-        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
-          .then((res) => res.json())
-          .then((data) => {
-            setDesarrollo(data);
-          });
-    }, []);
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketTerminado`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketTerminado`)
+        .then((res) => res.json())
+        .then((data) => {
+          setSoportesTerminados(data || []);          
+        });
+  }, []);
 
-    useEffect(() => {
-        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsPendientes24`)
-        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsPendientes24`)
-          .then((res) => res.json())
-          .then((data) => {
-            setDesarrolloPendiente(data);
-          });
-    }, []);
-    
+  if (soportesCompletados && soportesTerminados) {
+    const soportes = [...soportesCompletados, ...soportesTerminados];
+    promedioHoras = horasPromedio(soportes);
+  }
+   
+  
   return (
     <div className={ `${style.dashboardCardSoporte} ${style.blue}`   } >
          <AccessAlarmsIcon className={style.dashboardCardIcons}/>
@@ -42,7 +40,7 @@ function ticketCard({id}) {
         <div className={style.dashboardCardTitlesSoporte}>
            <h3>Tiempo promedio de Resolución </h3>
                 
-            <h3>{ pendientes !== null && pendientes.length > 0 ? pendientes.length : 0} hs</h3>
+            <h3>{ Math.ceil(promedioHoras) } hs</h3>
                 
         </div>
     </div>

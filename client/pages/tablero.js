@@ -10,6 +10,8 @@ import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import CardWorker from "@/components/CardWorker";
 import { extraeFecha } from "@/functions/extraeFecha";
+import TablaIncidencias from "@/components/TablaIncidencias";
+import TablaPrioridades from "@/components/TablaPrioridades";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
   width: '100%',
@@ -55,59 +57,15 @@ function Tablero() {
             <DashboardCardTicket id={1} />
             <DashboardCardTicket id={2} />
             <DashboardCardTicket id={3} />
+            <DashboardCardTicket id={4} />
           </div>
         </div>
 
         <div className={style.dashboardTicketContainer}>
           <TicketCard id={1} />
           <div className={style.tableContainer}>
-            <table className={style.primaryTable}>
-              <thead>
-                <tr>
-                  <th colSpan={2} rowSpan={2}>
-                    INCIDENCIAS SIN RESOLVER SEGÚN PRIORIDAD DEL USUARIO
-                  </th>
-                </tr>
-              </thead>
-              <tbody className={style.tableBody}>
-                <tr>
-                  <td>Alta</td>
-                  <td>Dato1</td>
-                </tr>
-                <tr>
-                  <td>Media</td>
-                  <td>Dato1</td>
-                </tr>
-                <tr>
-                  <td>Baja</td>
-                  <td>Dato1</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table className={style.primaryTable}>
-              <thead>
-                <tr>
-                  <th colSpan={2} rowSpan={2}>
-                    INCIDENCIAS CON MAS DE 24 HS HABILES SIN RESOLUCION
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>48 HS</td>
-                  <td>Dato1</td>
-                </tr>
-                <tr>
-                  <td>72 HS</td>
-                  <td>Dato1</td>
-                </tr>
-                <tr>
-                  <td>Más de 72 HS</td>
-                  <td>Dato1</td>
-                </tr>
-              </tbody>
-            </table>
+            <TablaPrioridades />
+            <TablaIncidencias />
           </div>
         </div>
         <div className={`${style.tableContainer} ${style.tableContainerMargin}`}>

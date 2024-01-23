@@ -11,9 +11,9 @@ import Modal from "@mui/material/Modal";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import { updateWorker } from "@/pages/api/updateWorker";
 import { updateCloseTicket } from "@/pages/api/updateCloseTicket";
-import { ticketAssigment } from '@/pages/api/ticketAssigment'
+import { ticketAssigment } from "@/pages/api/ticketAssigment";
 import { sendEmailCloseTicket } from "@/pages/api/sendEmailCloseTicket";
-import giraFechas from '@/functions/girafechas'
+import giraFechas from "@/functions/girafechas";
 import { extraeFecha } from "@/functions/extraeFecha";
 
 const style = {
@@ -43,7 +43,7 @@ function Card({ id, subject, state, created }) {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
       .then((res) => res.json())
       .then((data) => {
         setWorker(data);
@@ -101,11 +101,11 @@ function Card({ id, subject, state, created }) {
     window.location.reload(true);
   }
 
-   //desarrollador acepta el comienzo del desarrollo
-   function SubmitAssigmentAcept(e) {
+  //desarrollador acepta el comienzo del desarrollo
+  function SubmitAssigmentAcept(e) {
     e.preventDefault();
     ticketAssigment(id);
-    console.log("entre al assigment")
+    console.log("entre al assigment");
     window.location.reload(true);
   }
 
@@ -117,74 +117,37 @@ function Card({ id, subject, state, created }) {
     window.location.reload(true);
   }
 
+  function idKeep(e) {
+    e.preventDefault();
+    const idSoporte = id;
+    localStorage.setItem("idSoporte", JSON.stringify(idSoporte));
+  }
+
   return (
     <>
       <div className={styles.ticketContainer}>
-        <Link href={`/soportes/${id}`}>
+        <div
+          onClick={(e) => {
+            idKeep(e);
+            router.push(`/soportes/[id]`, `/soportes/${id}`);
+          }}
+          className={styles.pointer}
+        >
           <h4 className={styles.gridElementH4}>{`Ticket N° ${id}`} </h4>
-        </Link>
-        <Link href={`/soportes/${id}`} className={styles.gridElementBolder}>
-          <h4>{`${subject}`}</h4>
-        </Link>
-        <div>
-          <h4 className={styles.gridElementH4}>Creado el</h4>
-          <Link href={`/soportes/${id}`}>
-            <h4 className={styles.gridElementH4}>{extraeFecha(created)}</h4>
-          </Link>
         </div>
-
-        {user && user.sector === "Sistemas" && state && state === "sin asignar" ? (
-          <div>
-          <h4 className={styles.gridElementH4}>
-            <AddCircleOutlineRoundedIcon
-              onClick={(e) => {
-                handleOpen(e);
-              }}
-              className={styles.icon}
-            />
-          </h4>
-          </div>
-        ) : null }
-
-        {user && user.sector === "Sistemas" && state && state === "Asignado" ? (
-            <div>
-              <h4 className={styles.gridElementH4}>
-                <AddCircleOutlineRoundedIcon
-              onClick={(e) => handleOpenAssigment(e)}
-              className={styles.icon}
-            />
-          </h4>
-            </div>
-          
-        ) : ( null )}
-        
-        {user && user.sector !== "Sistemas" && state && state === "Completado" ? (
-            <div>
-              <h4 className={styles.gridElementH4}>
-                <AddCircleOutlineRoundedIcon
-              onClick={(e) => handleOpenCloseTicket(e)}
-              className={styles.icon}
-            />
-          </h4>
-            </div>
-          
-        ) : ( null )}
-
-       
-      </div>
-
-      <div className={styles.ticketContainerMobile}>
-      <Link href={`/soportes/${id}`}>
-          <h4 className={styles.gridElementH4}>{`Ticket N° ${id}`} </h4>
-        </Link>
-        <Link href={`/soportes/${id}`} className={styles.gridElementBolder}>
-          <h4>{`${subject}`}</h4>
-        </Link>
+        <div
+          onClick={(e) => {
+            idKeep(e);
+            router.push(`/soportes/[id]`, `/soportes/${id}`);
+          }}
+          className={styles.pointer}
+        >
+          <h4 className={styles.gridElementBolder}>{`${subject}`}</h4>
+        </div>
         <div>
           <h4 className={styles.gridElementH4}>Creado el</h4>
-          <Link href={`/soportes/${id}`}>
-            <h4 className={styles.gridElementH4}>{giraFechas(created)}</h4>
-          </Link>
+
+          <h4 className={styles.gridElementH4}>{extraeFecha(created)}</h4>
         </div>
 
         {user &&
@@ -192,31 +155,95 @@ function Card({ id, subject, state, created }) {
         state &&
         state === "sin asignar" ? (
           <div>
-          <h4 className={styles.gridElementH4}>
-            <AddCircleOutlineRoundedIcon
-              onClick={(e) => {
-                handleOpen(e);
-              }}
-              className={styles.icon}
-            />
-          </h4>
+            <h4 className={styles.gridElementH4}>
+              <AddCircleOutlineRoundedIcon
+                onClick={(e) => {
+                  handleOpen(e);
+                }}
+                className={styles.icon}
+              />
+            </h4>
+          </div>
+        ) : null}
+
+        {user && user.sector === "Sistemas" && state && state === "Asignado" ? (
+          <div>
+            <h4 className={styles.gridElementH4}>
+              <AddCircleOutlineRoundedIcon
+                onClick={(e) => handleOpenAssigment(e)}
+                className={styles.icon}
+              />
+            </h4>
+          </div>
+        ) : null}
+
+        {user &&
+        user.sector !== "Sistemas" &&
+        state &&
+        state === "Completado" ? (
+          <div>
+            <h4 className={styles.gridElementH4}>
+              <AddCircleOutlineRoundedIcon
+                onClick={(e) => handleOpenCloseTicket(e)}
+                className={styles.icon}
+              />
+            </h4>
+          </div>
+        ) : null}
+      </div>
+
+      <div className={styles.ticketContainerMobile}>
+        <div
+          onClick={(e) => {
+            idKeep(e);
+            router.push(`/soportes/[id]`, `/soportes/${id}`);
+          }}
+          className={styles.pointer}
+        >
+          <h4 className={styles.gridElementH4}>{`Ticket N° ${id}`} </h4>
+        </div>
+        <div
+          onClick={(e) => {
+            idKeep(e);
+            router.push(`/soportes/[id]`, `/soportes/${id}`);
+          }}
+          className={styles.pointer}
+        >
+          <h4 className={styles.gridElementBolder}>{`${subject}`}</h4>
+        </div>
+        <div>
+          <h4 className={styles.gridElementH4}>Creado el</h4>
+
+          <h4 className={styles.gridElementH4}>{giraFechas(created)}</h4>
+        </div>
+
+        {user &&
+        user.sector === "Sistemas" &&
+        state &&
+        state === "sin asignar" ? (
+          <div>
+            <h4 className={styles.gridElementH4}>
+              <AddCircleOutlineRoundedIcon
+                onClick={(e) => {
+                  handleOpen(e);
+                }}
+                className={styles.icon}
+              />
+            </h4>
           </div>
         ) : user &&
           user.sector !== "Sistemas" &&
           state &&
           state === "Completado" ? (
-            <div>
-              <h4 className={styles.gridElementH4}>
-                <AddCircleOutlineRoundedIcon
-              onClick={(e) => handleOpenCloseTicket(e)}
-              className={styles.icon}
-            />
-          </h4>
-            </div>
-          
-        ) : (
-          null
-        )}
+          <div>
+            <h4 className={styles.gridElementH4}>
+              <AddCircleOutlineRoundedIcon
+                onClick={(e) => handleOpenCloseTicket(e)}
+                className={styles.icon}
+              />
+            </h4>
+          </div>
+        ) : null}
       </div>
 
       <Modal
@@ -314,7 +341,6 @@ function Card({ id, subject, state, created }) {
           </button>
         </Box>
       </Modal>
-      
     </>
   );
 }

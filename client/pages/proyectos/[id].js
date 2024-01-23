@@ -44,11 +44,12 @@ function projectDetail() {
   const classes = useStyles();
   const id = router.query.id;
   const [data, setData] = useState(null);
+  const [idProyecto, setIdProyecto] = useState(2)
   const [userstories, setUserstories] = useState(null);
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [input, setInput] = useState({
-    id: router.query.id,
+    id: 0,
     state: "generado",
     storiesname: "",
     storiesdetail: "",
@@ -62,8 +63,8 @@ function projectDetail() {
   });
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idProyecto}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idProyecto}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -71,12 +72,23 @@ function projectDetail() {
       });
   }, [router.query.id]);
 
+  useEffect(() => {
+    let idProject = localStorage.getItem("idProyecto");
+    let idParse = JSON.parse(idProject);
+    setIdProyecto(idProject);
+    setInput({
+      ...input,
+      id: idProject
+    })
+  }, []);
+
+
   const handleOpen = () => setOpen(true);
   const handleOpenTask = () => setOpenTask(true);
 
   function handleClose(e) {
     setInput({
-      id: router.query.id,
+      id: id ? id : idProyecto,
       state: "generado",
       storiesname: "",
       storiesdetail: "",
@@ -134,22 +146,21 @@ function projectDetail() {
 
   };
 
-
   function handleSubmit(e) {
     e.preventDefault();
     postUserstorie(input);
     alert("storie generada con exito");
 
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setUserstories(data[0].userstories);
-      });
+    // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    // // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setData(data);
+    //     setUserstories(data[0].userstories);
+    //   });
 
     setInput({
-      id: router.query.id,
+      id: id ? id : idProyecto,
       state: "generado",
       storiesname: "",
       storiesdetail: "",
@@ -159,6 +170,8 @@ function projectDetail() {
     setTimeout(() => {
       setOpen(false);
     }, 400);
+
+    location.reload();
   }
 
   function handleSubmitTask(e) {
@@ -173,13 +186,13 @@ function projectDetail() {
       taskfinishdate: "",
     });
 
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setUserstories(data[0].userstories);
-      });
+    // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    // // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setData(data);
+    //     setUserstories(data[0].userstories);
+    //   });
 
     setTimeout(() => {
       setOpenTask(false);
@@ -189,6 +202,7 @@ function projectDetail() {
 
   }
 
+  console.log("input", input)
 
   return (
     <div className={mainStyle.container}>
@@ -283,7 +297,7 @@ function projectDetail() {
                   <option value = "" >Elige una Historia</option>
                   {
                     userstories !== null && userstories.length > 0 ?
-                    userstories.map( e => <option value={e.id}>{e.storiesname}</option> ):null
+                    userstories.map( e => <option value={e.id} key={e.id}>{e.storiesname}</option> ):null
                   }
 
                 </select>

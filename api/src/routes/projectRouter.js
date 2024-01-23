@@ -25,6 +25,7 @@ projectRouter.get("/projectStoriesTask" , async (req, res) => {
 
 projectRouter.get("/project/:id" , async (req, res) => {
     const id = req.params.id
+    
     try{
         let projectDetail = await getProjectDetail(id)
         projectDetail ? res.status(200).json(projectDetail) : res.status(400).send("failure") 

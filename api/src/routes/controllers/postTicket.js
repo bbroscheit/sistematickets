@@ -5,7 +5,7 @@ const saveInDropbox = require('../controllers/saveInDropbox');
 const getSharedLink = require('../controllers/getSharedLink');
 
 const postTicket = async (state, worker, subject, detail, answer, userresolved, user, files) => {
-    console.log("file", files)
+    
     
     try {
         // Creo el ticket vacio para tener el ID que le va a dar nombre a la carpeta
