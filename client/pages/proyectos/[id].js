@@ -44,12 +44,12 @@ function projectDetail() {
   const classes = useStyles();
   const id = router.query.id;
   const [data, setData] = useState(null);
-  const [idProyecto, setIdProyecto] = useState(2)
+  const [idProyecto, setIdProyecto] = useState(0)
   const [userstories, setUserstories] = useState(null);
   const [open, setOpen] = useState(false);
   const [openTask, setOpenTask] = useState(false);
   const [input, setInput] = useState({
-    id: 0,
+    id: idProyecto,
     state: "generado",
     storiesname: "",
     storiesdetail: "",
@@ -61,6 +61,7 @@ function projectDetail() {
     taskdetail: "",
     taskfinishdate: "",
   });
+  let idFilter = 0
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
@@ -69,26 +70,37 @@ function projectDetail() {
       .then((data) => {
         setData(data);
         setUserstories(data[0].userstories);
+        setIdProyecto(data[0].id)
+        setInput({
+          ...input,
+          id:data[0].id
+        })
       });
   }, [router.query.id]);
 
   useEffect(() => {
     let idProject = localStorage.getItem("idProyecto");
-    let idParse = JSON.parse(idProject);
-    setIdProyecto(idProject);
-    setInput({
-      ...input,
-      id: idProject
-    })
+    let idParse = JSON.parse(idProject);  
   }, []);
 
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log("data",data)
+        data !== null && data.length > 0 ?
+        idFilter = res.filter ( e => e.projectname === data.projectname)
+        : 0
+      });
+  }, [router.query.id]);
 
   const handleOpen = () => setOpen(true);
   const handleOpenTask = () => setOpenTask(true);
 
   function handleClose(e) {
     setInput({
-      id: id ? id : idProyecto,
+      id: idProyecto,
       state: "generado",
       storiesname: "",
       storiesdetail: "",
@@ -151,16 +163,8 @@ function projectDetail() {
     postUserstorie(input);
     alert("storie generada con exito");
 
-    // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    // // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setData(data);
-    //     setUserstories(data[0].userstories);
-    //   });
-
     setInput({
-      id: id ? id : idProyecto,
+      id: idProyecto,
       state: "generado",
       storiesname: "",
       storiesdetail: "",
@@ -186,14 +190,6 @@ function projectDetail() {
       taskfinishdate: "",
     });
 
-    // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    // // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setData(data);
-    //     setUserstories(data[0].userstories);
-    //   });
-
     setTimeout(() => {
       setOpenTask(false);
     }, 400);
@@ -203,6 +199,7 @@ function projectDetail() {
   }
 
   console.log("input", input)
+  console.log("idProyecto", idProyecto)
 
   return (
     <div className={mainStyle.container}>

@@ -57,13 +57,12 @@ function UserstoriesCard({ id, storiesname, storiesdetail }) {
     }
 });
 
+
   return (
     <div className={Style.userstoriesCard}>
       <div className={Style.titleContainer}>
         <h3>{storiesname}</h3>
-      {
-        taskCumplidas === true ? < CheckCircleOutlinedIcon onClick={event => handleCheckStorie(event, userstorie[0].id)} sx={{cursor:"pointer" , color: "white"}}/> : null 
-      }
+      < CheckCircleOutlinedIcon onClick={event => handleCheckStorie(event, userstorie[0].id)} sx={{cursor:"pointer"}} className={ userstorie !== null && userstorie[0].state !== "cumplido" ? Style.colorIconRed : Style.colorIconGreen } /> 
       </div>
       <p className={Style.titleContainer}>{storiesdetail}</p>
       <hr />

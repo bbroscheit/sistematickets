@@ -33,6 +33,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 15px;
 }
@@ -74,8 +75,8 @@
     border-radius: 10px;
     padding: 8px 12px;
     box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .button h5{
