@@ -81,7 +81,7 @@ function nuevoProyecto() {
     });
 
     setTimeout(() => {
-      Router.push("/dashboard");
+      Router.push("/Dashboard");
     }, 400);
     // console.log(input)
   }

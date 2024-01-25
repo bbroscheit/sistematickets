@@ -32,7 +32,7 @@ function UserstoriesCard({ id, storiesname, storiesdetail }) {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:3001/userstories/${storieId}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userstories/${storieId}`)
     // fetch(`https://localhost:3001/userstories/${storieId}`)
       .then((res) => res.json())
       .then((data) => {

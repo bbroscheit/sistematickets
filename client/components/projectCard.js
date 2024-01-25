@@ -30,7 +30,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
   useEffect(() => {
     console.log(id)
     if(id !== undefined){
-      fetch(`http://localhost:3001/project/${id}`)
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
       // fetch(`https://localhost:3001/project/${id}`)
         .then((res) => res.json())
         .then((data) => {
@@ -40,7 +40,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     }else{
       let idProyecto = localStorage.getItem("idProyecto");
       let idParse = JSON.parse(idProyecto);
-      fetch(`http://localhost:3001/project/${idParse}`)
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idParse}`)
       // fetch(`https://localhost:3001/project/${idParse}`)
         .then((res) => res.json())
         .then((data) => {
