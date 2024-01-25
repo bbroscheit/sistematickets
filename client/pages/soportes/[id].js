@@ -396,7 +396,7 @@ function Soporte() {
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
                       placeholder={soporte.answer}
-                      disabled
+                      // disabled
                       cols="80"
                       rows="14"
                       className={style.textarea}
@@ -529,7 +529,7 @@ function Soporte() {
                   <h3 className={style.label}>Detalle : </h3>
                   <textarea
                     placeholder={soporte.detail}
-                    readOnly
+                    // readOnly
                     className={style.textarea}
                   />
                 </div>
@@ -541,7 +541,7 @@ function Soporte() {
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
                       placeholder={soporte.answer}
-                      disabled
+                      // disabled
                       className={style.textarea}
                     />
                   </div>
