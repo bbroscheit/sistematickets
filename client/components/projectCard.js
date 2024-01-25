@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/router";
+import Link from 'next/link';
 import Style from '@/modules/projectCard.module.css';
 import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
@@ -29,25 +30,32 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
 
   useEffect(() => {
     console.log(id)
-    if(id !== undefined){
-      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    // if(id !== undefined){
+    //   fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    //   // fetch(`https://localhost:3001/project/${id}`)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       setProject(data)
+    //       setUserstories(data[0].userstories);
+    //   });
+    // }else{
+    //   let idProyecto = localStorage.getItem("idProyecto");
+    //   let idParse = JSON.parse(idProyecto);
+    //   fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idParse}`)
+    //   // fetch(`https://localhost:3001/project/${idParse}`)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       setProject(data)
+    //       setUserstories(data[0].userstories);
+    //   });
+    // }
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
       // fetch(`https://localhost:3001/project/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setProject(data)
           setUserstories(data[0].userstories);
       });
-    }else{
-      let idProyecto = localStorage.getItem("idProyecto");
-      let idParse = JSON.parse(idProyecto);
-      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idParse}`)
-      // fetch(`https://localhost:3001/project/${idParse}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProject(data)
-          setUserstories(data[0].userstories);
-      });
-    }
     
   }, [id]);
 
@@ -84,15 +92,15 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     alert("proyecto finalizado")
   }
 
-    console.log("project", project, projectName )
+    // console.log("project", project, projectName )
   return (
    
     <div className={Style.cardContainer}> 
-      {/* <Link href={`/proyectos/${id}`} className={Style.cardLink}> */}
-      <div className={Style.cardLink} onClick={(e) => {
+      <Link href={`/proyectos/${id}`} className={Style.cardLink}>
+      {/* <div className={Style.cardLink} onClick={(e) => {
             idKeep(e);
             router.push(`/proyectos/[id]`, `/proyectos/${id}`);
-          }}>
+          }}> */}
         <div className={Style.projectCardTitle}>
           <h2>{ project && project !== null ? project[0].projectname : projectName}</h2>
           <p className={Style.projectDate}>{girafechas(finishdate)}</p>
@@ -100,8 +108,8 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
         <div className={Style.projectCardDetail}>
           <p>{project && project !== null ? project[0].projectdetail : projectDetail}</p>
         </div>
-        {/* </Link> */}
-      </div>
+        </Link>
+      {/* </div> */}
         <div className={Style.projectCardPeople}>
           <h6>Solicitado por : { requirer }</h6>
           <h6>Desarrollado por : { worker }</h6>

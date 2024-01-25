@@ -63,8 +63,8 @@ function projectDetail() {
   });
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idProyecto}`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idProyecto}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
