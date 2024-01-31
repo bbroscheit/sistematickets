@@ -11,6 +11,7 @@ function Tickets() {
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
   const [ticketCompletado, setTicketsCompletado] = useState(null);
   const [user, setUser] = useState(null);
+  const [control, setControl] = useState(0)
   
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
@@ -20,15 +21,23 @@ function Tickets() {
 
   
   useEffect(() => {
+    
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTicketsGenerados(data);
+      });
+    
+
     const interval = setInterval(() => {
       fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
       .then((res) => res.json())
       .then((data) => {
         setTicketsGenerados(data);
-        
       });
-    }, 5000)
+    }, 5000 )
 
     return (() => {
       clearInterval(interval)
@@ -37,6 +46,13 @@ function Tickets() {
   }, []);
 
   useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTicketsAsignados(data);
+      });
+
     const interval = setInterval(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAsignados`)
@@ -52,6 +68,13 @@ function Tickets() {
   }, []);
 
   useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTicketsDesarrollo(data);
+      });
+
     const interval = setInterval(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo`)
@@ -67,6 +90,13 @@ function Tickets() {
   }, []);
 
   useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo2`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo2`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTicketsDesarrollo2(data);
+      });
+
     const interval = setInterval(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo2`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDesarrollo2`)
@@ -82,6 +112,13 @@ function Tickets() {
   }, []);
 
   useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTicketsCompletado(data);
+      });
+      
     const interval = setInterval(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
@@ -94,7 +131,10 @@ function Tickets() {
     return (() => {
       clearInterval(interval)
     })
+
   }, []);
+
+  
 
   // useEffect(() => {
   //   const eventSource = new EventSource(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSSE`)
@@ -118,6 +158,7 @@ function Tickets() {
 
   return (
     <>
+    
       {/* a pedido de Gcurcio se crea una vista para que ella pueda ver todos los soportes activos, en caso de que el usuario no sea curcio, el programa entra por la via normal y cada usuario solo ve su soporte creado o Asignado */}
       {user !== null && (user.name === "Gcurcio" || user.name === "Administrador") ? (
         <div className={mainStyles.container}>
