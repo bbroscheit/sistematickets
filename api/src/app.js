@@ -21,9 +21,9 @@ const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
 
 
 // usamos cron para marcar cuando queremos que se ejecute la tarea programada
-cron.schedule('0 12 * * *', () => {
-        console.log('Ejecutando tarea programada todos los dias a las 7 de la mañana');
-    // closeTicketByTime();
+cron.schedule('0 7 * * *', () => {
+    console.log('Ejecutando tarea programada todos los dias a las 7 de la mañana');
+    closeTicketByTime();
   });
 
 

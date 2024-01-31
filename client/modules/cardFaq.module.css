@@ -1,17 +1,15 @@
 .faqContainer {  
   margin-top: 5px;
   margin-bottom: 6px;
-  display: grid;
-  grid-template-columns: 10% 1fr 10% 10%;
-  gap: 0px;
   background-color: white;
   border-radius: 10px;
   padding: 10px;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+  -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     
   }
 
@@ -32,14 +30,12 @@
     .faqContainerMobile{
       margin-top: 5px;
       margin-bottom: 6px;
-      display: grid;
-      grid-template-columns: 10% 1fr 10% 10%;
-      gap: 0px;
       background-color: white;
       border-radius: 10px;
       padding: 10px;
+      display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
       -webkit-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);
       -moz-box-shadow: 10px 10px 13px -1px rgba(117,117,117,0.45);

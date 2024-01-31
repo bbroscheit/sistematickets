@@ -41,6 +41,39 @@ ticketRouter.get( '/ticket' , async ( req, res ) => {
     }
 })
 
+// ticketRouter.get( '/ticketSSE' , async ( req, res ) => {
+//         try {
+//             console.log("client connected")
+//             res.setHeader('Cache-Control', 'no-cache')
+//             res.setHeader('Content_Type','text/event-stream ; charset=utf8')
+//             res.setHeader('Connection','keep-alive')
+//             res.setHeader('X-Accel-Buffering','no')
+//             res.setHeader('Access-Control-Allow-Origin', '*')
+
+//             // let allTicket = await getAllTicket();
+
+//             const intervalId = setInterval(() => {
+//                 const date = new Date().toLocaleString()
+//                 res.write(`data : ${date}\n`)
+//             }, 5000)
+//             // res.write('data' = allTicket)
+
+//             // res.on('close', () => {
+//             //     console.log('user disconnected')
+//             //     res.end()
+//             // })
+
+//             res.on('close', () => {
+//                 console.log('user disconnected')
+//                 clearInterval(intervalId)
+//                 res.end()
+//             })
+            
+//         } catch (e) {
+//             console.log( "error en ruta get ticketsSSE" , e.message)
+//         }
+// })
+
 ticketRouter.get("/ticketDetail/:id" , async ( req, res ) => {
     const { id } = req.params
     try {

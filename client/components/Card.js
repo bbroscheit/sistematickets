@@ -98,15 +98,15 @@ function Card({ id, subject, state, created }) {
   function submitAsignar(e) {
     e.preventDefault();
     updateWorker(id, asignar);
-    window.location.reload(true);
+    //window.location.reload(true);
   }
 
   //desarrollador acepta el comienzo del desarrollo
   function SubmitAssigmentAcept(e) {
     e.preventDefault();
     ticketAssigment(id);
-    console.log("entre al assigment");
-    window.location.reload(true);
+    //console.log("entre al assigment");
+    //window.location.reload(true);
   }
 
   //cambia el estado del soporte a terminado
@@ -114,7 +114,7 @@ function Card({ id, subject, state, created }) {
     e.preventDefault();
     updateCloseTicket(id);
 
-    window.location.reload(true);
+    //window.location.reload(true);
   }
 
   function idKeep(e) {
@@ -214,7 +214,7 @@ function Card({ id, subject, state, created }) {
         <div>
           <h4 className={styles.gridElementH4}>Creado el</h4>
 
-          <h4 className={styles.gridElementH4}>{giraFechas(created)}</h4>
+          <h4 className={styles.gridElementH4}>{extraeFecha(created)}</h4>
         </div>
 
         {user &&

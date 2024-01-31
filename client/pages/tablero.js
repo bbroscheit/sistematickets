@@ -41,7 +41,7 @@ function Tablero() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
-    // fetch(http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
+    // fetch(http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
       .then((res) => res.json())
       .then((data) => {
         setWorker(data);

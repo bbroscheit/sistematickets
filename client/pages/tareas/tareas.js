@@ -82,8 +82,8 @@ function Tareas() {
     setOpen(false);
   }
 
-  console.log("userstories", storiesname);
-  console.log("input", input)
+  // console.log("userstories", storiesname);
+  // console.log("input", input)
 
   return (
     <div className={mainStyles.container}>
