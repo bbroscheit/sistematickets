@@ -1,8 +1,6 @@
 const { Ticket, User } = require('../../bd');
 const fs = require('fs');
 const path = require('path');
-const saveInDropbox = require('../controllers/saveInDropbox');
-const getSharedLink = require('../controllers/getSharedLink');
 
 const postTicket = async (state, worker, subject, detail, answer, userresolved, user, files) => {
     
@@ -64,8 +62,6 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             userresolved: userresolved
         })
         
-        console.log("newticket", newTicket);
-
         return newTicket
 
     } catch (e) {

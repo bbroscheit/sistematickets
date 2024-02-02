@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Swal from 'sweetalert2'
 import Router from "next/router";
 import style from "@/modules/formNormal.module.css";
 import mainStyle from "@/styles/Home.module.css";
@@ -67,16 +68,25 @@ function FormNormal({ user }) {
   function handleSubmitNoFaq(e) {
     e.preventDefault();
     postTicketFormData(input)
-    // sendEmailNewTicket(email)
-    alert("ticket generado con exito");
-
-    setTimeout(() => {
-      Router.push("/Tickets");
-    }, 500);
+      .then(res => {
+        
+        if (res.state === "success") {
+        sendEmailNewTicket(email)
+        Swal.fire(({
+          icon: "success",
+          title: "Tu soporte fue generado con éxito!",
+          showConfirmButton: false,
+          timer: 1500
+        }));
+        setTimeout(() => {
+          Router.push("/Tickets");
+        }, 1500);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
   }
-
-  // console.log("userForm Data", user)
-  // console.log("inputForm Data", input)
 
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">

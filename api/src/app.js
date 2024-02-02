@@ -17,11 +17,14 @@ const projectRouter = require('../src/routes/projectRouter.js')
 const userstoriesRouter = require('../src/routes/userstoriesRouter.js')
 const taskRouter = require('../src/routes/taskRouter.js')
 const downloadRouter = require('../src/routes/downloadRouter.js');
+const gpRequestRouter = require('../src/routes/gpRequestRouter.js')
+
+
 const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
 
 
 // usamos cron para marcar cuando queremos que se ejecute la tarea programada
-cron.schedule('0 7 * * *', () => {
+cron.schedule('0 10 * * *', () => {
     console.log('Ejecutando tarea programada todos los dias a las 7 de la mañana');
     closeTicketByTime();
   });
@@ -63,6 +66,7 @@ server.use('/', projectRouter);
 server.use('/', userstoriesRouter);
 server.use('/', taskRouter);
 server.use('/' , downloadRouter);
+server.use('/' , gpRequestRouter);
 
 server.use((err,req,res) => {
     const status = err.status || 500;

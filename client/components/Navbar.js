@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import styles from '../modules/Navbar.module.css'
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import MuiDrawer from '@mui/material/Drawer';
@@ -36,6 +36,7 @@ import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
 import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { Tooltip } from '@mui/material';
 
 const drawerWidth = 240; // dice cuan ancho es el menu cuando se despliega
 
@@ -96,10 +97,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function PrimarySearchAppBar() {
+  const router = useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [ user, setUser ] = React.useState(null);
   const [ login, setLogin ] = React.useState(0);
+  
 
   React.useEffect(() => {
     let userLogin = JSON.parse(localStorage.getItem('user'))
@@ -245,7 +248,7 @@ export default function PrimarySearchAppBar() {
     handleMenuClose()
     setLogin(0)
     setUser(null)
-    Router.push("/")
+    router.push(`/`)
   }
 
   // console.log("user", user)
@@ -281,16 +284,23 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
             </IconButton> */}
+            {
+              user !== null && ( user.name === "Bbroscheit" || user.name === "Lllamanzarez")  ? 
+                <Tooltip title="show 17 new notifications">
+                  <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="white"
+                    onClick={ e => router.push(`/helpDesk/Principal`)}
+                  >
+                    <Badge badgeContent={5} sx={{ color:"white"}}>
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton> 
+                </Tooltip> : null
+            }
+            
             {/* <IconButton
               size="large"
               edge="end"
@@ -301,7 +311,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton> */}
+            </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             {/* se deshabilito el menu de celulares hasta no encontrar algo util que agregar ahi */}
@@ -318,8 +328,8 @@ export default function PrimarySearchAppBar() {
           </Box>
         </Toolbar>
       </AppBar>
-      {/* {renderMobileMenu} */}
-      {/* {renderMenu} */}
+       {renderMobileMenu} 
+       {renderMenu} 
       <Drawer variant="permanent" open={open} onMouseOver={ e => handleDrawerOpenOnMouseOver(e)} onMouseLeave={e => handleDrawerOpenOnMouseLeave(e)}>
         <Divider />
 

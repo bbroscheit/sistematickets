@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import Swal from 'sweetalert2'
 import Router from "next/router";
 import styles from '@/modules/formFaq.module.css'
 import mainStyle from "@/styles/Home.module.css";
@@ -11,6 +12,8 @@ import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 import { updateFaq } from "@/pages/api/updateFaq.js";
 
 
+
+// estilos del modal
 const style = {
   position: 'absolute',
   top: '50%',
@@ -32,7 +35,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado
   const [email, setEmail] = useState({ email: "" })
-  
+    
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: "sin asignar",
@@ -103,13 +106,26 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
   function handleSubmit(e) {
     e.preventDefault();
     postTicketFormData(input)
-    updateFaq( updatedFaq )
-    sendEmailNewTicket(email)
-    alert("ticket generado con exito");
-
-    setTimeout(() => {
-      Router.push("/Tickets");
-    }, 0);
+      .then(res => {
+        
+      if (res.state === "success") {
+      updateFaq( updatedFaq )
+      sendEmailNewTicket(email)
+      Swal.fire(({
+        icon: "success",
+        title: "Tu soporte fue generado con éxito!",
+        showConfirmButton: false,
+        timer: 1500
+      }));
+      setTimeout(() => {
+        Router.push("/Tickets");
+      }, 1500);
+    }
+  })
+  .catch(error => {
+    console.error("Error al enviar el formulario:", error);
+  });    
+    
   }
 
   return (
@@ -257,7 +273,6 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
             </div>
         </Box>
       </Modal>
-
     </>
   );
 }
