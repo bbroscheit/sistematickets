@@ -1,5 +1,7 @@
-const { User, Ticket } = require("../../bd");
+require("dotenv").config();
+
 const nodemailer = require("nodemailer");
+const { LOCALHOST, PORTFRONT } = process.env;
 
 // Configuración del transporter (SMTP)
 const transporter = nodemailer.createTransport({
@@ -13,43 +15,36 @@ const transporter = nodemailer.createTransport({
 });
 
 // Función para enviar correo electrónico
-const sendEmailWorkerFinish = async ( idTicket , desarrolladorSubject, desarrolladorText) => {
-    console.log("recepcion", idTicket, desarrolladorSubject, desarrolladorText)
-    let userWorker = {}
-    let subject = desarrolladorSubject
-    let text = desarrolladorText
+const sendEmailWorkerFinish = async (
+  ticket,
+  useremail,
+  workerFind,
+  onlyDetail,
+  ) => {
+  try {
+    
+    const info = await transporter.sendMail({
+      from: "mesadeayuda@basani.com.ar",
+      to: workerFind[0].email,
+      subject: `El usuario a cerrado soporte N° ${ticket.id}`,
+      html: `
+        <p>Buenos días,</p>
+        <p>El usuario a cerrado soporte N° <strong> ${ticket.id}</strong> </p>
+        <p>Título : <strong> ${ticket.subject}</strong> </p>
+        <p>Detalle : <strong> ${onlyDetail}</strong> </p>
+        <p>Puedes volver a consultarlo desde la App Soporte Basani SA haciendo click <a href="http://${LOCALHOST}:${PORTFRONT}/soportes/${ticket.id}"><strong>aqui</strong></a>.</p>
+        <div style="text-align: center;">
+          <p>Muchas gracias</p>
+          <p><strong>Mesa de Ayuda</strong></p>
+        </div>
+        `,
+    });
 
-    if(idTicket){
-        try {
-            let ticket = await Ticket.findOne({
-                where: { id: idTicket },
-            });
-
-            if(ticket){
-                userWorker = await User.findOne({ 
-                    where:{ username : ticket.worker}
-                })
-            }  
-        
-        const to = userWorker.email;
-
-        // console.log("user.email" , userWorker.email)
-  
-        const info = await transporter.sendMail({
-          from: "sistemas@basani.com.ar",
-          to,
-          subject,
-          text,
-        });
-      
-  
-      console.log("Correo electrónico enviado:", userWorker.email);
-    } catch (error) {
-      console.error("Error al enviar el correo electrónico:", error);
-    }
+    console.log("Correo electrónico enviado:", info.messageId);
+  } catch (error) {
+    console.error("Error al enviar el correo electrónico:", error);
   }
-
-    console.log("no se recibio Id de Ticket");
+   
 };
 
 module.exports = sendEmailWorkerFinish;

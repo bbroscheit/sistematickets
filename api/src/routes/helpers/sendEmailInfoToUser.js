@@ -15,23 +15,27 @@ const transporter = nodemailer.createTransport({
 });
 
 // Función para enviar correo electrónico
-const sendEmailWorkerAssigment = async (
-  idTicket,
+const sendEmailInfoToUser = async (
   ticket,
   useremail,
-  workerFind
+  workerFind,
+  detail,
+  question,
+  answer
 ) => {
   try {
+    
     const info = await transporter.sendMail({
       from: "mesadeayuda@basani.com.ar",
-      to: workerFind[0].email,
-      subject: `Se te ha asignado el soporte N° ${idTicket}`,
+      to: useremail,
+      subject: `Se esta solicitando mas Informacíon sobre tu soporte N° ${ticket.id}`,
       html: `
         <p>Buenos días,</p>
-        <p>Se ha asignado el soporte N° <strong> ${idTicket}</strong> </p>
+        <p>El desarrollador ${workerFind[0].firstname} ${workerFind[0].lastname} ha más informacíon sobre el soporte N° <strong> ${ticket.id}</strong> </p>
         <p>Título : <strong> ${ticket.subject}</strong> </p>
-        <p>Detalle : <strong> ${ticket.detail}</strong> </p>
-        <p>Puedes ingresar al mismo desde la App Soporte Basani SA haciendo click <a href="http://${LOCALHOST}:${PORTFRONT}/soportes/${idTicket}"><strong>aqui</strong></a>.</p>
+        <p>Detalle : <strong> ${detail}</strong> </p>
+        <p>Pregunta : <strong> ${question}</strong></p>
+        <p>Puedes ingresar nueva informacíon desde la App Soporte Basani SA haciendo click <a href="http://${LOCALHOST}:${PORTFRONT}/soportes/${ticket.id}"><strong>aqui</strong></a>.</p>
         <div style="text-align: center;">
           <p>Muchas gracias</p>
           <p><strong>Mesa de Ayuda</strong></p>
@@ -45,4 +49,4 @@ const sendEmailWorkerAssigment = async (
   }
 };
 
-module.exports = sendEmailWorkerAssigment;
+module.exports = sendEmailInfoToUser;

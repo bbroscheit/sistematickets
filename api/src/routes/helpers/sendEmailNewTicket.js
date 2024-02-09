@@ -1,4 +1,4 @@
-const { User, Sector } = require("../../bd");
+// const { User, Sector } = require("../../bd");
 const nodemailer = require("nodemailer");
 
 // Configuración del transporter (SMTP)
@@ -13,40 +13,39 @@ const transporter = nodemailer.createTransport({
 });
 
 // Función para enviar correo electrónico
-const sendEmailNewTicket = async (desarrolladorSubject, desarrolladorText) => {
-  const to = [];
-  const subject = desarrolladorSubject;
-  const text = desarrolladorText;
-
-  const sistemasSector = await Sector.findOne({
-    where: { sectorname: "Sistemas" },
-    include: User, // Incluye la asociación con User
-  });
-
-  if (!sistemasSector) {
-    console.log("Sector 'Sistemas' no encontrado.");
-    return;
-  }
-
-  // Accede a la propiedad 'Users' del sector para obtener los usuarios
-  const usersInSistemas = sistemasSector.users;
-
-  const emailsInSistemas = usersInSistemas.map((user) => user.email);
-
+const sendEmailNewTicket = async (findTicket) => {
   try {
-    for (let i = 0; i < emailsInSistemas.length; i++) {
+    
       const info = await transporter.sendMail({
-        from: "sistemas@basani.com.ar",
-        to: emailsInSistemas[i],
-        subject,
-        text,
+        from: 'mesadeayuda@basani.com.ar',
+        to: "bernardo.broscheit@basani.com.ar",
+        subject: `Se ha creado el soporte N° ${findTicket.id}`,
+        html: `
+          <p>Buenos días,</p>
+          <p>Se ha creado el soporte N° <strong> ${findTicket.id}</strong> </p>
+          <p>Título : <strong> ${findTicket.subject}</strong> </p>
+          <p>Detalle : <strong> ${findTicket.detail}</strong> </p>
+          <div style="text-align: center;">
+            <p>Muchas gracias</p>
+            <p><strong>Mesa de Ayuda</strong></p>
+          </div>
+          `,
       });
 
-      console.log("Correo electrónico enviado:", info.messageId);
-    }
+      console.log('Correo electrónico enviado:', info.messageId);
+   
   } catch (error) {
     console.error("Error al enviar el correo electrónico:", error);
   }
 };
 
 module.exports = sendEmailNewTicket;
+
+// text : 
+//         ` <p>Buenos días,</p>
+//           <p>El departamento de sistemas le informa que su soporte se ha registrado con éxito.</p>
+//           <p><strong>Su número de ticket es el: ${findTicket.id}</strong></p>
+//           <p>Recuerde que podrá realizar el seguimiento del estado de su ticket desde la App Soporte Basani SA - Menú: “Consulta de Soportes”.</p>
+//           <p>Muchas gracias</p>
+//           <p>Departamento de Sistemas</p>
+//       `,

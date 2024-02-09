@@ -16,6 +16,7 @@ import { updateInfoTicket } from "../api/updateInfoTicket";
 import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
 import { updateCloseTicket } from "../api/updateCloseTicket";
 import { sendEmailAssigment } from "../api/sendEmailAssigment";
+import { sendEmailAssigmentUser } from "../api/sendEmailAssigmentUser";
 import { sendEmailComplete } from "../api/sendEmailComplete";
 import { sendEmailMoreInfo } from "../api/sendEmailMoreInfo";
 import { sendEmailInfoUser } from "../api/sendEmailInfoUser";
@@ -58,10 +59,15 @@ function Soporte() {
   const [solution, setSolution] = useState({ solution: "" });
   const [info, setInfo] = useState({ info: "" });
   const [yesState, setYesState] = useState(0);
+  const [soporteId, setSoporteId] = useState(1)
+  const [answer , setAnswer] = useState({ info: "" })
   const [email, setEmail] = useState({
-    idTicket: id,
+    idTicket: id ? id : soporteId,
     useremail: "",
     worker: "",
+    detail:"",
+    question:"",
+    answer:""
   });
   const [inputFaq, setInputFaq] = useState({
     title: "",
@@ -91,6 +97,7 @@ function Soporte() {
         setEmail({
           ...email,
           useremail: data.user.email,
+          detail: data.detail
         });
       });
 
@@ -112,6 +119,9 @@ function Soporte() {
       let loginParse = JSON.parse(userLogin);
       setUser(loginParse);
 
+      let idSoporte = localStorage.getItem("idSoporte");
+      setSoporteId(idSoporte);
+      
   }, [router.query.id]);
 
  
@@ -158,9 +168,16 @@ function Soporte() {
   //guarda en el soporte la asignacion del desarrollador
   function submitAsignar(e) {
     e.preventDefault();
-    updateWorker(id, asignar);
-    // sendEmailAssigment(email);
-    window.location.reload(true);
+    updateWorker(id, asignar)
+    .then(res => {
+      if (res.state === "success") {
+        sendEmailAssigment(email);
+        window.location.reload(true);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
   }
 
   function submitAsignarPriority(e) {
@@ -213,12 +230,17 @@ function Soporte() {
 
   function submitSolution(e) {
     e.preventDefault();
-    updateSolutionTicket(soporte.id, solution);
-    postFaq(inputFaq);
-    // sendEmailComplete(email);
-    setTimeout(() => {
-      router.push("/Tickets");
-    }, 300);
+    updateSolutionTicket(soporteId, solution)
+    .then(res => {
+      if (res.state === "success") {
+        postFaq(inputFaq);
+        sendEmailComplete(email);
+        window.location.reload(true);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
   }
 
   // las siguientes 2 funciones abren y cierran el modal del pedido de mas informacion
@@ -233,20 +255,18 @@ function Soporte() {
     setOpenInfo(false);
   }
 
-  function handleChangeInfo(e) {
-    setInfo({
-      ...info,
-      [e.target.name]: e.target.value,
-    });
-  }
-
   function submitInfo(e) {
     e.preventDefault();
-    updateInfoTicket(soporte.id, info);
-    // sendEmailMoreInfo(email);
-    setTimeout(() => {
-      router.push("/Tickets");
-    }, 300);
+    updateInfoTicket(soporteId, info)
+      .then(res => {
+        if (res.state === "success") {
+          sendEmailMoreInfo(email);
+          window.location.reload(true);
+        }
+      })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });
   }
 
   // las siguientes 2 funciones abren y cierran el modal del pedido de mas informacion
@@ -266,39 +286,67 @@ function Soporte() {
       ...info,
       [e.target.name]: e.target.value,
     });
+    setEmail({
+      ...email,
+      question: e.target.value
+    })
+  }
+
+  function handleChangeAnswer(e) {
+    setAnswer({
+      ...answer,
+      [e.target.name]: e.target.value,
+    });
+    setEmail({
+      ...email,
+      answer: e.target.value
+    })
   }
 
   function submitInfoUser(e) {
     e.preventDefault();
-    updateInfoTicketByUser(soporte.id, info);
-    // sendEmailInfoUser(email);
-    setTimeout(() => {
-      router.push("/Tickets");
-    }, 300);
+    updateInfoTicketByUser(soporteId, answer)
+      .then(res => {
+        if (res.state === "success") {
+          sendEmailInfoUser(email);
+          window.location.reload(true);
+        }
+      })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });    
   }
 
   // funcion para pasar el estado del ticket a Terminado
 
   function SubmitCloseTicket(e) {
     e.preventDefault();
-    updateCloseTicket(soporte.id);
-    // sendEmailCloseTicket(email);
-    setTimeout(() => {
-      router.push("/Tickets");
-    }, 300);
+    updateCloseTicket(soporteId)
+      .then(res => {
+        if (res.state === "success") {
+          sendEmailCloseTicket(email);
+          window.location.reload(true);
+        }
+      })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });
   }
 
   function submitAcceptAssigment(e) {
     e.preventDefault();
-    ticketAssigment(id);
-    // sendEmailCloseTicket(email);
-    setTimeout(() => {
-      router.push("/Tickets");
-    }, 300);
+    ticketAssigment(id)
+    .then(res => {
+      if (res.state === "success") {
+        sendEmailAssigmentUser(email);
+        window.location.reload(true);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
+    
   }
-
-  console.log("newPriority", newPriority)
-
 
   return (
     <>
@@ -823,9 +871,9 @@ function Soporte() {
           </Typography>
           {soporte !== null ? (
             <textarea
-              value={info.info}
-              name="info"
-              onChange={(e) => handleChangeInfo(e)}
+              value={answer.answer}
+              name="answer"
+              onChange={(e) => handleChangeAnswer(e)}
               className={style.modalTextarea}
             />
           ) : null}

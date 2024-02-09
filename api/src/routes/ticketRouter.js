@@ -19,15 +19,26 @@ const updateCloseTicket = require('./controllers/updateCloseTicket');
 const uploadFiles = require('./middlewares/uploadFiles');
 const sendEmail = require('./helpers/sendEmail');
 const sendEmailWorker = require('./helpers/sendEmailWorker');
-const sendEmailWorkerAssigment = require ('./helpers/sendEmailWorkerAssigment');
+const sendEmailWorkerAssigment = require('./helpers/sendEmailWorkerAssigment')
+const sendEmailWorkerAceptAssigment = require('./helpers/sendEmailWorkerAceptAssigment')
 const sendEmailInfoToWorker = require('./helpers/sendEmailInfoToWorker');
+const sendEmailInfoToUser = require ('./helpers/sendEmailInfoToUser')
+const sendEmailUserComplete = require('./helpers/sendEmailUserComplete')
 const sendEmailWorkerComplete = require('./helpers/sendEmailWorkerComplete');
 const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
+const sendEmailUserFinish = require('./helpers/sendEmailUserFinish')
 const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
 const getTicketsPendientes24 = require('./controllers/getTicketsPendientes24')
 const getTicketByWorker = require('./controllers/getTicketByWorker')
 const updatePriority = require('./controllers/updatePriority')
-const getPriority = require('./controllers/getPriority')
+const getPriority = require('./controllers/getPriority');
+const getTicketsBySubject = require('./helpers/getTicketBySubject');
+const getUserByName = require('./helpers/getUserByName');
+const getworkerByName = require('./helpers/getWorkerByName')
+const getUserEmailByTicketID = require('./helpers/getUserEmailByTicketID')
+const getDetailWithoutQuestion = require('./helpers/getDetailWithoutQuestion')
+const getLastQuestion = require('./helpers/getLastQuestion')
+const getDetailOnly = require('./helpers/getOnlyDetail')
 
 
 
@@ -168,7 +179,7 @@ ticketRouter.put( '/updateAssignment/:id' , async ( req, res ) => {
     
     try {
         let updatedTicket = await updateAssignment(id , name)
-        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateAssignment" , e.message)
     }
@@ -194,7 +205,7 @@ ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
     
     try {
         let acepted = await assigmentAcepted(id)
-        acepted ? res.status(200).send("sucess") : res.status(400).send("failure")
+        acepted ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put assigmentAcepted" , e.message)
     }
@@ -208,7 +219,7 @@ ticketRouter.put( '/updateSolutionTicket/:id' , async ( req, res ) => {
     
     try {
         let updatedTicket = await updateSolutionTicket(id , solution)
-        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateSolutionTicket" , e.message)
     }
@@ -222,7 +233,7 @@ ticketRouter.put( '/updateInfoTicket/:id' , async ( req, res ) => {
     
     try {
         let updatedTicket = await updateInfoTicket(id , info)
-        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateInfoTicket" , e.message)
     }
@@ -231,12 +242,12 @@ ticketRouter.put( '/updateInfoTicket/:id' , async ( req, res ) => {
 
 ticketRouter.put( '/updateInfoTicketByUser/:id' , async ( req, res ) => {
     const { id } = req.params
-    const { info } = req.body
+    const { answer } = req.body
 
     
     try {
-        let updatedTicket = await updateInfoTicketByUser(id , info)
-        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+        let updatedTicket = await updateInfoTicketByUser(id , answer)
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateInfoTicket" , e.message)
     }
@@ -248,7 +259,7 @@ ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
         
     try {
         let updatedTicket = await updateCloseTicket(id)
-        updatedTicket ? res.status(200).send("sucess") : res.status(400).send("failure")
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateInfoTicket" , e.message)
     }
@@ -256,119 +267,131 @@ ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
 })
 
 ticketRouter.post('/sendEmailNewTicket', async (req, res) => {
-    const {email} = req.body
+    const {subject, email} = req.body
+        
+    let findTicket = await getTicketsBySubject(subject)
     
-    // Envia notificación al usuario
-    const usuarioEmail = email;
-    const usuarioSubject = 'Nuevo soporte creado';
-    const usuarioText = 'Su soporte ha sido creado con éxito.';
-  
-    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
+    try {
+        await sendEmail( email, findTicket);
+        await sendEmailNewTicket(findTicket);
+        
+    } catch (e) {
+        console.log(e.message)
+    }
 
-    const desarrolladorSubject = 'Nuevo soporte creado';
-    const desarrolladorText = `el usuario ${email} ha creado un nuevo soporte`;
-  
-    await sendEmailNewTicket(desarrolladorSubject, desarrolladorText);
-
-
-  
-    res.send('Soporte creado exitosamente');
+    res.send('Emails enviados exitosamente');
   });
 
 ticketRouter.post('/sendEmailAssigment', async (req, res) => {
-    const { idTicket, useremail, worker} = req.body
-    let msj = idTicket !== undefined ? `Has sido asignado para trabajar en el soporte Nº ${idTicket}.` : "se te ha asignado un nuevo soporte"
     
-    // Envia notificación al usuario
-    const usuarioEmail = useremail;
-    const usuarioSubject = `Soporte Asignado`;
-    const usuarioText = `Su soporte le ha sido asignado a ${worker} y será resuelto el las siguientes 24Hs.`;
+    const { idTicket, useremail, worker} = req.body
+    
+    let ticket = await getTicketDetail(idTicket)
+    let workerFind = await getUserByName(worker)
+    
+    
+    try {
+        await sendEmailWorkerAssigment( idTicket, ticket, useremail, workerFind);
+    } catch (e) {
+        console.log(e.message)
+    }
+    
   
-    await sendEmail( usuarioEmail, usuarioSubject, usuarioText);
-  
-    // Envia notificación al desarrollador
-    const desarrolladorEmail = worker;
-    const desarrolladorSubject = 'Nuevo soporte asignado';
-    const desarrolladorText = msj ;
-  
-    await sendEmailWorkerAssigment( idTicket, desarrolladorEmail, desarrolladorSubject, desarrolladorText);
+    // Respuesta al cliente
+    res.send('Soporte creado exitosamente');
+  });
+
+ticketRouter.post('/sendEmailAssigmentUser', async (req, res) => {
+    const { idTicket, useremail, worker} = req.body
+    
+    let ticket = await getTicketDetail(idTicket)
+    let workerFind = await getworkerByName(ticket)
+    let useremailFind = ""
+
+    if(useremail === ""){
+        useremailFind = await getUserEmailByTicketID(idTicket)
+    }else{
+        useremailFind = useremail
+    }
+
+    try {
+        await sendEmailWorkerAceptAssigment( ticket, useremailFind, workerFind);
+    } catch (e) {
+        console.log(e.message)
+    }
+    
   
     // Respuesta al cliente
     res.send('Soporte creado exitosamente');
   });
 
 ticketRouter.post('/sendEmailComplete', async (req, res) => {
-    const { idTicket, useremail } = req.body
+    const { idTicket, useremail, worker, detail, question, answer } = req.body
+    
+    let ticket = await getTicketDetail(idTicket)
+    let workerFind = await getworkerByName(ticket)
+    let onlyDetail = await getDetailOnly(ticket)
+    
 
-    let msj = idTicket !== undefined ? `El soporte Nº ${idTicket} ha sido cerrado por el desarrollador, por favor verificar y dar por completado` : `Tú soporte ha sido cerrado por el desarrollador, por favor verificar y dar por completado`
-    let msjWorker = idTicket !== undefined ? `Has cerrado el soporte Nº ${idTicket} con exito.` : "El soporte fue cerrado exitosamente"
-        
-    // Envia notificación al usuario
-    const usuarioEmail = useremail;
-    const usuarioSubject = 'Soporte Cerrado';
-    const usuarioText = msj
-  
-    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
-        console.log("ruta complete", idTicket)
-
-        const id = idTicket;
-        const desarrolladorSubject = 'Soporte Cerrado';
-        const desarrolladorText = msjWorker ;
-        // Envia notificación al desarrollador
-        
-        await sendEmailWorkerComplete( id, desarrolladorSubject, desarrolladorText);
+    try {
+        await sendEmailUserComplete( ticket, useremail, workerFind, onlyDetail );
+        await sendEmailWorkerComplete( ticket, useremail, workerFind, onlyDetail );
+    } catch (e) {
+        console.log(e.message)
+    }
    
-        // Respuesta al cliente
     res.send('Soporte creado exitosamente');
+
   });
 
 ticketRouter.post('/sendEmailMoreInfo', async (req, res) => {
-    const { idTicket, useremail, worker } = req.body
+    const { idTicket, useremail, worker, detail, question } = req.body
     
-    // Envia notificación al usuario
-    const usuarioEmail = useremail;
-    const usuarioSubject = 'Se solicita más información';
-    const usuarioText = idTicket ? `El desarrollador ${worker} solicita más información sobre el soporte Nº ${idTicket}`:'Se solicita más información sobre el soporte requerido.';
-  
-    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
+    let ticket = await getTicketDetail(idTicket)
+    let workerFind = await getworkerByName(ticket)
+
+    try {
+        await sendEmailInfoToUser( ticket, useremail, workerFind, detail, question);
+    } catch (e) {
+        console.log(e.message)
+    }
   
     res.send('Soporte creado exitosamente');
 });
 
 ticketRouter.post('/sendEmailInfoUser', async (req, res) => {
-    const { idTicket, useremail } = req.body
- 
-    // Envia notificación al desarrollador
-    const user = useremail;
-    const desarrolladorSubject = 'El Usuario a enviado mas información';
-  
-    await sendEmailInfoToWorker( idTicket, user , desarrolladorSubject );
-  
-    // Respuesta al cliente
+    const { idTicket, useremail, worker, detail, question, answer } = req.body
+    
+    let ticket = await getTicketDetail(idTicket)
+    let workerFind = await getworkerByName(ticket)
+    let detailWithoutQuestion = await getDetailWithoutQuestion(ticket)
+    let questionFind = await getLastQuestion(ticket)
+
+    try {
+        await sendEmailInfoToWorker( ticket, useremail, workerFind, detailWithoutQuestion, questionFind, answer);
+    } catch (e) {
+        console.log(e.message)
+    }
+   
     res.send('Soporte creado exitosamente');
 });
 
-  ticketRouter.post('/sendEmailCloseTicket', async (req, res) => {
-    const { idTicket, useremail , worker } = req.body
-
-    let msj = idTicket !== undefined ? `Has cerrado el soporte Nº ${idTicket} exitosamente` : ` Has cerrado el soporte exitosamente`
-    let msjWorker = idTicket !== undefined ? `El usuario ha cerrado el soporte Nº ${idTicket} con exito.` : "El soporte fue cerrado exitosamente"
-        
-    // Envia notificación al usuario
-    const usuarioEmail = useremail;
-    const usuarioSubject = 'Soporte Cerrado';
-    const usuarioText = msj
-
-    await sendEmail(usuarioEmail, usuarioSubject, usuarioText);
- 
-    // Envia notificación al desarrollador
+ticketRouter.post('/sendEmailCloseTicket', async (req, res) => {
+    const { idTicket, useremail, worker, detail, question, answer } = req.body
     
-    const desarrolladorSubject = 'El soporte fue cerrado por el usuario';
-    const desarrolladorText = msjWorker;
-  
-    await sendEmailWorkerFinish( idTicket , desarrolladorSubject, desarrolladorText);
-  
-    // Respuesta al cliente
+    let ticket = await getTicketDetail(idTicket)
+    let workerFind = await getworkerByName(ticket)
+    let onlyDetail = await getDetailOnly(ticket)
+    
+
+    try {
+        await sendEmailUserFinish( ticket, useremail, workerFind, onlyDetail );
+        await sendEmailWorkerFinish( ticket, useremail, workerFind, onlyDetail );
+        
+    } catch (e) {
+        console.log(e.message)
+    }
+   
     res.send('Soporte creado exitosamente');
   });
 

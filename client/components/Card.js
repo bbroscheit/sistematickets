@@ -12,6 +12,8 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import { updateWorker } from "@/pages/api/updateWorker";
 import { updateCloseTicket } from "@/pages/api/updateCloseTicket";
 import { ticketAssigment } from "@/pages/api/ticketAssigment";
+import { sendEmailAssigment } from "@/pages/api/sendEmailAssigment";
+import { sendEmailAssigmentUser } from "@/pages/api/sendEmailAssigmentUser";
 import { sendEmailCloseTicket } from "@/pages/api/sendEmailCloseTicket";
 import giraFechas from "@/functions/girafechas";
 import { extraeFecha } from "@/functions/extraeFecha";
@@ -40,6 +42,11 @@ function Card({ id, subject, state, created }) {
   const [worker, setWorker] = useState(null);
   const [control, setControl] = useState(0);
   const [user, setUser] = useState(null);
+  const [email, setEmail] = useState({
+    idTicket: id,
+    useremail: "",
+    worker: "",
+  });
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
@@ -54,6 +61,10 @@ function Card({ id, subject, state, created }) {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
     setUser(loginParse);
+    setEmail({
+      ...email,
+      useremail:loginParse.email
+    })
   }, []);
 
   function handleOpen(e) {
@@ -92,29 +103,53 @@ function Card({ id, subject, state, created }) {
     setAsignar({
       name: e.target.value,
     });
+    setEmail({
+      ...email,
+      worker: e.target.value,
+    });
   }
 
   //guarda en el soporte la asignacion del desarrollador
   function submitAsignar(e) {
     e.preventDefault();
-    updateWorker(id, asignar);
-    //window.location.reload(true);
+    updateWorker(id, asignar)
+    .then(res => {
+      if (res.state === "success") {
+        sendEmailAssigment(email);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
   }
 
   //desarrollador acepta el comienzo del desarrollo
   function SubmitAssigmentAcept(e) {
     e.preventDefault();
-    ticketAssigment(id);
-    //console.log("entre al assigment");
-    //window.location.reload(true);
+    ticketAssigment(id)
+      .then(res => {
+        if (res.state === "success") {
+          sendEmailAssigmentUser(email);
+          window.location.reload(true);
+        }
+      })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });
   }
 
   //cambia el estado del soporte a terminado
   function SubmitCloseTicket(e) {
     e.preventDefault();
-    updateCloseTicket(id);
-
-    //window.location.reload(true);
+    updateCloseTicket(id)
+    .then(res => {
+      if (res.state === "success") {
+        sendEmailCloseTicket(email);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
   }
 
   function idKeep(e) {

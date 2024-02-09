@@ -1,6 +1,6 @@
 const { Ticket } = require('../../bd')
 
-const updateInfoTicketByuser = async (id, info) => {
+const updateInfoTicketByuser = async (id, answer) => {
 
     // Obtener el ticket actual
     const existingTicket = await Ticket.findByPk(id);
@@ -13,7 +13,7 @@ const updateInfoTicketByuser = async (id, info) => {
     const currentDetail = existingTicket.detail || '';
 
     // Agrega un salto de linea 
-    const formattedNewInfo = `\n${info}\n`;
+    const formattedNewInfo = `\n${answer}\n`;
 
     // Concatenar el nuevo contenido con el valor actual de detail
     const updatedDetail = currentDetail + formattedNewInfo;

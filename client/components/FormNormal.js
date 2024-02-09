@@ -17,11 +17,12 @@ function FormNormal({ user }) {
     detail: "",
     files:[],
     userresolved: false,
-    user:user.name
+    user:user.name,
+    email:""
   });
 
   const [login, setLogin] = useState(null)
-  const [email, setEmail] = useState({ email: "" })
+  // const [email, setEmail] = useState({ email: "" })
 
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
@@ -29,11 +30,12 @@ function FormNormal({ user }) {
     setLogin(loginParse);
     setInput({
       ...input,
-      user:loginParse.name
-    })
-    setEmail({
+      user:loginParse.name,
       email:loginParse.email
     })
+    // setEmail({
+      
+    // })
   }, []);
 
   function handleChange(e) {
@@ -61,7 +63,8 @@ function FormNormal({ user }) {
       subject: "",
       detail: "",
       userresolved: false,
-      user:user.name
+      user:user.name,
+      email:""
     });
   }
 
@@ -71,7 +74,7 @@ function FormNormal({ user }) {
       .then(res => {
         
         if (res.state === "success") {
-        sendEmailNewTicket(email)
+        sendEmailNewTicket(input)
         Swal.fire(({
           icon: "success",
           title: "Tu soporte fue generado con éxito!",

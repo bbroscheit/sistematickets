@@ -1,4 +1,4 @@
-export async function sendEmailNewTicket(email) {
+export async function sendEmailNewTicket(input) {
     // console.log(email)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailNewTicket`, {
       // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailNewTicket`, {
@@ -6,7 +6,7 @@ export async function sendEmailNewTicket(email) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(email),
+      body: JSON.stringify(input),
     })
     const data = await res.json()
     

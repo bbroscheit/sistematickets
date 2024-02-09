@@ -44,6 +44,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
     answer: answer,
     userresolved: uresolved,
     user: user,
+    email:""
   });
   const [updatedFaq, setUpdateFaq] = useState({
     id : id,
@@ -53,7 +54,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
-    setEmail({
+    setInput({
       ...input,
       email: loginParse.email
     })
@@ -110,7 +111,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
         
       if (res.state === "success") {
       updateFaq( updatedFaq )
-      sendEmailNewTicket(email)
+      sendEmailNewTicket(input)
       Swal.fire(({
         icon: "success",
         title: "Tu soporte fue generado con éxito!",
