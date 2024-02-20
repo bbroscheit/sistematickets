@@ -535,134 +535,6 @@ function Soporte() {
               </div>
             </div>
 
-            <div className={style.visibilityContainerMobile}>
-              <div className={style.infoContainer}>
-                <div>
-                  <h1 className={style.title}>Soporte Nº {soporte.id}</h1>
-                  <h2 className={style.subtitle}>{soporte.subject}</h2>
-                </div>
-
-                <div className={style.titleContainer}>
-                  <div className={style.stateContainer}>
-                    <h3> Estado: </h3>
-                    <p>{soporte.state}</p>
-                  </div>
-                  {user !== null && user.sector !== "Sistemas" ? (
-                    <div className={style.stateContainer}>
-                      <div className={style.assigmentContainer}>
-                        <h3> Asignado: </h3> <p>{soporte.worker}</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={style.stateContainer2}>
-                      <div className={style.assigmentContainer2}>
-                        <h3>Asignado: </h3>
-                        <p>{soporte.worker}</p>
-                      </div>
-                      <button
-                        onClick={(e) => {
-                          handleOpen(e);
-                        }}
-                      >
-                        {" "}
-                        Cambiar{" "}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className={style.form}>
-                <div>
-                  <h3 className={style.label}>Detalle : </h3>
-                  <textarea
-                    placeholder={soporte.detail}
-                    // readOnly
-                    className={style.textarea}
-                  />
-                </div>
-
-                {user !== null &&
-                user.sector !== "Sistemas" ? null : soporte !== null &&
-                  soporte.answer !== "Sin resolución" ? (
-                  <div>
-                    <h3 className={style.label}>Solución : </h3>
-                    <textarea
-                      placeholder={soporte.answer}
-                      // disabled
-                      className={style.textarea}
-                    />
-                  </div>
-                ) : null}
-
-                {soporte !== null &&
-                soporte.files &&
-                soporte.files.length > 0 ? (
-                  <>
-                    <h3>Adjuntos:</h3>
-                    {soporte.files && soporte.files.length > 0
-                      ? soporte.files.map((file, index) => (
-                          <div key={index} className={style.adjuntos}>
-                            <a href={file} download>
-                              {getFilename(file)}
-                            </a>
-                          </div>
-                        ))
-                      : null}
-                  </>
-                ) : null}
-
-                {user !== null && user.sector !== "Sistemas" ? (
-                  soporte !== null &&
-                  soporte.worker !== "sin asignar" &&
-                  soporte.state === "Informacion" ? (
-                    <button onClick={(e) => handleOpenInfoUser(e)}>
-                      Mas Info
-                    </button>
-                  ) : null
-                ) : soporte !== null &&
-                  soporte.worker !== "sin asignar" &&
-                  soporte.state !== "Completado" &&
-                  soporte.state !== "Terminado" &&
-                  soporte.state !== "Informacion" ? (
-                  <div className={mainStyle.buttonContainer}>
-                    <button
-                      onClick={(e) => handleOpenSolution(e)}
-                      className={mainStyle.button}
-                    >
-                      Resolver
-                    </button>
-                    <button
-                      onClick={(e) => handleOpenInfo(e)}
-                      className={mainStyle.button}
-                    >
-                      Mas Info
-                    </button>
-                  </div>
-                ) : null}
-
-                {user !== null && user.sector !== "Sistemas" ? (
-                  soporte !== null &&
-                  soporte.worker !== "sin asignar" &&
-                  soporte.state === "Completado" ? (
-                    <div className={mainStyle.buttonContainer}>
-                      <button
-                        onClick={(e) => handleOpenInfoUser(e)}
-                        className={mainStyle.button}
-                      >
-                        Más Info
-                      </button>
-                      <button
-                        onClick={(e) => SubmitCloseTicket(e)}
-                        className={mainStyle.button}
-                      >
-                        Cerrar Ticket
-                      </button>
-                    </div>
-                  ) : null
-                ) : null}
-              </div>
-            </div>
           </>
         ) : (
           <h3> Loading... </h3>
@@ -729,7 +601,7 @@ function Soporte() {
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            value={asignar.name}
+            value={newPriority.name}
             className={style.modalSelect}
             onChange={(e) => handleAsignarPriority(e)}
           >

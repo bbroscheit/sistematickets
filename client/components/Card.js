@@ -227,59 +227,7 @@ function Card({ id, subject, state, created }) {
         ) : null}
       </div>
 
-      <div className={styles.ticketContainerMobile}>
-        <div
-          onClick={(e) => {
-            idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
-          }}
-          className={styles.pointer}
-        >
-          <h4 className={styles.gridElementH4}>{`Ticket N° ${id}`} </h4>
-        </div>
-        <div
-          onClick={(e) => {
-            idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
-          }}
-          className={styles.pointer}
-        >
-          <h4 className={styles.gridElementBolder}>{`${subject}`}</h4>
-        </div>
-        <div>
-          <h4 className={styles.gridElementH4}>Creado el</h4>
-
-          <h4 className={styles.gridElementH4}>{extraeFecha(created)}</h4>
-        </div>
-
-        {user &&
-        user.sector === "Sistemas" &&
-        state &&
-        state === "sin asignar" ? (
-          <div>
-            <h4 className={styles.gridElementH4}>
-              <AddCircleOutlineRoundedIcon
-                onClick={(e) => {
-                  handleOpen(e);
-                }}
-                className={styles.icon}
-              />
-            </h4>
-          </div>
-        ) : user &&
-          user.sector !== "Sistemas" &&
-          state &&
-          state === "Completado" ? (
-          <div>
-            <h4 className={styles.gridElementH4}>
-              <AddCircleOutlineRoundedIcon
-                onClick={(e) => handleOpenCloseTicket(e)}
-                className={styles.icon}
-              />
-            </h4>
-          </div>
-        ) : null}
-      </div>
+      
 
       <Modal
         open={open}

@@ -1,4 +1,4 @@
-.ticketContainer {  
+.ticketContainer {
     margin-top: 5px;
     margin-bottom: 6px;
     display: grid;
@@ -17,9 +17,10 @@
   .ticketContainerMobile{
     display: none;
 }
-  
 
-
+.ticketContainer .pointer{
+    overflow: hidden;
+}
 
 .gridElementH4{
     text-align: center;
@@ -29,6 +30,9 @@
 .gridElementBolder{
     text-align: center;
     color: black;
+    overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+    white-space: nowrap; /* Evita que el texto se divida en líneas */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
 }
 
 .gridElement{
@@ -64,21 +68,13 @@
 }
 
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    .ticketContainer {  
-        display: grid;
-        grid-template-columns: 15% 1fr 15%;
-        grid-template-rows: repeat(2, 1fr);
-        grid-auto-rows: 1fr;
-        gap: 0px;
-        grid-auto-flow: row;
-        padding: 10px;
-        border-radius: 10px;
-        border-radius: 10px;
-      }
-    
-      .ticketContainerMobile{
-        display: none;
+@media (min-width: 835px) and (max-width: 1117px) {
+    .ticketContainer {
+        grid-template-columns: 10% 1fr 12% 10%;
+    }
+
+    .gridElementH4{
+        font-size: 0.8rem;
     }
 
     .ticketContainer h3{
@@ -89,31 +85,23 @@
         padding: 0px;
         margin: 0px;
     }
-    
+
   }
-  
+
   /* media query para Celulares */
-  
-  @media (max-width: 768px) {
-    .ticketContainer {  
+
+  @media (max-width: 834px) {
+    /* .ticketContainer {
         display: none;
-      }
-    
-    .ticketContainerMobile{
-        display: grid;
-        grid-template-columns: 15% 1fr 15%;
-        grid-template-rows: repeat(1, 1fr);
-        grid-auto-rows: 1fr;
-        gap: 0px;
-        grid-auto-flow: row;
-        padding: 10px;
-        margin-bottom: 8px;
-        border: 2px solid black;
-        border-radius: 10px;
+      } */
+
+    .ticketContainer {
+        grid-template-columns: 10% 1fr 18% 10%;
     }
 
-    .ticketContainerMobile h3{
-        font-size: 1rem;
+    
+    .gridElementH4{
+        font-size: 0.8rem;
     }
 
     .gridElement{
@@ -121,15 +109,9 @@
         /* border: 2px solid black; */
     }
 
-    .icon{
-        padding: 0px;
-        margin: 0px;
-    }
-
     .modalTitle{
         font-size: 1rem;
     }
-    
+
  }
-  
-  
+
