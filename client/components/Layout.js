@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     <div className={styles.mainContainer}>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbar && <Navbar/>}
       <main>{children}</main>
     </div>
   </>

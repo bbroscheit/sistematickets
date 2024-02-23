@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import style from '../modules/tablero.module.css'
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import { horasPromedio } from '@/functions/horasPromedio';
+import { horasPromedioHabiles } from '@/functions/horasPromedioHabiles';
 
 function ticketCard() {
     const [soportesCompletados, setSoportesCompletados] = useState(null)
@@ -29,15 +30,16 @@ function ticketCard() {
 
   if (soportesCompletados && soportesTerminados) {
     const soportes = [...soportesCompletados, ...soportesTerminados];
-    promedioHoras = horasPromedio(soportes);
+    promedioHoras = horasPromedioHabiles(soportes);
   }
    
+  console.log("ticketcompletado", soportesCompletados, " soportes terminados", soportesTerminados)
   
   return (
-    <div className={ `${style.dashboardCardSoporte} ${style.blue}`   } >
+    <div className={ `${style.dashboardCard} ${style.blue}`   } >
          <AccessAlarmsIcon className={style.dashboardCardIcons}/>
             
-        <div className={style.dashboardCardTitlesSoporte}>
+        <div className={style.dashboardCardTitles}>
            <h3>Tiempo promedio de Resolución </h3>
                 
             <h3>{ Math.ceil(promedioHoras) } hs</h3>

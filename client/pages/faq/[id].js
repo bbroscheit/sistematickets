@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 import style from "../../modules/detailFaq.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import MenuItem from "@mui/material/MenuItem";
@@ -169,9 +170,25 @@ function Soporte() {
   function submitDeleteFaq(e) {
     e.preventDefault(e)
     deleteFaq(id)
-
+    .then(res => {
+        if (res.state === "success") {
+      
+      Swal.fire(({
+        icon: "success",
+        title: "Tu soporte fue borrado con éxito!",
+        showConfirmButton: false,
+        timer: 1500
+      }));
+      setTimeout(() => {
+        router.push("/Faq");
+      }, 1500);
+    }
+  })
+  .catch(error => {
+    console.error("Error al enviar el formulario:", error);
+  });
     setTimeout(() => {
-      router.push("/faq");
+      router.push("/Faq");
     }, 300);
   }
 

@@ -1,98 +1,148 @@
 import React, { useState, useEffect } from "react";
 import Style from "@/modules/UserstoriesCard.module.css";
-import StyleTask from "@/modules/Taskcontainer.module.css";
-import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import mainStyle from '../styles/Home.module.css'
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import { updateCheckTask } from "@/pages/api/updateCheckTask";
-import { updateCheckStorie } from "@/pages/api/updateCheckStorie";
+import { updateNewtask } from "@/pages/api/updateNewtask";
+import  girafechas  from '@/functions/girafechas'
 
-function UserstoriesCard({ id, storiesname, storiesdetail }) {
-  const [userstorie, setUserstorie] = useState(null);
-  const [task, setTask] = useState(null);
-  const [taskCumplidas, setTaskCumplidas] = useState(null)
-  const storieId = id;
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  border: "2px solid white",
+  borderRadius:"10px",
+  bgcolor: "#e9e7e7",
+  boxShadow: 24,
+  p: 4,
+};
 
- 
- 
-  function handleCheck( e , id){
-    e.preventDefault();
-    updateCheckTask(id)
-    location.reload();
-  }
+function UserstoriesCard({ id, state, taskdetail, taskfinishdate }) {
+  const [idTask, setIdTask] = useState(id) 
+  const [worker , setWorker ] = useState({})
+  let workerName = ""
+  const [openTask, setOpenTask] = useState(false);
+  const [inputTask, setInputTask] = useState({
+    id: id,
+    taskfinishdate : ""
+  });
 
-  function handleCheckStorie( e , id){
-    e.preventDefault();
-    updateCheckStorie(id)
-    location.reload();
-    
-  }
-
+  
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userstories/${storieId}`)
-    // fetch(`https://localhost:3001/userstories/${storieId}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userByTask/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userByTask/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setUserstorie(data);
-        setTask(data[0].tasks);
-  });
-}, []);
+        setWorker(data)
+        workerName = data.username || ""
+      });
+  }, [id]);
 
-  useEffect(() => {
-    if(task !== null){
-      let cantidadTaskCumplidas = task.reduce((contador, objeto) => {
-        if (objeto.state === "cumplido") {
-          return contador + 1;
-        }
-        return contador;
-      }, 0);
-      if(task.length > 0 && task.length === cantidadTaskCumplidas){
-        setTaskCumplidas(true);
-      }else{
-        setTaskCumplidas(false);
+  
+
+  function handleClick( e , idTask){
+    e.preventDefault();
+    updateCheckTask(idTask)
+  }
+
+  function handleOpenTask(e){
+    setOpenTask(true)
+  }
+
+  function handleCloseTask(e) {
+    setOpenTask(false);
+  }
+
+  function handleChangeTask(e) {
+    setInputTask({
+      ...inputTask,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  function handleSubmitTask(e) {
+    e.preventDefault();
+    updateNewtask(inputTask)
+    .then(res => {
+        
+      if (res.state === "success") {
+        setOpenTask(false);
+        setInputTask({
+          id: id,
+          taskfinishdate : ""
+        });
+        Swal.fire(({
+          icon: "success",
+          title: "Tu tarea fue modificada con éxito!",
+          showConfirmButton: false,
+          timer: 1500
+        }));
       }
-    }
-});
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
+  }
 
+  console.log("taskfinishdate",taskfinishdate , "taskdetail" , taskdetail )
 
   return (
     <div className={Style.userstoriesCard}>
       <div className={Style.titleContainer}>
-        <h3>{storiesname}</h3>
-      < CheckCircleOutlinedIcon onClick={event => handleCheckStorie(event, userstorie[0].id)} sx={{cursor:"pointer"}} className={ userstorie !== null && userstorie[0].state !== "cumplido" ? Style.colorIconRed : Style.colorIconGreen } /> 
+          <h3>{taskdetail}</h3>
+        
+          {worker.length > 0 ? 
+            <h4>{worker[0].firstname}</h4> : <h4></h4>
+          }
+
+          {
+            state !== "cumplido" ?
+              <h4 className={Style.cursorPointer} onClick={e => handleOpenTask(e)} >{girafechas(taskfinishdate)}</h4> : 
+              <h4>{girafechas(taskfinishdate)}</h4>
+          }
+
+          
+          {
+            state !== "cumplido" ?
+            < CheckCircleOutlinedIcon sx={{cursor:"pointer"}} className={ state !== "cumplido" ? Style.colorIconRed : Style.colorIconGreen } onClick={e => handleClick(e , idTask)}/> : 
+            < CheckCircleOutlinedIcon sx={{cursor:"pointer"}} className={ state !== "cumplido" ? Style.colorIconRed : Style.colorIconGreen } onClick={e => handleOpenTask(e)}/> 
+          }
+          
       </div>
-      <p className={Style.titleContainer}>{storiesdetail}</p>
-      <hr />
-      <div className={Style.task}>
-        <div>
-          <Accordion sx={{ flexDirection: "column", position:"relative", width:"90%", margin:"auto", borderRadius:"15px"}}>
-            <AccordionSummary
-              expandIcon={
-                <ArrowCircleDownIcon className={Style.accordionStyle} sx={{cursor:"pointer", color:"#EA6558"}}/>
-              }
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-              sx={{ backgroundColor:"#ffffff", width:"90%", margin:"auto"}}
-            >
-              <Typography sx={{fontWeight:600}}>Tareas</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ backgroundColor:"#ffffff", margin:"auto"}} className={Style.accordionContainer}>
-              {task !== null && task !== undefined
-                ? task.map((e) => 
-                  <div className={Style.accordionDiv} key={e.id}>
-                    <p className={Style.accordionParagraph}>{e.taskdetail}</p>
-                    <p className={Style.accordionDate}>{e.taskfinishdate}</p>
-                    < CheckCircleOutlinedIcon onClick={event => handleCheck(event, e.id)} sx={{cursor:e.state === "cumplido" ? false:"pointer", color: e.state === "cumplido" ? "green": "red"}}/>
-                  </div>)
-                : null}
-            </AccordionDetails>
-          </Accordion>
-        </div>
-      </div>
+
+      <Modal
+            open={openTask}
+            onClose={handleCloseTask}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <form onSubmit={(e) => handleSubmitTask(e)} className={Style.formModal}>
+                <label className={Style.labelModal}>Asigna una nueva fecha de finalizacíon</label>        
+                <div className={Style.labelContainer}>
+                  <label>Fecha de Finalizacion</label>
+                    <input
+                      type="date"
+                      id="finishdate"
+                      name="taskfinishdate"
+                      onChange={(e) => handleChangeTask(e)}
+                      value={inputTask.taskfinishdate}
+                    />
+                </div>
+                <div className={mainStyle.buttonContainer}>
+                  <button type="submit" className={mainStyle.buttonModal}>Aceptar</button>
+                  <button className={mainStyle.buttonModalCancel} onClick={(e) => handleCloseTask(e)}>Cancelar</button>
+                </div>
+              </form>
+            </Box>
+          </Modal>
     </div>
+
+
   );
 }
 

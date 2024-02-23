@@ -1,28 +1,13 @@
 import React, { useEffect, useState } from "react";
 import mainStyle from "@/styles/Home.module.css";
 import Style from "@/modules/id.module.css";
-import { makeStyles } from '@mui/styles';
 import { useRouter } from "next/router";
-import Router from "next/router";
+import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import { postUserstorie } from "@/pages/api/postUserstories";
 import { postTask} from '@/pages/api/postTask';
 import UserstoriesCard from "@/components/UserstoriesCard";
-
-const useStyles = makeStyles( theme => ({
-  textField:{
-    borderColor:"white"
-  }
-}))
 
 const style = {
   position: "absolute",
@@ -41,41 +26,52 @@ const style = {
 
 function projectDetail() {
   const router = useRouter();
-  const classes = useStyles();
   const id = router.query.id;
   const [data, setData] = useState(null);
   const [idProyecto, setIdProyecto] = useState(0)
-  const [userstories, setUserstories] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [task , setTask] = useState(null)
+  const [taskFinish , setTaskFinish] = useState(null)
   const [openTask, setOpenTask] = useState(false);
-  const [input, setInput] = useState({
-    id: idProyecto,
-    state: "generado",
-    storiesname: "",
-    storiesdetail: "",
-    priority: "",
-  });
-   const [inputTask, setInputTask] = useState({
-    idStorie: "",
+  const [worker, setWorker] = useState(null)
+  const [inputTask, setInputTask] = useState({
+    idProject: idProyecto,
     state: "generado",
     taskdetail: "",
     taskfinishdate: "",
+    worker:""
   });
-  let idFilter = 0
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject/${id}`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
-        setUserstories(data[0].userstories);
+        setData(data)
+        setTask(data[0].newtasks.filter( e => e.state === "generado"))
+        setTaskFinish(data[0].newtasks.filter( e => e.state !== "generado"))
         setIdProyecto(data[0].id)
-        setInput({
-          ...input,
-          id:data[0].id
+        setWorker(data[0].users)
+        setInputTask({
+          ...inputTask,
+          idProject: data[0].id
         })
       });
+
+      const interval = setInterval(() => {
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject/${id}`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+          setTask(data[0].newtasks)
+          setTask(data[0].newtasks.filter( e => e.state === "generado"))
+          setTaskFinish(data[0].newtasks.filter( e => e.state !== "generado"))
+        });
+      }, 5000)
+
+      return (() => {
+        clearInterval(interval)
+      })
+
   }, [router.query.id]);
 
   useEffect(() => {
@@ -83,31 +79,16 @@ function projectDetail() {
     let idParse = JSON.parse(idProject);  
   }, []);
 
-  useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
-      .then((res) => res.json())
-      .then((res) => {
-        // console.log("data",data)
-        data !== null && data.length > 0 ?
-        idFilter = res.filter ( e => e.projectname === data.projectname)
-        : 0
-      });
-  }, [router.query.id]);
-
-  const handleOpen = () => setOpen(true);
-  const handleOpenTask = () => setOpenTask(true);
-
-  function handleClose(e) {
-    setInput({
-      id: idProyecto,
-      state: "generado",
-      storiesname: "",
-      storiesdetail: "",
-      priority: "",
-    });
-
-    setOpen(false);
+  function handleOpenTask(e){
+    setOpenTask(true)
+    if(worker !== null && worker.length <= 2){
+      setInputTask({
+        ...inputTask,
+        idProject: idProyecto,
+        worker: worker[1].id
+      })
+    }
+    
   }
 
   function handleCloseTask(e) {
@@ -121,34 +102,12 @@ function projectDetail() {
     setOpenTask(false);
   }
 
-  // function handleCheck(e) {
-  //   console.log("entraste a check");
-  // }
-
-  // function handleDelete(e) {
-  //   console.log("entraste a delete");
-  // }
-
-  function handleChange(e) {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    });
-  }
-
   function handleChangeTask(e) {
     setInputTask({
       ...inputTask,
       [e.target.name]: e.target.value,
     });
   }
-
-  const handleSelect = (e) => {
-    setInput({
-      ...input,
-      priority: e.target.value,
-    });
-  };
 
   const handleSelectTask = (e) => {
     setInputTask({
@@ -158,65 +117,44 @@ function projectDetail() {
 
   };
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    postUserstorie(input);
-    alert("storie generada con exito");
-
-    setInput({
-      id: idProyecto,
-      state: "generado",
-      storiesname: "",
-      storiesdetail: "",
-      priority: "",
-    });
-
-    setTimeout(() => {
-      setOpen(false);
-    }, 400);
-
-    location.reload();
-  }
-
   function handleSubmitTask(e) {
     e.preventDefault();
-    postTask(inputTask);
-    alert("Tarea generada con exito");
-
-    setInputTask({
-      idStorie: "",
-      state: "generado",
-      taskdetail: "",
-      taskfinishdate: "",
+    postTask(inputTask)
+    .then(res => {
+        
+      if (res.state === "success") {
+        setOpenTask(false);
+        setInputTask({
+          idProject: idProyecto,
+          state: "generado",
+          taskdetail: "",
+          taskfinishdate: "",
+          worker:""
+        });
+        Swal.fire(({
+          icon: "success",
+          title: "Tu tarea fue generado con éxito!",
+          showConfirmButton: false,
+          timer: 1500
+        }));
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
     });
-
-    setTimeout(() => {
-      setOpenTask(false);
-    }, 400);
-
-    location.reload();
-
   }
-
-  console.log("input", input)
-  console.log("idProyecto", idProyecto)
 
   return (
     <div className={mainStyle.container}>
       {data !== null && data.length > 0 ? (
         <>
-          <div>
-            <h1 className={`${mainStyle.title} ${style.margin}`}>{data[0].projectname}</h1>
+          <div className={Style.proyectName}>
+            <h1 className={mainStyle.title}>{data[0].projectname}</h1>
             <p >{data[0].projectdetail}</p>
           </div>
           <hr className={Style.horizontalLine} />
           <div className={Style.userStorieTitle}>
             <div className={Style.titleContainer}>
-              <div className={Style.button}>
-                <h5 >Nueva Historia</h5>
-                <hr />
-                <AddCircleOutlineIcon onClick={(e) => handleOpen(e)} cursor="pointer" sx={{ color:"#ffffff"}} className={Style.titleTarea} />
-              </div>
               <div className={Style.button}>
                 <h5 >Nueva Tarea</h5>
                 <hr />
@@ -224,62 +162,41 @@ function projectDetail() {
               </div>
             </div>
           </div>
-          <div className={Style.containerUserstoriesCard}>
-            {userstories && userstories.length > 0
-              ? userstories.map((e) => (
+          {task && task.length > 0  ? 
+            <div className={Style.containerUserstoriesCard}>
+            <h2 className={Style.subTitle}>Tareas Solicitadas</h2>
+            <div className={Style.containerUserstoriesCard}>
+            {
+              task.map((e) => (
                   <UserstoriesCard
                     id={e.id}
-                    storiesname={e.storiesname}
-                    storiesdetail={e.storiesdetail}
+                    state={e.state}
+                    taskdetail={e.taskdetail}
+                    taskfinishdate={e.taskfinishdate}
                     key={e.id}
                   />
                 ))
-              : null}
+             }
           </div>
+          </div> : null}
 
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <label className={mainStyle.labelModal}>Nombre</label>
-                <input
-                  name="storiesname"
-                  placeholder="Titulo"
-                  onChange={(e) => handleChange(e)}
-                  value={input.storiesname}
-                  type="text"
-                  className={mainStyle.inputModal}
-                />
-                <label className={mainStyle.labelModal}>Descripción</label>
-                <input
-                  name="storiesdetail"
-                  placeholder="Titulo"
-                  onChange={(e) => handleChange(e)}
-                  value={input.storiesdetail}
-                  type="text"
-                  className={mainStyle.inputModal}
-                />
-
-                <label className={mainStyle.labelModal}>Prioridad</label>
-
-                <select value={input.priority} name="priority" onChange={e => handleSelect(e)} className={mainStyle.selectModal}>
-                  <option value = "" className={mainStyle.optionModal}>Elige una prioridad</option>
-                  <option value="Importante" className={mainStyle.optionModal}>Importante</option>
-                  <option value="Deseado" className={mainStyle.optionModal}>Deseado</option>
-                </select>
-
-                <div className={mainStyle.buttonContainer}>
-                <button type="submit" className={mainStyle.buttonModal}>Agregar</button>
-                <button className={mainStyle.buttonModalCancel} onClick={(e) => handleClose(e)}>Cancelar</button>
-
-                </div>
-              </form>
-            </Box>
-          </Modal>
+          {taskFinish && taskFinish.length > 0 ?
+          <div className={Style.containerUserstoriesCard}>
+          <h2 className={Style.subTitle}>Tareas Terminadas</h2>
+          <div className={Style.containerUserstoriesCard}>
+              {
+               taskFinish.map((e) => (
+                  <UserstoriesCard
+                    id={e.id}
+                    state={e.state}
+                    taskdetail={e.taskdetail}
+                    taskfinishdate={e.taskfinishdate}
+                    key={e.id}
+                  />
+                ))
+              }
+          </div>
+          </div>: null}
 
           <Modal
             open={openTask}
@@ -289,16 +206,6 @@ function projectDetail() {
           >
             <Box sx={style}>
               <form onSubmit={(e) => handleSubmitTask(e)}>
-                <label className={mainStyle.labelModal}>Historia</label>
-                <select value={input.idStorie} name="idStorie" onChange={e => handleSelectTask(e)} className={mainStyle.selectModal}>
-                  <option value = "" >Elige una Historia</option>
-                  {
-                    userstories !== null && userstories.length > 0 ?
-                    userstories.map( e => <option value={e.id} key={e.id}>{e.storiesname}</option> ):null
-                  }
-
-                </select>
-            
                 <label className={mainStyle.labelModal}>Tarea</label>
                 <input
                   name="taskdetail"
@@ -308,8 +215,20 @@ function projectDetail() {
                   type="text"
                   className={mainStyle.inputModal}
                 />
-                
-                <div className={Style.labelContainer}>
+                {
+                  worker !== null && worker.length > 2 ?
+                    <div>
+                      <label className={mainStyle.labelModal}>Responsable</label>
+                      <select value={inputTask.worker} name="worker" onChange={e => handleSelectTask(e)} className={mainStyle.selectModal}>
+                        <option value = "" >Elige un desarrollador</option>
+                        {
+                          worker.map( e => <option value={e.id} key={e.id}>{e.firstname} {e.lastname}</option> )
+                        } 
+                      </select>
+                    </div> : null
+                }
+                 
+              <div className={Style.labelContainer}>
                 <label >Fecha de Finalizacion</label>
                   <input
                     type="date"

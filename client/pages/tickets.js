@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Card from "../components/Card.js";
 import styles from "../modules/Ticket.module.css";
 import mainStyles from "@/styles/Home.module.css";
+import { style } from "@mui/system";
 
 function Tickets() {
   const [ticketGenerados, setTicketsGenerados] = useState(null);
@@ -161,7 +162,7 @@ function Tickets() {
     
       {/* a pedido de Gcurcio se crea una vista para que ella pueda ver todos los soportes activos, en caso de que el usuario no sea curcio, el programa entra por la via normal y cada usuario solo ve su soporte creado o Asignado */}
       {user !== null && (user.name === "Gcurcio" || user.name === "Administrador") ? (
-        <div className={mainStyles.container}>
+        <div className={`${mainStyles.container} ${styles.mobileContainer}`}>
           <h1 className={mainStyles.title}>SOPORTES</h1>
           
               {ticketGenerados !== null && ticketGenerados.length > 0 ? (

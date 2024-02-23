@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState} from 'react';
 import mainStyle from '@/styles/Home.module.css';
+import Swal from 'sweetalert2'
 import style from '@/modules/dashboard.module.css';
 import Link from 'next/link'
 import ProjectCard from '@/components/projectCard';
@@ -13,12 +14,11 @@ function Dashboard() {
     
     useEffect(() => {
     try {
-        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
-        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
+        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject`)
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject`)
         .then((res) => res.json())
         .then((data) => {
             setProject(data);
-                       
         });
     } catch (e) {
         console.log(e.message)
@@ -26,6 +26,7 @@ function Dashboard() {
         
     }, []);
 
+    console.log("proyectos",project)
     return (
         <div className={mainStyle.container}>
             <h1 className={mainStyle.title}>PROYECTOS</h1>

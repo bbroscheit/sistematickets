@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import {projectChangeState} from '@/pages/api/updateCheckProject'
 import  girafechas  from '@/functions/girafechas'
+import { calculaPromedio } from '@/functions/calculaPromedio';
 
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
@@ -24,51 +25,32 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 function projectCard({id , state, projectName, projectDetail, requirer, worker, finishdate}) {
   const [project, setProject] = useState(null)
   const [flag, setFlag] = useState(0)
-  const [userstories, setUserstories] = useState (null)
+  const [task, setTask] = useState (null)
   const [promedio, setPromedio] = useState(null)
   const router = useRouter();
 
   useEffect(() => {
-    console.log(id)
-    // if(id !== undefined){
-    //   fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-    //   // fetch(`https://localhost:3001/project/${id}`)
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       setProject(data)
-    //       setUserstories(data[0].userstories);
-    //   });
-    // }else{
-    //   let idProyecto = localStorage.getItem("idProyecto");
-    //   let idParse = JSON.parse(idProyecto);
-    //   fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${idParse}`)
-    //   // fetch(`https://localhost:3001/project/${idParse}`)
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       setProject(data)
-    //       setUserstories(data[0].userstories);
-    //   });
-    // }
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`)
-      // fetch(`https://localhost:3001/project/${id}`)
+    
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject/${id}`)
+      // fetch(`https://localhost:3001/newproject/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setProject(data)
-          setUserstories(data[0].userstories);
+          setTask(data[0].newtasks);
       });
     
   }, [id]);
 
   useEffect(() => {
-    if(userstories !== null){
-      let cantidadCumplidas = userstories.reduce((contador, objeto) => {
+    if(task !== null){
+      let cantidadCumplidas = task.reduce((contador, objeto) => {
         if (objeto.state === "cumplido") {
           return contador + 1;
         }
         return contador;
       }, 0);
-      if(userstories.length > 0 ){
-        let promedioTotal = Math.round((cantidadCumplidas * 100 ) / userstories.length);
+      if(task.length > 0 ){
+        let promedioTotal = Math.round((cantidadCumplidas * 100 ) / task.length);
         setPromedio(promedioTotal);
       }else{
         setPromedio(0);
@@ -92,7 +74,8 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
     alert("proyecto finalizado")
   }
 
-    // console.log("project", project, projectName )
+    console.log("data", task )
+
   return (
    
     <div className={Style.cardContainer}> 
@@ -117,10 +100,14 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
         <div className={Style.progressContainer}>
           <h6>Progreso :</h6>
           <div>
-            <BorderLinearProgress variant="determinate" value={promedio} className={Style.progressBar}/>
-            <span>{promedio} %</span>
-            {/* { promedio === 100 ? <span className={Style.progressBarCheck} ><CheckCircleOutlinedIcon sx={{ cursor: state !== "finalizado" ? "pointer": null, color: state === "finalizado" ? "green": "#cf2e2e"}} onClick={e => handleClick(e)}/></span> : null} */}
-            
+            {
+              task !== null ? 
+              <div className={Style.progressGrid}>
+                <BorderLinearProgress variant="determinate" value={calculaPromedio(task)} className={Style.progressBar}/>
+                <span>{calculaPromedio(task)} %</span>
+              </div> : null
+            }
+                        
           </div>
           
         </div>

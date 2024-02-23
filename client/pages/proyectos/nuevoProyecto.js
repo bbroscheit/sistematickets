@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import mainStyle from "@/styles/Home.module.css";
+import Swal from "sweetalert2";
 import Style from "@/modules/nuevoProyecto.module.css";
 import Router from "next/router";
 import { postProject } from "../api/postProject";
@@ -69,22 +70,30 @@ function nuevoProyecto() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    postProject(input);
-    alert("proyecto creado exitosamente");
-    setInput({
-      state: "",
-      projectname: "",
-      projectdetail: "",
-      requirer: "",
-      worker: [],
-      finishdate: "",
-    });
-
-    setTimeout(() => {
-      Router.push("/Dashboard");
-    }, 400);
-    // console.log(input)
-  }
+    postProject(input)
+    .then(res => {
+        if (res.state === "success") {
+          setInput({
+            state: "creado",
+            projectname: "",
+            projectdetail: "",
+            requirer: "",
+            worker: [],
+            finishdate: "",
+          });
+          Swal.fire(({
+            icon: "success",
+            title: "Tu soporte fue generado con éxito!",
+            showConfirmButton: false,
+            timer: 1500
+          }));
+          setTimeout(() => {
+            Router.push("/Dashboard");
+          }, 1500);
+        }
+      })
+      .catch(error => { console.error("Error al enviar el formulario:", error)});
+    }
 
   function handleReset(e){
     e.preventDefault();

@@ -521,7 +521,7 @@ function Soporte() {
                         onClick={(e) => handleOpenInfoUser(e)}
                         className={mainStyle.button}
                       >
-                        Agregar Información
+                        Re Abrir 
                       </button>
                       <button
                         onClick={(e) => SubmitCloseTicket(e)}

@@ -33,7 +33,7 @@ sequelize.models = Object.fromEntries(capEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades para relacionarlos hacemos un destructuring
 
-const { Sector, Ticket, User, Salepoint, Faq, Project, Userstories, Task, Priority  } = sequelize.models;
+const { Sector, Ticket, User, Salepoint, Faq, Project, Userstories, Task, Priority, Newtask, Newproject  } = sequelize.models;
 
 // Relacionamos las tablas
 // seccion de Soportes
@@ -62,14 +62,22 @@ Userstories.hasMany(Task);
 Task.belongsTo(Userstories, {
     foreignKey: 'userstoryId', // Nombre de la clave externa en la tabla Task
     as: 'userstory' // Nombre de la relación en singular
-  });
+});
 
+Newproject.hasMany(Newtask);
+Newtask.belongsTo(Newproject);
+
+User.belongsToMany(Newtask , { through: 'user_newtask'})
+Newtask.belongsToMany(User , { through: 'user_newtask'})
 
 User.belongsToMany(Task , { through: 'user_task'})
 Task.belongsToMany(User , { through: 'user_task'})
 
 User.belongsToMany(Project , { through: 'user_project'})
 Project.belongsToMany(User , { through: 'user_project'})
+
+User.belongsToMany(Newproject , { through: 'user_newproject'})
+Newproject.belongsToMany(User , { through: 'user_newproject'})
 
 
 

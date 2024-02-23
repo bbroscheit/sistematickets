@@ -22,7 +22,7 @@ const getProjectDetail = async (id) => {
         return getDetail
 
     } catch (e) {
-        console.log("error en ruta getAllProject", e.message)
+        console.log("error en ruta getProjectDetail", e.message)
     }
 }
 

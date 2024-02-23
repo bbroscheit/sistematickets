@@ -13,6 +13,7 @@ import { extraeFecha } from "@/functions/extraeFecha";
 import TablaIncidencias from "@/components/TablaIncidencias";
 import TablaPrioridades from "@/components/TablaPrioridades";
 
+
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({ 
   width: '100%',
   height: 15,
@@ -31,10 +32,11 @@ function Tablero() {
   const [worker, setWorker] = useState(null)
   
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
-    // fetch(http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject`)
+    // fetch(http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject`)
       .then((res) => res.json())
       .then((data) => {
+        data.sort((a, b) => new Date(a.finishdate) - new Date(b.finishdate));
         setProyecto(data);
       });
   }, []);
@@ -48,6 +50,7 @@ function Tablero() {
       });
   }, []);
 
+  
   return (
     <>
       <div className={mainStyles.container}>
@@ -58,15 +61,13 @@ function Tablero() {
             <DashboardCardTicket id={2} />
             <DashboardCardTicket id={3} />
             <DashboardCardTicket id={4} />
+            <TicketCard id={1} />
           </div>
         </div>
 
         <div className={style.dashboardTicketContainer}>
-          <TicketCard id={1} />
-          <div className={style.tableContainer}>
             <TablaPrioridades />
             <TablaIncidencias />
-          </div>
         </div>
         <div className={`${style.tableContainer} ${style.tableContainerMargin}`}>
           {
@@ -76,6 +77,8 @@ function Tablero() {
           }
           
         </div>
+
+
         <div className={style.tableContainerProyect}>
           <table className={style.primaryTable}>
             <thead>
@@ -85,8 +88,8 @@ function Tablero() {
                 </th>
               </tr>
             </thead>
-            <tbody className={style.blue}>
-              <tr>
+            <tbody >
+              <tr >
                 <td colSpan={5}>Proyecto</td>
                 <td colSpan={3}>Estado</td>
                 <td colSpan={2}>Inicio</td>
@@ -101,7 +104,7 @@ function Tablero() {
                         <td colSpan={3}>{e.state}</td>
                         <td colSpan={2}>{extraeFecha(e.createdAt)}</td>
                         <td colSpan={2}>{giraFechas(e.finishdate)}</td>
-                        <td colSpan={7}><div className={style.progressBarContainer}><BorderLinearProgress variant="determinate" value={calculaPromedio(e)} className={style.progressBar}/> <span>{calculaPromedio(e)} %</span></div> </td>
+                        <td colSpan={7}><div className={style.progressBarContainer}><BorderLinearProgress variant="determinate" value={calculaPromedio(e.newtasks)} className={style.progressBar}/> <span>{calculaPromedio(e.newtasks)} %</span></div> </td>
                       </tr>)
                   : null
                 }

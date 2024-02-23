@@ -17,6 +17,10 @@
    
 }
 
+.mobileContainer{
+    padding: 0;
+}
+
 .gridContainer{
     width: 100%;
     padding: 10px 20px;
@@ -45,6 +49,7 @@
         align-items: flex-start;
         background-color: var(--color-background-bodyalternate);
     }
+    
 
     .ticketContainer{
         visibility: hidden;
@@ -62,4 +67,5 @@
     .gridContainer h2{
         font-size: 1rem;
     }
+
 }

@@ -1,14 +1,15 @@
 .dashboardCardContainer{
-    width: 85vw;
+    
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-direction: row;
     gap:10px;
 }
 
 .dashboardCard{
-    width: 30%;
+    
+    width: 45%;
     height: 130px;
     padding: 15px;
     display: flex;
@@ -24,7 +25,7 @@
 }
 
 .dashboardCardTitles{
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     width: 50%;
     display: flex;
     justify-content: center;
@@ -67,14 +68,18 @@
     background-color: rgb(250, 62, 62);
 }
 
+.blue{
+    background-color: rgb(250, 62, 62);
+}
+
 .dashboardTicketContainer{
     margin: 0px;
     margin-top: 2rem;
-    width: 90vw;
-    display: grid; 
-    grid-template-columns: 25% 1fr; 
-    grid-template-rows: 1fr; 
-    gap: 0px 0px; 
+    display: flex; 
+    justify-content: space-between;
+    align-items: center ;
+    flex-wrap: wrap;
+    gap: 8px; 
    
 }
 
@@ -84,7 +89,7 @@
 
 .tableContainer{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     gap: 10px 5px;
     flex-wrap: wrap;
@@ -124,13 +129,14 @@
     border-collapse: collapse;
     border-spacing: 1px;
     box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .primaryTable th {
     border: 1px solid #dededf;
     background-color: rgb(42, 42, 230);
+    font-size: 0.9rem;
     color: #fafafa;
     padding: 5px;
 }
@@ -140,7 +146,8 @@
     background-color: #ffffff;
     color: #000000;
     padding: 5px;
-    
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .tableSubtitle{
@@ -163,12 +170,88 @@
     border: 1px solid var(--color-primaryfont);
 }
 
+/* media query para tablets */
 
-/* .primaryTable  */
+@media (min-width: 768px) and (max-width: 1024px){
+    .dashboardCardContainer{
+        flex-wrap: wrap;
+    }
 
-/* .tableBody{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-} */
+    .dashboardCard{
+        width: 30%;
+        height: 120px;
+              
+    }
+
+    .primaryTable td:nth-child(2) {
+        padding:1px;
+    }
+
+    .primaryTable td:nth-child(3) {
+        font-size: 0.75rem;
+        overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+        white-space: nowrap; /* Evita que el texto se divida en líneas */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+    }
+
+    .primaryTable td:nth-child(4) {
+        font-size: 0.75rem;
+        overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+        white-space: nowrap; /* Evita que el texto se divida en líneas */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+    }
+}
+
+/* media query para Celulares */
+
+@media (max-width: 768px){
+    .dashboardCardContainer{
+        flex-wrap: wrap;
+    }
+
+    .dashboardCard{
+        width: 60%;
+        height: 150px;
+        flex-direction: column;     
+    }
+
+    .dashboardTicketContainer{
+        flex-direction: column;
+              
+    }
+
+    .primaryTable{
+        width: 80%;
+        
+    }
+
+    .tableContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px 5px;
+        flex-wrap: wrap;
+    }
+
+    .primaryTable td:first-child {
+        font-size: 0.75rem;
+        overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+        white-space: nowrap; /* Evita que el texto se divida en líneas */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+    }
+
+    .primaryTable td:nth-child(3) {
+        font-size: 0.75rem;
+        overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+        white-space: nowrap; /* Evita que el texto se divida en líneas */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+    }
+
+    .primaryTable td:nth-child(4) {
+        font-size: 0.75rem;
+        overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+        white-space: nowrap; /* Evita que el texto se divida en líneas */
+        text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+    }
+
+}

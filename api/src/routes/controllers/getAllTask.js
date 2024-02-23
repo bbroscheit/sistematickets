@@ -9,7 +9,12 @@ const getAllTask = async() => {
                 as: 'userstory'
                 // attribute: ["taskname"]
             }]
-        });
+        }); 
+        
+        // let taskOrder = allTask.sort((a , b) => { return a.state - b.state })
+        // taskOrder.sort((a,b) => {return a.id - b.id })
+
+        // return taskOrder
         return allTask
     } catch (e) {
         console.log( "error en controller getAllTask", e.message)

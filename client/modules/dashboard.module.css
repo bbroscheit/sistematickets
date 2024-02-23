@@ -19,7 +19,7 @@
 }
 
 .subtitleContainer{
-    width: 16%;
+    min-width: 16%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,13 +28,15 @@
     border-radius: 10px;
     padding: 8px 12px;
     box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
 }
 
 .subtitleContainer h5{
     color: white;
     letter-spacing: 1px;
+    overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+    white-space: nowrap; /* Evita que el texto se divida en líneas */
 }
 
 .subtitleContainer hr{
@@ -44,7 +46,19 @@
     background-color: white;
 }
 
-@media (min-width: 768px) and (max-width: 1024 ){
+.progressBarContainer{
+    display: grid;
+    grid-template-columns: 1fr 50%; 
+}
 
+@media (min-width: 768px) and (max-width: 1024px ){
+    
+    
+}
+
+@media (max-width: 767px ){
+    .subtitleContainer{
+        margin-left: 20px;
+    }
     
 }

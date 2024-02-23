@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
+import mainStyles from '../styles/Home.module.css'
 import styles from '../modules/Navbar.module.css'
 import { useRouter } from 'next/router';
 import { styled, alpha, useTheme } from '@mui/material/styles';
@@ -37,8 +38,10 @@ import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Tooltip } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-const drawerWidth = 240; // dice cuan ancho es el menu cuando se despliega
+const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -55,7 +58,7 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(0)})`, // tamaño de la navbar en tamaño celular
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
@@ -97,6 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function PrimarySearchAppBar() {
+
   const router = useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -110,9 +114,12 @@ export default function PrimarySearchAppBar() {
     userLogin  ? setLogin(1)  : setLogin(0)
   },[]);
 
+  
 
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -228,7 +235,10 @@ export default function PrimarySearchAppBar() {
   );
 
   const theme = useTheme();
+ 
+
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     open === false ? setOpen(true) : setOpen(false);
@@ -250,9 +260,6 @@ export default function PrimarySearchAppBar() {
     setUser(null)
     router.push(`/`)
   }
-
-  // console.log("user", user)
-  // console.log("login", login)
 
   return (
     <Box sx={{ flexGrow: 1 }} >
@@ -530,10 +537,10 @@ export default function PrimarySearchAppBar() {
           user.isprojectmanager === true || user.isprojectworker === true ?
         <List>
 
-          {['Proyectos', 'Tareas'].map((text, index) => (
+          {['Proyectos'].map((text, index) => (
             <Link href={
-                    index === 0 ? '/Dashboard' :
-                    index === 1 ? '/tareas/tareas' : '/'
+                    index === 0 ? '/Dashboard' :'/'
+                    
                     } >
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -641,4 +648,7 @@ export default function PrimarySearchAppBar() {
     </Box>
   );
 }
+
+
+
 

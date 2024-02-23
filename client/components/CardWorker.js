@@ -4,11 +4,16 @@ import style from "../modules/cardWorker.module.css";
 import { devuelveIniciales } from "@/functions/devuelveIniciales";
 import { ticketEnDesarrollo } from "@/functions/ticketEnDesarrollo";
 import { ticketCompletos } from "@/functions/ticketCompletos";
+import { horasPromedioHabiles } from '@/functions/horasPromedioHabiles';
+import { ticketFinalizados } from "@/functions/ticketFinalizados";
 
 
 function CardWorker({ worker, firstname, lastname }) {
   const [user, setUser] = useState(null);
   const [projectByWorker, setProyectByWorker] = useState(null);
+  const [soportesCompletados, setSoportesCompletados] = useState(null)
+  const [soportesFinalizados, setSoportesFinalizados] = useState(null)
+  let promedioHoras = 0
 
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
@@ -24,8 +29,17 @@ function CardWorker({ worker, firstname, lastname }) {
       .then((res) => res.json())
       .then((data) => {
         setProyectByWorker(data);
+        setSoportesCompletados(ticketFinalizados(data))
+        setSoportesFinalizados(ticketCompletos(data))
       });
   }, []);
+
+  if (soportesCompletados && soportesFinalizados) {
+    const soportes = [...soportesCompletados, ...soportesFinalizados];
+    promedioHoras = horasPromedioHabiles(soportes);
+  }
+
+
 
   return (
     <>
@@ -58,7 +72,7 @@ function CardWorker({ worker, firstname, lastname }) {
           <div className={style.desarrolloContainerTitles}>
             <h4>Tiempo de Respuesta</h4>
             <h4>
-               0 hs
+               {Math.ceil(promedioHoras)} hs
             </h4>
           </div>
         ) : null}

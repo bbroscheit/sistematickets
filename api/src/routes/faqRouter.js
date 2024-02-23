@@ -69,7 +69,7 @@ faqRouter.put("/deleteFaq/:id", async (req, res) => {
 
   try {
     let faq = await deleteFaq(id);
-    faq ? res.status(200).json(faq) : res.status(400).json("failure");
+    faq ? res.status(200).json({state:"success"}) : res.status(400).json("failure");
   } catch (e) {
     console.log("error en ruta updatefaq ", e.message);
   }
