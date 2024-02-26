@@ -88,7 +88,7 @@ function UserstoriesCard({ id, state, taskdetail, taskfinishdate }) {
     });
   }
 
-  console.log("taskfinishdate",taskfinishdate , "taskdetail" , taskdetail )
+  // console.log("taskfinishdate",taskfinishdate , "taskdetail" , taskdetail )
 
   return (
     <div className={Style.userstoriesCard}>

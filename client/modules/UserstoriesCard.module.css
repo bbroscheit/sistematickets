@@ -46,7 +46,7 @@
  .titleContainer{
     display: grid;
     grid-template-columns: 1fr 15% 15% 10%;
-    
+   
  }
 
  .titleContainer h4 {
@@ -56,6 +56,8 @@
  }
 
  .titleContainer h3{
+    margin: 0px;
+    font-size: 1rem;
     overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
     white-space: nowrap; /* Evita que el texto se divida en líneas */
     text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
