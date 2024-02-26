@@ -41,6 +41,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
     worker: "sin asignar",
     subject: title,
     detail: description,
+    files:[],
     answer: answer,
     userresolved: uresolved,
     user: user,
@@ -68,7 +69,15 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
   const handleClose = () => {
     setOpen(false)
   }
- 
+  
+  function handleChangeFile(e) {
+    e.preventDefault();
+    const filesArray = [...e.target.files];  // Convierte la colección de archivos en un array
+    setInput({
+      ...input,
+      files: filesArray,
+    });
+  }
      
    //cambia el estado de options para que aparezca la pantalla de agregar ams datos
    
@@ -175,6 +184,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
                 value={input.detail}
                 onChange={(e) => handleTextarea(e)}
               />
+              
               <div className={styles.buttonContainerNormal}>
               <div className={mainStyle.buttonContainer}>
                 <button className={mainStyle.button} type="submit">
@@ -215,6 +225,18 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
                 onChange={(e) => handleTextarea(e)}
                 rows="10"
               />
+              <div>
+                <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
+                <input
+                  type="file"
+                  name="files"
+                  multiple
+                  className={mainStyle.inputFile}
+                  // value={input.files}
+                  onChange={(e) => handleChangeFile(e)}
+                />
+                </div>
+              
               <div className={mainStyle.buttonContainer}>
                 <button className={mainStyle.button} onClick={(e) => handleSubmit(e)}>
                   Cargar Soporte
@@ -235,6 +257,17 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
                 onChange={(e) => handleTextarea(e)}
                 rows="10"
               />
+              <div>
+              <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
+              <input
+                type="file"
+                name="files"
+                multiple
+                className={mainStyle.inputFile}
+                // value={input.files}
+                onChange={(e) => handleChangeFile(e)}
+              />
+              </div>
               <div className={mainStyle.buttonContainer}>
                 
                 <button className={mainStyle.button} onClick={(e) => handleSubmit(e)}>

@@ -23,7 +23,7 @@ function nuevoSoporte() {
   const [faq, setFaq] = useState(null);
   const [user, setUser] = useState("bbroscheit");
   const [faqList, setFaqList] = useState([
-    { label: 'otros' },
+    { label: 'Otros' },
   ]);
 
   useEffect(() => {
@@ -77,8 +77,8 @@ function nuevoSoporte() {
 
   function handleSelect(e) {
     e.preventDefault();
-    //va a consultar por las opciones elegidas, si la opcion es "otros" despliega el formulario normal , si es "principal" no muestra nada, si es cualquier otra muestra o no el soporte para que el usuario lo arregle
-    e.target.innerHTML === "otros" ? setSelect({ select: "otros" }) : e.target.innerHTML === "principal" ? setSelect({ select: "principal" }): setSelect({ select: "1" })
+    //va a consultar por las opciones elegidas, si la opcion es "Otros" despliega el formulario normal , si es "principal" no muestra nada, si es cualquier otra muestra o no el soporte para que el usuario lo arregle
+    e.target.innerHTML === "Otros" ? setSelect({ select: "Otros" }) : e.target.innerHTML === "principal" ? setSelect({ select: "principal" }): setSelect({ select: "1" })
     // filtra la opcion que se elige para guardar el resultado en ele stado " faqFilter"
     let filter = faq.filter((faq) => faq.title == e.target.innerHTML);
     setFaqFilter(filter);
@@ -111,8 +111,8 @@ function nuevoSoporte() {
 
 
           </div> 
-            {select.select === "otros" ? <FormNormal user = {user}/> 
-              : select.select !== "otros" && select.select !== "principal" ? 
+            {select.select === "Otros" ? <FormNormal user = {user}/> 
+              : select.select !== "Otros" && select.select !== "principal" ? 
                   <FormFaq  
                     id={faqFilter[0].id} 
                     title = {faqFilter[0].title}
@@ -146,8 +146,8 @@ function nuevoSoporte() {
                 onChange={(e) => handleSelect(e)}
             />
           </div> 
-            {select.select === "otros" ? <FormNormal user = {user}/> 
-              : select.select !== "otros" && select.select !== "principal" ? 
+            {select.select === "Otros" ? <FormNormal user = {user}/> 
+              : select.select !== "Otros" && select.select !== "principal" ? 
                   <FormFaq  
                     id={faqFilter[0].id} 
                     title = {faqFilter[0].title}

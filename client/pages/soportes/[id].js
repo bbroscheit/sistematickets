@@ -96,6 +96,7 @@ function Soporte() {
         });
         setEmail({
           ...email,
+          idTicket:data.id,
           useremail: data.user.email,
           detail: data.detail
         });
@@ -347,6 +348,8 @@ function Soporte() {
     });
     
   }
+
+  
 
   return (
     <>

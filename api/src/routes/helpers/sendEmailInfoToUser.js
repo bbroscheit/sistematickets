@@ -31,7 +31,7 @@ const sendEmailInfoToUser = async (
       subject: `Se esta solicitando mas Informacíon sobre tu soporte N° ${ticket.id}`,
       html: `
         <p>Buenos días,</p>
-        <p>El desarrollador ${workerFind[0].firstname} ${workerFind[0].lastname} ha más informacíon sobre el soporte N° <strong> ${ticket.id}</strong> </p>
+        <p>El desarrollador ${workerFind[0].firstname} ${workerFind[0].lastname} ha solicitado más informacíon sobre el soporte N° <strong> ${ticket.id}</strong> </p>
         <p>Título : <strong> ${ticket.subject}</strong> </p>
         <p>Detalle : <strong> ${detail}</strong> </p>
         <p>Pregunta : <strong> ${question}</strong></p>
