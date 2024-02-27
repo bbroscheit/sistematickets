@@ -7,19 +7,18 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import filtraUsuariosConectados from "../../functions/filtrausuariosConectados";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {ticketSinAsignar} from "@/functions/ticketSinAsignar";
+import { ticketAsignados } from "@/functions/ticketAsignados";
+import { ticketEnDesarrollo } from "@/functions/ticketEnDesarrollo";
+import { ticketMasInformacion } from "@/functions/ticketMasInformacion";
+import { ticketFinalizados } from "@/functions/ticketFinalizados";
+import TicketCardHelpDesk from "@/components/TicketCardHelpDesk";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -36,21 +35,14 @@ function Principal() {
   const [activity, setActivity] = useState(null);
   const [usuarios, setUsuarios] = useState(null);
   const [openUser, setOpenUser] = useState(0);
+  const [openAsignados, setOpenAsignados] = useState(0);
+  const [openDesarrollo, setOpenDesarrollo] = useState(0);
+  const [openMasInformacion, setOpenMasInformacion] = useState(0);
+  const [openFinalizados, setOpenFinalizados] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [expanded2, setExpanded2] = useState(false);
   const [expanded3, setExpanded3] = useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  const handleExpandClick2 = () => {
-    setExpanded2(!expanded2);
-  };
-
-  const handleExpandClick3 = () => {
-    setExpanded3(!expanded3);
-  };
+  const [soportes , setSoportes ] = useState(null)
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/activeConnection`)
@@ -76,19 +68,59 @@ function Principal() {
     };
   }, []);
 
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSoportes(data);
+      });
+
+    const interval = setInterval(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSoportes(data);
+      });
+    }, 5000)
+
+    return (() => {
+      clearInterval(interval)
+    })
+  }, []);
+
   function handleClick(e) {
     e.preventDefault();
     openUser === 0 ? setOpenUser(1) : setOpenUser(0);
   }
 
-  console.log(openUser);
+  function handleClickAsignados(e) {
+    e.preventDefault();
+    openAsignados === 0 ? setOpenAsignados(1) : setOpenAsignados(0);
+  }
+
+  function handleClickDesarrollo(e) {
+    e.preventDefault();
+    openDesarrollo === 0 ? setOpenDesarrollo(1) : setOpenDesarrollo(0);
+  }
+
+  function handleClickMasInformacion(e) {
+    e.preventDefault();
+    openMasInformacion === 0 ? setOpenMasInformacion(1) : setOpenMasInformacion(0);
+  }
+
+  function handleClickFinalizados(e) {
+    e.preventDefault();
+    openFinalizados === 0 ? setOpenFinalizados(1) : setOpenFinalizados(0);
+  }
 
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Principal</h1>
       <div>
-        <h3 className={mainStyle.subtitle}>USUARIOS CONECTADOS</h3>
-        {openUser && openUser === 0 ? (
+        <h3 className={mainStyle.subtitle}>Usuarios conectados</h3>
+        {openUser === 0 ? (
           <KeyboardArrowDownIcon onClick={(e) => handleClick(e)} />
         ) : (
           <KeyboardArrowUpIcon onClick={(e) => handleClick(e)} />
@@ -106,7 +138,7 @@ function Principal() {
         </div>
       ) : null}
       {usuarios !== null && usuarios.length > 0 ? (
-        <div>
+        <>
           <h3 className={mainStyle.subtitle}>Deberian estar conectados</h3>
           <div className={style.userContainer}>
             {usuarios !== null && usuarios.length > 0 ? (
@@ -119,120 +151,32 @@ function Principal() {
               <p>no hay usuarios conectados</p>
             )}
           </div>
-        </div>
+        </>
       ) : null}
       <h1 className={mainStyle.title}>Soportes</h1>
       <div className={style.cardContainer}>
-        <Card
-          sx={{
-            minHeight: "230px",
-            width: "22%",
-            padding: "20px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h3>Soportes sin asignar</h3>
-          <h5>+24 hs</h5>
-          <CardContent>
-            <h1 className={style.cardTitle}>1</h1>
-          </CardContent>
-        </Card>
-        <Card
-          sx={{
-            minHeight: "230px",
-            width: "22%",
-            padding: "20px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h3>Soportes asignados</h3>
-          <h5>+24 hs</h5>
-          <CardContent>
-            <h1 className={style.cardTitle}>1</h1>
-          </CardContent>
-          <CardActions disableSpacing>
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>Method:</Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
-        <Card
-          sx={{
-            minHeight: "230px",
-            width: "22%",
-            padding: "20px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h3>Soportes en desarrollo</h3>
-          <h5>+24 hs</h5>
-          <CardContent>
-            <h1 className={style.cardTitle}>1</h1>
-          </CardContent>
-          <CardActions disableSpacing>
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick2}
-              aria-expanded={expanded}
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>Method:</Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
-        <Card
-          sx={{
-            minHeight: "230px",
-            width: "22%",
-            padding: "20px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h3>Pedidos de Información</h3>
-          <h5>+24 hs</h5>
-          <CardContent>
-            <h1 className={style.cardTitle}>1</h1>
-          </CardContent>
-          <CardActions disableSpacing sx={{ padding: "1px" }}>
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick3}
-              aria-expanded={expanded}
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography paragraph>Method:</Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
+        {
+          soportes !== null && soportes.length > 0 ? <TicketCardHelpDesk array={ticketSinAsignar(soportes)} title="Soportes sin Asignar" time={1}/> : null
+        }
+
+        {
+          soportes !== null && soportes.length > 0 ? <TicketCardHelpDesk array={ticketAsignados(soportes)} title="Soportes Asignados" time={2}/> : null
+        }
+        
+        {
+          soportes !== null && soportes.length > 0 ? <TicketCardHelpDesk array={ticketEnDesarrollo(soportes)} title="Soportes En Desarrollo" time={2}/> : null
+        }
+
+        {
+          soportes !== null && soportes.length > 0 ? <TicketCardHelpDesk array={ticketMasInformacion(soportes)} title="Pedidos de Informacíon" time={2}/> : null
+        }
+
+{
+          soportes !== null && soportes.length > 0 ? <TicketCardHelpDesk array={ticketFinalizados(soportes)} title="Pendientes de Cierre" time={2}/> : null
+        }
+        
+         
+        
       </div>
     </div>
   );

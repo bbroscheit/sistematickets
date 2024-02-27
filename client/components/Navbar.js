@@ -199,27 +199,29 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton size="large" aria-label="show 0 new mails" color="inherit">
           <Badge badgeContent={0} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
+      </MenuItem> */}
+      <MenuItem onClick={ e => router.push(`/helpDesk/Principal`)}>
         <IconButton
           size="large"
           aria-label="show 0 new notifications"
           color="inherit"
+          
         >
           <Badge badgeContent={0} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>HelpDesk</p>
+        
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      {/* <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -230,7 +232,7 @@ export default function PrimarySearchAppBar() {
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
-      </MenuItem>
+      </MenuItem> */}
     </Menu>
   );
 
@@ -318,11 +320,11 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
+            </IconButton>*/}
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             {/* se deshabilito el menu de celulares hasta no encontrar algo util que agregar ahi */}
-            {/* <IconButton
+            <IconButton
               size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -331,7 +333,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <MoreIcon />
-            </IconButton> */}
+            </IconButton> 
           </Box>
         </Toolbar>
       </AppBar>

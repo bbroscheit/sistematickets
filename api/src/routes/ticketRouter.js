@@ -1,6 +1,7 @@
 const ticketRouter = require('express').Router()
 const { format, parseISO, isDate } = require ('date-fns');
 const getAllTicket = require('./controllers/getAllTicket');
+const getAllTicketUnfinished = require('./controllers/getAllTicketUnfinished')
 const getTicketsDesarrollo = require('./controllers/getTicketDesarrollo');
 const getTicketsDesarrollo2 = require('./controllers/getTicketDesarrollo2');
 const getTicketCompletado = require('./controllers/getTicketCompletado');
@@ -18,7 +19,6 @@ const updateInfoTicketByUser = require('./controllers/updateInfoTicketByUser');
 const updateCloseTicket = require('./controllers/updateCloseTicket');
 const uploadFiles = require('./middlewares/uploadFiles');
 const sendEmail = require('./helpers/sendEmail');
-const sendEmailWorker = require('./helpers/sendEmailWorker');
 const sendEmailWorkerAssigment = require('./helpers/sendEmailWorkerAssigment')
 const sendEmailWorkerAceptAssigment = require('./helpers/sendEmailWorkerAceptAssigment')
 const sendEmailInfoToWorker = require('./helpers/sendEmailInfoToWorker');
@@ -46,6 +46,15 @@ const getDetailOnly = require('./helpers/getOnlyDetail')
 ticketRouter.get( '/ticket' , async ( req, res ) => {
     try {
         let allTicket = await getAllTicket();
+        allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get tickets" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketUnfinished' , async ( req, res ) => {
+    try {
+        let allTicket = await getAllTicketUnfinished();
         allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta get tickets" , e.message)
