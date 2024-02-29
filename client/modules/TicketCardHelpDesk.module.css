@@ -16,7 +16,8 @@
 
 .ticketCard{
     min-width: 30%;
-    height: 200px;
+    /* height: 200px; */
+    max-height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,4 +29,51 @@
     -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     color:black;
+}
+
+.danger{
+    background-color: red;
+}
+
+.cardSoporte{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    padding: 5px;
+
+}
+
+.cardSoporteHidden{
+    display:none;
+
+}
+
+.iconHidden{
+    visibility: hidden;
+}
+
+.modalTitle{
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.modalButton{
+    min-width: 6rem;
+    padding: 9px 12px;
+    margin: 0px 0px 2px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color:aliceblue;
+    border: none;
+    background-color: var(--color-basani);
+    border-radius: 10px;
+}
+
+.title{
+    font-weight: 600;
+    cursor: pointer;
 }

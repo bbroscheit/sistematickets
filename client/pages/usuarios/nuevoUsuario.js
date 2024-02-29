@@ -80,7 +80,6 @@ function nuevoUsuario() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(input)
     postUser(input)
     alert("usuario creado con exito")
     setInput({

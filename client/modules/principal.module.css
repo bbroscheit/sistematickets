@@ -26,6 +26,7 @@
 
 .cardContainer{
     width: 100%;
+    height: fit-content;
     margin: 16px;
     display: flex;
     justify-content: space-evenly;
@@ -54,6 +55,13 @@
     -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
     color:black;
+}
+
+.conectadosContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
 }
 
 

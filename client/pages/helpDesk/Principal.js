@@ -5,44 +5,23 @@ import style from "../../modules/principal.module.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import filtraUsuariosConectados from "../../functions/filtrausuariosConectados";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {ticketSinAsignar} from "@/functions/ticketSinAsignar";
 import { ticketAsignados } from "@/functions/ticketAsignados";
 import { ticketEnDesarrollo } from "@/functions/ticketEnDesarrollo";
 import { ticketMasInformacion } from "@/functions/ticketMasInformacion";
 import { ticketFinalizados } from "@/functions/ticketFinalizados";
 import TicketCardHelpDesk from "@/components/TicketCardHelpDesk";
+import  {devuelveInterno } from "@/functions/devuelveInterno";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 function Principal() {
   const [activity, setActivity] = useState(null);
   const [usuarios, setUsuarios] = useState(null);
   const [openUser, setOpenUser] = useState(0);
-  const [openAsignados, setOpenAsignados] = useState(0);
-  const [openDesarrollo, setOpenDesarrollo] = useState(0);
-  const [openMasInformacion, setOpenMasInformacion] = useState(0);
-  const [openFinalizados, setOpenFinalizados] = useState(0);
-  const [expanded, setExpanded] = useState(false);
-  const [expanded2, setExpanded2] = useState(false);
-  const [expanded3, setExpanded3] = useState(false);
   const [soportes , setSoportes ] = useState(null)
+  const [ users , setUsers ] = useState(null)
+  let num = 453
+  
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/activeConnection`)
@@ -90,35 +69,24 @@ function Principal() {
     })
   }, []);
 
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+      });
+  }, []);
+
   function handleClick(e) {
     e.preventDefault();
     openUser === 0 ? setOpenUser(1) : setOpenUser(0);
   }
 
-  function handleClickAsignados(e) {
-    e.preventDefault();
-    openAsignados === 0 ? setOpenAsignados(1) : setOpenAsignados(0);
-  }
-
-  function handleClickDesarrollo(e) {
-    e.preventDefault();
-    openDesarrollo === 0 ? setOpenDesarrollo(1) : setOpenDesarrollo(0);
-  }
-
-  function handleClickMasInformacion(e) {
-    e.preventDefault();
-    openMasInformacion === 0 ? setOpenMasInformacion(1) : setOpenMasInformacion(0);
-  }
-
-  function handleClickFinalizados(e) {
-    e.preventDefault();
-    openFinalizados === 0 ? setOpenFinalizados(1) : setOpenFinalizados(0);
-  }
-
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Principal</h1>
-      <div>
+      <div className={style.conectadosContainer}>
         <h3 className={mainStyle.subtitle}>Usuarios conectados</h3>
         {openUser === 0 ? (
           <KeyboardArrowDownIcon onClick={(e) => handleClick(e)} />
@@ -131,7 +99,7 @@ function Principal() {
           {activity !== null && activity.length > 0
             ? activity.map((e) => (
                 <div key={e.USERID} className={style.divUser}>
-                  {e.USERID.trim()}
+                  <a href={`https://172.19.31.19/ws/dial.php?interno=451&numero=${devuelveInterno(e.USERID, users)}`} target="_blank">{e.USERID.trim()}</a>
                 </div>
               ))
             : null}
@@ -178,6 +146,8 @@ function Principal() {
          
         
       </div>
+
+      
     </div>
   );
 }

@@ -28,6 +28,7 @@ const sendEmailWorkerComplete = require('./helpers/sendEmailWorkerComplete');
 const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
 const sendEmailUserFinish = require('./helpers/sendEmailUserFinish')
 const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
+const sendEmailAdvertisement = require('./helpers/sendEmailAdvertisement')
 const getTicketsPendientes24 = require('./controllers/getTicketsPendientes24')
 const getTicketByWorker = require('./controllers/getTicketByWorker')
 const updatePriority = require('./controllers/updatePriority')
@@ -39,8 +40,6 @@ const getUserEmailByTicketID = require('./helpers/getUserEmailByTicketID')
 const getDetailWithoutQuestion = require('./helpers/getDetailWithoutQuestion')
 const getLastQuestion = require('./helpers/getLastQuestion')
 const getDetailOnly = require('./helpers/getOnlyDetail')
-
-
 
 
 ticketRouter.get( '/ticket' , async ( req, res ) => {
@@ -403,5 +402,23 @@ ticketRouter.post('/sendEmailCloseTicket', async (req, res) => {
    
     res.send('Soporte creado exitosamente');
   });
+
+ticketRouter.post('/sendEmailAdvertisement', async (req, res) => {
+    
+    const { title, time, user} = req.body
+
+    let workerFind = await getUserByName(user)
+    
+    
+    try {
+        await sendEmailAdvertisement( title , time , workerFind);
+    } catch (e) {
+        console.log(e.message)
+    }
+    
+    // Respuesta al cliente
+    res.send('Soporte creado exitosamente');
+  });
+
 
 module.exports = ticketRouter;

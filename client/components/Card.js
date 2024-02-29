@@ -130,7 +130,7 @@ function Card({ id, subject, state, created }) {
       .then(res => {
         if (res.state === "success") {
           sendEmailAssigmentUser(email);
-          window.location.reload(true);
+          
         }
       })
       .catch(error => {
