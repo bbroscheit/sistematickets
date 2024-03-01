@@ -88,7 +88,7 @@ function Soporte() {
           description: data.detail,
           answer: data.answer,
           uresolved: false,
-          questioner: user ? user.name : "sin usuario",
+          questioner: data.user ? data.user.username : "sin usuario",
         });
         setSolution({
           ...solution,
@@ -125,7 +125,8 @@ function Soporte() {
       
   }, [router.query.id]);
 
- 
+  console.log("soporte", soporte)
+  console.log("inputFaq", inputFaq)
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpen(e) {
     e.preventDefault();

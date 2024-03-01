@@ -23,6 +23,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import CircleNotificationsRoundedIcon from '@mui/icons-material/CircleNotificationsRounded';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
@@ -36,6 +37,7 @@ import InputRoundedIcon from '@mui/icons-material/InputRounded';
 import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
 import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
+import ArchiveRoundedIcon from '@mui/icons-material/ArchiveRounded';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Tooltip } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -202,7 +204,7 @@ export default function PrimarySearchAppBar() {
       {/* <MenuItem>
         <IconButton size="large" aria-label="show 0 new mails" color="inherit">
           <Badge badgeContent={0} color="error">
-            <MailIcon />
+            <ArchiveRoundedIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -215,7 +217,7 @@ export default function PrimarySearchAppBar() {
           
         >
           <Badge badgeContent={0} color="error">
-            <NotificationsIcon />
+            <CircleNotificationsRoundedIcon />
           </Badge>
         </IconButton>
         <p>HelpDesk</p>
@@ -289,10 +291,11 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {/* se deshabilito el menu profile en vista general porque no hay algo para agregar ahi */}
-            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
+            {/* <IconButton size="large" aria-label="show 4 new mails" onClick={ e => router.push(`/reports/Reports`)}>
+              {/* <Badge badgeContent={4} sx={{ color:"white"}}> 
+              <Badge sx={{ color:"white"}}>
+                <ArchiveRoundedIcon />
+              </Badge >
             </IconButton> */}
             {
               user !== null && ( user.name === "Bbroscheit" || user.name === "Lllamanzarez")  ? 
@@ -302,9 +305,11 @@ export default function PrimarySearchAppBar() {
                     aria-label="show 17 new notifications"
                     color="white"
                     onClick={ e => router.push(`/helpDesk/Principal`)}
+
                   >
-                    <Badge badgeContent={5} sx={{ color:"white"}}>
-                      <NotificationsIcon />
+                    <Badge sx={{ color:"white"}}>
+                    {/* <Badge badgeContent={5} sx={{ color:"white"}}> */}
+                      <CircleNotificationsRoundedIcon />
                     </Badge>
                   </IconButton> 
                 </Tooltip> : null

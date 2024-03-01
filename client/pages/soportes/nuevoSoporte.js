@@ -85,9 +85,6 @@ function nuevoSoporte() {
     
   }
 
-
-  console.log("filter", faqFilter);
-
   return (
     <>
     <div className={mainStyle.container}>
