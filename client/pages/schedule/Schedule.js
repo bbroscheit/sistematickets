@@ -40,23 +40,23 @@ function Schedule() {
   return (
         
     <div className={mainStyle.container}>
-        <div>
+        <div className={style.bodyContainer}>
             <header className={style.calendarHeader}>
-            <div className={style.leftContainer}>
-                <div className={style.buttonContainer}>
-                    <button onClick={handleClickMonthPrev}><KeyboardArrowLeftRoundedIcon /></button>
-                    <p>{dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}</p>
-                    <button onClick={handleClickMonthNext}><KeyboardArrowRightRoundedIcon /></button>
+                <div className={style.leftContainer}>
+                    <div className={style.buttonContainer}>
+                        <button onClick={handleClickMonthPrev}><KeyboardArrowLeftRoundedIcon /></button>
+                        <p>{dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}</p>
+                        <button onClick={handleClickMonthNext}><KeyboardArrowRightRoundedIcon /></button>
+                    </div>
                 </div>
-            </div>
-            <div className={style.buttonContainerSelector}>
-                <button onClick={e => handleClick(e , 1)} className={ selector === 1 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Día</button>
-                <button onClick={e => handleClick(e , 2)} className={ selector === 2 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Mes</button>
-                <button onClick={e => handleClick(e , 3)} className={ selector === 3 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Agenda</button>
-            </div>
+                <div className={style.buttonContainerSelector}>
+                    <button onClick={e => handleClick(e , 1)} className={ selector === 1 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Día</button>
+                    <button onClick={e => handleClick(e , 2)} className={ selector === 2 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Mes</button>
+                    <button onClick={e => handleClick(e , 3)} className={ selector === 3 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Agenda</button>
+                </div>
             </header>
             
-            <div>
+            <div className={style.scheduleContainer}>
                 {
                     selector === 1 ? <SelectorDia /> : selector === 2 ?  <Month month={currentMonth}/> : <Agenda />
                 }

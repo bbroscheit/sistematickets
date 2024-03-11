@@ -193,14 +193,14 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem>
+      <MenuItem>
         <IconButton size="large" aria-label="show 0 new mails" color="inherit">
           <Badge badgeContent={0} color="error">
             <CalendarMonthRoundedIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
-      </MenuItem> */}
+      </MenuItem>
       <MenuItem onClick={(e) => router.push(`/helpDesk/Principal`)}>
         <IconButton
           size="large"
@@ -278,16 +278,16 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* se deshabilito el menu profile en vista general porque no hay algo para agregar ahi */}
-            {/* <IconButton
+            <IconButton
               size="large"
               aria-label="show 4 new mails"
               onClick={(e) => router.push(`/schedule/Schedule`)}
             >
-              {/* <Badge badgeContent={4} sx={{ color:"white"}}>   
+              {/* <Badge badgeContent={4} sx={{ color:"white"}}>*/}   
               <Badge sx={{ color: "white" }}>
                 <CalendarMonthRoundedIcon />
               </Badge>
-            </IconButton> */}
+            </IconButton>
             {user !== null &&
             (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
               <Tooltip title="show 17 new notifications">

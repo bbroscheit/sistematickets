@@ -12,6 +12,20 @@
     padding: 16px 16px;
 }
 
+.bodyContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.scheduleContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: flex-start;
+}
+
 .leftContainer{
     width: 20%;
     background-color: white;
@@ -80,7 +94,6 @@
 .gridContainer{
     
     width: 85vw;
-    height: 90vh;
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
@@ -129,7 +142,6 @@
 /* estilos de ScheduleCard */
 
 .ScheduleCardContainer{
-    
     display: grid;
     grid-template-columns: 20% 1fr;
     gap: 2px; 

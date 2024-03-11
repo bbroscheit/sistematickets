@@ -8,7 +8,9 @@ import CardWorkerSupervisor from "@/components/CardWorkerSupervisor";
 
 function TicketsSupervisor() {
   const [soportes, setSoportes] = useState(null);
+  const [soportesTerminados, setSoportesTerminados] = useState(null);
   const [openSinAsignar, setOpenSinAsignar] = useState(true);
+  const [openSinCompletar, setOpenSinCompletar] = useState(true);
   const [worker , setWorker] = useState(null)
 
   useEffect(() => {
@@ -29,11 +31,27 @@ function TicketsSupervisor() {
       });
   },[]);
 
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSoportesTerminados(data);
+      });
+  },[]);
+
   function handleClick(e) {
     e.preventDefault();
     openSinAsignar === false
       ? setOpenSinAsignar(true)
       : setOpenSinAsignar(false);
+  }
+
+  function handleClickSinCompletar(e) {
+    e.preventDefault();
+    openSinCompletar === false
+      ? setOpenSinCompletar(true)
+      : setOpenSinCompletar(false);
   }
 
   return (
@@ -72,6 +90,34 @@ function TicketsSupervisor() {
             }
         </div>
       </div>
+      <div className={style.gridContainer}>
+        {soportesTerminados !== null && soportesTerminados.length > 0 ? (
+          <>
+            <div className={style.supervisorTitle}>    
+                <h2>Soportes pendientes de cierre</h2>
+                {openSinCompletar === false ? (
+                <KeyboardArrowDownIcon onClick={(e) => handleClickSinCompletar(e)} />
+                    ) : (
+                <KeyboardArrowUpIcon onClick={(e) => handleClickSinCompletar(e)} />
+                )}
+            </div>
+            {openSinCompletar === true
+              ? soportesTerminados.map((e) => (
+                  <React.Fragment key={e.id}>
+                    <Card
+                      key={e.id}
+                      id={e.id}
+                      subject={e.subject}
+                      state={e.state}
+                      created={e.created}
+                    />
+                  </React.Fragment>
+                ))
+              : null}
+          </>
+        ) : null}
+        
+        </div>
     </div>
   );
 }
