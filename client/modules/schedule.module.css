@@ -1,0 +1,153 @@
+/*Estilos de Schedule */
+
+.calendarHeader{
+    background-color: white;
+    display: flex;
+    justify-content: space-between	;
+    align-items: center;
+    flex-direction: row;
+    border-radius: 5px;
+    border: solid 1px grey;
+    margin-bottom: 16px;
+    padding: 16px 16px;
+}
+
+.leftContainer{
+    width: 20%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}
+
+.buttonContainer p{
+    font-weight: 600;
+}
+
+.buttonContainer button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-basani);
+    border: none;
+    border-radius: 100%;
+    margin: 0px 8px;
+}
+
+.buttonContainerSelector{
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+   
+}
+
+.buttonContainerSelectorInactive{
+    width: 30%;
+    padding: 5px;
+    color: black;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: #fff;
+    border: solid 1px grey;
+    border-radius: 5px;
+
+}
+
+.buttonContainerSelectorActive{
+    width: 30%;
+    padding: 5px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: var(--color-basani);
+    color: #fff;
+    border: solid 1px grey;
+    border-radius: 5px;
+
+}
+/* Estilos de Month.js */
+
+.gridContainer{
+    
+    width: 85vw;
+    height: 90vh;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr; 
+    gap: 5px; 
+}
+
+/* Estilos de Day.js */
+
+.dayContainer{
+    
+    border: solid 1px grey;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    background-color: white;
+    
+}
+
+.dayNombre{
+    font-size: 0.9rem;
+    font-weight: bold;
+    
+}
+
+.dayNumber{
+    font-size: 0.9rem;
+    
+}
+
+.numberOnHover{
+    background-color: var(--color-basani);
+    width: fit-content;
+    text-align: center;
+    margin: auto;
+    padding: 2px 5px;
+    border-radius: 50%;
+    color: white;
+}
+
+.taskContainer{
+    min-height: 70px;
+    cursor: pointer;
+    
+}
+
+/* estilos de ScheduleCard */
+
+.ScheduleCardContainer{
+    
+    display: grid;
+    grid-template-columns: 20% 1fr;
+    gap: 2px; 
+    font-size: 0.8rem;
+    text-align: center;
+    border: none;
+    background-color: var(--color-basani);
+    border-radius: 5px;
+    margin: 2px 2px 2px 2px;
+    padding: 2px;
+    
+}
+
+.ScheduleCardContainer:first-child{
+    margin-top: 8px;
+}
+
+.ScheduleCardContainer p{
+   color: #fff;
+
+}

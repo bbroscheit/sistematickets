@@ -155,6 +155,17 @@ ticketRouter.get( '/ticketsByWorker' , async ( req, res ) => {
     }
 })
 
+ticketRouter.get( '/ticketsByWorker/:workerName' , async ( req, res ) => {
+    const workerName = req.params.workerName
+    console.log(workerName)
+    try {
+        let tickets = await getTicketByWorker(workerName);
+        tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
+    } catch (e) {
+        console.log( "error en ruta get ticketsByWorker" , e.message)
+    }
+})
+
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;
     

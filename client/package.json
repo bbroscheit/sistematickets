@@ -14,6 +14,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@bitnoi.se/react-scheduler": "^0.1.5",
+    "@craco/craco": "^7.1.0",
+    "@devexpress/dx-react-core": "^4.0.8",
+    "@devexpress/dx-react-scheduler": "^4.0.8",
+    "@devexpress/dx-react-scheduler-material-ui": "^4.0.8",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
@@ -24,7 +29,9 @@
     "@mui/styles": "^5.14.11",
     "@mui/system": "^5.14.11",
     "@mui/x-date-pickers": "^6.14.0",
+    "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.4.0",
+    "chart.js": "^4.4.2",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "dropbox": "^10.34.0",
@@ -33,6 +40,7 @@
     "mkcert": "^3.2.0",
     "next": "^13.5.4",
     "react": "18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "sass": "^1.70.0",
@@ -42,5 +50,10 @@
   "peerDependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
   }
 }

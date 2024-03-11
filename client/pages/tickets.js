@@ -38,7 +38,7 @@ function Tickets() {
       .then((data) => {
         setTicketsGenerados(data);
       });
-    }, 5000 )
+    }, 15000 )
 
     return (() => {
       clearInterval(interval)
@@ -61,7 +61,7 @@ function Tickets() {
       .then((data) => {
         setTicketsAsignados(data);
       });
-    }, 5000)
+    }, 15000)
 
     return (() => {
       clearInterval(interval)
@@ -83,7 +83,7 @@ function Tickets() {
       .then((data) => {
         setTicketsDesarrollo(data);
       });
-    }, 5000)
+    }, 15000)
 
     return (() => {
       clearInterval(interval)
@@ -105,7 +105,7 @@ function Tickets() {
       .then((data) => {
         setTicketsDesarrollo2(data);
       });
-    }, 5000)
+    }, 15000)
 
     return (() => {
       clearInterval(interval)
@@ -127,7 +127,7 @@ function Tickets() {
       .then((data) => {
         setTicketsCompletado(data);
       });
-    }, 5000)
+    }, 15000)
 
     return (() => {
       clearInterval(interval)

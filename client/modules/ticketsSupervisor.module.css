@@ -1,0 +1,48 @@
+.gridContainer{
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.gridContainer h2{
+    margin-bottom: 8px;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 600;
+}
+
+.supervisorTitle{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    color: black;
+
+}
+
+.cardContainer{
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap : 16px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+    .gridContainer h2{
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+}
+
+/* media query para Celulares */
+
+@media (max-width: 768px){
+    .gridContainer h2{
+        font-size: 1rem;
+    }
+
+}

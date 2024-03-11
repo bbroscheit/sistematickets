@@ -16,6 +16,7 @@ const faqRouter = require('../src/routes/faqRouter.js')
 const projectRouter = require('../src/routes/projectRouter.js')
 const userstoriesRouter = require('../src/routes/userstoriesRouter.js')
 const taskRouter = require('../src/routes/taskRouter.js')
+const scheduleRouter = require('../src/routes//scheduleRouter.js')
 const downloadRouter = require('../src/routes/downloadRouter.js');
 const gpRequestRouter = require('../src/routes/gpRequestRouter.js')
 
@@ -65,6 +66,7 @@ server.use('/' , faqRouter);
 server.use('/', projectRouter);
 server.use('/', userstoriesRouter);
 server.use('/', taskRouter);
+server.use('/', scheduleRouter);
 server.use('/' , downloadRouter);
 server.use('/' , gpRequestRouter);
 

@@ -1,11 +1,15 @@
-const { Ticket, User } = require('../../bd');
+const { Ticket, User, Salepoint} = require('../../bd');
 
 const getAllTicket = async () => {
     try{
         let getTickets = await Ticket.findAll({
             include:[{
                 model:User,
-                attribute:["username","sectorname","salepoint"]
+                attribute:["username","sectorname","salepoint"],
+                include:[{
+                    model: Salepoint,
+                    attribute:["salepoint"]
+                }]
             }]
         });
 

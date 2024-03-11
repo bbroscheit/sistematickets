@@ -1,127 +1,121 @@
-import * as React from 'react';
-import Link from 'next/link';
-import mainStyles from '../styles/Home.module.css'
-import styles from '../modules/Navbar.module.css'
-import { useRouter } from 'next/router';
-import { styled, alpha, useTheme } from '@mui/material/styles';
-import MuiAppBar from '@mui/material/AppBar';
-import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import Badge from '@mui/material/Badge';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import CircleNotificationsRoundedIcon from '@mui/icons-material/CircleNotificationsRounded';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import InsertDriveFileRoundedIcon from '@mui/icons-material/InsertDriveFileRounded';
-import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded';
-import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
-import CreateNewFolderRoundedIcon from '@mui/icons-material/CreateNewFolderRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
-import InputRoundedIcon from '@mui/icons-material/InputRounded';
-import LiveHelpRoundedIcon from '@mui/icons-material/LiveHelpRounded';
-import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
-import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
-import ArchiveRoundedIcon from '@mui/icons-material/ArchiveRounded';
-import MoreIcon from '@mui/icons-material/MoreVert';
-import { Tooltip } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import * as React from "react";
+import Link from "next/link";
+import mainStyles from "../styles/Home.module.css";
+import styles from "../modules/Navbar.module.css";
+import { useRouter } from "next/router";
+import { styled, alpha, useTheme } from "@mui/material/styles";
+import MuiAppBar from "@mui/material/AppBar";
+import MuiDrawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import Badge from "@mui/material/Badge";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import CircleNotificationsRoundedIcon from "@mui/icons-material/CircleNotificationsRounded";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
+import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
+import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
+import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
+import CreateNewFolderRoundedIcon from "@mui/icons-material/CreateNewFolderRounded";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import InputRoundedIcon from "@mui/icons-material/InputRounded";
+import LiveHelpRoundedIcon from "@mui/icons-material/LiveHelpRounded";
+import FindInPageRoundedIcon from "@mui/icons-material/FindInPageRounded";
+import LeaderboardRoundedIcon from "@mui/icons-material/LeaderboardRounded";
+import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
+import { Tooltip } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
-
 const openedMixin = (theme) => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(0)})`, // tamaño de la navbar en tamaño celular
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
-);
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 export default function PrimarySearchAppBar() {
-
-  const router = useRouter()
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [ user, setUser ] = React.useState(null);
-  const [ login, setLogin ] = React.useState(0);
-  
+  const [user, setUser] = React.useState(null);
+  const [login, setLogin] = React.useState(0);
 
   React.useEffect(() => {
-    let userLogin = JSON.parse(localStorage.getItem('user'))
-    userLogin  ? setUser(userLogin)  : null
-    userLogin  ? setLogin(1)  : setLogin(0)
-  },[]);
+    let userLogin = JSON.parse(localStorage.getItem("user"));
+    userLogin ? setUser(userLogin) : null;
+    userLogin ? setLogin(1) : setLogin(0);
+  }, []);
 
-  
-
-  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -140,63 +134,61 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
 
   const renderMenu =
-   login === 1 ?  (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={e => handleLogin(e)}>Desconectar</MenuItem>
+    login === 1 ? (
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        id={menuId}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={(e) => handleLogin(e)}>Desconectar</MenuItem>
+      </Menu>
+    ) : (
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        id={menuId}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      </Menu>
+    );
 
-    </Menu>
-  ) :
-  (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       id={mobileMenuId}
       keepMounted
       transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
@@ -204,24 +196,22 @@ export default function PrimarySearchAppBar() {
       {/* <MenuItem>
         <IconButton size="large" aria-label="show 0 new mails" color="inherit">
           <Badge badgeContent={0} color="error">
-            <ArchiveRoundedIcon />
+            <CalendarMonthRoundedIcon />
           </Badge>
         </IconButton>
         <p>Messages</p>
       </MenuItem> */}
-      <MenuItem onClick={ e => router.push(`/helpDesk/Principal`)}>
+      <MenuItem onClick={(e) => router.push(`/helpDesk/Principal`)}>
         <IconButton
           size="large"
           aria-label="show 0 new notifications"
           color="inherit"
-          
         >
           <Badge badgeContent={0} color="error">
             <CircleNotificationsRoundedIcon />
           </Badge>
         </IconButton>
         <p>HelpDesk</p>
-        
       </MenuItem>
       {/* <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -239,44 +229,41 @@ export default function PrimarySearchAppBar() {
   );
 
   const theme = useTheme();
- 
 
   const [open, setOpen] = React.useState(false);
-  
 
   const handleDrawerOpen = () => {
     open === false ? setOpen(true) : setOpen(false);
   };
 
   const handleDrawerOpenOnMouseOver = () => {
-    setOpen(true)
+    setOpen(true);
   };
 
   const handleDrawerOpenOnMouseLeave = () => {
-    setOpen(false)
+    setOpen(false);
   };
 
-  function handleLogin(e){
+  function handleLogin(e) {
     e.preventDefault();
-    localStorage.removeItem('user');
-    handleMenuClose()
-    setLogin(0)
-    setUser(null)
-    router.push(`/`)
+    localStorage.removeItem("user");
+    handleMenuClose();
+    setLogin(0);
+    setUser(null);
+    router.push(`/`);
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="fixed" sx={{ backgroundColor:"#EA6558"}}>
-        <Toolbar >
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="fixed" sx={{ backgroundColor: "#EA6558" }}>
+        <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={ e => handleDrawerOpen(e)}
-            
+            onClick={(e) => handleDrawerOpen(e)}
           >
             <MenuIcon />
           </IconButton>
@@ -284,37 +271,40 @@ export default function PrimarySearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: "none", sm: "block" } }}
           >
             Basani SA
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* se deshabilito el menu profile en vista general porque no hay algo para agregar ahi */}
-            {/* <IconButton size="large" aria-label="show 4 new mails" onClick={ e => router.push(`/reports/Reports`)}>
-              {/* <Badge badgeContent={4} sx={{ color:"white"}}> 
-              <Badge sx={{ color:"white"}}>
-                <ArchiveRoundedIcon />
-              </Badge >
+            {/* <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              onClick={(e) => router.push(`/schedule/Schedule`)}
+            >
+              {/* <Badge badgeContent={4} sx={{ color:"white"}}>   
+              <Badge sx={{ color: "white" }}>
+                <CalendarMonthRoundedIcon />
+              </Badge>
             </IconButton> */}
-            {
-              user !== null && ( user.name === "Bbroscheit" || user.name === "Lllamanzarez")  ? 
-                <Tooltip title="show 17 new notifications">
-                  <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="white"
-                    onClick={ e => router.push(`/helpDesk/Principal`)}
-
-                  >
-                    <Badge sx={{ color:"white"}}>
+            {user !== null &&
+            (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
+              <Tooltip title="show 17 new notifications">
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="white"
+                  onClick={(e) => router.push(`/helpDesk/Principal`)}
+                >
+                  <Badge sx={{ color: "white" }}>
                     {/* <Badge badgeContent={5} sx={{ color:"white"}}> */}
-                      <CircleNotificationsRoundedIcon />
-                    </Badge>
-                  </IconButton> 
-                </Tooltip> : null
-            }
-            
+                    <CircleNotificationsRoundedIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            ) : null}
+
             {/* <IconButton
               size="large"
               edge="end"
@@ -327,7 +317,7 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>*/}
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             {/* se deshabilito el menu de celulares hasta no encontrar algo util que agregar ahi */}
             <IconButton
               size="large"
@@ -338,131 +328,154 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <MoreIcon />
-            </IconButton> 
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-       {renderMobileMenu} 
-       {renderMenu} 
-      <Drawer variant="permanent" open={open} onMouseOver={ e => handleDrawerOpenOnMouseOver(e)} onMouseLeave={e => handleDrawerOpenOnMouseLeave(e)}>
+      {renderMobileMenu}
+      {renderMenu}
+      <Drawer
+        variant="permanent"
+        open={open}
+        onMouseOver={(e) => handleDrawerOpenOnMouseOver(e)}
+        onMouseLeave={(e) => handleDrawerOpenOnMouseLeave(e)}
+      >
         <Divider />
 
         {/* Control para agregar el boton de inicio si el usuario no esta logueado */}
-        { user === null ? <List>
-          {['Inicio'].map((text, index) => (
-            <Link href={
-                index === 0 ? '/' : '/'
-              } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000",
-                  
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index === 1 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-          ))}
-        </List> : null}
+        {user === null ? (
+          <List>
+            {["Inicio"].map((text, index) => (
+              <Link href={index === 0 ? "/" : "/"}>
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    className={styles.listItemButton}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      color: "#000000",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {index === 1 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        ) : null}
 
         {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
-        { user !== null && user.sector === "Sistemas" ? 
-        <List>
-          {['Inicio','Usuarios', 'Nuevo Usuario'].map((text, index) => (
-            <Link href={
-                index === 0 ? '/' :
-                index === 1 ? '/Usuarios' : '/usuarios/nuevoUsuario'
-                
-              } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000",
-                  
-                }}
+        {user !== null && user.sector === "Sistemas" ? (
+          <List>
+            {["Inicio", "Usuarios", "Nuevo Usuario"].map((text, index) => (
+              <Link
+                href={
+                  index === 0
+                    ? "/"
+                    : index === 1
+                    ? "/Usuarios"
+                    : "/usuarios/nuevoUsuario"
+                }
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                    color:"#EA6558"
-                  }}
-                >
-                  {/* { index === 1 ? <InsertDriveFileRoundedIcon /> : <MailIcon />} */
-                    index === 0 ? <InputRoundedIcon /> :
-                    index === 1 ? <PersonRoundedIcon /> :
-                    index === 2 ? <PersonAddAltRoundedIcon /> : <MailIcon />
-                     
-                  }
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-          ))}
-        </List> 
-        : 
-        <List>
-          {['Inicio'].map((text, index) => (
-            <Link href={
-                index === 0 ? '/' : '/'
-              } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000",
-                  
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index === 1 ? <InsertDriveFileRoundedIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-          ))}
-        </List> 
-        } 
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    className={styles.listItemButton}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      color: "#000000",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "#EA6558",
+                      }}
+                    >
+                      {
+                        /* { index === 1 ? <InsertDriveFileRoundedIcon /> : <MailIcon />} */
+                        index === 0 ? (
+                          <InputRoundedIcon />
+                        ) : index === 1 ? (
+                          <PersonRoundedIcon />
+                        ) : index === 2 ? (
+                          <PersonAddAltRoundedIcon />
+                        ) : (
+                          <MailIcon />
+                        )
+                      }
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        ) : (
+          <List>
+            {["Inicio"].map((text, index) => (
+              <Link href={index === 0 ? "/" : "/"}>
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    className={styles.listItemButton}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      color: "#000000",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {index === 1 ? (
+                        <InsertDriveFileRoundedIcon />
+                      ) : (
+                        <MailIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        )}
         <Divider />
 
-
         {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
-        { user !== null && user.sector === "Sistemas" ? 
+        {/* { user !== null && user.sector === "Sistemas" ? 
         <List>
 
           {['Soportes',  'Faq', ' Hist. Soportes'].map((text, index) => (
             <Link href={
+                    
                     index === 0 ? '/Tickets' :
                     index === 1 ? '/Faq' :
                     index === 2 ? '/soportes/historicoSoportes': null
@@ -502,6 +515,7 @@ export default function PrimarySearchAppBar() {
 
         {['Soportes', 'Nuevo Soporte', ' Hist. Soportes'].map((text, index) => (
           <Link href={
+                  user.sector === "Supervisor" && index === 0 ? 'TicketsSupervisor' :
                   index === 0 ? '/Tickets' :
                   index === 1 ? '/soportes/nuevoSoporte':
                   index === 2 ? '/soportes/historicoSoportes': null
@@ -536,126 +550,287 @@ export default function PrimarySearchAppBar() {
 
         ))}
       </List>
-        }
-        <Divider />
-        
-        {
-          user !== null ? 
-          user.isprojectmanager === true || user.isprojectworker === true ?
-        <List>
-
-          {['Proyectos'].map((text, index) => (
-            <Link href={
-                    index === 0 ? '/Dashboard' :'/'
-                    
-                    } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000"
-                }}
+        } */}
+        {user !== null && user.sector === "Sistemas" ? (
+          <List>
+            {["Soportes", "Faq", " Hist. Soportes"].map((text, index) => (
+              <Link
+                href={
+                  index === 0
+                    ? "/Tickets"
+                    : index === 1
+                    ? "/Faq"
+                    : index === 2
+                    ? "/soportes/historicoSoportes"
+                    : null
+                }
               >
-
-                  <ListItemIcon
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    className={styles.listItemButton}
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                      color:"#EA6558"
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      color: "#000000",
                     }}
                   >
-                    {index === 0 ? <FolderRoundedIcon /> : <CreateNewFolderRoundedIcon />}
-                  </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-
-          ))}
-        </List> : null :null }
-
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "#EA6558",
+                      }}
+                    >
+                      {index === 0 ? (
+                        <InsertDriveFileRoundedIcon />
+                      ) : index === 1 ? (
+                        <LiveHelpRoundedIcon />
+                      ) : (
+                        <FindInPageRoundedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        ) : user !== null && user.sector === "Supervisor" ? (
+          <List>
+            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
+              (text, index) => (
+                <Link
+                  href={
+                    index === 0
+                      ? "TicketsSupervisor"
+                      : index === 1
+                      ? "/soportes/nuevoSoporte"
+                      : index === 2
+                      ? "/soportes/historicoSoportes"
+                      : null
+                  }
+                >
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      className={styles.listItemButton}
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                        color: "#000000",
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                          color: "#EA6558",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <InsertDriveFileRoundedIcon />
+                        ) : index === 1 ? (
+                          <LiveHelpRoundedIcon />
+                        ) : (
+                          <FindInPageRoundedIcon />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              )
+            )}
+          </List>
+        ) : (
+          <List>
+            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
+              (text, index) => (
+                <Link
+                  href={
+                    index === 0
+                      ? "/Tickets"
+                      : index === 1
+                      ? "/soportes/nuevoSoporte"
+                      : index === 2
+                      ? "/soportes/historicoSoportes"
+                      : null
+                  }
+                >
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      className={styles.listItemButton}
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                        color: "#000000",
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                          color: "#EA6558",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <InsertDriveFileRoundedIcon />
+                        ) : index === 1 ? (
+                          <LiveHelpRoundedIcon />
+                        ) : (
+                          <FindInPageRoundedIcon />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              )
+            )}
+          </List>
+        )}
 
         <Divider />
 
-        {
-          user !== null ? 
-          user.isprojectmanager === true || user.isprojectworker === true ?
-        <List>
-
-          {['Dashboard'].map((text, index) => (
-            <Link href={
-                    index === 0 ? '/Tablero' :'/'
-                    } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000"
-                }}
-              >
-
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                      color:"#EA6558"
-                    }}
-                  >
-                    {index === 0 ? <LeaderboardRoundedIcon /> : <CreateNewFolderRoundedIcon />}
-                  </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-
-          ))}
-        </List> : null :null }
-
+        {user !== null ? (
+          user.isprojectmanager === true || user.isprojectworker === true ? (
+            <List>
+              {["Proyectos"].map((text, index) => (
+                <Link href={index === 0 ? "/Dashboard" : "/"}>
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      className={styles.listItemButton}
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                        color: "#000000",
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                          color: "#EA6558",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <FolderRoundedIcon />
+                        ) : (
+                          <CreateNewFolderRoundedIcon />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+          ) : null
+        ) : null}
 
         <Divider />
-        
-        { user !== null ? <List>
-          {['Desconectar'].map((text, index) => ( 
-            <ListItem key={text} disablePadding sx={{ display: 'block' }} onClick={ e => handleLogin(e)} >
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000",
-                  fontFamily:"Titillium Web"
-                }}
+
+        {user !== null ? (
+          user.isprojectmanager === true || user.isprojectworker === true ? (
+            <List>
+              {["Dashboard"].map((text, index) => (
+                <Link href={index === 0 ? "/Tablero" : "/"}>
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      className={styles.listItemButton}
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                        color: "#000000",
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                          color: "#EA6558",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <LeaderboardRoundedIcon />
+                        ) : (
+                          <CreateNewFolderRoundedIcon />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+          ) : null
+        ) : null}
+
+        <Divider />
+
+        {user !== null ? (
+          <List>
+            {["Desconectar"].map((text, index) => (
+              <ListItem
+                key={text}
+                disablePadding
+                sx={{ display: "block" }}
+                onClick={(e) => handleLogin(e)}
               >
-                <ListItemIcon
+                <ListItemButton
+                  className={styles.listItemButton}
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                    color: "#000000",
+                    fontFamily: "Titillium Web",
                   }}
                 >
-                  {index === 1 ? <ExitToAppRoundedIcon /> : <ExitToAppRoundedIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-           ))}
-        </List> : null}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {index === 1 ? (
+                      <ExitToAppRoundedIcon />
+                    ) : (
+                      <ExitToAppRoundedIcon />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        ) : null}
       </Drawer>
     </Box>
   );
 }
-
-
-
-

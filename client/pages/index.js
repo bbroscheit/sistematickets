@@ -71,13 +71,20 @@ export default function Home() {
       }
       localStorage.setItem('user', JSON.stringify(user));
 
-      Router.push("/Tickets")
-
+      if (login.sector.sectorname === "Supervisor"){
+          
+          Router.push("/TicketsSupervisor")
+          
+      }else{
+       
+        Router.push("/Tickets")
+      }
     }else{
       setErrorLogin({ state: true });
     }
   }
 
+  
   return (
     <>
       <Head>
