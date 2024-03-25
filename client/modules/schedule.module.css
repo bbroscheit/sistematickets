@@ -60,10 +60,10 @@
 .buttonContainerSelector{
     width: 30%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     flex-direction: row;
-   
+    gap: 16px;
 }
 
 .buttonContainerSelectorInactive{

@@ -10,13 +10,36 @@ import SelectorDia from './SelectorDia'
 import Agenda from './Agenda'
 import dayjs from 'dayjs'
 import GlobalContext from '@/context/GlobalContext'
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import { postSchedule } from '../api/postSchedule'
+import giraFechas from '@/functions/girafechas'
 
-
+const styles = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 function Schedule() {
+    const [open, setOpen] = useState(false);
     const [currentMonth , setCurrentMonth] = useState(getDaysForSchedule())
     const { monthIndex, setMonthIndex } = useContext(GlobalContext)
     const [selector , setSelector ] = useState(2)
+    const [input , setInput] = useState({
+        detail : "",
+        invited : "",
+        startdate : "",
+        starthour : "",
+        finishhour : "",
+        
+    })
   
     useEffect(() => {
         setCurrentMonth(getDaysForSchedule(monthIndex))
@@ -28,6 +51,10 @@ function Schedule() {
         setSelector(n)
     }
 
+    const handleOpen = () => setOpen(true);
+
+    const handleClose = () => setOpen(false);
+
     function handleClickMonthPrev(){
         setMonthIndex(monthIndex - 1)
     }
@@ -36,9 +63,28 @@ function Schedule() {
         setMonthIndex(monthIndex + 1)
     }
 
-    // console.log(monthIndex)
+    function handleChange(e){
+        setInput({
+            ...input,
+            [e.target.name ]:e.target.value
+        })
+    }
+
+    function handleSelect(e){
+        setInput({
+            ...input,
+            invited : [...input.invited, e.target.value]
+        })
+    }
+
+    function handleSubmit(e){
+        e.preventDefault()
+        postSchedule(input)
+    }
+
+    console.log("input",input)
   return (
-        
+    <>
     <div className={mainStyle.container}>
         <div className={style.bodyContainer}>
             <header className={style.calendarHeader}>
@@ -49,8 +95,9 @@ function Schedule() {
                         <button onClick={handleClickMonthNext}><KeyboardArrowRightRoundedIcon /></button>
                     </div>
                 </div>
+                <button onClick={e => handleOpen(e)} className={ style.buttonContainerSelectorActive}>Crear Nuevo</button>
                 <div className={style.buttonContainerSelector}>
-                    <button onClick={e => handleClick(e , 1)} className={ selector === 1 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Día</button>
+                    
                     <button onClick={e => handleClick(e , 2)} className={ selector === 2 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Mes</button>
                     <button onClick={e => handleClick(e , 3)} className={ selector === 3 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Agenda</button>
                 </div>
@@ -59,14 +106,38 @@ function Schedule() {
             <div className={style.scheduleContainer}>
                 {
                     selector === 1 ? <SelectorDia /> : selector === 2 ?  <Month month={currentMonth}/> : <Agenda />
-                }
-                {/* <Sidebar /> */}
-               
+                }               
             </div>
         </div>
     </div>
-        
-    
+     <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+  >
+    <Box sx={styles}>
+    <div>
+      <label>Asunto</label>
+      <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
+      <label>Fecha de Inicio</label>
+      <input type="date" name="startdate" value={input.startdate} onChange={ e => handleChange(e)}></input>
+      <label >Selecciona una hora de inicio</label>
+      <input type="time" name="starthour" value={input.starthour} onChange={ e => handleChange(e)}></input>
+      <label >Selecciona una hora de cierre</label>
+      <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
+      <label >Elije a los participantes</label>
+      <select onChange={e => handleSelect(e)}>
+            <option>usuario 1</option>
+            <option>usuario 2</option>
+            <option>usuario 3</option>
+            <option>usuario 4</option>
+      </select>
+    </div>
+    <button onClick={e => {handleSubmit(e) , handleClose()}}>Aceptar</button>
+    </Box>
+  </Modal>   
+    </>
     
     
   )

@@ -3,6 +3,7 @@ const getAllSchedule = require("../routes/controllers/getAllSchedule");
 const getAllScheduleByDate = require ('../routes/controllers/getAllScheduleByDate')
 const getAllScheduleById = require ('../routes/controllers/getAllScheduleById')
 const postSchedule = require("../routes/controllers/postSchedule");
+const giraFechas  = require("./helpers/girafechas");
 
 scheduleRouter.get("/schedule", async (req, res) => {
   try {
@@ -20,28 +21,29 @@ scheduleRouter.get("/schedule/:date", async (req, res) => {
         let scheduleByDate = await getAllScheduleByDate(date);
         scheduleByDate ? res.status(200).json(scheduleByDate) : res.status(400).json({state : "failure"})
     } catch (e) {
-        console.log( "error en ruta get faqDetail" , e.message)
+        console.log( "error en ruta get schedule date" , e.message)
     }
 });
 
-scheduleRouter.get("/schedule/:id", async (req, res) => {
+scheduleRouter.get("/schedule/id/:id", async (req, res) => {
   const { id } = req.params
   
     try {
         let scheduleById = await getAllScheduleById(id);
+        
         scheduleById ? res.status(200).json(scheduleById) : res.status(400).json({state : "failure"})
     } catch (e) {
-        console.log( "error en ruta get faqDetail" , e.message)
+        console.log( "error en ruta get schedule id" , e.message)
     }
 });
 
 scheduleRouter.post("/schedule", async (req, res) => {
   const {  detail, invited, startdate, starthour, finishhour } = req.body;
     let accepted = []
-    
-    console.log(startdate)
+    startdateModify = giraFechas(startdate)
+
   try {
-    let newSchedule = await postSchedule( detail, invited, accepted, startdate, starthour, finishhour );
+    let newSchedule = await postSchedule( detail, invited, accepted, startdateModify, starthour, finishhour );
     newSchedule ? res.status(200).json({state: "success"}) : res.status(400).json({state : "failure"})
   } catch (e) {
     console.log("error en ruta postSchedule ", e.message);

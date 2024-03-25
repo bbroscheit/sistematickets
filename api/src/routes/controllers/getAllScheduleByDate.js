@@ -4,7 +4,7 @@ const cambiaFechaATimeZone = require('../helpers/cambiaFechaATimeZone')
 
 const getAllScheduleByDate = async (date) => {
     const formatedDate = cambiaFechaATimeZone(date)
-    
+        
     try {
         let getSchedule = await Schedule.findAll({
             where: [{ startdate : formatedDate} , {isdelete : false}],

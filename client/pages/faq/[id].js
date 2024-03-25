@@ -83,7 +83,6 @@ function Soporte() {
   }
 
   function closeModalModify() {
-    control === 0 ? setControl(1) : setControl(0);
     setOpen(false);
   }
 
@@ -457,6 +456,7 @@ function Soporte() {
             id="demo-simple-select-helper"
             // value={asignar.name}
             className={style.modalSelect}
+            native = "true"
             onChange={(e) => handleAsignar(e)}
           >
             {allFaq !== null && allFaq.length > 0
