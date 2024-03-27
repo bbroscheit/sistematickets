@@ -13,6 +13,8 @@ import GlobalContext from '@/context/GlobalContext'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { postSchedule } from '../api/postSchedule'
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import giraFechas from '@/functions/girafechas'
 
 const styles = {
@@ -32,6 +34,7 @@ function Schedule() {
     const [currentMonth , setCurrentMonth] = useState(getDaysForSchedule())
     const { monthIndex, setMonthIndex } = useContext(GlobalContext)
     const [selector , setSelector ] = useState(2)
+    const [ user, setUser ] = useState(null)
     const [input , setInput] = useState({
         detail : "",
         invited : "",
@@ -45,6 +48,18 @@ function Schedule() {
         setCurrentMonth(getDaysForSchedule(monthIndex))
 
     }, [monthIndex])
+
+    useEffect(() => {
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
+        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
+          .then((res) => res.json())
+          .then((data) => {
+            
+            const allNames = data.map( e => `${e.firstname} ${e.lastname}`)
+            setUser(allNames);
+          });
+      }, []);
+    
     
     function handleClick(e , n){
         e.preventDefault(e)
@@ -71,9 +86,30 @@ function Schedule() {
     }
 
     function handleSelect(e){
+        let name = e.target.innerText
+
+        if(input.invited.length === 0 ){
+            setInput({
+                ...input,
+                invited : [...input.invited, name]
+            })
+        } else if ( input.invited.filter( g => g === name ).length === 0 ){
+            
+            setInput({
+                ...input,
+                invited : [...input.invited, name]
+            })
+        } else {
+            console.log("pase como falso" , input.invited.filter( g => g === name ).length )
+        }
+        
+       
+    }
+
+    function handleUnselect(e){
         setInput({
             ...input,
-            invited : [...input.invited, e.target.value]
+            invited: input.invited.filter( f => f !== e.target.innerText )
         })
     }
 
@@ -135,13 +171,27 @@ function Schedule() {
             <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
         </div>
       <label >Elije a los participantes</label>
-      <select onChange={e => handleSelect(e)}>
+      {/* <select onChange={e => handleSelect(e)}>
             <option>usuario 1</option>
             <option>usuario 2</option>
             <option>usuario 3</option>
             <option>usuario 4</option>
-      </select>
-                
+      </select> */}
+      <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={user}
+                fullWidth
+                renderInput={(params) => <TextField {...params}/>}
+                onChange={(e) => handleSelect(e)}
+            />
+      {
+        input.invited.length > 0 ? <div>
+            {
+                input.invited.map( e => <div><h4 onClick={ e => handleUnselect(e)}>{e}</h4></div>)
+            }</div> : null
+      }
+        <div></div>
     </div>
     <button onClick={e => {handleSubmit(e) , handleClose()}}>Aceptar</button>
     </Box>
