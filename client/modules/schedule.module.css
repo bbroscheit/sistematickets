@@ -89,6 +89,45 @@
     border-radius: 5px;
 
 }
+
+.asuntoModalSchedule{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.asuntoModalSchedule label, .fechaModalSchedule label, .horaModalSchedule label{
+   font-weight: 600;
+}
+
+.fechaModalSchedule, .horaModalSchedule{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.modalAutocomplete{
+    font-weight: 600;
+}
+
+.userContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap:8px;
+    margin-bottom: 16px;
+}
+
+.userCard{
+    width: fit-content;
+    cursor: pointer;
+}
+
+
 /* Estilos de Month.js */
 
 .gridContainer{
@@ -203,4 +242,11 @@
 
 .containerGrid p{
     font-size: 0.9rem;
+}
+
+.subtitleInvitados{
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
 }

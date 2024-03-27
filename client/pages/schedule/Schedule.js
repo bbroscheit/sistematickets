@@ -154,23 +154,23 @@ function Schedule() {
   >
     <Box sx={styles}>
     <div>
-        <div>
-            <label>Asunto</label>
+        <div className={style.asuntoModalSchedule}>
+            <label>Asunto :</label>
             <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
         </div>
-        <div>
+        <div className={style.fechaModalSchedule}>
             <label>Fecha de Inicio</label>
             <input type="date" name="startdate" value={input.startdate} onChange={ e => handleChange(e)}></input>
         </div>
-        <div>
+        <div className={style.horaModalSchedule}>
             <label >Selecciona una hora de inicio</label>
             <input type="time" name="starthour" value={input.starthour} onChange={ e => handleChange(e)}></input>
         </div>
-        <div>
+        <div className={style.horaModalSchedule}> 
             <label >Selecciona una hora de cierre</label>
             <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
         </div>
-      <label >Elije a los participantes</label>
+      <label className={style.modalAutocomplete}>Elije a los participantes</label>
       {/* <select onChange={e => handleSelect(e)}>
             <option>usuario 1</option>
             <option>usuario 2</option>
@@ -184,16 +184,19 @@ function Schedule() {
                 fullWidth
                 renderInput={(params) => <TextField {...params}/>}
                 onChange={(e) => handleSelect(e)}
+                sx={{margin:"8px 10px"}}
             />
       {
-        input.invited.length > 0 ? <div>
+        input.invited.length > 0 ? 
+            <div className={style.userContainer}>
             {
-                input.invited.map( e => <div><h4 onClick={ e => handleUnselect(e)}>{e}</h4></div>)
-            }</div> : null
+                input.invited.map( e => <div className={style.userCard}><h5 onClick={ e => handleUnselect(e)}>{e}</h5></div>)
+            }
+            </div> : null
       }
         <div></div>
     </div>
-    <button onClick={e => {handleSubmit(e) , handleClose()}}>Aceptar</button>
+    <button onClick={e => {handleSubmit(e) , handleClose()}} className={mainStyle.buttonModal}>Aceptar</button>
     </Box>
   </Modal>   
     </>

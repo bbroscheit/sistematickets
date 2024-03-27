@@ -104,7 +104,7 @@ function ScheduleCard({ id, detail, starthour }) {
               <p>{calcularDiferenciaHoraria(input.starthour, input.finishhour)} Hs</p>
               </div> 
 
-              <label>Participantes Invitados</label>
+              <h4 className={style.subtitleInvitados}>Participantes Invitados</h4>
               {input.invited && input.invited.length > 0
                 ? input.invited.map((e) => <p key={e}>{e}</p>)
                 : null}
