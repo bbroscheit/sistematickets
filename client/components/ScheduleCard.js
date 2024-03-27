@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { extraeFecha } from "@/functions/extraeFecha";
 import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
+import { calcularDiferenciaHoraria } from "@/functions/calculaDiferenciaHoraria";
 
 const styles = {
   position: "absolute",
@@ -71,32 +72,41 @@ function ScheduleCard({ id, detail, starthour }) {
         <Box sx={styles}>
           {schedule !== null && schedule.length > 0 ? (
             <div>
-              <label>Asunto</label>
-              {input.detail && input.detail !== "" ? (
-                <p>{input.detail}</p>
-              ) : null}
-
-              <p>Fecha de Inicio</p>
+              <div className={style.cardInfoTitle}>
+                <label>Motivo</label>
+                {input.detail && input.detail !== "" ? (
+                  <p>{input.detail}</p>
+                ) : null}
+                <div className={style.fechaDeInicio}>
+                <p>Fecha de Inicio</p>
 
               {input.startdate && input.startdate !== "" ? (
                 <p>{input.startdate}</p>
               ) : null}
-
-              <label>Selecciona una hora de inicio</label>
-
+              </div>
+              </div>
+              
+              <div className={style.containerGrid}> 
+              <label>Inicio</label>
+              <label>Finalización</label>
+              <label>Duración</label>
               {input.starthour && input.starthour !== "" ? (
                 <p>{input.starthour}</p>
               ) : null}
 
-              <label>Selecciona una hora de cierre</label>
+              
 
               {input.finishhour && input.finishhour !== "" ? (
                 <p>{input.finishhour}</p>
               ) : null}
 
+              
+              <p>{calcularDiferenciaHoraria(input.starthour, input.finishhour)} Hs</p>
+              </div> 
+
               <label>Participantes Invitados</label>
               {input.invited && input.invited.length > 0
-                ? input.invited.map((e) => <p>{e}</p>)
+                ? input.invited.map((e) => <p key={e}>{e}</p>)
                 : null}
             </div>
           ) : (

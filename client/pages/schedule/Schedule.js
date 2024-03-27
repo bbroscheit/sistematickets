@@ -95,7 +95,7 @@ function Schedule() {
                         <button onClick={handleClickMonthNext}><KeyboardArrowRightRoundedIcon /></button>
                     </div>
                 </div>
-                <button onClick={e => handleOpen(e)} className={ style.buttonContainerSelectorActive}>Crear Nuevo</button>
+                <button style={{cursor:"pointer"}} onClick={e => handleOpen(e)} className={style.buttonContainerSelectorActive}>Crear Nuevo</button>
                 <div className={style.buttonContainerSelector}>
                     
                     <button onClick={e => handleClick(e , 2)} className={ selector === 2 ? style.buttonContainerSelectorActive : style.buttonContainerSelectorInactive}>Mes</button>
@@ -118,14 +118,22 @@ function Schedule() {
   >
     <Box sx={styles}>
     <div>
-      <label>Asunto</label>
-      <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
-      <label>Fecha de Inicio</label>
-      <input type="date" name="startdate" value={input.startdate} onChange={ e => handleChange(e)}></input>
-      <label >Selecciona una hora de inicio</label>
-      <input type="time" name="starthour" value={input.starthour} onChange={ e => handleChange(e)}></input>
-      <label >Selecciona una hora de cierre</label>
-      <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
+        <div>
+            <label>Asunto</label>
+            <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
+        </div>
+        <div>
+            <label>Fecha de Inicio</label>
+            <input type="date" name="startdate" value={input.startdate} onChange={ e => handleChange(e)}></input>
+        </div>
+        <div>
+            <label >Selecciona una hora de inicio</label>
+            <input type="time" name="starthour" value={input.starthour} onChange={ e => handleChange(e)}></input>
+        </div>
+        <div>
+            <label >Selecciona una hora de cierre</label>
+            <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
+        </div>
       <label >Elije a los participantes</label>
       <select onChange={e => handleSelect(e)}>
             <option>usuario 1</option>
@@ -133,6 +141,7 @@ function Schedule() {
             <option>usuario 3</option>
             <option>usuario 4</option>
       </select>
+                
     </div>
     <button onClick={e => {handleSubmit(e) , handleClose()}}>Aceptar</button>
     </Box>

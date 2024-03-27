@@ -109,6 +109,7 @@
     text-align: center;
     padding: 5px;
     background-color: white;
+    align-content: flex-start;
     
 }
 
@@ -134,7 +135,7 @@
 }
 
 .taskContainer{
-    min-height: 70px;
+    min-height: 100%;
     cursor: pointer;
     
 }
@@ -162,4 +163,44 @@
 .ScheduleCardContainer p{
    color: #fff;
 
+}
+
+.cardInfoTitle{
+    text-align: center;
+}
+
+.cardInfoTitle label{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.fechaDeInicio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.fechaDeInicio p{
+    font-weight: 600;
+}
+
+.containerGrid{
+    margin: 16px 0px;
+    padding: 5px;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr; 
+    gap: 8px 8px; 
+    text-align: center;
+    
+}
+
+.containerGrid label{
+    font-weight: 600;
+    border-bottom: 1px solid black;
+}
+
+.containerGrid p{
+    font-size: 0.9rem;
 }
