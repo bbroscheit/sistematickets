@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: "sistemas@basani.com.ar",
-    pass: "same7024",
+    user: "mesadeayuda@basani.com.ar",
+    pass: "Aduy7024$",
   },
 });
 
@@ -28,7 +28,7 @@ const sendEmailWorkerAssigment = async (
       subject: `Se te ha asignado el soporte N° ${idTicket}`,
       html: `
         <p>Buenos días,</p>
-        <p>Se ha asignado el soporte N° <strong> ${idTicket}</strong> </p>
+        <p>Se ha asignado el soporte N° <strong> ${idTicket}</strong> creado por el usuario ${ticket.user[0].firstname} ${ticket.user[0].lastname}</p>
         <p>Título : <strong> ${ticket.subject}</strong> </p>
         <p>Detalle : <strong> ${ticket.detail}</strong> </p>
         <p>Puedes ingresar al mismo desde la App Soporte Basani SA haciendo click <a href="http://${LOCALHOST}:${PORTFRONT}/soportes/${idTicket}"><strong>aqui</strong></a>.</p>

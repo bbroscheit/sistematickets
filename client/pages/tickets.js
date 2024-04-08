@@ -12,7 +12,6 @@ function Tickets() {
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
   const [ticketCompletado, setTicketsCompletado] = useState(null);
   const [user, setUser] = useState(null);
-  const [control, setControl] = useState(0)
   
   useEffect(() => {
     let userLogin = localStorage.getItem("user");

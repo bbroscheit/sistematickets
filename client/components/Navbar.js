@@ -41,6 +41,7 @@ import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import { Tooltip } from "@mui/material";
+import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
@@ -288,9 +289,21 @@ export default function PrimarySearchAppBar() {
                 <CalendarMonthRoundedIcon />
               </Badge>
             </IconButton> */}
+            <Tooltip title="Internos">
+            <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              onClick={(e) => router.push(`/phones/Phones`)}
+            >
+              {/* <Badge badgeContent={4} sx={{ color:"white"}}> */}
+              <Badge sx={{ color: "white" }}>
+                <HeadsetMicRoundedIcon />
+              </Badge>
+            </IconButton>
+            </Tooltip>
             {user !== null &&
             (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
-              <Tooltip title="show 17 new notifications">
+              <Tooltip title="Mesa de Ayuda">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"

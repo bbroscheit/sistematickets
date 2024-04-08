@@ -9,14 +9,14 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: 'sistemas@basani.com.ar',
-    pass: 'same7024',
+    user: 'mesadeayuda@basani.com.ar',
+    pass: 'Aduy7024$',
   },
 });
 
 // Función para enviar correo electrónico
 const sendEmail = async (email, findTicket) => {
-  console.log("email", email)
+  
   try {
     
     const info = await transporter.sendMail({

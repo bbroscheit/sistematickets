@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: "sistemas@basani.com.ar",
-    pass: "same7024",
+    user: "mesadeayuda@basani.com.ar",
+    pass: "Aduy7024$",
   },
 });
 
@@ -27,7 +27,7 @@ const sendEmail = async (id, to, subject, text) => {
         
         const to = user.email;
 
-        console.log("user.email" , user.email)
+        // console.log("user.email" , user.email)
   
         // const info = await transporter.sendMail({
         //   from: "sistemas@basani.com.ar",

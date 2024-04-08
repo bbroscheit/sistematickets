@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: "sistemas@basani.com.ar",
-    pass: "same7024",
+    user: "mesadeayuda@basani.com.ar",
+    pass: "Aduy7024$",
   },
 });
 
@@ -22,7 +22,7 @@ const sendEmailNewTicket = async (findTicket) => {
         subject: `Se ha creado el soporte N° ${findTicket.id}`,
         html: `
           <p>Buenos días,</p>
-          <p>Se ha creado el soporte N° <strong> ${findTicket.id}</strong> </p>
+          <p>El usuario ${findTicket.user[0].firstname} ${findTicket.user[0].lastname} ha creado el soporte N° <strong> ${findTicket.id}</strong> </p>
           <p>Título : <strong> ${findTicket.subject}</strong> </p>
           <p>Detalle : <strong> ${findTicket.detail}</strong> </p>
           <div style="text-align: center;">
