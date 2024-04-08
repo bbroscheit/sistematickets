@@ -172,7 +172,7 @@ ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     try {
          
         let newTicket = await postTicket(state, worker, subject, detail, answer, userresolved, user, req.files);  
-        newTicket ? res.status(200).json({state: "success"}) : res.status(404).send("failure")
+        newTicket ? res.status(200).json({state: "success"}) : res.status(404).json({state: "failure"})
     } catch (e) {
         console.log ( "error en ruta post ticket" , e.message)
     }

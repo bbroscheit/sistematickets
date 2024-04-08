@@ -81,7 +81,7 @@ faqRouter.put("/unifyFaq/:id", async (req, res) => {
   
   try {
     let faq = await unifyFaq(id, req.body);
-    faq ? res.status(200).json(faq) : res.status(400).json("failure");
+    faq ? res.status(200).json({state: "success"}) : res.status(400).json({state: "failure"})
   } catch (e) {
     console.log("error en ruta unifyfaq ", e.message);
   }

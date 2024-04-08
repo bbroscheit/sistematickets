@@ -3,10 +3,10 @@ import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import style from "../../modules/detailFaq.module.css";
 import mainStyle from "@/styles/Home.module.css";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import Modal from "@mui/material/Modal";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
@@ -41,6 +41,7 @@ function Soporte() {
   const [usuarios, setUsuarios] = useState(null)
   const [modify, setModify] = useState(false);
   const [allFaq, setAllFaq] = useState(null);
+  const [autocompleteFaq, setAutocompleteFaq] = useState(null)
   const [filterFaq, setFilterFaq] = useState(null);
   const [yesState, setYesState] = useState(0);
   const [inputFaq, setInputFaq] = useState({
@@ -72,6 +73,7 @@ function Soporte() {
       .then((res) => res.json())
       .then((data) => {
         setAllFaq(data);
+        setAutocompleteFaq(data.map((e) => e.title))
       });
   }, [router.query.id]);
 
@@ -192,16 +194,30 @@ function Soporte() {
   }
 
   function handleAsignar(e) {
-    setFilterFaq( allFaq.filter( f => f.title === e.target.value));
+    setFilterFaq( allFaq.filter( f => f.title === e.target.innerText));
   }
 
   function handleSubmitUnify(e) {
     e.preventDefault();
-    unifyFaq(id, filterFaq);
-
-    setTimeout(() => {
-      router.push("/faq");
-    }, 300);
+    unifyFaq(id, filterFaq)
+    .then(res => {
+      if (res.state === "success") {
+      handleCloseUnify(e);
+      Swal.fire(({
+        icon: "success",
+        title: "Tu soporte fue generado con éxito!",
+        showConfirmButton: false,
+        timer: 1500
+      }));
+      
+      setTimeout(() => {
+        router.push("/Faq");
+      }, 400);
+    }
+  })
+  .catch(error => {
+    console.error("Error al enviar el formulario:", error);
+  });
   }
 
   return (
@@ -451,22 +467,14 @@ function Soporte() {
           >
             Elije con que FAQ quieres unificar
           </Typography>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            // value={asignar.name}
-            className={style.modalSelect}
-            native = "true"
-            onChange={(e) => handleAsignar(e)}
-          >
-            {allFaq !== null && allFaq.length > 0
-              ? allFaq.map((e) => (
-                  <MenuItem value={e.title} key={e.id}>
-                    {e.title}{" "}
-                  </MenuItem>
-                ))
-              : null}
-          </Select>
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={autocompleteFaq}
+                fullWidth
+                renderInput={(params) => <TextField {...params}/>}
+                onChange={(e) => handleAsignar(e)}
+            />
             <div>
           <button
             onClick={(e) => {

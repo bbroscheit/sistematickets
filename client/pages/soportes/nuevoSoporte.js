@@ -10,7 +10,6 @@ import FormFaq from "@/components/FormFaq";
 function nuevoSoporte() {
   
   const [select, setSelect] = useState({ select: "principal" });
-  const [control, setControl] = useState(false)
   const [faqFilter, setFaqFilter] = useState(null);
   const [input, setInput] = useState({
     state: "sin asignar",
