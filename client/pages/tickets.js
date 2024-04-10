@@ -135,7 +135,7 @@ function Tickets() {
   }, []);
 
   
-
+  console.log(ticketAsignados)
   // useEffect(() => {
   //   const eventSource = new EventSource(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSSE`)
 
@@ -176,7 +176,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -196,7 +196,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -212,11 +212,11 @@ function Tickets() {
                     e.user !== null  ? (
                       <React.Fragment key={e.id}>
                         <Card
-                        key={e.id}
+                          key={e.id}
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -236,7 +236,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -256,7 +256,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -284,7 +284,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -305,7 +305,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -326,7 +326,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -347,7 +347,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -368,7 +368,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -390,7 +390,7 @@ function Tickets() {
                       id={e.id}
                       subject={e.subject}
                       state={e.state}
-                      created={e.created}
+                      created={e.createdAt}
                     />
                     </React.Fragment>
                   ))}
@@ -408,7 +408,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -427,7 +427,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -446,7 +446,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null
@@ -465,7 +465,7 @@ function Tickets() {
                           id={e.id}
                           subject={e.subject}
                           state={e.state}
-                          created={e.created}
+                          created={e.createdAt}
                         />
                       </React.Fragment>
                     ) : null

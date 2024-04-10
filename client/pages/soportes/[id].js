@@ -125,8 +125,7 @@ function Soporte() {
       
   }, [router.query.id]);
 
-  console.log("soporte", soporte)
-  console.log("inputFaq", inputFaq)
+  
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpen(e) {
     e.preventDefault();
@@ -440,6 +439,7 @@ function Soporte() {
                   />
                 </div>
 
+                {/* Abre la vista solucion para cualquier usuario perteneciente a Sistemas*/}
                 {user !== null &&
                 user.sector !== "Sistemas" ? null : soporte !== null &&
                   soporte.answer !== "Sin resolución" ? (
@@ -454,6 +454,39 @@ function Soporte() {
                     />
                   </div>
                 ) : null}
+                
+                {/* Abre la vista solucion para cualquier usuario no perteneciente a Sistemas y el estado del soporte es Completado*/}
+                {user !== null &&
+                  user.sector === "Sistemas" ? null : soporte !== null &&
+                    soporte.state === "Completado" ? (
+                    <div>
+                      <h3 className={style.label}>Solución : </h3>
+                      <textarea
+                        placeholder={soporte.answer}
+                        // disabled
+                        cols="80"
+                        rows="14"
+                        className={style.textarea}
+                      />
+                    </div>
+                  ) : null}
+
+                {/* Abre la vista solucion para cualquier usuario no perteneciente a Sistemas y el estado del soporte es Terminado*/}
+                {user !== null &&
+                  user.sector === "Sistemas" ? null : soporte !== null &&
+                    soporte.state === "Terminado" ? (
+                    <div>
+                      <h3 className={style.label}>Solución : </h3>
+                      <textarea
+                        placeholder={soporte.answer}
+                        // disabled
+                        cols="80"
+                        rows="14"
+                        className={style.textarea}
+                      />
+                    </div>
+                  ) : null}
+
 
                 {soporte !== null &&
                 soporte.files &&
