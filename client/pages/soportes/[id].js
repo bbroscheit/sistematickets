@@ -24,6 +24,8 @@ import { sendEmailCloseTicket } from "../api/sendEmailCloseTicket";
 import getFilename from "../../functions/getFilename";
 import { ticketAssigment } from "../api/ticketAssigment";
 import { updatePriority } from "../api/updatePriority";
+import { extraeFecha } from "@/functions/extraeFecha";
+import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
 
 const styles = {
   position: "absolute",
@@ -360,8 +362,16 @@ function Soporte() {
               <div className={style.infoContainer}>
                 <div>
                   <h1 className={style.title}>Soporte Nº {soporte.id}</h1>
-                  <h2 className={style.subtitle}>{soporte.subject}</h2>
+                  <h2 className={style.subtitle}>{soporte.subject}</h2>                  
                 </div>
+                  {/* Se agrega hora y fecha a pedido de Adrian y solo en las vistas de usuarios de Sistemas */}
+                  {user !== null &&
+                    user.sector === "Sistemas" ? 
+                      <div className={style.hours}>
+                        <h5>Creado: </h5>
+                        <h5>{extraeFecha(soporte.createdAt)}</h5>
+                        <h5>{devuelveHoraDesdeTimestamp(soporte.createdAt)}</h5>
+                      </div> : null}
 
                 <div className={style.titleContainer}>
                   <div className={style.stateContainer}>
@@ -496,7 +506,6 @@ function Soporte() {
                     {soporte.files && soporte.files.length > 0
                       ? soporte.files.map((file, index) => (
                           <div key={index} className={style.adjuntos}>
-                            {/* <a href={encodeURI("/ticket_22/new_Free tour Munich.pdf")} download> */}
                             <a href={encodeURI(file)} download>
                               {getFilename(file)}
                             </a>

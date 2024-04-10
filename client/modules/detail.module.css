@@ -201,6 +201,12 @@
     color: grey;
 }
 
+.hours{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
 @media (max-width: 768px){
     .visibilityContainer{
         padding: 5rem 2rem 2rem 1rem;

@@ -119,14 +119,14 @@ function Soporte() {
     setOpenUnify(false);
   }
 
-  function handleSubmitUnify(e) {
-    e.preventDefault();
-    unifyFaq(id, filterFaq);
+  // function handleSubmitUnify(e) {
+  //   e.preventDefault();
+  //   unifyFaq(id, filterFaq);
     
-    setTimeout(() => {
-      router.push("/faq");
-    }, 300);
-  }
+  //   setTimeout(() => {
+  //     router.push("/faq");
+  //   }, 300);
+  // }
 
   // dentro del modal de la solucion permite decir si el usuario puede resolverlo o no
   
@@ -205,7 +205,7 @@ function Soporte() {
       handleCloseUnify(e);
       Swal.fire(({
         icon: "success",
-        title: "Tu soporte fue generado con éxito!",
+        title: "Tu soporte fue unificado con éxito!",
         showConfirmButton: false,
         timer: 1500
       }));
