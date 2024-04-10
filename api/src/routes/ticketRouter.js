@@ -354,7 +354,7 @@ ticketRouter.post('/sendEmailComplete', async (req, res) => {
 
     try {
         await sendEmailUserComplete( ticket, useremail, workerFind, onlyDetail );
-        await sendEmailWorkerComplete( ticket, useremail, workerFind, onlyDetail );
+        // await sendEmailWorkerComplete( ticket, useremail, workerFind, onlyDetail );
     } catch (e) {
         console.log(e.message)
     }
