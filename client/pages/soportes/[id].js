@@ -128,6 +128,8 @@ function Soporte() {
   }, [router.query.id]);
 
   
+  
+
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpen(e) {
     e.preventDefault();
@@ -455,12 +457,13 @@ function Soporte() {
               </div>
 
               <div className={style.form}>
+                                
                 <div>
                   <h3 className={style.label}>Detalle : </h3>
                   <textarea
                     value={soporte.detail}
                     cols="80"
-                    rows="6"
+                    // rows="14"
                     className={style.textarea}
                   />
                 </div>
@@ -475,7 +478,7 @@ function Soporte() {
                       placeholder={soporte.answer}
                       // disabled
                       cols="80"
-                      rows="14"
+                      // rows="14"
                       className={style.textarea}
                     />
                   </div>
@@ -491,7 +494,7 @@ function Soporte() {
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
-                        rows="14"
+                        // rows="14"
                         className={style.textarea}
                       />
                     </div>
@@ -507,7 +510,7 @@ function Soporte() {
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
-                        rows="14"
+                        // rows="14"
                         className={style.textarea}
                       />
                     </div>

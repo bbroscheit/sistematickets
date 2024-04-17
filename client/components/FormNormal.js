@@ -38,6 +38,12 @@ function FormNormal({ user }) {
     // })
   }, []);
 
+  useEffect(() => {
+    const textarea = document.getElementById('mi-textarea');
+    textarea.style.height = 'auto'; // Restablece la altura a automática
+    textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+  }, [input.detail]);
+
   function handleChange(e) {
     e.preventDefault();
     setInput({
@@ -107,11 +113,17 @@ function FormNormal({ user }) {
       <div className={mainStyle.labelWithTextarea}>
         <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
         <textarea
+          id="mi-textarea"
           type="text"
           placeholder="Ingrese el inconveniente"
           name="detail"
           value={input.detail}
           onChange={(e) => handleChange(e)}
+          style={{
+            minHeight: '120px',
+            resize: 'none',
+            overflowY: 'hidden'
+          }}
         />
       </div>
       <div>

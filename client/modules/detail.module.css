@@ -110,7 +110,8 @@
     font-size: 0.9rem;
     font-weight: 400;
     width: 80vw;
-    height: 120px;
+    min-height: 120px;
+    /* form-sizing: content ; */
     padding: 8px 9px;
     border: none;
     border-radius: 10px;
