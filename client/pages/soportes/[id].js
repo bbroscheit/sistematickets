@@ -418,6 +418,22 @@ function Soporte() {
                     </div>
                   )}
 
+                  {user !== null && user.sector === "Supervisor" ? (
+                    <div className={style.stateContainer}>
+                      {soporte !== null &&
+                      soporte.state !== "Terminado" ? (
+                        <button
+                          onClick={(e) => {
+                            handleOpen(e);
+                          }}
+                        >
+                          {" "}
+                          Cambiar{" "}
+                        </button>
+                      ) : null}
+                    </div>
+                  ) : null}
+
                   {user !== null && user.sector === "Sistemas" ? (
                     <div className={style.stateContainer}>
                       <h3> Prioridad : </h3> <p>{soporte.priority}</p>
