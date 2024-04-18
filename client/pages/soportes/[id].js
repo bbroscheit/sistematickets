@@ -26,6 +26,7 @@ import { ticketAssigment } from "../api/ticketAssigment";
 import { updatePriority } from "../api/updatePriority";
 import { extraeFecha } from "@/functions/extraeFecha";
 import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
+import { postProveedor } from "../api/postProveedor";
 
 const styles = {
   position: "absolute",
@@ -51,6 +52,8 @@ function Soporte() {
   const [openInfo, setOpenInfo] = useState(false);
   const [openInfoUser, setOpenInfoUser] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openCreateProveedor, setOpenCreateProveedor] = useState(false);
+  const [openProveedor, setOpenProveedor] = useState(false);
   const [openPriority, setOpenPriority] = useState(false);
   const [newPriority, setNewPriority] = useState({ name: "sin asignar" });
   const [user, setUser] = useState(null);
@@ -78,6 +81,12 @@ function Soporte() {
     answer: "",
     uresolved: false,
     questioner: "",
+  });
+  const [inputProveedor, setInputProveedor] = useState({
+    name: "",
+    description: "",
+    address: "",
+    zone: ""
   });
 
   useEffect(() => {
@@ -172,14 +181,32 @@ function Soporte() {
 
 
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
+  function handleOpenProveedor(e) {
+    e.preventDefault();
+    setOpenProveedor(true);
+  }
+
+  function handleCloseProveedor() {
+    setOpenProveedor(false);
+  }
+
   function handleOpen(e) {
     e.preventDefault();
     setOpen(true);
   }
 
   function handleClose() {
-    control === 0 ? setControl(1) : setControl(0);
     setOpen(false);
+  }
+
+  // abre el modal de creacion de proveedor
+  function handleOpenCreateProveedor(e) {
+    e.preventDefault();
+    setOpenCreateProveedor(true);
+  }
+
+  function handleCloseCreateProveedor() {
+    setOpenCreateProveedor(false);
   }
 
   function handleOpenPriority(e) {
@@ -349,6 +376,13 @@ function Soporte() {
     })
   }
 
+  function handleChangeCreateProveedor(e) {
+    setInputProveedor({
+      ...inputProveedor,
+      [e.target.name]: e.target.value,
+    });
+  }
+
   function submitInfoUser(e) {
     e.preventDefault();
     updateInfoTicketByUser(soporteId, answer)
@@ -386,6 +420,20 @@ function Soporte() {
       if (res.state === "success") {
         sendEmailAssigmentUser(email);
         window.location.reload(true);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
+    
+  }
+
+  function submitCreateProveedor(e) {
+    e.preventDefault();
+    postProveedor(inputProveedor)
+    .then(res => {
+      if (res.state === "success") {
+        // window.location.reload(true);
       }
     })
     .catch(error => {
@@ -496,7 +544,13 @@ function Soporte() {
 
                 </div>
               </div>
-
+              
+              {/* si el soporte esta en desarrollo muestra el boton , sino muestra la informacion del tercero y el boton de finalizar */}
+              <div className={style.stateContainer}>
+                    <h3> Proveedor Externo: </h3>
+                    <button onClick={(e) => handleOpenProveedor(e)}>Agregar</button>
+              </div>
+              
               <div className={style.form}>
                                 
                 <div>
@@ -671,6 +725,7 @@ function Soporte() {
         )}
       </div>
 
+          {/* modal asignacion de soporte */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -713,6 +768,7 @@ function Soporte() {
         </Box>
       </Modal>
 
+          {/* modal asignacion de prioridad */}
       <Modal
         open={openPriority}
         onClose={handleClosePriority}
@@ -752,6 +808,7 @@ function Soporte() {
         </Box>
       </Modal>
 
+          {/* modal para agregar una solucion */}
       <Modal
         open={openSolution}
         onClose={handleCloseSolution}
@@ -826,6 +883,7 @@ function Soporte() {
         </Box>
       </Modal>
 
+          {/* modal para solicitar informacion */}
       <Modal
         open={openInfo}
         onClose={handleCloseInfo}
@@ -868,6 +926,7 @@ function Soporte() {
         </Box>
       </Modal>
 
+          {/* modal para agregar informacion */}
       <Modal
         open={openInfoUser}
         onClose={handleCloseInfoUser}
@@ -909,6 +968,98 @@ function Soporte() {
           </button>
         </Box>
       </Modal>
+
+          {/* modal para seleccionar proveedor */}
+      <Modal
+        open={openProveedor}
+        onClose={handleCloseProveedor}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styles}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className={style.modalTitle}
+          >
+            Elije el proveedor
+          </Typography>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={asignar.name}
+            className={style.modalSelect}
+            onChange={(e) => handleAsignar(e)}
+          >
+            {worker !== null && worker.length > 0
+              ? worker.map((e) => (
+                  <MenuItem value={e.username} key={worker.id}>
+                    {e.username}{" "}
+                  </MenuItem>
+                ))
+              : null}
+          </Select>
+          <button
+            onClick={(e) => {
+              submitAsignarProveedor(e);
+              handleCloseProveedor();
+            }}
+            className={style.modalButton}
+          >
+            Asignar
+          </button>
+          <button
+            onClick={(e) => {
+              handleOpenCreateProveedor(e);
+            }}
+            className={style.modalButton}
+          >
+            Crear
+          </button>
+          <button
+            onClick={(e) => {
+              handleCloseProveedor();
+            }}
+            className={style.modalButton}
+          >
+            Cerrar
+          </button>
+        </Box>
+      </Modal>   
+
+        {/* modal para solicitar informacion */}
+      <Modal
+        open={openCreateProveedor}
+        onClose={handleCloseCreateProveedor}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styles}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className={style.modalTitle}
+          >
+            Ingresa el Proveedor
+          </Typography>
+          <input placeholder="Ingrese Razon Social" type="text" value={inputProveedor.name} name="name" onChange={ e => handleChangeCreateProveedor(e)} />
+          <input placeholder="Ingrese Descripción" type="text" value={inputProveedor.description} name="description" onChange={ e => handleChangeCreateProveedor(e)} />
+          <input placeholder="Ingrese Dirección" type="text" value={inputProveedor.address} name="address" onChange={ e => handleChangeCreateProveedor(e)} />
+          <input placeholder="Ingrese Zona" type="text" value={inputProveedor.zone} name="zone" onChange={ e => handleChangeCreateProveedor(e)} />
+          <button
+            onClick={(e) => {
+              submitCreateProveedor(e);
+              handleCloseCreateProveedor();
+            }}
+            className={style.modalButton}
+          >
+            Aceptar
+          </button>
+        </Box>
+      </Modal>   
+
     </>
   );
 }
