@@ -45,6 +45,7 @@ const styles = {
 function Soporte() {
   const router = useRouter();
   const id = router.query.id ;
+  
 
   const [openSolution, setOpenSolution] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
@@ -127,8 +128,48 @@ function Soporte() {
       
   }, [router.query.id]);
 
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textarea');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [inputFaq.description]);
+
   
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaAnswer');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [answer.answer]);
+
   
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaInfo');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [info.info]);
+
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaSolution');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [solution.solution]);
+
 
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpen(e) {
@@ -461,9 +502,16 @@ function Soporte() {
                 <div>
                   <h3 className={style.label}>Detalle : </h3>
                   <textarea
+                    id="mi-textarea"
+                    type="text"
                     value={soporte.detail}
                     cols="80"
                     // rows="14"
+                    style={{
+                      minHeight: '120px',
+                      resize: 'none',
+                      overflowY: 'hidden'
+                    }}
                     className={style.textarea}
                   />
                 </div>
@@ -475,11 +523,17 @@ function Soporte() {
                   <div>
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
+                      id="mi-textarea"
                       placeholder={soporte.answer}
                       // disabled
                       cols="80"
                       // rows="14"
                       className={style.textarea}
+                      style={{
+                        minHeight: '120px',
+                        resize: 'none',
+                        overflowY: 'hidden'
+                      }}
                     />
                   </div>
                 ) : null}
@@ -491,11 +545,17 @@ function Soporte() {
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
+                        id="mi-textarea"
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
                         // rows="14"
                         className={style.textarea}
+                        style={{
+                          minHeight: '120px',
+                          resize: 'none',
+                          overflowY: 'hidden'
+                        }}
                       />
                     </div>
                   ) : null}
@@ -507,11 +567,17 @@ function Soporte() {
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
+                        id="mi-textarea"
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
                         // rows="14"
                         className={style.textarea}
+                        style={{
+                          minHeight: '120px',
+                          resize: 'none',
+                          overflowY: 'hidden'
+                        }}
                       />
                     </div>
                   ) : null}
@@ -703,6 +769,7 @@ function Soporte() {
           </Typography>
           {soporte !== null ? (
             <textarea
+              id="mi-textareaSolution"
               placeholder={
                 soporte !== null && soporte.answer === "Sin resolucion"
                   ? ""
@@ -712,6 +779,11 @@ function Soporte() {
               name="solution"
               onChange={(e) => handleChangeSolution(e)}
               className={style.modalTextarea}
+              style={{
+                minHeight: '120px',
+                resize: 'none',
+                overflowY: 'hidden'
+              }}
             />
           ) : null}
           <div className={style.modalSubtitleContainer}>
@@ -771,10 +843,16 @@ function Soporte() {
           </Typography>
           {soporte !== null ? (
             <textarea
+              id="mi-textareaInfo"
               value={info.info}
               name="info"
               onChange={(e) => handleChangeInfo(e)}
               className={style.modalTextarea}
+              style={{
+                minHeight: '120px',
+                resize: 'none',
+                overflowY: 'hidden'
+              }}
             />
           ) : null}
 
@@ -807,10 +885,16 @@ function Soporte() {
           </Typography>
           {soporte !== null ? (
             <textarea
+              id="mi-textareaAnswer"
               value={answer.answer}
               name="answer"
               onChange={(e) => handleChangeAnswer(e)}
               className={style.modalTextarea}
+              style={{
+                minHeight: '120px',
+                resize: 'none',
+                overflowY: 'hidden'
+              }}
             />
           ) : null}
 

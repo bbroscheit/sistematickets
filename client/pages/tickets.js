@@ -135,7 +135,6 @@ function Tickets() {
   }, []);
 
   
-  console.log(ticketAsignados)
   // useEffect(() => {
   //   const eventSource = new EventSource(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSSE`)
 
