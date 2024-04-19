@@ -44,8 +44,8 @@ Sector.hasMany(User);
 User.hasMany(Ticket);
 Ticket.belongsTo(User);
 
-Proveedor.hasMany(Ticket);
-Ticket.belongsTo(Proveedor);
+// Proveedor.hasMany(Ticket);
+// Ticket.belongsTo(Proveedor);
 
 User.belongsTo(Salepoint);
 Salepoint.hasMany(User);
