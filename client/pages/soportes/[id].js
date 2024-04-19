@@ -546,10 +546,14 @@ function Soporte() {
               </div>
               
               {/* si el soporte esta en desarrollo muestra el boton , sino muestra la informacion del tercero y el boton de finalizar */}
-              <div className={style.stateContainer}>
+              {
+                user !== null && user.sector === "Sistemas" ?
+                  <div className={style.stateContainer}>
                     <h3> Proveedor Externo: </h3>
                     <button onClick={(e) => handleOpenProveedor(e)}>Agregar</button>
-              </div>
+                  </div> : null
+              }
+              
               
               <div className={style.form}>
                                 
