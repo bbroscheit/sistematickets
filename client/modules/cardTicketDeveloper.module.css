@@ -1,0 +1,47 @@
+.container{
+    margin-top: 16px;
+    padding-bottom: 3px;
+    border-bottom: 0.5px solid black;
+    width: 100%;
+}
+
+.firstLine{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.divEstados{
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+}
+
+.estado{
+    border-radius: 100px;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
+.user{
+    background-color:  rgb(89, 44, 196);
+    border-radius: 100px;
+    width: 23px;
+    height: 23px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.subject{
+    overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
+    white-space: nowrap; /* Evita que el texto se divida en líneas */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+}

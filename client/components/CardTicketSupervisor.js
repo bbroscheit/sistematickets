@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState, useRef} from 'react'
 import { useRouter } from 'next/router';
 import style from '@/modules/cardTicketSupervisor.module.css'
 import { extraeFecha } from '@/functions/extraeFecha'
 
 
-function CardTicketSupervisor({key , id , subject , created}) {
+function CardTicketSupervisor({key , id , subject , created, userFirstname, userLastname}) {
     const router = useRouter();
+    const [textPosition, setTextPosition] = useState(0);
+    const intervalRef = useRef(null);
 
     function idKeep(e) {
         e.preventDefault();
@@ -13,20 +15,38 @@ function CardTicketSupervisor({key , id , subject , created}) {
         localStorage.setItem("idSoporte", JSON.stringify(idSoporte));
     }
 
+    function handleMouseEnter() {
+      intervalRef.current = setInterval(() => {
+          setTextPosition(prevPosition => (prevPosition + 1) % (subject.length + 1));
+      }, 100); // Velocidad de desplazamiento (100ms)
+  }
+
+    function handleMouseLeave() {
+      setTextPosition(0);
+      clearInterval(intervalRef.current); // Limpiar el intervalo
+  }
+
   return (
     <div key={key} className={style.cardContainer}>
-        <h5 onClick={(e) => {
-            idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
+        <h5
+          onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`);
           }}>N° {id}</h5>
-        <h5 onClick={(e) => {
-            idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
-          }}>{subject}</h5>
+        <h5 className={style.subject}
+            onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`) }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            >
+              {subject.slice(textPosition, textPosition + 30)}
+        </h5>
         <h5 onClick={(e) => {
             idKeep(e);
             router.push(`/soportes/[id]`, `/soportes/${id}`);
           }}>{extraeFecha(created)}</h5>
+        <h5 
+          className={style.subject}
+          onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`);}}
+          
+          >{`${userFirstname} ${userLastname}`}</h5>
     </div>
   )
 }

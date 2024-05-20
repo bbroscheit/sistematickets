@@ -7,6 +7,7 @@ const getTicketsDesarrollo2 = require('./controllers/getTicketDesarrollo2');
 const getTicketCompletado = require('./controllers/getTicketCompletado');
 const getTicketsAsignados = require('./controllers/getTicketAsignados')
 const getTicketsGenerados = require('./controllers/getTicketGenerado');
+const getTicketDeveloperView = require('./controllers/getTicketDeveloperView');
 const postTicket = require('./controllers/postTicket');
 const updateTicket = require('./controllers/updateTicket');
 const getTicketTerminado = require('./controllers/getTicketTerminado');
@@ -24,7 +25,7 @@ const sendEmailWorkerAceptAssigment = require('./helpers/sendEmailWorkerAceptAss
 const sendEmailInfoToWorker = require('./helpers/sendEmailInfoToWorker');
 const sendEmailInfoToUser = require ('./helpers/sendEmailInfoToUser')
 const sendEmailUserComplete = require('./helpers/sendEmailUserComplete')
-const sendEmailWorkerComplete = require('./helpers/sendEmailWorkerComplete');
+// const sendEmailWorkerComplete = require('./helpers/sendEmailWorkerComplete');
 const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
 const sendEmailUserFinish = require('./helpers/sendEmailUserFinish')
 const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
@@ -39,7 +40,8 @@ const getworkerByName = require('./helpers/getWorkerByName')
 const getUserEmailByTicketID = require('./helpers/getUserEmailByTicketID')
 const getDetailWithoutQuestion = require('./helpers/getDetailWithoutQuestion')
 const getLastQuestion = require('./helpers/getLastQuestion')
-const getDetailOnly = require('./helpers/getOnlyDetail')
+const getDetailOnly = require('./helpers/getOnlyDetail');
+const getTicketDeveloperCard = require('./controllers/getTicketDeveloperCard');
 
 
 ticketRouter.get( '/ticket' , async ( req, res ) => {
@@ -57,6 +59,15 @@ ticketRouter.get( '/ticketUnfinished' , async ( req, res ) => {
         allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta get tickets" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketDeveloperView' , async ( req, res ) => {
+    try {
+        let allTicket = await getTicketDeveloperView();
+        allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta getTicketDeveloperView" , e.message)
     }
 })
 
@@ -160,6 +171,17 @@ ticketRouter.get( '/ticketsByWorker/:workerName' , async ( req, res ) => {
     console.log(workerName)
     try {
         let tickets = await getTicketByWorker(workerName);
+        tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
+    } catch (e) {
+        console.log( "error en ruta get ticketsByWorker" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketDeveloperView/:name' , async ( req, res ) => {
+    const workerName = req.params.name
+    
+    try {
+        let tickets = await getTicketDeveloperCard(workerName);
         tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
     } catch (e) {
         console.log( "error en ruta get ticketsByWorker" , e.message)

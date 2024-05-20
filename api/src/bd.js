@@ -33,7 +33,7 @@ sequelize.models = Object.fromEntries(capEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades para relacionarlos hacemos un destructuring
 
-const { Sector, Ticket, User, Salepoint, Faq, Project, Userstories, Task, Priority, Newtask, Newproject, Schedule, Proveedor  } = sequelize.models;
+const { Sector, Ticket, User, Salepoint, Faq, Project, Userstories, Task, Priority, Newtask, Newproject, Schedule, Proveedor, Proveedornote  } = sequelize.models;
 
 // Relacionamos las tablas
 // seccion de Soportes
@@ -45,13 +45,20 @@ User.hasMany(Ticket);
 Ticket.belongsTo(User);
 
 // Proveedor.hasMany(Ticket);
-// Ticket.belongsTo(Proveedor);
+// // Ticket.belongsTo(Proveedor);
+// Ticket.belongsTo(Proveedor, { foreignKey: 'proveedor_id' });
 
 User.belongsTo(Salepoint);
 Salepoint.hasMany(User);
 
 Sector.belongsTo(Salepoint);
 Salepoint.hasMany(Sector);
+
+Ticket.hasOne(Proveedornote);
+Proveedornote.belongsTo(Ticket);
+
+Proveedor.hasMany(Proveedornote);
+Proveedornote.belongsTo(Proveedor);
 
 // Ticket.belongsTo(Priority);
 // Priority.hasMany(Ticket);

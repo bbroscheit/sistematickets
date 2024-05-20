@@ -22,13 +22,32 @@
 }
 
 .cardContainer{
-    margin-top: 24px;
+    /* margin-top: 24px; */
+    padding: 36px;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    /* justify-content: center; */
+    justify-content: flex-start;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap : 16px;
+    max-width: calc(100% - 40px );
+    overflow-x: auto;
+
+}
+
+.cardContainer::-webkit-scrollbar {
+    height: 8px;
+    background-color: #f5f5f5;
+}
+
+.cardContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.cardContainer::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
 }
 
 @media (min-width: 768px) and (max-width: 1024px){

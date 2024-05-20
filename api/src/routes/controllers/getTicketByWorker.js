@@ -6,6 +6,10 @@ const getTicketByWorker = async (workerName) => {
 
         let getTIcketByName = await Ticket.findAll({
             where: { worker: workerName},
+            include:{
+                model:User,
+                attribute:["username","sectorname","salepoint"],
+            }
         });
 
         getTIcketByName ? getTIcketByName.sort((a , b) => { return a.id - b.id }) : getTIcketByName = 0

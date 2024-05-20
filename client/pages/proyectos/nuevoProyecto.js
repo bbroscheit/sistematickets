@@ -83,7 +83,7 @@ function nuevoProyecto() {
           });
           Swal.fire(({
             icon: "success",
-            title: "Tu soporte fue generado con éxito!",
+            title: "Tu proyecto fue generado con éxito!",
             showConfirmButton: false,
             timer: 1500
           }));

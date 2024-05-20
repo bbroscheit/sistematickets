@@ -1,13 +1,21 @@
-const { Ticket, User } = require('../../bd');
+const { Ticket, User, Proveedornote, Proveedor } = require('../../bd');
 
 const getTicketDetail = async (id) => {
     
     try {
         let ticketDetail = await Ticket.findOne({
-            where:{id: id}, 
+            where:{ id : id }, 
             include:[{
                 model:User,
                 attribute:["username"]
+            },
+            {
+                model: Proveedornote,
+                required : false, // trae solo si existe una nota asociada, sino no adjunta nada
+                include: [{
+                    model: Proveedor,
+                    attribute:["name"]
+                }] 
             }]
         });
         return ticketDetail;

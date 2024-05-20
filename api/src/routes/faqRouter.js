@@ -1,5 +1,6 @@
 const faqRouter = require("express").Router();
 const getAllFaq = require("../routes/controllers/getAllFaq");
+const getAllFaqFinish = require("../routes/controllers/getAllFaqFinish.js")
 const postFaq = require("../routes/controllers/postFaq");
 const updateUserFaq = require("../routes/controllers/updateUserFaq");
 const updateFaq = require("../routes/controllers/updateFaq");
@@ -14,6 +15,15 @@ faqRouter.get("/faq", async (req, res) => {
     allFaq ? res.status(200).json(allFaq) : res.status(400).send("failure");
   } catch (e) {
     console.log("error en ruta get Faq ", e.message);
+  }
+});
+
+faqRouter.get("/faqFinish", async (req, res) => {
+  try {
+    let allFaq = await getAllFaqFinish();
+    allFaq ? res.status(200).json(allFaq) : res.status(400).send("failure");
+  } catch (e) {
+    console.log("error en ruta get FaqFinish ", e.message);
   }
 });
 

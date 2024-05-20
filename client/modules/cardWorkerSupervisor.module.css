@@ -1,6 +1,8 @@
 .workerContainer{
     border-radius: 5px;
-    width: 40%;
+    /* width: 50%; */
+    flex: 0 0 auto;
+    min-width: 250px;
     text-align: center;
     padding: 5px;
     background-color: #fff;

@@ -26,7 +26,7 @@ function Dashboard() {
         
     }, []);
 
-    console.log("proyectos",project)
+    // console.log("proyectos",project)
     return (
         <div className={mainStyle.container}>
             <h1 className={mainStyle.title}>PROYECTOS</h1>

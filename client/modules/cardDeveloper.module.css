@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    margin-top: 2rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+.container h2{
+    background-color: var(--color-basani);
+    width: 120%;
+    text-align: center;
+    color: white;
+}

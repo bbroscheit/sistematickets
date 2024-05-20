@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/ticketsSupervisor.module.css";
 import Card from "@/components/Card";
@@ -8,9 +8,7 @@ import CardWorkerSupervisor from "@/components/CardWorkerSupervisor";
 
 function TicketsSupervisor() {
   const [soportes, setSoportes] = useState(null);
-  const [soportesTerminados, setSoportesTerminados] = useState(null);
   const [openSinAsignar, setOpenSinAsignar] = useState(true);
-  const [openSinCompletar, setOpenSinCompletar] = useState(true);
   const [worker , setWorker] = useState(null)
 
   useEffect(() => {
@@ -31,15 +29,6 @@ function TicketsSupervisor() {
       });
   },[]);
 
-  useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
-      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketCompletado`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSoportesTerminados(data);
-      });
-  },[]);
-
   function handleClick(e) {
     e.preventDefault();
     openSinAsignar === false
@@ -47,16 +36,10 @@ function TicketsSupervisor() {
       : setOpenSinAsignar(false);
   }
 
-  function handleClickSinCompletar(e) {
-    e.preventDefault();
-    openSinCompletar === false
-      ? setOpenSinCompletar(true)
-      : setOpenSinCompletar(false);
-  }
-
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Supervisor</h1>
+      
       <div className={style.gridContainer}>
         {soportes !== null && soportes.length > 0 ? (
           <>
@@ -68,6 +51,7 @@ function TicketsSupervisor() {
                 <KeyboardArrowUpIcon onClick={(e) => handleClick(e)} />
                 )}
             </div>
+
             {openSinAsignar === true
               ? soportes.map((e) => (
                   <React.Fragment key={e.id}>
@@ -83,6 +67,14 @@ function TicketsSupervisor() {
               : null}
           </>
         ) : null}
+
+        {/* se añade este salto de linea par ano modificar los estilos generales */}
+        <br /> 
+
+        <div className={style.supervisorTitle}>    
+                <h2>Soportes por Desarrollador</h2>
+        </div>
+
         <div className={style.cardContainer}>
             {
                 worker !== null && worker.length > 0 ? worker.map( e => <CardWorkerSupervisor worker={e.username} firstname={e.firstname} lastname={e.lastname}/>)
@@ -90,7 +82,8 @@ function TicketsSupervisor() {
             }
         </div>
       </div>
-      <div className={style.gridContainer}>
+
+      {/* <div className={style.gridContainer}>
         {soportesTerminados !== null && soportesTerminados.length > 0 ? (
           <>
             <div className={style.supervisorTitle}>    
@@ -115,9 +108,10 @@ function TicketsSupervisor() {
                 ))
               : null}
           </>
-        ) : null}
+        ) : null}  */}
         
-        </div>
+        {/* </div> */}
+
     </div>
   );
 }

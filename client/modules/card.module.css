@@ -10,8 +10,8 @@
     align-items: center;
     justify-content: center;
     box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
--moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
   }
 
 .ticketContainer .pointer{

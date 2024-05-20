@@ -144,6 +144,8 @@ function projectDetail() {
     });
   }
 
+  console.log("inputTask", data)
+
   return (
     <div className={mainStyle.container}>
       {data !== null && data.length > 0 ? (

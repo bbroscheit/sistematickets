@@ -8,8 +8,8 @@ function historicoSoportes() {
   const [soportes, setSoportes] = useState(null);
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketTerminado`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketTerminado`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketFinish`)
       .then((res) => res.json())
       .then((data) => {
         setSoportes(data);

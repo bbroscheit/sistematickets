@@ -27,13 +27,15 @@ import { updatePriority } from "../api/updatePriority";
 import { extraeFecha } from "@/functions/extraeFecha";
 import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
 import { postProveedor } from "../api/postProveedor";
+import { updateProveedor } from "../api/updateProveedor";
+import { closeProveedor } from "../api/closeProveedor";
 
 const styles = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 300,
+  width: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -59,7 +61,12 @@ function Soporte() {
   const [user, setUser] = useState(null);
   const [soporte, setSoporte] = useState(null);
   const [worker, setWorker] = useState(null);
+  const [proveedor, setProveedor] = useState(null);
   const [asignar, setAsignar] = useState({ name: "sin asignar" });
+  const [asignarProveedor, setAsignarProveedor] = useState({ 
+    name: "sin asignar",
+    description:"sin descripcion" 
+  });
   const [control, setControl] = useState(0);
   const [faq, setFaq] = useState(null);
   const [solution, setSolution] = useState({ solution: "" });
@@ -136,7 +143,18 @@ function Soporte() {
       setSoporteId(idSoporte);
       
   }, [router.query.id]);
+  
+  //trae toda la lista de proveedores
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedor`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedor`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProveedor(data);
+      });
+  }, [router.query.id])
 
+  // los siguientes effects se encargan de agrandar el textarea hasta que css permita el uso de form-sizing
   useEffect(() => {
     if (soporte !== null) {
       const textarea = document.getElementById('mi-textarea');
@@ -219,7 +237,7 @@ function Soporte() {
     setOpenPriority(false);
   }
 
-  // asigna un worker al soporte
+  // Guarda los datos para asignar un worker al soporte
   function handleAsignar(e) {
     e.preventDefault();
     setAsignar({
@@ -231,6 +249,16 @@ function Soporte() {
     });
   }
 
+  // Guarda los datos para asignar un proveedor a un ticket
+  function handleAsignarProveedor(e) {
+    e.preventDefault();
+    setAsignarProveedor({
+      ...asignarProveedor,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  // asigna prioridad a un ticket
   function handleAsignarPriority(e) {
     e.preventDefault();
     setNewPriority({
@@ -253,6 +281,31 @@ function Soporte() {
     });
   }
 
+  //guarda en el soporte la asignacion del proveedor
+  function submitAsignarProveedor(e) {
+    e.preventDefault();
+    updateProveedor(id, asignarProveedor)
+    .then(res => {
+      if (res.state === "success") {
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
+        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setSoporte(data);
+            setInputFaq({
+              title: data.subject,
+              description: data.detail,
+              answer: data.answer,
+              uresolved: false,
+              questioner: data.user ? data.user.username : "sin usuario",
+            });})
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
+  }
+
   function submitAsignarPriority(e) {
     e.preventDefault();
     updatePriority(id, newPriority);
@@ -260,7 +313,6 @@ function Soporte() {
   }
 
   // las siguientes 2 funciones abren y cierran el modal de la solucion
-
   function handleOpenSolution(e) {
     e.preventDefault();
     setOpenSolution(true);
@@ -433,7 +485,18 @@ function Soporte() {
     postProveedor(inputProveedor)
     .then(res => {
       if (res.state === "success") {
-        // window.location.reload(true);
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedor`)
+        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedor`)
+          .then((res) => res.json())
+          .then((data) => {
+        setProveedor(data);
+        });
+        setInputProveedor({
+          name: "",
+          description: "",
+          address: "",
+          zone: ""
+        })
       }
     })
     .catch(error => {
@@ -442,7 +505,25 @@ function Soporte() {
     
   }
 
-  
+  function submitCloseProveedor(e , id){
+    e.preventDefault()
+    closeProveedor(id)
+      .then(res => {
+        if (res.state === "success") {
+          fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedornote/${id}`)
+          // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedornote/${id}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setSoporte(data);
+            })
+        }
+      })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });
+  }
+
+  console.log("soporte", soporte)
 
   return (
     <>
@@ -547,11 +628,27 @@ function Soporte() {
               
               {/* si el soporte esta en desarrollo muestra el boton , sino muestra la informacion del tercero y el boton de finalizar */}
               {
-                user !== null && user.sector === "Sistemas" ?
-                  <div className={style.stateContainer}>
-                    <h3> Proveedor Externo: </h3>
-                    <button onClick={(e) => handleOpenProveedor(e)}>Agregar</button>
-                  </div> : null
+                soporte !== null && soporte.state === "Desarrollo" && soporte.proveedornote ?
+                  <div className={`${style.stateContainer} ${style.centerStateContainer}`}> 
+                    <div>
+                      <h3>{soporte.proveedornote.proveedor.name}</h3>
+                      <p>{soporte.proveedornote.description}</p>
+                    </div>
+                    <div>
+                    <p>Comienza : {extraeFecha(soporte.proveedornote.createdAt)}</p>
+                    {
+                      soporte.proveedornote.state === "Comenzado" ? <button onClick={ e => submitCloseProveedor(e , soporte.proveedornote.id)}> Cerrar </button> : <p> Terminado : {extraeFecha(soporte.proveedornote.updatedAt)}</p>
+                    }
+                    </div>
+                  </div>
+                  :
+                  soporte !== null && soporte.state === "Desarrollo" && !soporte.proveedornote ?
+                      user !== null && user.sector === "Sistemas" ?
+                        <div className={style.stateContainer}>
+                          <h3> Proveedor Externo: </h3>
+                          <button onClick={(e) => handleOpenProveedor(e)}>Agregar</button>
+                        </div> 
+                      : null : null
               }
               
               
@@ -989,21 +1086,33 @@ function Soporte() {
           >
             Elije el proveedor
           </Typography>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={asignar.name}
+          <select
+            value={asignarProveedor.name}
             className={style.modalSelect}
-            onChange={(e) => handleAsignar(e)}
+            name="name"
+            onChange={(e) => handleAsignarProveedor(e)}
           >
-            {worker !== null && worker.length > 0
-              ? worker.map((e) => (
-                  <MenuItem value={e.username} key={worker.id}>
-                    {e.username}{" "}
-                  </MenuItem>
-                ))
-              : null}
-          </Select>
+            {proveedor !== null && proveedor.length > 0
+                ? proveedor.map((e) => (
+                  <option value={e.name} key={e.id}>
+                    {e.name}{" "}
+                  </option>
+                  ))
+                : null}
+          </select>
+          <textarea
+              id="mi-textareaAnswer"
+              value={asignarProveedor.description}
+              name="description"
+              onChange={(e) => handleAsignarProveedor(e)}
+              className={style.modalTextarea}
+              style={{
+                minHeight: '120px',
+                resize: 'none',
+                overflowY: 'hidden'
+              }}
+            />
+          <div>
           <button
             onClick={(e) => {
               submitAsignarProveedor(e);
@@ -1029,10 +1138,11 @@ function Soporte() {
           >
             Cerrar
           </button>
+          </div>
         </Box>
       </Modal>   
 
-        {/* modal para solicitar informacion */}
+        {/* modal para crear proveedor */}
       <Modal
         open={openCreateProveedor}
         onClose={handleCloseCreateProveedor}
@@ -1048,10 +1158,10 @@ function Soporte() {
           >
             Ingresa el Proveedor
           </Typography>
-          <input placeholder="Ingrese Razon Social" type="text" value={inputProveedor.name} name="name" onChange={ e => handleChangeCreateProveedor(e)} />
-          <input placeholder="Ingrese Descripción" type="text" value={inputProveedor.description} name="description" onChange={ e => handleChangeCreateProveedor(e)} />
-          <input placeholder="Ingrese Dirección" type="text" value={inputProveedor.address} name="address" onChange={ e => handleChangeCreateProveedor(e)} />
-          <input placeholder="Ingrese Zona" type="text" value={inputProveedor.zone} name="zone" onChange={ e => handleChangeCreateProveedor(e)} />
+          <input placeholder="Ingrese Razon Social" type="text" value={inputProveedor.name} name="name" onChange={ e => handleChangeCreateProveedor(e)} className={style.inputModal}/>
+          <input placeholder="Ingrese Descripción" type="text" value={inputProveedor.description} name="description" onChange={ e => handleChangeCreateProveedor(e)} className={style.inputModal}/>
+          <input placeholder="Ingrese Dirección" type="text" value={inputProveedor.address} name="address" onChange={ e => handleChangeCreateProveedor(e)} className={style.inputModal}/>
+          <input placeholder="Ingrese Localidad" type="text" value={inputProveedor.zone} name="zone" onChange={ e => handleChangeCreateProveedor(e)} className={style.inputModal}/>
           <button
             onClick={(e) => {
               submitCreateProveedor(e);

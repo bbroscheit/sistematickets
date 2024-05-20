@@ -1,5 +1,9 @@
 const proveedorRouter = require("express").Router();
 const postProveedor = require('../routes/controllers/postProveedor')
+const getAllProveedor = require('../routes/controllers/getAllProveedor')
+const updateProveedor = require('../routes/controllers/updateProveedor')
+const getAllNotes = require('../routes/controllers/getAllNote')
+const closeProveedor = require ('../routes/controllers/closeProveedor')
 // const getAllUser = require("../routes/controllers/getAllUser");
 // const getUserDetail = require("../routes/controllers/getUserDetail");
 // const getAllWorker = require("../routes/controllers/getAllWorker");
@@ -9,24 +13,37 @@ const postProveedor = require('../routes/controllers/postProveedor')
 // const deleteUser = require("./controllers/deleteUser");
 
 
-proveedorRouter.get("/user", async (req, res) => {
+proveedorRouter.get("/proveedor", async (req, res) => {
   try {
-    let allUser = await getAllUser();
-    allUser ? res.status(200).json(allUser) : res.status(400).json({state:"failure"});;
+    let allProveedor = await getAllProveedor();
+    allProveedor ? res.status(200).json(allProveedor) : res.status(400).json({state:"failure"});;
   } catch (e) {
-    console.log("error en ruta get user ", e.message);
+    console.log("error en ruta get proveedor ", e.message);
   }
 });
 
-// proveedorRouter.get("/userDetail/:id", async (req, res) => {
-//   const { id } = req.params
-//     try {
-//         let userDetail = await getUserDetail(id);
-//         userDetail ? res.status(200).json(userDetail) : res.status(400).json({state:"failure"});
-//     } catch (e) {
-//         console.log( "error en ruta get userDetail" , e.message)
-//     }  
-// });
+proveedorRouter.post("/selectProveedor/:id", async (req, res) => {
+  const { id } = req.params
+    let {
+    name , description  
+  } = req.body;
+    try {
+        let proveedorAssigment = await updateProveedor(id , name , description );
+        proveedorAssigment ? res.status(200).json({state:"success"}) : res.status(400).json({state:"failure"});
+    } catch (e) {
+        console.log( "error en ruta get updateProveedor" , e.message)
+    }  
+});
+
+proveedorRouter.get("/proveedornote", async (req, res) => {
+  
+    try {
+        let allNote = await getAllNotes();
+        allNote ? res.status(200).json(allNote) : res.status(400).json({state:"failure"});
+    } catch (e) {
+        console.log( "error en ruta get proveedor note" , e.message)
+    }  
+});
 
 
 proveedorRouter.post("/proveedor", async (req, res) => {
@@ -38,51 +55,24 @@ proveedorRouter.post("/proveedor", async (req, res) => {
     let newProveedor = await postProveedor(
       name, description, address, zone
     );
-    newProveedor ? res.status(200).json({state:"sucess"}) : res.status(400).json({state:"failure"});;
+    newProveedor ? res.status(200).json({state:"success"}) : res.status(400).json({state:"failure"});;
   } catch (e) {
     console.log("error en ruta post proveedor ", e.message);
   }
 });
 
-// proveedorRouter.put("/updateUser/:id", async (req, res) => {
-//   let { id } = req.params;
-//   let {
-//     username,
-//     firstname,
-//     lastname,
-//     password,
-//     email,
-//     phonenumber,
-//     isworker = false,
-//     isprojectmanager = false,
-//     isprojectworker = false,
-//     sectorname = null,
-//     salepoint = null,
-//   } = req.body;
-
-  
-//   try {
-//     let updatedUser = await updateUser(
-//       id,
-//       username,
-//       firstname,
-//       lastname,
-//       password,
-//       email,
-//       phonenumber,
-//       isworker,
-//       isprojectmanager = false,
-//       isprojectworker,
-//       sectorname,
-//       salepoint
-//     );
-//     updatedUser
-//       ? res.status(200).json({state:"sucess"})
-//       : res.status(404).json({state:"failure"});;
-//   } catch (e) {
-//     console.log("error en ruta put user", e.message);
-//   }
-// });
+proveedorRouter.put("/proveedornote/:id", async (req, res) => {
+  let { id } = req.params;
+   
+  try {
+    let updatedUser = await closeProveedor( id );
+    updatedUser
+      ? res.status(200).json({state:"sucess"})
+      : res.status(404).json({state:"failure"});;
+  } catch (e) {
+    console.log("error en ruta proveedor note", e.message);
+  }
+});
 
 
 
