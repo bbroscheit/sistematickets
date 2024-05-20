@@ -110,9 +110,10 @@ function projectDetail() {
   }
 
   const handleSelectTask = (e) => {
+    console.log(e.target.value)
     setInputTask({
       ...inputTask,
-      idStorie: e.target.value,
+      worker: e.target.value,
     });
 
   };
@@ -144,7 +145,7 @@ function projectDetail() {
     });
   }
 
-  console.log("inputTask", data)
+  console.log("worker", worker)
 
   return (
     <div className={mainStyle.container}>
