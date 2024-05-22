@@ -4,6 +4,7 @@ import style from "@/modules/ticketsSupervisor.module.css";
 import Pending from "./supervisor/Pending";
 import Users from "./supervisor/Users";
 import Developers from "./supervisor/Developers";
+import DownloadExcelButton from "@/components/DownloadExcelButton";
 // import Card from "@/components/Card";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -58,24 +59,23 @@ function TicketsSupervisorSector() {
   //     : setOpenSinCompletar(false);
   // }
 
-  function handleClick(e){
-    e.target.innerText === "Sin Asignar" ? setState(0) : e.target.innerText === "Desarrolladores" ? setState(1) : setState(2)
-  }
+  // function handleClick(e){
+  //   e.target.innerText === "Sin Asignar" ? setState(0) : e.target.innerText === "Desarrolladores" ? setState(1) : setState(2)
+  // }
 
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Supervisor</h1>
-      <div>
+      {/* <div>
         <button onClick={ e => handleClick(e)}>Sin Asignar</button>
         <button onClick={ e => handleClick(e)}>Desarrolladores</button>
         <button onClick={ e => handleClick(e)}>Usuarios</button>
       </div>
-      <hr />
+      <hr /> */}
       <div>
-        {
-          state === 0 ? <Pending /> : state === 1 ? <Developers /> : <Users />
-        }
+        <Users />
       </div>
+      <DownloadExcelButton />
       {/* <div className={style.gridContainer}>
         {soportes !== null && soportes.length > 0 ? (
           <>

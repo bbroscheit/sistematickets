@@ -1,5 +1,7 @@
 const ticketRouter = require('express').Router()
 const { format, parseISO, isDate } = require ('date-fns');
+const fs = require('fs');
+const path = require('path');
 const getAllTicket = require('./controllers/getAllTicket');
 const getAllTicketUnfinished = require('./controllers/getAllTicketUnfinished')
 const getTicketsDesarrollo = require('./controllers/getTicketDesarrollo');
@@ -42,6 +44,11 @@ const getDetailWithoutQuestion = require('./helpers/getDetailWithoutQuestion')
 const getLastQuestion = require('./helpers/getLastQuestion')
 const getDetailOnly = require('./helpers/getOnlyDetail');
 const getTicketDeveloperCard = require('./controllers/getTicketDeveloperCard');
+const getTicketSupervisorView = require('./controllers/getTicketSupervisorView')
+const getTicketSupervisorCard = require('./controllers/getTicketSupervisorCard')
+
+const Excel = require('exceljs');
+const { Ticket, User, Sector, Salepoint } = require('../bd');
 
 
 ticketRouter.get( '/ticket' , async ( req, res ) => {
@@ -68,6 +75,15 @@ ticketRouter.get( '/ticketDeveloperView' , async ( req, res ) => {
         allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta getTicketDeveloperView" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketSupervisorView' , async ( req, res ) => {
+    try {
+        let allTicket = await getTicketSupervisorView();
+        allTicket ? res.status(200).json(allTicket) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta getTicketSupervisorView" , e.message)
     }
 })
 
@@ -168,7 +184,7 @@ ticketRouter.get( '/ticketsByWorker' , async ( req, res ) => {
 
 ticketRouter.get( '/ticketsByWorker/:workerName' , async ( req, res ) => {
     const workerName = req.params.workerName
-    console.log(workerName)
+    
     try {
         let tickets = await getTicketByWorker(workerName);
         tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
@@ -184,8 +200,19 @@ ticketRouter.get( '/ticketDeveloperView/:name' , async ( req, res ) => {
         let tickets = await getTicketDeveloperCard(workerName);
         tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
     } catch (e) {
-        console.log( "error en ruta get ticketsByWorker" , e.message)
+        console.log( "error en ruta get ticketDeveloperView/:name" , e.message)
     }
+})
+
+ticketRouter.get( '/ticketSupervisorData/:sector' , async ( req, res ) => {
+    const supervisorSector = req.query.sector
+    console.log("sector supervisor", supervisorSector)
+    // try {
+    //     let tickets = await getTicketSupervisorCard(supervisorSector);
+    //     tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
+    // } catch (e) {
+    //     console.log( "error en ruta get ticketSupervisorView/:sector" , e.message)
+    // }
 })
 
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
@@ -452,6 +479,80 @@ ticketRouter.post('/sendEmailAdvertisement', async (req, res) => {
     // Respuesta al cliente
     res.send('Soporte creado exitosamente');
   });
+
+ticketRouter.get('/download-tickets-excel', async (req, res) => {
+    try {
+        // Obtener todos los tickets de la base de datos
+        const tickets = await Ticket.findAll({ 
+                include: { 
+                    model: User, 
+                    include: { 
+                        model: Sector, 
+                        include: Salepoint 
+                    }}, 
+                    order: [['id', 'ASC']]
+                });
+
+        // Crear un nuevo workbook de Excel
+        const workbook = new Excel.Workbook();
+        const worksheet = workbook.addWorksheet('Tickets');
+
+        // Definir encabezados de columna
+        worksheet.columns = [
+            { header: 'ID', key: 'id', width: 10 },
+            { header: 'Estado', key: 'state', width: 20 },
+            { header: 'Desarrollador', key: 'worker', width: 20 },
+            { header: 'Titulo', key: 'subject', width: 20 },
+            { header: 'Detalle', key: 'detail', width: 20 },
+            { header: 'Respuesta', key: 'answer', width: 20 },
+            { header: 'Creado', key: 'createdAt', width: 20 },
+            { header: 'Asignado', key: 'randomdate', width: 20 },
+            { header: 'Comienzo', key: 'startdate', width: 20 },
+            { header: 'Completado', key: 'finishdate', width: 20 },
+            { header: 'Terminado', key: 'updatedAt', width: 20 },
+            // Agregar más columnas según las propiedades de Ticket que desees incluir en el Excel
+            { header: 'Usuario', key: 'username', width: 20 },
+            { header: 'Sector', key: 'sectorname', width: 20 }, // Agregar columna para el nombre del sector
+            { header: 'Punto de Venta', key: 'salepoint', width: 20 }, // Agregar columna para el nombre del sector
+            
+        ];
+
+        // Agregar filas para cada ticket
+        tickets.forEach(ticket => {
+            worksheet.addRow({
+                id: ticket.id,
+                state: ticket.state,
+                worker: ticket.worker,
+                subject: ticket.subject,
+                detail: ticket.detail,
+                answer: ticket.answer,
+                createdAt: ticket.createdAt,
+                randomdate: ticket.randomdate,
+                startdate: ticket.startdate,
+                finishdate: ticket.finishdate,
+                udpatedAt: ticket.updatedAt,
+                // Agregar más propiedades según las que quieras incluir en el Excel
+                username: ticket.user ? ticket.user.username : 'Usuario no disponible', // Obtener el nombre de usuario del ticket
+                sectorname: ticket.user && ticket.user.sector ? ticket.user.sector.sectorname : 'Sector no disponible', // Obtener el nombre del sector del usuario del ticket
+                salepoint: ticket.user && ticket.user.sector && ticket.user.sector.salepoint ? ticket.user.sector.salepoint.salepoint : 'Punto de venta no disponible', // Obtener el punto de venta asociado al sector del usuario del ticket
+            });
+        });
+
+        // Escribir el workbook en un stream
+        const stream = await workbook.xlsx.writeBuffer();
+
+        // Configurar encabezados para la respuesta
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=tickets.xlsx');
+
+        // Enviar el archivo Excel como respuesta
+        res.send(stream);
+    } catch (error) {
+        console.error('Error al generar el archivo Excel:', error);
+        res.status(500).send('Error al generar el archivo Excel');
+    }
+    
+});
 
 
 module.exports = ticketRouter;

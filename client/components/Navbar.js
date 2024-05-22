@@ -10,7 +10,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import Badge from "@mui/material/Badge";
 import List from "@mui/material/List";
@@ -24,10 +23,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import CircleNotificationsRoundedIcon from "@mui/icons-material/CircleNotificationsRounded";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
-import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import CreateNewFolderRoundedIcon from "@mui/icons-material/CreateNewFolderRounded";
@@ -37,12 +33,10 @@ import InputRoundedIcon from "@mui/icons-material/InputRounded";
 import LiveHelpRoundedIcon from "@mui/icons-material/LiveHelpRounded";
 import FindInPageRoundedIcon from "@mui/icons-material/FindInPageRounded";
 import LeaderboardRoundedIcon from "@mui/icons-material/LeaderboardRounded";
-import ArchiveRoundedIcon from "@mui/icons-material/ArchiveRounded";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import { Tooltip } from "@mui/material";
 import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
@@ -117,10 +111,6 @@ export default function PrimarySearchAppBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -482,88 +472,8 @@ export default function PrimarySearchAppBar() {
         )}
         <Divider />
 
-        {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
-        {/* { user !== null && user.sector === "Sistemas" ? 
-        <List>
-
-          {['Soportes',  'Faq', ' Hist. Soportes'].map((text, index) => (
-            <Link href={
-                    
-                    index === 0 ? '/Tickets' :
-                    index === 1 ? '/Faq' :
-                    index === 2 ? '/soportes/historicoSoportes': null
-                    } >
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                className={styles.listItemButton}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                  color:"#000000"
-                }}
-              >
-
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                      color:"#EA6558"
-                    }}
-                  >
-                    {
-                      index === 0 ? <InsertDriveFileRoundedIcon /> :
-                      index === 1 ? <LiveHelpRoundedIcon />: <FindInPageRoundedIcon />}
-                  </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-
-          ))}
-        </List>
         
-        : <List>
-
-        {['Soportes', 'Nuevo Soporte', ' Hist. Soportes'].map((text, index) => (
-          <Link href={
-                  user.sector === "Supervisor" && index === 0 ? 'TicketsSupervisor' :
-                  index === 0 ? '/Tickets' :
-                  index === 1 ? '/soportes/nuevoSoporte':
-                  index === 2 ? '/soportes/historicoSoportes': null
-                  } >
-          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-            
-            <ListItemButton
-              className={styles.listItemButton}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-                color:"#000000"
-              }}
-            >
-
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                    color:"#EA6558"
-                  }}
-                >
-                  {index === 0 ? <InsertDriveFileRoundedIcon /> :
-                  index === 1 ? <LiveHelpRoundedIcon />: <FindInPageRoundedIcon />}
-                </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          </Link>
-
-        ))}
-      </List>
-        } */}
+        {/* Si el usuario pertenece a sistemas se carga la barra de navegacion de sistemas ( soportes , faq e historico ) */}
         {user !== null && user.sector === "Sistemas" ? (
           <List>
             {["Soportes", "Faq", " Hist. Soportes"].map((text, index) => (
@@ -613,7 +523,10 @@ export default function PrimarySearchAppBar() {
               </Link>
             ))}
           </List>
-        ) : user !== null && user.sector === "Supervisor" ? (
+        ) : null }
+
+        {/* Si el usuario es supervisor se carga la barra de navegacion con la vista de supervisor */}
+        { user !== null && user.sector === "Supervisor" ? (
           <List>
             {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
               (text, index) => (
@@ -664,8 +577,61 @@ export default function PrimarySearchAppBar() {
               )
             )}
           </List>
-        ) : (
+        ) : null }
+
+        {/* Si el usuario pertenece a una jefatura se carga la barra de navegacion con la vista de jefatura, sino se carga la barra comun */}
+        {
+          user !== null && user.sector.includes("Jefatura") ? 
           <List>
+          {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
+            (text, index) => (
+              <Link
+                href={
+                  index === 0
+                    ? "/TicketsSupervisorSector"
+                    : index === 1
+                    ? "/soportes/nuevoSoporte"
+                    : index === 2
+                    ? "/soportes/historicoSoportes"
+                    : null
+                }
+              >
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    className={styles.listItemButton}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      color: "#000000",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "#EA6558",
+                      }}
+                    >
+                      {index === 0 ? (
+                        <InsertDriveFileRoundedIcon />
+                      ) : index === 1 ? (
+                        <LiveHelpRoundedIcon />
+                      ) : (
+                        <FindInPageRoundedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            )
+          )}
+        </List> : <List>
             {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
               (text, index) => (
                 <Link
@@ -715,7 +681,7 @@ export default function PrimarySearchAppBar() {
               )
             )}
           </List>
-        )}
+        }
 
         <Divider />
 
