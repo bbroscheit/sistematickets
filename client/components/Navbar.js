@@ -102,6 +102,7 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [login, setLogin] = React.useState(0);
+ 
 
   React.useEffect(() => {
     let userLogin = JSON.parse(localStorage.getItem("user"));
@@ -474,7 +475,8 @@ export default function PrimarySearchAppBar() {
 
         
         {/* Si el usuario pertenece a sistemas se carga la barra de navegacion de sistemas ( soportes , faq e historico ) */}
-        {user !== null && user.sector === "Sistemas" ? (
+        {user !== null && user.sector === "Sistemas" ?
+          <>
           <List>
             {["Soportes", "Faq", " Hist. Soportes"].map((text, index) => (
               <Link
@@ -523,7 +525,8 @@ export default function PrimarySearchAppBar() {
               </Link>
             ))}
           </List>
-        ) : null }
+          
+         </> : null }
 
         {/* Si el usuario es supervisor se carga la barra de navegacion con la vista de supervisor */}
         { user !== null && user.sector === "Supervisor" ? (
@@ -580,8 +583,7 @@ export default function PrimarySearchAppBar() {
         ) : null }
 
         {/* Si el usuario pertenece a una jefatura se carga la barra de navegacion con la vista de jefatura, sino se carga la barra comun */}
-        {
-          user !== null && user.sector.includes("Jefatura") ? 
+        {user !== null && user.sector.includes("Jefatura") ? (
           <List>
           {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
             (text, index) => (
@@ -631,7 +633,8 @@ export default function PrimarySearchAppBar() {
               </Link>
             )
           )}
-        </List> : <List>
+        </List>) : user!==null && user.sector !== "Sistemas" && user.sector !== "Supervisor" ?
+           <List>
             {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
               (text, index) => (
                 <Link
@@ -680,7 +683,7 @@ export default function PrimarySearchAppBar() {
                 </Link>
               )
             )}
-          </List>
+          </List> : null
         }
 
         <Divider />
