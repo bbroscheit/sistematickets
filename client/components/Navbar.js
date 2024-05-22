@@ -126,6 +126,22 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleDownload = async () => {
+    try {
+        const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/download-tickets-excel`);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'tickets.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error al descargar el archivo Excel:', error);
+    }
+};
+
   const menuId = "primary-search-account-menu";
 
   const renderMenu =
@@ -286,15 +302,16 @@ export default function PrimarySearchAppBar() {
               aria-label="show 4 new mails"
               onClick={(e) => router.push(`/phones/Phones`)}
             >
-              {/* <Badge badgeContent={4} sx={{ color:"white"}}> */}
               <Badge sx={{ color: "white" }}>
                 <HeadsetMicRoundedIcon />
               </Badge>
             </IconButton>
             </Tooltip>
+
+            {/* si el usuario es bbroscheit o Lllamanzarez muestra la vista de mesa de ayuda */}
             {user !== null &&
-            (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
-              <Tooltip title="Mesa de Ayuda">
+              (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
+                <Tooltip title="Mesa de Ayuda">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
@@ -309,6 +326,19 @@ export default function PrimarySearchAppBar() {
               </Tooltip>
             ) : null}
 
+            {/* Se crea boton para Añaños que pueda descargar el crudo de la base de datos */}
+            {user !== null && user.name === "Fañaños" ? 
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                onClick={handleDownload}
+              >
+                <Badge sx={{ color: "white" }}>
+                  <CalendarMonthRoundedIcon />
+                </Badge>
+              </IconButton> : null
+            }
+            
             {/* <IconButton
               size="large"
               edge="end"
@@ -688,6 +718,7 @@ export default function PrimarySearchAppBar() {
 
         <Divider />
 
+        {/* Si el usuario puede cargar desarrollos */}
         {user !== null ? (
           user.isprojectmanager === true || user.isprojectworker === true ? (
             <List>
@@ -731,6 +762,7 @@ export default function PrimarySearchAppBar() {
 
         <Divider />
 
+        {/* Si el usuario puede ver el dashboard*/}
         {user !== null ? (
           user.isprojectmanager === true || user.isprojectworker === true ? (
             <List>
@@ -774,6 +806,7 @@ export default function PrimarySearchAppBar() {
 
         <Divider />
 
+        {/* Si el usuario esta conectado permite desconectar */}
         {user !== null ? (
           <List>
             {["Desconectar"].map((text, index) => (
