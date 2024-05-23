@@ -3,10 +3,10 @@ export default function getFileName(data) {
     let activity = data.map(e => e.USERID.trim())
     
     let usuariosObligatorios = [
-        "azepeda",
-        "PimentelAN",
-        "ii",
-        "igonzalez"
+        "ROSARIO1",
+        "CHILE1",
+        "FACTURACION1",
+        
       ];
     let usuarios = []
     let flag = 0

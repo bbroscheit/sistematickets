@@ -46,6 +46,7 @@ const getDetailOnly = require('./helpers/getOnlyDetail');
 const getTicketDeveloperCard = require('./controllers/getTicketDeveloperCard');
 const getTicketSupervisorView = require('./controllers/getTicketSupervisorView')
 const getTicketSupervisorCard = require('./controllers/getTicketSupervisorCard')
+const getTicketByUser = require('./controllers/getTicketByUser')
 
 const Excel = require('exceljs');
 const { Ticket, User, Sector, Salepoint } = require('../bd');
@@ -176,7 +177,18 @@ ticketRouter.get( '/ticketsByWorker' , async ( req, res ) => {
     
     try {
         let tickets = await getTicketByWorker(workerName);
-        tickets ? res.status(200).json(tickets) : res.status(400).send("failure")
+        tickets ? res.status(200).json(tickets) : res.status(400).json({ state:"failure" })
+    } catch (e) {
+        console.log( "error en ruta get ticketsByWorker" , e.message)
+    }
+})
+
+ticketRouter.get( '/ticketsByUser' , async ( req, res ) => {
+    const username = req.query.username
+    
+    try {
+        let tickets = await getTicketByUser(username);
+        tickets ? res.status(200).json(tickets) : res.status(400).json({ state:"failure" })
     } catch (e) {
         console.log( "error en ruta get ticketsByWorker" , e.message)
     }

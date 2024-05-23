@@ -12,8 +12,6 @@ function TicketsSupervisorSector() {
     setUser(loginParse);
   }, []);
 
-  console.log(user)
-   
   return (
     <div className={mainStyle.container}>
       {

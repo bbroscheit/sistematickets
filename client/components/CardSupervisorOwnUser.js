@@ -3,7 +3,7 @@ import style from '@/modules/cardSupervisorUers.module.css';
 import CardTicketUser from './CardTicketUser';
 import soportesFiltradosPorUsuarios from '@/functions/soportesFiltradosPorUsuarios';
 
-function CardSupervisorUsers({soportes, usuario}) {
+function CardSupervisorOwnUser({soportes, usuario}) {
     const [soporteFiltrado, setSoporteFiltrado ] = useState(soportesFiltradosPorUsuarios(soportes, usuario))
 
   return (
@@ -19,4 +19,4 @@ function CardSupervisorUsers({soportes, usuario}) {
   )
 }
 
-export default CardSupervisorUsers
+export default CardSupervisorOwnUser
