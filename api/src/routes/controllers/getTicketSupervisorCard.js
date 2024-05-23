@@ -2,26 +2,26 @@ const { Ticket, User, Sector } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
 const getTicketSupervisorCard = async (supervisorSector) => {
-    console.log(supervisorSector)
+    
     let sector = ""
 
     switch (supervisorSector) {
-        case "Jefatura de facturacion":
+        case "Jefatura de Facturacion":
                 sector = "Facturacion"
             break;
-        case "Jefatura de contabilidad":
+        case "Jefatura de Contabilidad":
                 sector = "Contabilidad"
             break;
-        case "Jefatura de cobranzas":
+        case "Jefatura de Cobranzas":
                 sector = "Cobranzas"
             break;
-        case "Jefatura de tesoreria":
+        case "Jefatura de Tesoreria":
                 sector = "Tesoreria"
             break;
-        case "Jefatura de emprendimientos":
+        case "Jefatura de Emprendimientos":
                 sector = "Emprendimientos"
             break;
-        case "Jefatura de compras":
+        case "Jefatura de Compras":
                 sector = "Compras"
             break;
         default:
@@ -29,25 +29,25 @@ const getTicketSupervisorCard = async (supervisorSector) => {
     }
 
     try{
-        // let getTickets = await Ticket.findAll({
-        //     include:[{
-        //         model:User,
-        //         include:[{ 
-        //                 model: Sector,
-        //                 where:{ sectorname : sector}
-        //             }]
-        //     }],
-        //     where:{
-        //         state:{
-        //             [Sequelize.Op.not]: "Terminado"
-        //         }
-        //     },
-        //     order:[['state', 'ASC']]
-        // });
+        
+        let getTickets = await Ticket.findAll({
+            include: [{
+                model: User,
+                required: true, 
+                include: [{
+                    model: Sector,
+                    where: { sectorname: sector }
+                }]
+            }],
+            where: {
+                state: {
+                    [Sequelize.Op.not]: "Terminado"
+                }
+            },
+            order: [['state', 'ASC']]
+        });
 
-        console.log("sector", sector)
-        console.log("soportes", getTickets)
-        // return getTickets;
+        return getTickets;
     }catch(e){
         console.log( "error en controller getTicketSupervisorCard" , e.message)
     }

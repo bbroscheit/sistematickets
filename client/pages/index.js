@@ -70,15 +70,14 @@ export default function Home() {
         sector: login.sector.sectorname
       }
       localStorage.setItem('user', JSON.stringify(user));
-
-      if (login.sector.sectorname === "Supervisor"){
-          
+      let sector = login.sector.sectorname
+      
+      if (sector === "Supervisor"){
           Router.push("/TicketsSupervisor")
-          
-      }else{
-       
-        Router.push("/Tickets")
+        }else if(sector.includes("Jefatura")){ Router.push("/TicketsSupervisorSector") } else {
+          Router.push("/Tickets")
       }
+
     }else{
       setErrorLogin({ state: true });
     }

@@ -6,7 +6,7 @@ const deleteSector = require('./controllers/deleteSector');
 sectorRouter.get('/sector', async ( req,res) => {
     try {
         let allSector = await getAllSector();
-        allSector ? res.status(200).json(allSector) : res.status(404).send("failure")
+        allSector ? res.status(200).json(allSector) : res.status(404).json({ state : "failure" })
     } catch (e) {
         console.log("error en ruta get sector", e.message)
     }

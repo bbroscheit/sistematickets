@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import CardTicketDeveloper from './CardTicketDeveloper';
-import style from '@/modules/cardDeveloper.module.css';
+import style from '@/modules/cardSupervisorUers.module.css';
 import CardTicketUser from './CardTicketUser';
+import arrayUser from '@/functions/arrayUser';
+import soportesFiltradosPorUsuarios from '@/functions/soportesFiltradosPorUsuarios';
 
-function CardSupervisorUsers({sector}) {
-    const [soporte, setSoporte] = useState(null)
-    const [ supervisorSector, setSupervisorSector ] = useState(null)
+function CardSupervisorUsers({soportes, usuario}) {
+    const [soporte, setSoporte] = useState(soportes)
+    const [user, setUser] = useState(usuario)
+    const [soporteFiltrado, setSoporteFiltrado ] = useState(soportesFiltradosPorUsuarios(soportes, usuario))
 
-  useEffect(() => {
-    let userLogin = localStorage.getItem("user");
-    let loginParse = JSON.parse(userLogin);
-    setSupervisorSector(loginParse.sector);
-  }, []);
-
-    useEffect(() => {
-        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSupervisorData?sector=${sector}`)
-          // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSupervisorView?sector=${sector}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setSoporte(data);
-            
-          });
-    },[]);
-    
-    console.log("sectorSUpervisorUser", sector)
-    console.log("soporteSupervisorUser", soporte)
   return (
     <div className={style.container}>
-        <h2>{sector}</h2>
-        {/* {
-            soporte && soporte.length > 0 ?
-                soporte.map( e => <CardTicketUser id={e.id} state={e.state} subject={e.subject} user={e.worker}/>) : null
-        } */}
+        <h2>{usuario}</h2>
+        {
+            soporteFiltrado && soporteFiltrado.length > 0 ?
+                soporteFiltrado.map( e => <CardTicketUser id={e.id} state={e.state} subject={e.subject} worker={e.worker}/>) : null
+        }
 
         
     </div>

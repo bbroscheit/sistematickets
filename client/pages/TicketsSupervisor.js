@@ -82,36 +82,6 @@ function TicketsSupervisor() {
             }
         </div>
       </div>
-
-      {/* <div className={style.gridContainer}>
-        {soportesTerminados !== null && soportesTerminados.length > 0 ? (
-          <>
-            <div className={style.supervisorTitle}>    
-                <h2>Soportes pendientes de cierre</h2>
-                {openSinCompletar === false ? (
-                <KeyboardArrowDownIcon onClick={(e) => handleClickSinCompletar(e)} />
-                    ) : (
-                <KeyboardArrowUpIcon onClick={(e) => handleClickSinCompletar(e)} />
-                )}
-            </div>
-            {openSinCompletar === true
-              ? soportesTerminados.map((e) => (
-                  <React.Fragment key={e.id}>
-                    <Card
-                      key={e.id}
-                      id={e.id}
-                      subject={e.subject}
-                      state={e.state}
-                      created={e.created}
-                    />
-                  </React.Fragment>
-                ))
-              : null}
-          </>
-        ) : null}  */}
-        
-        {/* </div> */}
-
     </div>
   );
 }

@@ -10,7 +10,12 @@ const getAllSector = async() => {
             }
         })
 
-        allSector.sort((a , b) => { return a.sectorname - b.sectorname })
+        allSector.sort((a, b) => {
+            // Ordenar por el nombre del sector de forma ascendente
+            if (a.sectorname < b.sectorname) return -1;
+            if (a.sectorname > b.sectorname) return 1;
+            return 0;
+        });
 
         return allSector;
     }catch(e){

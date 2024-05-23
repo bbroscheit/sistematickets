@@ -33,6 +33,7 @@ function Soporte() {
   const [sector, setSector] = useState(null);
   const [salepoint, setSalepoint] = useState(null);
   const [modify, setModify] = useState(false);
+  const [error, setError] = useState("");
   const [input, setInput] = useState({
   username: "",
   password: "",
@@ -46,8 +47,10 @@ function Soporte() {
   sectorname: "",
   salepoint: "",
 });
-const [error, setError] = useState("");
+  
 
+
+  // Trae el detalle del usuario
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
@@ -70,12 +73,23 @@ const [error, setError] = useState("");
         });
   }, [router.query.id]);
 
+  // Trae todos los puntos de ventas ( Buenos Aires - Rosario - etc )
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
       .then((res) => res.json())
       .then((data) => {
         setSalepoint(data);
+      });
+  }, []);
+
+   // Trae todos los sectores ( Administracion - Contabilidad . etc )
+   useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSector(data);
       });
   }, []);
 
@@ -124,16 +138,6 @@ const [error, setError] = useState("");
     setTimeout(() => {
       router.push("/usuarios");
     }, 300);
-  }
-
-  // abre y cierra el modal del borrado del usuario
-  function handleOpen(e) {
-    e.preventDefault();
-    setOpen(true);
-  }
-
-  function handleClose() {
-    setOpen(false);
   }
 
   function handleChange(e) {
@@ -199,8 +203,18 @@ const [error, setError] = useState("");
     setOpenChange(false);
   }
 
-  // console.log("id id", id)
-  // console.log("user", user)
+  // abre y cierra el modal del borrado del usuario
+
+  function handleOpen(e) {
+    e.preventDefault();
+    setOpen(true);
+  }
+  
+  function handleClose() {
+    setOpen(false);
+  }
+
+  console.log("input", input)
 
   return (
     <>
@@ -334,6 +348,7 @@ const [error, setError] = useState("");
               ))}
           </select>
         </div>
+
         <div className={mainStyles.minimalGrid}>
           <h3 className={mainStyles.subtitle}>Sector</h3>
           <select className={mainStyles.select} value={input.sectorname} name="sectorname" onChange={e => handleChange(e)} disabled= {modify === false ? true : false}>
@@ -345,7 +360,7 @@ const [error, setError] = useState("");
             
           </select>
         </div>
-
+        
         <div className={style.buttonContainer}>
           { modify === false ? 
           <button className={mainStyles.button} onClick={ e => handleModify(e)}>
