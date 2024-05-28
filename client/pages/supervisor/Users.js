@@ -45,7 +45,7 @@ function Users() {
         ownUser !== null && ownUser.length > 0 ? ownUser.map( e => <CardSupervisorUsers soportes={ownSoporte} usuario={e} />) : null
       }
       {
-        usuarios !== null && usuarios.length > 0 ? usuarios.map( e => <CardSupervisorUsers soportes={soporte} usuario = { e }/> ): <h3>No hay usuarios con tickets activos</h3>
+        usuarios !== null && usuarios.length > 0 ? usuarios.map( e => <CardSupervisorUsers soportes={soporte} usuario = { e } key={e}/> ): <h3>No hay usuarios con tickets activos</h3>
       }
       
     </div>

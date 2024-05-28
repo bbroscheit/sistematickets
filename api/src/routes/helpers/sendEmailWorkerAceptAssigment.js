@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const nodemailer = require("nodemailer");
-const { LOCALHOST, PORTFRONT } = process.env;
+const { LOCALHOST, PORTFRONT, MAIL_USER, MAIL_PASS } = process.env;
 
 // Configuración del transporter (SMTP)
 const transporter = nodemailer.createTransport({
@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: "mesadeayuda@basani.com.ar",
-    pass: "Aduy7024$",
+    user: MAIL_USER,
+    pass: MAIL_PASS,
   },
 });
 
@@ -25,7 +25,7 @@ const sendEmailWorkerAceptAssigment = async (
     const info = await transporter.sendMail({
       from: "mesadeayuda@basani.com.ar",
       to: useremailFind,
-      subject: `Ha comenzado el desarrollo de tu soporte N° ${ticket.id}`,
+      subject: `${workerFind[0].firstname} ${workerFind[0].lastname} ha comenzado el desarrollo de tu soporte N° ${ticket.id}`,
       html: `
         <p>Buenos días,</p>
         <p>El desarrollador ${workerFind[0].firstname} ${workerFind[0].lastname} ha comenzado a solucionar el soporte N° <strong> ${ticket.id}</strong> </p>

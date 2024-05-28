@@ -4,7 +4,7 @@ import { incialParaDesarrollador } from '@/functions/incialParaDesarrollador'
 import { devuelveInicial } from '@/functions/devuelveInicial'
 import { Tooltip } from '@mui/material'
 
-function CardTicketUser({id , state , subject , worker}) {
+function CardTicketUser({id , state , subject , worker, key}) {
   const [textPosition, setTextPosition] = useState(0);
   const intervalRef = useRef(null);
 
@@ -20,7 +20,7 @@ function CardTicketUser({id , state , subject , worker}) {
   }
 
   return (
-    <div className={style.container}>
+    <div className={style.container} key={key}>
         <div className={style.firstLine}>
             <h4 >T {id}</h4>
             <div className={style.divEstados}>

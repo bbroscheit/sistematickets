@@ -285,7 +285,7 @@ ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
     
     try {
         let acepted = await assigmentAcepted(id)
-        acepted ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
+        acepted ? res.status(200).json({state: "success"}) : res.status(400).json({state:"failure"})
     } catch (e) {
         console.log( "error en ruta put assigmentAcepted" , e.message)
     }

@@ -1,28 +1,30 @@
 // const { User, Sector } = require("../../bd");
 const nodemailer = require("nodemailer");
 
+const { MAIL_USER, MAIL_PASS } = process.env
+
 // Configuración del transporter (SMTP)
 const transporter = nodemailer.createTransport({
   host: "mail.basani.com.ar",
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: "mesadeayuda@basani.com.ar",
-    pass: "Aduy7024$",
+    user: MAIL_USER,
+    pass: MAIL_PASS,
   },
 });
 
 // Función para enviar correo electrónico
 const sendEmailNewTicket = async (findTicket) => {
   try {
-    
+      
       const info = await transporter.sendMail({
         from: 'mesadeayuda@basani.com.ar',
         to: "bernardo.broscheit@basani.com.ar",
-        subject: `Se ha creado el soporte N° ${findTicket.id}`,
+        subject: `${findTicket.user.firstname} ${findTicket.user.lastname} ha creado el soporte N° ${findTicket.id}`,
         html: `
           <p>Buenos días,</p>
-          <p>El usuario ${findTicket.user[0].firstname} ${findTicket.user[0].lastname} ha creado el soporte N° <strong> ${findTicket.id}</strong> </p>
+          <p>El usuario ${findTicket.user.firstname} ${findTicket.user.lastname} ha creado el soporte N° <strong> ${findTicket.id}</strong> </p>
           <p>Título : <strong> ${findTicket.subject}</strong> </p>
           <p>Detalle : <strong> ${findTicket.detail}</strong> </p>
           <div style="text-align: center;">

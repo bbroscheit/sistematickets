@@ -1,14 +1,16 @@
 const { User, Ticket } = require("../../bd");
 const nodemailer = require("nodemailer");
 
+const { MAIL_USER, MAIL_PASS} = process.env
+
 // Configuración del transporter (SMTP)
 const transporter = nodemailer.createTransport({
   host: "mail.basani.com.ar",
   port: 465,
   secure: true, // true para 465, false para otros puertos
   auth: {
-    user: "mesadeayuda@basani.com.ar",
-    pass: "Aduy7024$",
+    user: MAIL_USER,
+    pass: MAIL_PASS,
   },
 });
 
