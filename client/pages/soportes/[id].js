@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import style from "../../modules/detail.module.css";
 import mainStyle from "@/styles/Home.module.css";
+import Swal from "sweetalert2";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
@@ -9,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import { updateWorker } from "../api/updateWorker";
 import { updateSolutionTicket } from "../api/updateSolutionTicket";
 import { postFaq } from "../api/postFaq";
@@ -29,6 +31,7 @@ import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
 import { postProveedor } from "../api/postProveedor";
 import { updateProveedor } from "../api/updateProveedor";
 import { closeProveedor } from "../api/closeProveedor";
+import { updateReasignar } from "../api/updateReasignar";
 
 const styles = {
   position: "absolute",
@@ -54,7 +57,9 @@ function Soporte() {
   const [openInfo, setOpenInfo] = useState(false);
   const [openInfoUser, setOpenInfoUser] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openChangeWorker, setOpenChangeWorker] = useState(false);
   const [openCreateProveedor, setOpenCreateProveedor] = useState(false);
+  const [openWorkernote, setOpenWorkernote] = useState(false);
   const [openProveedor, setOpenProveedor] = useState(false);
   const [openPriority, setOpenPriority] = useState(false);
   const [newPriority, setNewPriority] = useState({ name: "sin asignar" });
@@ -66,6 +71,10 @@ function Soporte() {
   const [asignarProveedor, setAsignarProveedor] = useState({ 
     name: "sin asignar",
     description:"sin descripcion" 
+  });
+  const [reasignarWorker, setReasignarWorker] = useState({ 
+    name: "sin asignar",
+    description:"Agrega un motivo" 
   });
   const [control, setControl] = useState(0);
   const [faq, setFaq] = useState(null);
@@ -208,6 +217,7 @@ function Soporte() {
     setOpenProveedor(false);
   }
 
+  // abre el modal para seleccionar un worker al soporte
   function handleOpen(e) {
     e.preventDefault();
     setOpen(true);
@@ -215,6 +225,26 @@ function Soporte() {
 
   function handleClose() {
     setOpen(false);
+  }
+
+    // abre el modal para ver los mensajes de re asignacion de soportes
+    function handleOpenWorkernote(e) {
+      e.preventDefault();
+      setOpenWorkernote(true);
+    }
+  
+    function handleCloseWorkernote() {
+      setOpenWorkernote(false);
+    }
+
+  // abre el modal para cambiar al worker del soporte
+  function handleOpenChangeWorker(e) {
+    e.preventDefault();
+    setOpenChangeWorker(true);
+  }
+
+  function handleCloseChangeWorker() {
+    setOpenChangeWorker(false);
   }
 
   // abre el modal de creacion de proveedor
@@ -227,6 +257,7 @@ function Soporte() {
     setOpenCreateProveedor(false);
   }
 
+  // abre el modal de asignacion de prioridad
   function handleOpenPriority(e) {
     e.preventDefault();
     setOpenPriority(true);
@@ -258,6 +289,15 @@ function Soporte() {
     });
   }
 
+  // Guarda los datos para re-asignar un worker a un ticket
+  function handleReasignarWorker(e) {
+    e.preventDefault();
+    setReasignarWorker({
+      ...reasignarWorker,
+      [e.target.name]: e.target.value,
+    });
+  }
+
   // asigna prioridad a un ticket
   function handleAsignarPriority(e) {
     e.preventDefault();
@@ -280,6 +320,20 @@ function Soporte() {
       console.error("Error al enviar el formulario:", error);
     });
   }
+
+    //guarda en el soporte la re-asignacion del desarrollador
+    function submitReasignar(e) {
+      e.preventDefault();
+      updateReasignar(id, reasignarWorker)
+      .then(res => {
+        if (res.state === "success") {
+          window.location.reload(true);
+        }
+      })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });
+    }
 
   //guarda en el soporte la asignacion del proveedor
   function submitAsignarProveedor(e) {
@@ -508,22 +562,22 @@ function Soporte() {
   function submitCloseProveedor(e , id){
     e.preventDefault()
     closeProveedor(id)
-      .then(res => {
+    .then(res => {
         if (res.state === "success") {
-          fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedornote/${id}`)
-          // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedornote/${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-              setSoporte(data);
-            })
-        }
+            Swal.fire(({
+              icon: "success",
+              title: "Cerraste la tarea del proveedor",
+              showConfirmButton: false,
+              timer: 1500
+            }));
+   
+
+         }
       })
       .catch(error => {
         console.error("Error al enviar el formulario:", error);
       });
   }
-
-  console.log("soporte", soporte)
 
   return (
     <>
@@ -556,56 +610,36 @@ function Soporte() {
                       {soporte.user.firstname} {soporte.user.lastname}
                     </p>
                   </div>
-                  {user !== null && user.sector !== "Sistemas" ? (
+
+                  {/* Vista de desarrollador si el usuario es de sistemas o supervisor */}
+                   {user !== null && ( user.sector === "Sistemas" || user.sector === "Supervisor")?
                     <div className={style.stateContainer}>
-                      
+                      <h3> Asignado a : </h3> <p>{soporte.worker}</p>
+                      {
+                        soporte.state === "sin asignar" ? 
+                        <button onClick={(e) => { handleOpen(e) }}> Cambiar </button>  
+                        : null
+                      }
+
+                      {
+                        soporte.state !== "Terminado" && soporte.state !== "Completado" && soporte.state !== "sin asignar"? 
+                          <button onClick={(e) => { handleOpenChangeWorker(e) }}> Cambiar </button>  
+                          : null
+                      } 
+                      {
+                        soporte && soporte.workernote ?
+                        <div className={style.workernote} onClick={handleOpenWorkernote}><AssignmentRoundedIcon /></div>
+                      : null
+                  }
+                    </div>: 
+                    <div className={style.stateContainer}>
                         <h3> Asignado a : </h3> <p>{soporte.worker}</p>
-                      
-                      {user.name === "Administrador" &&
-                      soporte.state !== "Terminado" ? (
-                        <button
-                          onClick={(e) => {
-                            handleOpen(e);
-                          }}
-                        >
-                          {" "}
-                          Cambiar{" "}
-                        </button>
-                      ) : null}
-                    </div>
-                  ) : (
-                    <div className={style.stateContainer}>
-                      <h3>Asignado a : </h3>
-                      <p>{soporte.worker}</p>
-                      {soporte.state !== "Terminado" ? (
-                        <button
-                          onClick={(e) => {
-                            handleOpen(e);
-                          }}
-                        >
-                          {" "}
-                          Modificar{" "}
-                        </button>
-                      ) : null}
-                    </div>
-                  )}
-
-                  {user !== null && user.sector === "Supervisor" ? (
-                    <div className={style.stateContainer}>
-                      {soporte !== null &&
-                      soporte.state !== "Terminado" ? (
-                        <button
-                          onClick={(e) => {
-                            handleOpen(e);
-                          }}
-                        >
-                          {" "}
-                          Cambiar{" "}
-                        </button>
-                      ) : null}
-                    </div>
-                  ) : null}
-
+                    </div> 
+                    }
+                  {/* Vamos a crear un icono si existe una nota en el ticket y al clickear se abre un modal que muestra el detalle */}
+                 
+                 
+                  {/* Sector de cambio de prioridad */}
                   {user !== null && user.sector === "Sistemas" ? (
                     <div className={style.stateContainer}>
                       <h3> Prioridad : </h3> <p>{soporte.priority}</p>
@@ -629,15 +663,17 @@ function Soporte() {
               {/* si el soporte esta en desarrollo muestra el boton , sino muestra la informacion del tercero y el boton de finalizar */}
               {
                 soporte !== null && soporte.state === "Desarrollo" && soporte.proveedornote ?
-                  <div className={`${style.stateContainer} ${style.centerStateContainer}`}> 
+                  <div className={style.centerStateContainer}> 
                     <div>
                       <h3>{soporte.proveedornote.proveedor.name}</h3>
                       <p>{soporte.proveedornote.description}</p>
                     </div>
-                    <div>
+                    <div className={style.centerStateContainerDates}>
                     <p>Comienza : {extraeFecha(soporte.proveedornote.createdAt)}</p>
                     {
-                      soporte.proveedornote.state === "Comenzado" ? <button onClick={ e => submitCloseProveedor(e , soporte.proveedornote.id)}> Cerrar </button> : <p> Terminado : {extraeFecha(soporte.proveedornote.updatedAt)}</p>
+                      soporte.proveedornote.state === "Comenzado" ? 
+                        <button onClick={ e => submitCloseProveedor(e , soporte.proveedornote.id)}> Cerrar </button> : 
+                          <p> Terminado : {extraeFecha(soporte.proveedornote.updatedAt)}</p>
                     }
                     </div>
                   </div>
@@ -650,8 +686,28 @@ function Soporte() {
                         </div> 
                       : null : null
               }
-              
-              
+
+              {/* si el soporte esta terminado o completado , solo muestra la informacion del proveedor */}
+              {
+                soporte !== null && (soporte.state === "Terminado" || soporte.state === "Completado")&& soporte.proveedornote ?
+                  <div className={style.centerStateContainer}> 
+                    <div>
+                      <h3>{soporte.proveedornote.proveedor.name}</h3>
+                      <p>{soporte.proveedornote.description}</p>
+                    </div>
+                    <div className={style.centerStateContainerDates}>
+                    <p>Comienza : {extraeFecha(soporte.proveedornote.createdAt)}</p>
+                    {
+                      soporte.proveedornote.state === "Comenzado" ? 
+                        <button className={mainStyle.button} onClick={ e => submitCloseProveedor(e , soporte.proveedornote.id)}> Cerrar </button> : 
+                          <p> Terminado : {extraeFecha(soporte.proveedornote.updatedAt)}</p>
+                    }
+                    </div>
+                  </div>
+                  :
+                  null
+              }
+                         
               <div className={style.form}>
                                 
                 <div>
@@ -826,7 +882,7 @@ function Soporte() {
         )}
       </div>
 
-          {/* modal asignacion de soporte */}
+          {/* modal asignacion de worker de soporte */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -866,6 +922,77 @@ function Soporte() {
           >
             Asignar
           </button>
+        </Box>
+      </Modal>
+
+          {/* modal cambio de worker en soporte */}
+      <Modal
+        open={openChangeWorker}
+        onClose={handleCloseChangeWorker}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styles}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className={style.modalTitle}
+
+          >
+            ¿ A quien deseas Re-asignarle el soporte?
+          </Typography>
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={reasignarWorker.name}
+            className={style.modalSelect}
+            name="name"
+            onChange={(e) => handleReasignarWorker(e)}
+          >
+            {worker !== null && worker.length > 0
+              ? worker.map((e) => (
+                  <MenuItem value={e.username} key={worker.id}>
+                    {e.username}{" "}
+                  </MenuItem>
+                ))
+              : null}
+          </Select>
+          < textarea name="description" value={reasignarWorker.description} onChange={handleReasignarWorker}/>    
+
+          <button
+            onClick={(e) => {
+              submitReasignar(e);
+              handleCloseChangeWorker();
+            }}
+            className={style.modalButton}
+          >
+            Asignar
+          </button>
+        </Box>
+      </Modal>
+
+      {/* modal para ver los mensajes de reasignacion */}
+      <Modal
+        open={openWorkernote}
+        onClose={handleCloseWorkernote}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styles}>
+          {soporte !== null && soporte.workernote ? (
+            <textarea
+              id="mi-textareaInfo"    
+              className={style.modalTextarea}
+              style={{
+                minHeight: '120px',
+                resize: 'none',
+                overflowY: 'hidden'
+              }}
+            >
+              {soporte.workernote.description}
+            </textarea>
+          ) : null}
         </Box>
       </Modal>
 
@@ -1172,7 +1299,9 @@ function Soporte() {
             Aceptar
           </button>
         </Box>
-      </Modal>   
+      </Modal>
+
+
 
     </>
   );

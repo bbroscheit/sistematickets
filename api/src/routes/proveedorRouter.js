@@ -67,7 +67,7 @@ proveedorRouter.put("/proveedornote/:id", async (req, res) => {
   try {
     let updatedUser = await closeProveedor( id );
     updatedUser
-      ? res.status(200).json({state:"sucess"})
+      ? res.status(200).json({state:"success"})
       : res.status(404).json({state:"failure"});;
   } catch (e) {
     console.log("error en ruta proveedor note", e.message);

@@ -1,4 +1,4 @@
-const { Ticket, User, Proveedornote, Proveedor } = require('../../bd');
+const { Ticket, User, Proveedornote, Proveedor, Workernote } = require('../../bd');
 
 const getTicketDetail = async (id) => {
     
@@ -16,7 +16,12 @@ const getTicketDetail = async (id) => {
                     model: Proveedor,
                     attribute:["name"]
                 }] 
-            }]
+            },
+            {
+                model:Workernote,
+                required : false
+            }
+            ]
         });
         return ticketDetail;
     } catch (e) {

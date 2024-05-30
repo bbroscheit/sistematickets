@@ -47,6 +47,7 @@ const getTicketDeveloperCard = require('./controllers/getTicketDeveloperCard');
 const getTicketSupervisorView = require('./controllers/getTicketSupervisorView')
 const getTicketSupervisorCard = require('./controllers/getTicketSupervisorCard')
 const getTicketByUser = require('./controllers/getTicketByUser')
+const reassigmentAcepted = require('./controllers/reassigmentAcepted')
 
 const Excel = require('exceljs');
 const { Ticket, User, Sector, Salepoint } = require('../bd');
@@ -262,6 +263,20 @@ ticketRouter.put( '/updateAssignment/:id' , async ( req, res ) => {
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateAssignment" , e.message)
+    }
+
+})
+
+ticketRouter.put( '/updatereassignment/:id' , async ( req, res ) => {
+    const { id } = req.params
+    const { name } = req.body
+    const { description } = req.body
+    
+    try {
+        let updatedTicket = await reassigmentAcepted(id , name, description)
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta put /updatereassignment/:id" , e.message)
     }
 
 })

@@ -19,7 +19,7 @@ const updateProveedor = async ( id , name, description ) => {
 
         let newNote = await Proveedornote.create({
             description: description,
-            state:"comenzado"
+            state:"Comenzado"
         })
 
         await newNote.setProveedor(proveedor)
