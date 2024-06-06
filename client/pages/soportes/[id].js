@@ -224,7 +224,6 @@ function Soporte() {
     }
   }, [reasignarWorker.description]);
 
-
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpenProveedor(e) {
     e.preventDefault();
@@ -344,7 +343,7 @@ function Soporte() {
   }
 
     //guarda en el soporte la re-asignacion del desarrollador
-    function submitReasignar(e) {
+  function submitReasignar(e) {
       e.preventDefault();
       updateReasignar(id, reasignarWorker)
       .then(res => {
@@ -355,7 +354,7 @@ function Soporte() {
       .catch(error => {
         console.error("Error al enviar el formulario:", error);
       });
-    }
+  }
 
   //guarda en el soporte la asignacion del proveedor
   function submitAsignarProveedor(e) {
@@ -1091,12 +1090,12 @@ function Soporte() {
         <Box sx={styles}>
           {soporte !== null && soporte.workernote ? (
             <textarea
-              id="mi-textareaInfo"    
+              id="mi-textareaInfoAsigment"    
               className={style.modalTextarea}
               style={{
-                minHeight: '120px',
-                resize: 'none',
-                overflowY: 'hidden'
+                height:'200px',
+                
+                
               }}
             >
               {soporte.workernote.description}
