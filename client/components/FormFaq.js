@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import Swal from 'sweetalert2'
 import Router from "next/router";
 import styles from '@/modules/formFaq.module.css'
+import styleDetail from '@/modules/detail.module.css'
 import mainStyle from "@/styles/Home.module.css";
 import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
 import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
@@ -34,8 +35,6 @@ const style = {
 function FormFaq({ id, title, description, answer, uresolved, user, useremail }) {
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado
-  const [email, setEmail] = useState({ email: "" })
-    
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: "sin asignar",
@@ -60,6 +59,17 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
       email: loginParse.email
     })
   }, []);
+
+  // agranda el textarea de acuerdo al texto ingresado
+  useEffect(() => {
+    
+      const textarea = document.getElementById('mi-textarea');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    
+  }, [input.detail]);
 
     function handleOpen(e) {
         e.preventDefault();
@@ -183,6 +193,12 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
                 rows="10"
                 value={input.detail}
                 onChange={(e) => handleTextarea(e)}
+                style={{
+                  minHeight: '120px',
+                  resize: 'none',
+                  overflowY: 'hidden'
+                }}
+                className={styleDetail.modalTextarea}
               />
               
               <div className={styles.buttonContainerNormal}>
@@ -222,9 +238,11 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
               <textarea
                 readOnly
                 value={input.detail}
-                onChange={(e) => handleTextarea(e)}
-                rows="10"
-              />
+                style={{
+                  minHeight: '120px',
+                  resize: 'none',
+                  overflowY: 'hidden'
+                }}              />
               <div>
                 <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
                 <input
@@ -253,9 +271,15 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
             <div className={mainStyle.labelWithTextarea}>
               <h3 className={mainStyle.subtitle}>Agrega mas datos : </h3>
               <textarea
+                id="mi-textarea"
                 value={input.detail}
                 onChange={(e) => handleTextarea(e)}
-                rows="10"
+                style={{
+                  minHeight: '120px',
+                  resize: 'none',
+                  overflowY: 'hidden'
+                }}
+                className={styleDetail.modalTextarea}
               />
               <div>
               <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
@@ -306,7 +330,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
                 </button>
             </div>
         </Box>
-      </Modal>
+    </Modal>
     </>
   );
 }

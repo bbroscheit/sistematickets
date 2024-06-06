@@ -10,10 +10,6 @@
     background-color: var(--color-background-bodyalternate);
 }
 
-/* .visibilityContainerMobile{
-    display: none;
-} */
-
 .title{
     width: 100%;
     font-family: 'Titillium Web', sans-serif;
@@ -173,7 +169,7 @@
     margin-bottom: 8px;
 }
 
-.modalButton{
+.modalButton , .modalButtonDisabled{
     min-width: 6rem;
     padding: 9px 12px;
     margin: 0px 0px 2px 12px;
@@ -184,6 +180,11 @@
     border: none;
     background-color: var(--color-basani);
     border-radius: 10px;
+}
+
+.modalButtonDisabled{
+    background-color: var(--color-paragraph);
+    color: var(--color-primaryfont);
 }
 
 .buttonGreen{

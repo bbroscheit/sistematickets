@@ -79,10 +79,16 @@ function Soporte() {
   const [control, setControl] = useState(0);
   const [faq, setFaq] = useState(null);
   const [solution, setSolution] = useState({ solution: "" });
+  const [errorSolution, setErrorSolution] = useState("");
+  const [buttonSolution, setButtonSolution] = useState({complete:false})
   const [info, setInfo] = useState({ info: "" });
+  const [errorInfo, setErrorInfo] = useState("");
+  const [buttonMoreInfo, setButtonMoreInfo] = useState({complete:false})
   const [yesState, setYesState] = useState(0);
   const [soporteId, setSoporteId] = useState(1)
   const [answer , setAnswer] = useState({ info: "" })
+  const [errorAnswer, setErrorAnswer] = useState("");
+  const [buttonAnswer, setButtonAnswer] = useState({complete:false})
   const [email, setEmail] = useState({
     idTicket: id ? id : soporteId,
     useremail: "",
@@ -104,6 +110,8 @@ function Soporte() {
     address: "",
     zone: ""
   });
+
+  
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
@@ -382,6 +390,10 @@ function Soporte() {
       ...solution,
       [e.target.name]: e.target.value,
     });
+    setErrorSolution(validateSolution({
+      ...solution,
+      [e.target.name] : e.target.value
+    }))
     setInputFaq({
       ...inputFaq,
       answer: e.target.value,
@@ -465,6 +477,10 @@ function Soporte() {
       ...info,
       [e.target.name]: e.target.value,
     });
+    setErrorInfo(validateInfo({
+      ...info,
+      [e.target.name] : e.target.value
+    }))
     setEmail({
       ...email,
       question: e.target.value
@@ -476,6 +492,10 @@ function Soporte() {
       ...answer,
       [e.target.name]: e.target.value,
     });
+    setErrorAnswer(validateAnswer({
+      ...answer,
+      [e.target.name] : e.target.value
+    }))
     setEmail({
       ...email,
       answer: e.target.value
@@ -577,6 +597,57 @@ function Soporte() {
       .catch(error => {
         console.error("Error al enviar el formulario:", error);
       });
+  }
+
+  function validateInfo(info){
+    let errors = []
+      if (!info.info) {
+        errors.info = "El campo no puede estar vacío";
+      }else if(info.info.length < 20 ){
+        errors.info = "El campo debe tener más de 20 caracteres"
+      }
+
+      if (!errors.info) {
+        setButtonMoreInfo({ complete : true })
+      }else{
+        setButtonMoreInfo({ complete: false })
+      }
+      
+    return errors
+  }
+
+  function validateSolution(solution){
+    let errors = []
+      if (!solution.solution) {
+        errors.solution = "El campo no puede estar vacío";
+      }else if(solution.solution.length < 20 ){
+        errors.solution = "El campo debe tener más de 20 caracteres"
+      }
+
+      if (!errors.solution) {
+        setButtonSolution({ complete : true })
+      }else{
+        setButtonSolution({ complete: false })
+      }
+      
+    return errors
+  }
+
+  function validateAnswer(answer){
+    let errors = []
+      if (!answer.answer) {
+        errors.answer = "El campo no puede estar vacío";
+      }else if(answer.answer.length < 20 ){
+        errors.answer = "El campo debe tener más de 20 caracteres"
+      }
+
+      if (!errors.answer) {
+        setButtonAnswer({ complete : true })
+      }else{
+        setButtonAnswer({ complete: false })
+      }
+      
+    return errors
   }
 
   return (
@@ -1071,6 +1142,9 @@ function Soporte() {
               }}
             />
           ) : null}
+          <p className={ errorSolution.solution ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
+            {errorSolution.solution}
+          </p>
           <div className={style.modalSubtitleContainer}>
             <Typography
               id="modal-modal-title"
@@ -1099,15 +1173,12 @@ function Soporte() {
               </button>
             </div>
           </div>
-          <button
-            onClick={(e) => {
-              submitSolution(e);
-              handleCloseSolution();
-            }}
-            className={style.modalButton}
-          >
-            Cerrar Ticket
-          </button>
+          {
+          buttonSolution.complete === true ?
+            <button className={style.modalButton} type="submit" onClick={(e) => { submitSolution(e); handleCloseSolution();}} > Cerrar Ticket </button> 
+            : <button className={style.modalButtonDisabled} type="submit" disabled> Cerrar Ticket </button> 
+          }
+          
         </Box>
       </Modal>
 
@@ -1141,16 +1212,16 @@ function Soporte() {
               }}
             />
           ) : null}
+          <p className={ errorInfo.info ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
+            {errorInfo.info}
+          </p>
+          {
+          buttonMoreInfo.complete === true ?
+            <button className={style.modalButton} type="submit" onClick={(e) => { submitInfo(e); handleCloseInfo();}} > Aceptar </button> 
+            : <button className={style.modalButtonDisabled} type="submit" disabled> Aceptar </button> 
+          }
 
-          <button
-            onClick={(e) => {
-              submitInfo(e);
-              handleCloseInfo();
-            }}
-            className={style.modalButton}
-          >
-            Aceptar
-          </button>
+          
         </Box>
       </Modal>
 
@@ -1184,16 +1255,15 @@ function Soporte() {
               }}
             />
           ) : null}
-
-          <button
-            onClick={(e) => {
-              submitInfoUser(e);
-              handleCloseInfoUser();
-            }}
-            className={style.modalButton}
-          >
-            Aceptar
-          </button>
+          <p className={ errorAnswer.answer ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
+            {errorAnswer.answer}
+          </p>
+          {
+          buttonAnswer.complete === true ?
+            <button className={style.modalButton} type="submit" onClick={(e) => { submitInfoUser(e);  handleCloseInfoUser()}} > Aceptar </button> 
+            : <button className={style.modalButtonDisabled} type="submit" disabled> Aceptar </button> 
+          }
+          
         </Box>
       </Modal>
 

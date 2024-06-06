@@ -20,9 +20,11 @@ function FormNormal({ user }) {
     user:user.name,
     email:""
   });
-
   const [login, setLogin] = useState(null)
-  // const [email, setEmail] = useState({ email: "" })
+  const [error, setError] = useState("");
+  const [button, setButton] = useState({
+    complete : false
+  })
 
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
@@ -50,6 +52,10 @@ function FormNormal({ user }) {
       ...input,
       [e.target.name]: e.target.value,
     });
+    setError(validate({
+      ...input,
+      [e.target.name] : e.target.value
+    }))
   }
 
   function handleChangeFile(e) {
@@ -97,6 +103,28 @@ function FormNormal({ user }) {
     });
   }
 
+  function validate(input){
+    let errors = []
+      if (!input.subject) {
+        errors.subject = "El campo no puede estar vacío";
+      }
+      if (!input.detail) {
+        errors.detail = "El campo no puede estar vacío";
+      }
+      if (input.detail.length < 100 ) {
+        errors.detail = "El campo de tener un mínimo de 100 caracteres";
+      }
+
+      if (!errors.subject && !errors.detail) {
+        setButton({ complete : true })
+      }else{
+        setButton({ complete: false })
+      }
+      
+    return errors
+  }
+
+  
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">
       <div className={mainStyle.minimalGrid}>
@@ -110,6 +138,9 @@ function FormNormal({ user }) {
           onChange={(e) => handleChange(e)}
         />
       </div>
+      <p className={ error.subject ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
+          {error.subject}
+      </p>
       <div className={mainStyle.labelWithTextarea}>
         <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
         <textarea
@@ -126,6 +157,9 @@ function FormNormal({ user }) {
           }}
         />
       </div>
+      <p className={ error.detail ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
+          {error.detail}
+      </p>
       <div>
         <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
         <input
@@ -140,9 +174,12 @@ function FormNormal({ user }) {
       {/* se crean dos juegos de botones, uno para las vistas en celulares y el otro para las demas */}
       <div className={style.buttonContainerNormal}>
       <div className={mainStyle.buttonContainer}>
-        <button className={mainStyle.button} type="submit">
-          Generar Soporte
-        </button>
+        {
+          button.complete === true ?
+            <button className={mainStyle.button} type="submit"> Generar Soporte </button> 
+            : <button className={mainStyle.buttonDisabled} type="submit" disabled> Generar Soporte </button> 
+        }
+        
         <button className={mainStyle.button} onClick={(e) => handleReset(e)}>
           Borrar
         </button>
