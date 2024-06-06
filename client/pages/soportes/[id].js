@@ -51,8 +51,6 @@ const styles = {
 function Soporte() {
   const router = useRouter();
   const id = router.query.id ;
-  
-
   const [openSolution, setOpenSolution] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
   const [openInfoUser, setOpenInfoUser] = useState(false);
@@ -76,6 +74,8 @@ function Soporte() {
     name: "sin asignar",
     description:"Agrega un motivo" 
   });
+  const [errorReasignar, setErrorReasignar] = useState("");
+  const [buttonReasignar, setButtonReasignar] = useState({complete:false})
   const [control, setControl] = useState(0);
   const [faq, setFaq] = useState(null);
   const [solution, setSolution] = useState({ solution: "" });
@@ -235,15 +235,15 @@ function Soporte() {
     setOpen(false);
   }
 
-    // abre el modal para ver los mensajes de re asignacion de soportes
-    function handleOpenWorkernote(e) {
+  // abre el modal para ver los mensajes de re asignacion de soportes
+  function handleOpenWorkernote(e) {
       e.preventDefault();
       setOpenWorkernote(true);
-    }
-  
-    function handleCloseWorkernote() {
+  }
+
+  function handleCloseWorkernote() {
       setOpenWorkernote(false);
-    }
+  }
 
   // abre el modal para cambiar al worker del soporte
   function handleOpenChangeWorker(e) {
@@ -304,6 +304,10 @@ function Soporte() {
       ...reasignarWorker,
       [e.target.name]: e.target.value,
     });
+    setErrorReasignar(validateReasignar({
+      ...reasignarWorker,
+      [e.target.name] : e.target.value
+    }))
   }
 
   // asigna prioridad a un ticket
@@ -645,6 +649,23 @@ function Soporte() {
         setButtonAnswer({ complete : true })
       }else{
         setButtonAnswer({ complete: false })
+      }
+      
+    return errors
+  }
+
+  function validateReasignar(reasignarWorker){
+    let errors = []
+      if (!reasignarWorker.description) {
+        errors.description = "El campo no puede estar vacío";
+      }else if(reasignarWorker.description.length < 20 ){
+        errors.description = "El campo debe tener más de 20 caracteres"
+      }
+
+      if (!errors.description) {
+        setButtonReasignar({ complete : true })
+      }else{
+        setButtonReasignar({ complete: false })
       }
       
     return errors
@@ -1030,8 +1051,15 @@ function Soporte() {
               : null}
           </Select>
           < textarea name="description" value={reasignarWorker.description} onChange={handleReasignarWorker}/>    
-
-          <button
+          <p className={ errorReasignar.description ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
+            {errorReasignar.description}
+          </p>  
+          {
+          buttonReasignar.complete === true ?
+            <button className={style.modalButton} type="submit" onClick={(e) => { submitReasignar(e);  handleCloseChangeWorker()}} > Asignar </button> 
+            : <button className={style.modalButtonDisabled} type="submit" disabled> Aceptar </button> 
+          }   
+          {/* <button
             onClick={(e) => {
               submitReasignar(e);
               handleCloseChangeWorker();
@@ -1039,7 +1067,7 @@ function Soporte() {
             className={style.modalButton}
           >
             Asignar
-          </button>
+          </button> */}
         </Box>
       </Modal>
 
