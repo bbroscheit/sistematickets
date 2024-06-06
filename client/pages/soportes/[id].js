@@ -214,6 +214,16 @@ function Soporte() {
     }
   }, [solution.solution]);
 
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaReasignar');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [reasignarWorker.description]);
+
 
   // abre y cierra el modal de la asignacion de worker, se cambio a function porque se reiniciaba la app
   function handleOpenProveedor(e) {
@@ -1050,7 +1060,16 @@ function Soporte() {
                 ))
               : null}
           </Select>
-          < textarea name="description" value={reasignarWorker.description} onChange={handleReasignarWorker}/>    
+          < textarea  id="mi-textareaReasignar"
+                      name="description" 
+                      value={reasignarWorker.description} 
+                      onChange={handleReasignarWorker}
+                      style={{
+                        minHeight: '120px',
+                        resize: 'none',
+                        overflowY: 'hidden'
+                      }}
+                      />    
           <p className={ errorReasignar.description ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
             {errorReasignar.description}
           </p>  
@@ -1059,15 +1078,6 @@ function Soporte() {
             <button className={style.modalButton} type="submit" onClick={(e) => { submitReasignar(e);  handleCloseChangeWorker()}} > Asignar </button> 
             : <button className={style.modalButtonDisabled} type="submit" disabled> Aceptar </button> 
           }   
-          {/* <button
-            onClick={(e) => {
-              submitReasignar(e);
-              handleCloseChangeWorker();
-            }}
-            className={style.modalButton}
-          >
-            Asignar
-          </button> */}
         </Box>
       </Modal>
 
