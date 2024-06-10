@@ -2,6 +2,7 @@ const taskRouter = require("express").Router()
 const getAllTask = require("./controllers/getAllTask")
 const getAllNewTask = require('./controllers/getAllNewtask')
 const getUserInTask = require('./controllers/getUserInTask')
+const getTaskById = require ('./controllers/getTaskById')
 const postTask = require('./controllers/postTask')
 const updateCheckTask = require("./controllers/updateCheckTask")
 const updateCheckNewTask = require('./controllers/updateCheckNewtask')
@@ -11,7 +12,19 @@ taskRouter.get("/task" , async (req, res) => {
     
     try{
         let allTask = await getAllTask()
-        allTask ? res.status(200).json(allTask) : res.status(400).send("failure") 
+        allTask ? res.status(200).json(allTask) : res.status(400).json({state: "failure"}) 
+    }catch (e){
+        console.log("error en task router", e.message)
+    }
+    
+})
+
+taskRouter.get("/task/:id" , async (req, res) => {
+    const { id } = req.params
+
+    try{
+        let task = await getTaskById(id)
+        task ? res.status(200).json(task) : res.status(400).json({state: "failure"}) 
     }catch (e){
         console.log("error en task router", e.message)
     }

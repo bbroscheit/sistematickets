@@ -81,7 +81,10 @@ function Soporte() {
   const [solution, setSolution] = useState({ solution: "" });
   const [errorSolution, setErrorSolution] = useState("");
   const [buttonSolution, setButtonSolution] = useState({complete:false})
-  const [info, setInfo] = useState({ info: "" });
+  const [info, setInfo] = useState({ 
+    info: "" , 
+    files:[] 
+  });
   const [errorInfo, setErrorInfo] = useState("");
   const [buttonMoreInfo, setButtonMoreInfo] = useState({complete:false})
   const [yesState, setYesState] = useState(0);
@@ -536,8 +539,17 @@ function Soporte() {
       });    
   }
 
-  // funcion para pasar el estado del ticket a Terminado
+  // ingresa archivos en pedido de Información
+  function handleChangeFile(e) {
+    e.preventDefault();
+    const filesArray = [...e.target.files];  // Convierte la colección de archivos en un array
+    setInfo({
+      ...info,
+      files: filesArray,
+    });
+  }
 
+  // funcion para pasar el estado del ticket a Terminado
   function SubmitCloseTicket(e) {
     e.preventDefault();
     updateCloseTicket(soporteId)
@@ -679,6 +691,9 @@ function Soporte() {
       
     return errors
   }
+
+  // console.log(info)
+  // console.log(soporte)
 
   return (
     <>
@@ -1252,6 +1267,16 @@ function Soporte() {
           <p className={ errorInfo.info ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
             {errorInfo.info}
           </p>
+          <div>
+            <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
+            <input
+              type="file"
+              name="files"
+              multiple
+              className={mainStyle.inputFile}
+              onChange={(e) => handleChangeFile(e)}
+            />
+          </div>
           {
           buttonMoreInfo.complete === true ?
             <button className={style.modalButton} type="submit" onClick={(e) => { submitInfo(e); handleCloseInfo();}} > Aceptar </button> 

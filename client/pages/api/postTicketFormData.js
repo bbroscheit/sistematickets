@@ -1,7 +1,5 @@
 export async function postTicketFormData(input) {
-   console.log("entre");
-
-  const formData = new FormData();
+   const formData = new FormData();
 
   // Agrega los campos del formulario al objeto FormData
   Object.keys(input).forEach((key) => {
@@ -16,8 +14,6 @@ export async function postTicketFormData(input) {
     }
   });
 
-  // console.log("formData", formData);
-
   const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {
     // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {
     method: 'POST',
@@ -29,6 +25,6 @@ export async function postTicketFormData(input) {
 
    const data = await res.json();
 
-  console.log("data", data)
+  
   return data;
 }

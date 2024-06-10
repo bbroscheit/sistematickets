@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/router';
 import Style from "@/modules/UserstoriesCard.module.css";
 import mainStyle from '../styles/Home.module.css'
 import Box from "@mui/material/Box";
@@ -22,6 +23,7 @@ const style = {
 };
 
 function UserstoriesCard({ id, state, taskdetail, taskfinishdate }) {
+  const router = useRouter();
   const [idTask, setIdTask] = useState(id) 
   const [worker , setWorker ] = useState({})
   let workerName = ""
@@ -93,7 +95,8 @@ function UserstoriesCard({ id, state, taskdetail, taskfinishdate }) {
   return (
     <div className={Style.userstoriesCard}>
       <div className={Style.titleContainer}>
-          <h3>{taskdetail}</h3>
+          
+          <h3 onClick={(e) => { router.push(`/tareas/[id]`, `/tareas/${id}`) }}>{taskdetail}</h3>
         
           {worker.length > 0 ? 
             <h4>{worker[0].firstname}</h4> : <h4></h4>

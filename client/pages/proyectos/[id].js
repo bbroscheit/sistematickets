@@ -145,8 +145,6 @@ function projectDetail() {
     });
   }
 
-  console.log("worker", worker)
-
   return (
     <div className={mainStyle.container}>
       {data !== null && data.length > 0 ? (

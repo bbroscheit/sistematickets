@@ -1,0 +1,13 @@
+.title{
+    margin: 15px auto;
+}
+
+.detailContainer{
+    margin: 0px auto;
+    width: 100%;
+    text-align: center;
+}
+
+.detailContainer h4{
+    margin-top: 10px;
+}

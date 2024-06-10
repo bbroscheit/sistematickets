@@ -321,16 +321,29 @@ ticketRouter.put( '/updateSolutionTicket/:id' , async ( req, res ) => {
 
 })
 
-ticketRouter.put( '/updateInfoTicket/:id' , async ( req, res ) => {
-    const { id } = req.params
-    const { info } = req.body
+// ticketRouter.put( '/updateInfoTicket/:id' , async ( req, res ) => {
+//     const { id } = req.params
+//     const { info } = req.body
 
     
+//     try {
+//         let updatedTicket = await updateInfoTicket(id , info)
+//         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
+//     } catch (e) {
+//         console.log( "error en ruta put updateInfoTicket" , e.message)
+//     }
+
+// })
+
+ticketRouter.post( '/updateInfoTicket/:id' , uploadFiles(), async ( req, res ) => {
+    const { id } = req.params
+    const { info } = req.body
+    
     try {
-        let updatedTicket = await updateInfoTicket(id , info)
-        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
+        let updatedTicket = await updateInfoTicket(id , info, req.files)
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({state:"failure"})
     } catch (e) {
-        console.log( "error en ruta put updateInfoTicket" , e.message)
+        console.log( "error en ruta post updateInfoTicket" , e.message)
     }
 
 })
