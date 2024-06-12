@@ -111,8 +111,8 @@ function FormNormal({ user }) {
       if (!input.detail) {
         errors.detail = "El campo no puede estar vacío";
       }
-      if (input.detail.length < 100 ) {
-        errors.detail = "El campo de tener un mínimo de 100 caracteres";
+      if (input.detail.length < 50 ) {
+        errors.detail = "El campo de tener un mínimo de 50 caracteres";
       }
 
       if (!errors.subject && !errors.detail) {
