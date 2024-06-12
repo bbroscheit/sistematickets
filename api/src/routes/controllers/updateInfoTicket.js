@@ -1,56 +1,71 @@
-const { Ticket } = require('../../bd')
-const fs = require('fs');
+const { Ticket } = require('../../bd');
+const fs = require('fs').promises;
 const path = require('path');
 
 const updateInfoTicket = async (id, info, files) => {
+    try {
+        // Obtener el ticket actual
+        const existingTicket = await Ticket.findByPk(id);
 
-    // Obtener el ticket actual
-    const existingTicket = await Ticket.findByPk(id);
+        if (!existingTicket) {
+            throw new Error('Ticket no encontrado');
+        }
 
-    if (!existingTicket) {
-        throw new Error('Ticket no encontrado');
-    }
+        // Obtener el valor actual de detail
+        const currentDetail = existingTicket.detail || '';
 
-    // Obtener el valor actual de detail
-    const currentDetail = existingTicket.detail || '';
+        // Agrega un salto de línea
+        const formattedNewInfo = `\n${info}\n`;
 
-    // Agrega un salto de linea
-    const formattedNewInfo = `\n${info}\n`;
+        // Concatenar el nuevo contenido con el valor actual de detail
+        const updatedDetail = currentDetail + formattedNewInfo;
 
-    // Concatenar el nuevo contenido con el valor actual de detail
-    const updatedDetail = currentDetail + formattedNewInfo;
+        const updatedFiles = existingTicket.files ? [...existingTicket.files] : [];
+        const folderName = `ticket_${existingTicket.id}`;
+        const folderPath = path.join(__dirname, '../../../../client/public', folderName);
+        const uploadFolderPath = path.join(__dirname, '../../../../client/public');
+        const filesWithPrefix = (await fs.readdir(uploadFolderPath)).filter(file => file.startsWith('new_'));
 
-    // const updatedFiles = existingTicket.files || [];
-    // updatedFiles.push(files);
+        // Crear la carpeta si no existe
+        try {
+            await fs.mkdir(folderPath, { recursive: true });
+        } catch (err) {
+            console.error(`Error al crear la carpeta ${folderPath}`, err);
+            throw err;
+        }
 
-    const updatedFiles = existingTicket.files || [];
-    const folderName = `ticket_${existingTicket.id}`;
-    
-    const folderPath = path.join(__dirname, '../../../../client/public', folderName);
-    const uploadFolderPath = path.join(__dirname, '../../../../client/public');
-    const filesWithPrefix = fs.readdirSync(uploadFolderPath).filter(file => file.startsWith('new_'));
-    
         for (const filename of filesWithPrefix) {
-
             const sourcePath = path.join(uploadFolderPath, filename);
             const destinationPath = path.join(folderPath, filename);
 
-            fs.renameSync(sourcePath, destinationPath);
-            
-            updatedFiles.push("/"+folderName+"/"+filename);
-            
+        try {
+                await fs.rename(sourcePath, destinationPath);
+                updatedFiles.push(`/${folderName}/${filename}`);
+            } catch (err) {
+                console.error(`Error al mover el archivo ${filename}`, err);
+                throw err;
+            }
         }
-    
-    console.log("ticket", existingTicket)
-    // console.log("updatefiles", updatedFiles)
-    // Actualizar el ticket con el nuevo detail
-    const setTicket = await existingTicket.update({
-        detail: updatedDetail,
-        // files: updatedFiles,
-        state: "Informacion" });
 
-    return setTicket;
+        if(updatedFiles){
+            existingTicket.files = updatedFiles;
+        } 
+        
+        // Actualizar el ticket con el nuevo detalle y archivos
+        let setTicket = await existingTicket.update({
+            detail: updatedDetail,
+            state: 'Informacion'
+        });
 
-}
+        setTicket = await existingTicket.update({
+            files: existingTicket.files
+        });
 
-module.exports= updateInfoTicket
+        return setTicket;
+    } catch (error) {
+        console.error("Error en updateInfoTicket:", error.message);
+        throw error; 
+    }
+};
+
+module.exports = updateInfoTicket;

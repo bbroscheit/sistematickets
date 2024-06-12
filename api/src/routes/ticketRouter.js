@@ -294,7 +294,6 @@ ticketRouter.put( '/priorityAssigment/:id' , async ( req, res ) => {
 
 })
 
-
 ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
     const { id } = req.params
     
@@ -307,33 +306,17 @@ ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
 
 })
 
-ticketRouter.put( '/updateSolutionTicket/:id' , async ( req, res ) => {
+ticketRouter.post( '/updateSolutionTicket/:id' , uploadFiles(), async ( req, res ) => {
     const { id } = req.params
     const { solution } = req.body
-
     
     try {
-        let updatedTicket = await updateSolutionTicket(id , solution)
-        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
+        let updatedTicket = await updateSolutionTicket(id , solution, req.files)
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})
     } catch (e) {
         console.log( "error en ruta put updateSolutionTicket" , e.message)
     }
-
 })
-
-// ticketRouter.put( '/updateInfoTicket/:id' , async ( req, res ) => {
-//     const { id } = req.params
-//     const { info } = req.body
-
-    
-//     try {
-//         let updatedTicket = await updateInfoTicket(id , info)
-//         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
-//     } catch (e) {
-//         console.log( "error en ruta put updateInfoTicket" , e.message)
-//     }
-
-// })
 
 ticketRouter.post( '/updateInfoTicket/:id' , uploadFiles(), async ( req, res ) => {
     const { id } = req.params
@@ -348,14 +331,13 @@ ticketRouter.post( '/updateInfoTicket/:id' , uploadFiles(), async ( req, res ) =
 
 })
 
-ticketRouter.put( '/updateInfoTicketByUser/:id' , async ( req, res ) => {
+ticketRouter.post( '/updateInfoTicketByUser/:id' , uploadFiles(), async ( req, res ) => {
     const { id } = req.params
     const { answer } = req.body
-
     
     try {
-        let updatedTicket = await updateInfoTicketByUser(id , answer)
-        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
+        let updatedTicket = await updateInfoTicketByUser(id , answer, req.files)
+        updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})
     } catch (e) {
         console.log( "error en ruta put updateInfoTicket" , e.message)
     }
