@@ -286,16 +286,16 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* se deshabilito el menu profile en vista general porque no hay algo para agregar ahi */}
-            {/* <IconButton
+            <IconButton
               size="large"
               aria-label="show 4 new mails"
               onClick={(e) => router.push(`/schedule/Schedule`)}
             >
-              {/* <Badge badgeContent={4} sx={{ color:"white"}}> 
+              {/* <Badge badgeContent={4} sx={{ color:"white"}}>  */}
               <Badge sx={{ color: "white" }}>
                 <CalendarMonthRoundedIcon />
               </Badge>
-            </IconButton> */}
+            </IconButton>
             <Tooltip title="Internos">
             <IconButton
               size="large"

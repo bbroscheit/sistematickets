@@ -37,7 +37,7 @@ function Schedule() {
     const [ user, setUser ] = useState(null)
     const [input , setInput] = useState({
         detail : "",
-        invited : "",
+        invited : [],
         startdate : "",
         starthour : "",
         finishhour : "",
@@ -85,25 +85,33 @@ function Schedule() {
         })
     }
 
-    function handleSelect(e){
-        let name = e.target.innerText
+    // function handleSelect(e){
+    //     let name = e.target.innerText
 
-        if(input.invited.length === 0 ){
-            setInput({
-                ...input,
-                invited : [...input.invited, name]
-            })
-        } else if ( input.invited.filter( g => g === name ).length === 0 ){
+    //     if(input.invited.length === 0 ){
+    //         setInput({
+    //             ...input,
+    //             invited : [...input.invited, name]
+    //         })
+    //     } else if ( input.invited.filter( g => g === name ).length === 0 ){
             
-            setInput({
-                ...input,
-                invited : [...input.invited, name]
-            })
-        } else {
-            console.log("pase como falso" , input.invited.filter( g => g === name ).length )
-        }
+    //         setInput({
+    //             ...input,
+    //             invited : [...input.invited, name]
+    //         })
+    //     } else {
+    //         console.log("pase como falso" , input.invited.filter( g => g === name ).length )
+    //     }
         
        
+    // }
+    function handleSelect(e, value) {
+        if (value && !input.invited.includes(value)) {
+            setInput({
+                ...input,
+                invited: [...input.invited, value],
+            });
+        }
     }
 
     function handleUnselect(e){
@@ -113,12 +121,77 @@ function Schedule() {
         })
     }
 
-    function handleSubmit(e){
-        e.preventDefault()
-        postSchedule(input)
+    // function handleSubmit(e){
+    //     e.preventDefault()
+    //     postSchedule(input)
+    // }
+
+    // async function handleSubmit(e) {
+    //     e.preventDefault();
+
+    //     const startDateTime = dayjs(`${input.startdate} ${input.starthour}`);
+    //     const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`);
+
+    //     Fetch existing schedules on the selected date
+    //     const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}`);
+    //     const existingSchedules = await response.json();
+
+    //     Check for overlapping schedules
+    //     const isOverlapping = existingSchedules.some(schedule => {
+    //         const existingStart = dayjs(`${schedule.startdate} ${schedule.starthour}`);
+    //         const existingEnd = dayjs(`${schedule.startdate} ${schedule.finishhour}`);
+    //         return (
+    //             (startDateTime.isBetween(existingStart, existingEnd, null, '[)')) ||
+    //             (finishDateTime.isBetween(existingStart, existingEnd, null, '(]')) ||
+    //             (startDateTime.isSame(existingStart) && finishDateTime.isSame(existingEnd))
+    //         );
+    //     });
+
+    //     if (isOverlapping) {
+    //         alert("El rango horario seleccionado ya está ocupado. Por favor, elija otro horario.");
+    //         return;
+    //     }
+
+    //     If no overlap, post the new schedule
+    //     postSchedule(input);
+    //     handleClose();
+    // }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+    
+        const startDateTime = dayjs(`${input.startdate} ${input.starthour}`);
+        const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`);
+    
+        // Fetch existing schedules on the selected date
+        const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}`);
+        const existingSchedules = await response.json();
+    
+        // Check for overlapping schedules
+        const isOverlapping = existingSchedules.some(schedule => {
+            const existingStart = dayjs(`${schedule.startdate} ${schedule.starthour}`);
+            const existingEnd = dayjs(`${schedule.startdate} ${schedule.finishhour}`);
+    
+            return (
+                startDateTime.isBetween(existingStart, existingEnd, null, '[)') || // Starts within existing meeting
+                finishDateTime.isBetween(existingStart, existingEnd, null, '(]') || // Ends within existing meeting
+                (startDateTime.isBefore(existingStart) && finishDateTime.isAfter(existingEnd)) || // Completely overlaps existing meeting
+                (startDateTime.isSame(existingStart) && finishDateTime.isSame(existingEnd)) // Exactly matches existing meeting
+            );
+        });
+    
+        if (isOverlapping) {
+            alert("El rango horario seleccionado ya está ocupado. Por favor, elija otro horario.");
+            return;
+        }
+        
+        console.log("response", existingSchedules)
+        // If no overlap, post the new schedule
+        await postSchedule(input);
+        handleClose();
     }
 
-    console.log("input",input)
+   
   return (
     <>
     <div className={mainStyle.container}>
@@ -196,7 +269,9 @@ function Schedule() {
       }
         <div></div>
     </div>
-    <button onClick={e => {handleSubmit(e) , handleClose()}} className={mainStyle.buttonModal}>Aceptar</button>
+    {/* <button onClick={e => {handleSubmit(e) , handleClose()}} className={mainStyle.buttonModal}>Aceptar</button> */}
+    <button onClick={handleSubmit} className={mainStyle.buttonModal}>Aceptar</button>
+                
     </Box>
   </Modal>   
     </>
