@@ -719,6 +719,8 @@ function Soporte() {
     return errors
   }
 
+  console.log("soporte" , soporte)
+  console.log("user", user)
   return (
     <>
       <div>
@@ -816,20 +818,15 @@ function Soporte() {
                           <p> Terminado : {extraeFecha(soporte.proveedornote.updatedAt)}</p>
                     }
                     </div>
-                  </div>
-                  :
-                  soporte !== null && soporte.state === "Desarrollo" && !soporte.proveedornote ?
-                      user !== null && user.sector === "Sistemas" ?
+                  </div> : soporte !== null && soporte.state === "Desarrollo" && !soporte.proveedornote ? user !== null && user.sector === "Sistemas" ?
                         <div className={style.stateContainer}>
                           <h3> Proveedor Externo: </h3>
                           <button onClick={(e) => handleOpenProveedor(e)}>Agregar</button>
-                        </div> 
-                      : null : null
+                        </div> : null : null
               }
 
               {/* si el soporte esta terminado o completado , solo muestra la informacion del proveedor */}
-              {
-                soporte !== null && (soporte.state === "Terminado" || soporte.state === "Completado")&& soporte.proveedornote ?
+              { soporte !== null && (soporte.state === "Terminado" || soporte.state === "Completado")&& soporte.proveedornote ?
                   <div className={style.centerStateContainer}> 
                     <div>
                       <h3>{soporte.proveedornote.proveedor.name}</h3>
@@ -843,9 +840,7 @@ function Soporte() {
                           <p> Terminado : {extraeFecha(soporte.proveedornote.updatedAt)}</p>
                     }
                     </div>
-                  </div>
-                  :
-                  null
+                  </div> : null
               }
                          
               <div className={style.form}>
@@ -857,7 +852,6 @@ function Soporte() {
                     type="text"
                     value={soporte.detail}
                     cols="80"
-                    // rows="14"
                     style={{
                       minHeight: '120px',
                       resize: 'none',
@@ -868,9 +862,7 @@ function Soporte() {
                 </div>
 
                 {/* Abre la vista solucion para cualquier usuario perteneciente a Sistemas*/}
-                {user !== null &&
-                user.sector !== "Sistemas" ? null : soporte !== null &&
-                  soporte.answer !== "Sin resolución" ? (
+                { user !== null && user.sector !== "Sistemas" ? null : soporte !== null && soporte.answer !== "Sin resolución" ? (
                   <div>
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
@@ -890,9 +882,7 @@ function Soporte() {
                 ) : null}
                 
                 {/* Abre la vista solucion para cualquier usuario no perteneciente a Sistemas y el estado del soporte es Completado*/}
-                {user !== null &&
-                  user.sector === "Sistemas" ? null : soporte !== null &&
-                    soporte.state === "Completado" ? (
+                { user !== null && user.sector === "Sistemas" ? null : soporte !== null && soporte.state === "Completado" ? (
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
@@ -912,9 +902,7 @@ function Soporte() {
                   ) : null}
 
                 {/* Abre la vista solucion para cualquier usuario no perteneciente a Sistemas y el estado del soporte es Terminado*/}
-                {user !== null &&
-                  user.sector === "Sistemas" ? null : soporte !== null &&
-                    soporte.state === "Terminado" ? (
+                { user !== null && user.sector === "Sistemas" ? null : soporte !== null && soporte.state === "Terminado" ? (
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
@@ -933,10 +921,8 @@ function Soporte() {
                     </div>
                   ) : null}
 
-
-                {soporte !== null &&
-                soporte.files &&
-                soporte.files.length > 0 ? (
+                {/* Visor de adjuntos si es que existen */}
+                { soporte !== null && soporte.files && soporte.files.length > 0 ? (
                   <>
                     <h3 className={style.label}>Adjuntos:</h3>
                     {soporte.files && soporte.files.length > 0
@@ -951,68 +937,69 @@ function Soporte() {
                   </>
                 ) : null}
 
-                {user !== null && user.sector !== "Sistemas" ? (
-                  soporte !== null &&
-                  soporte.worker !== "sin asignar" &&
-                  soporte.state === "Informacion" ? (
+                {/* definicion de botones por usuario y estado del soporte */}
+
+                {/* si el soporte esta Asignado y el desarrollador coincide con el worker muestra "comenzar desarrollo" */}
+                { soporte !== null && soporte.state === "Asignado" && user.name === soporte.worker ? 
+                    <div className={mainStyle.buttonContainer}>
+                      <button
+                        onClick={(e) => submitAcceptAssigment(e)}
+                        className={mainStyle.button}
+                      >
+                        Comenzar Desarrollo
+                      </button>
+                    </div>: null
+                }
+
+                {/* si el soporte esta en Desarrollo y el desarrollador coincide con el worker muestra "resolver y mas info" */}
+                { soporte !== null && soporte.state === "Desarrollo" && user.name === soporte.worker ? 
+                    <div className={mainStyle.buttonContainer}>
+                    <button
+                      onClick={(e) => handleOpenSolution(e)}
+                      className={mainStyle.button}
+                    >
+                      Resolver
+                    </button>
+                    <button
+                      onClick={(e) => handleOpenInfo(e)}
+                      className={mainStyle.button}
+                    >
+                      Mas Info
+                    </button>
+                  </div>: null
+                }
+
+                {/* si el soporte esta en Informacion y el usuario coincide con el usuario creador muestra "Agregar Información" */}
+                { soporte !== null && soporte.state === "Informacion" && user.name === soporte.user.username ? 
+                    <div className={mainStyle.buttonContainer}>
                     <button
                       onClick={(e) => handleOpenInfoUser(e)}
                       className={mainStyle.button}
                     >
                       Agregar Información
                     </button>
-                  ) : null
-                ) : soporte !== null &&
-                        soporte.state === "Asignado"  ? (
-                          <div className={mainStyle.buttonContainer}>
-                            <button
-                              onClick={(e) => submitAcceptAssigment(e)}
-                              className={mainStyle.button}
-                            >
-                              Comenzar Desarrollo
-                            </button>
-                          </div>
-                        ): soporte !== null &&
-                        soporte.worker !== "sin asignar" &&
-                        soporte.state !== "Completado" &&
-                        soporte.state !== "Terminado" &&
-                        soporte.state !== "Informacion" ? (
-                          <div className={mainStyle.buttonContainer}>
-                            <button
-                              onClick={(e) => handleOpenSolution(e)}
-                              className={mainStyle.button}
-                            >
-                              Resolver
-                            </button>
-                            <button
-                              onClick={(e) => handleOpenInfo(e)}
-                              className={mainStyle.button}
-                            >
-                              Mas Info
-                            </button>
-                          </div>
-                        ) : null}
+                  </div>: null
+                }
 
-                {user !== null && user.sector !== "Sistemas" ? (
-                  soporte !== null &&
-                  soporte.worker !== "sin asignar" &&
-                  soporte.state === "Completado" ? (
+                {/* si el soporte esta en Completado y el usuario coincide con el usuario creador muestra "Re Abrir y Cerar Ticket" */}
+                { soporte !== null && soporte.state === "Completado" && user.name === soporte.user.username ? 
                     <div className={mainStyle.buttonContainer}>
-                      <button
-                        onClick={(e) => handleOpenInfoUser(e)}
-                        className={mainStyle.button}
-                      >
-                        Re Abrir 
-                      </button>
-                      <button
-                        onClick={(e) => SubmitCloseTicket(e)}
-                        className={mainStyle.button}
-                      >
-                        Cerrar Ticket
-                      </button>
-                    </div>
-                  ) : null
-                ) : null}
+                    <button
+                      onClick={(e) => handleOpenInfoUser(e)}
+                      className={mainStyle.button}
+                    >
+                      Re Abrir 
+                    </button>
+                    <button
+                      onClick={(e) => SubmitCloseTicket(e)}
+                      className={mainStyle.button}
+                    >
+                      Cerrar Ticket
+                    </button>
+                  
+                  </div>: null
+                }
+
               </div>
             </div>
 

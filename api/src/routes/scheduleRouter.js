@@ -2,6 +2,7 @@ const scheduleRouter = require("express").Router();
 const dayjs = require("dayjs"); 
 const getAllSchedule = require("../routes/controllers/getAllSchedule");
 const getAllScheduleByDate = require ('../routes/controllers/getAllScheduleByDate')
+const getAllScheduleByDateBase = require ('../routes/controllers/getAllScheduleByDateBase')
 const getAllScheduleById = require ('../routes/controllers/getAllScheduleById')
 const postSchedule = require("../routes/controllers/postSchedule");
 const giraFechas  = require("./helpers/girafechas");
@@ -17,8 +18,8 @@ scheduleRouter.get("/schedule", async (req, res) => {
 
 // Cambiar el nombre de la ruta a "/schedules" para plural y agregar el parámetro de consulta en lugar de params
 scheduleRouter.get("/schedules", async (req, res) => {
-  const { date } = req.query; // Usar query en lugar de params
-
+  const { date, startHour, finishHour } = req.query; 
+  console.log("date ruta", date)
   if (!date) {
       return res.status(400).json({ state: "failure", message: "Date query parameter is required" });
   }
@@ -26,8 +27,8 @@ scheduleRouter.get("/schedules", async (req, res) => {
       return res.status(400).json({ state: "failure", message: "Invalid date format" });
   }
   try {
-      console.log("entre a get")
-      let scheduleByDate = await getAllScheduleByDate(date);
+      
+      let scheduleByDate = await getAllScheduleByDateBase(date);
       scheduleByDate ? res.status(200).json(scheduleByDate) : res.status(400).json({ state: "failure" });
   } catch (e) {
       console.log("error en ruta get schedule date", e.message);

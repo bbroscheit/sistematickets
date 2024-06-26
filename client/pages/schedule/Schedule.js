@@ -85,26 +85,6 @@ function Schedule() {
         })
     }
 
-    // function handleSelect(e){
-    //     let name = e.target.innerText
-
-    //     if(input.invited.length === 0 ){
-    //         setInput({
-    //             ...input,
-    //             invited : [...input.invited, name]
-    //         })
-    //     } else if ( input.invited.filter( g => g === name ).length === 0 ){
-            
-    //         setInput({
-    //             ...input,
-    //             invited : [...input.invited, name]
-    //         })
-    //     } else {
-    //         console.log("pase como falso" , input.invited.filter( g => g === name ).length )
-    //     }
-        
-       
-    // }
     function handleSelect(e, value) {
         if (value && !input.invited.includes(value)) {
             setInput({
@@ -164,19 +144,17 @@ function Schedule() {
         const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`);
     
         // Fetch existing schedules on the selected date
-        const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}`);
+        const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}&startHour=${input.starthour}&finishHour=${input.finishhour}`);
         const existingSchedules = await response.json();
     
         // Check for overlapping schedules
         const isOverlapping = existingSchedules.some(schedule => {
-            const existingStart = dayjs(`${schedule.startdate} ${schedule.starthour}`);
-            const existingEnd = dayjs(`${schedule.startdate} ${schedule.finishhour}`);
+            const existingStart = dayjs(schedule.startdate);
+            const existingStartHour = dayjs(schedule.starthour);
+            const existingEndHour = dayjs(schedule.finishhour);
     
             return (
-                startDateTime.isBetween(existingStart, existingEnd, null, '[)') || // Starts within existing meeting
-                finishDateTime.isBetween(existingStart, existingEnd, null, '(]') || // Ends within existing meeting
-                (startDateTime.isBefore(existingStart) && finishDateTime.isAfter(existingEnd)) || // Completely overlaps existing meeting
-                (startDateTime.isSame(existingStart) && finishDateTime.isSame(existingEnd)) // Exactly matches existing meeting
+                startDateTime.isBefore(existingEndHour) && finishDateTime.isAfter(existingStartHour)
             );
         });
     
@@ -185,13 +163,13 @@ function Schedule() {
             return;
         }
         
-        console.log("response", existingSchedules)
         // If no overlap, post the new schedule
         await postSchedule(input);
         handleClose();
     }
 
-   
+
+   console.log("input" , input)
   return (
     <>
     <div className={mainStyle.container}>
