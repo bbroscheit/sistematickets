@@ -47,7 +47,6 @@ function Schedule() {
   
     useEffect(() => {
         setCurrentMonth(getDaysForSchedule(monthIndex))
-
     }, [monthIndex])
 
     useEffect(() => {
@@ -61,7 +60,16 @@ function Schedule() {
           });
       }, []);
     
-    
+    useEffect(() => {
+        let userLogin = localStorage.getItem("user");
+        let loginParse = JSON.parse(userLogin);
+        
+        setInput({
+            ...input,
+            invited: [...input.invited,loginParse.name]
+        });
+    }, []);
+
     function handleClick(e , n){
         e.preventDefault(e)
         setSelector(n)
@@ -154,8 +162,7 @@ function Schedule() {
         }
     })
 }
-    
-    console.log("input" , input)
+    console.log("input", input)
   return (
     <>
     <div className={mainStyle.container}>

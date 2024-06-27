@@ -1,0 +1,21 @@
+.bodyContainer{
+    width: 85vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 5px;
+    border: solid 1px grey;
+    padding: 0px 16px 16px;
+}
+
+.agendaGrid{
+    text-align: center;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+}
