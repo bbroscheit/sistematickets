@@ -19,7 +19,7 @@ scheduleRouter.get("/schedule", async (req, res) => {
 // Cambiar el nombre de la ruta a "/schedules" para plural y agregar el parámetro de consulta en lugar de params
 scheduleRouter.get("/schedules", async (req, res) => {
   const { date, startHour, finishHour } = req.query; 
-  console.log("date ruta", date)
+  
   if (!date) {
       return res.status(400).json({ state: "failure", message: "Date query parameter is required" });
   }
@@ -28,8 +28,9 @@ scheduleRouter.get("/schedules", async (req, res) => {
   }
   try {
       
-      let scheduleByDate = await getAllScheduleByDateBase(date);
-      scheduleByDate ? res.status(200).json(scheduleByDate) : res.status(400).json({ state: "failure" });
+      let scheduleByDate = await getAllScheduleByDateBase(date, startHour, finishHour);
+      
+      scheduleByDate && scheduleByDate.length > 0 ? res.status(400).json(scheduleByDate) : res.status(200).json({ state: "available" });
   } catch (e) {
       console.log("error en ruta get schedule date", e.message);
   }

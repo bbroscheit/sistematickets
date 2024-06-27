@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState, useContext, useEffect } from 'react'
+import Router from "next/router";
 import mainStyle from '@/styles/Home.module.css'
 import style from '@/modules/schedule.module.css'
+import Swal from 'sweetalert2'
 import getDaysForSchedule from '@/functions/getDaysForSchedule'
 import Month from './Month'
 import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
@@ -15,7 +17,7 @@ import Modal from '@mui/material/Modal';
 import { postSchedule } from '../api/postSchedule'
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import giraFechas from '@/functions/girafechas'
+
 
 const styles = {
     position: 'absolute',
@@ -40,8 +42,7 @@ function Schedule() {
         invited : [],
         startdate : "",
         starthour : "",
-        finishhour : "",
-        
+        finishhour : "",       
     })
   
     useEffect(() => {
@@ -85,7 +86,10 @@ function Schedule() {
         })
     }
 
-    function handleSelect(e, value) {
+    function handleSelect(e) {
+        console.log( "e select" , e)
+        console.log( "value select" , value)
+        let value = e.target.innerHTML
         if (value && !input.invited.includes(value)) {
             setInput({
                 ...input,
@@ -101,75 +105,57 @@ function Schedule() {
         })
     }
 
-    // function handleSubmit(e){
-    //     e.preventDefault()
-    //     postSchedule(input)
-    // }
-
-    // async function handleSubmit(e) {
-    //     e.preventDefault();
-
-    //     const startDateTime = dayjs(`${input.startdate} ${input.starthour}`);
-    //     const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`);
-
-    //     Fetch existing schedules on the selected date
-    //     const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}`);
-    //     const existingSchedules = await response.json();
-
-    //     Check for overlapping schedules
-    //     const isOverlapping = existingSchedules.some(schedule => {
-    //         const existingStart = dayjs(`${schedule.startdate} ${schedule.starthour}`);
-    //         const existingEnd = dayjs(`${schedule.startdate} ${schedule.finishhour}`);
-    //         return (
-    //             (startDateTime.isBetween(existingStart, existingEnd, null, '[)')) ||
-    //             (finishDateTime.isBetween(existingStart, existingEnd, null, '(]')) ||
-    //             (startDateTime.isSame(existingStart) && finishDateTime.isSame(existingEnd))
-    //         );
-    //     });
-
-    //     if (isOverlapping) {
-    //         alert("El rango horario seleccionado ya está ocupado. Por favor, elija otro horario.");
-    //         return;
-    //     }
-
-    //     If no overlap, post the new schedule
-    //     postSchedule(input);
-    //     handleClose();
-    // }
-
     async function handleSubmit(e) {
         e.preventDefault();
-    
-        const startDateTime = dayjs(`${input.startdate} ${input.starthour}`);
-        const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`);
-    
-        // Fetch existing schedules on the selected date
-        const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}&startHour=${input.starthour}&finishHour=${input.finishhour}`);
-        const existingSchedules = await response.json();
-    
-        // Check for overlapping schedules
-        const isOverlapping = existingSchedules.some(schedule => {
-            const existingStart = dayjs(schedule.startdate);
-            const existingStartHour = dayjs(schedule.starthour);
-            const existingEndHour = dayjs(schedule.finishhour);
-    
-            return (
-                startDateTime.isBefore(existingEndHour) && finishDateTime.isAfter(existingStartHour)
-            );
-        });
-    
-        if (isOverlapping) {
-            alert("El rango horario seleccionado ya está ocupado. Por favor, elija otro horario.");
-            return;
-        }
+
+    const startDateTime = dayjs(`${input.startdate} ${input.starthour}`).format('HH:mm');
+    const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`).format('HH:mm');
+
+    // Fetch existing schedules on the selected date
+    const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}&startHour=${startDateTime}&finishHour=${finishDateTime}`);
+    const existingSchedules = await response.json();
         
-        // If no overlap, post the new schedule
-        await postSchedule(input);
-        handleClose();
+    if (existingSchedules.state === "failure") {
+        alert(existingSchedules.message);
+        return;
     }
 
+    if (existingSchedules.length > 0) {
+        Swal.fire({
+            icon: "error",
+            text: "El rango horario seleccionado ya está ocupado. Por favor, elija otro horario.",
+          });
+        handleClose();
+        return;
+    }
 
-   console.log("input" , input)
+    // Si no existen registros en el horario seleccionado se crea la nueva reserva
+    await postSchedule(input)
+    .then(res => {
+        if(res.state === "success"){
+            setInput({
+                detail : "",
+                invited : [],
+                startdate : "",
+                starthour : "",
+                finishhour : ""               
+            })
+            Swal.fire(({
+                icon: "success",
+                title: "Has hecho la reserva con éxito!",
+                showConfirmButton: false,
+                timer: 1500
+            }));
+            handleClose();
+            // revisar el timeout si ingresa
+            setTimeout(() => {
+                Router.push("/schedule/Schedule");
+            }, 1500);
+        }
+    })
+}
+    
+    console.log("input" , input)
   return (
     <>
     <div className={mainStyle.container}>
@@ -198,16 +184,16 @@ function Schedule() {
         </div>
     </div>
      <Modal
-    open={open}
-    onClose={handleClose}
-    aria-labelledby="modal-modal-title"
-    aria-describedby="modal-modal-description"
-  >
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+    >
     <Box sx={styles}>
-    <div>
-        <div className={style.asuntoModalSchedule}>
-            <label>Asunto :</label>
-            <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
+        <div>
+            <div className={style.asuntoModalSchedule}>
+                <label>Asunto :</label>
+                <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
         </div>
         <div className={style.fechaModalSchedule}>
             <label>Fecha de Inicio</label>
@@ -222,12 +208,6 @@ function Schedule() {
             <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
         </div>
       <label className={style.modalAutocomplete}>Elije a los participantes</label>
-      {/* <select onChange={e => handleSelect(e)}>
-            <option>usuario 1</option>
-            <option>usuario 2</option>
-            <option>usuario 3</option>
-            <option>usuario 4</option>
-      </select> */}
       <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -237,17 +217,12 @@ function Schedule() {
                 onChange={(e) => handleSelect(e)}
                 sx={{margin:"8px 10px"}}
             />
-      {
-        input.invited.length > 0 ? 
+      {input.invited.length > 0 ? 
             <div className={style.userContainer}>
-            {
-                input.invited.map( e => <div className={style.userCard}><h5 onClick={ e => handleUnselect(e)}>{e}</h5></div>)
-            }
-            </div> : null
-      }
+            { input.invited.map( e => <div className={style.userCard}><h5 onClick={ e => handleUnselect(e)}>{e}</h5></div>) }
+            </div> : null}
         <div></div>
     </div>
-    {/* <button onClick={e => {handleSubmit(e) , handleClose()}} className={mainStyle.buttonModal}>Aceptar</button> */}
     <button onClick={handleSubmit} className={mainStyle.buttonModal}>Aceptar</button>
                 
     </Box>

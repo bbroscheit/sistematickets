@@ -286,16 +286,16 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* se deshabilito el menu profile en vista general porque no hay algo para agregar ahi */}
-            {/* <IconButton
+            <IconButton
               size="large"
               aria-label="show 4 new mails"
               onClick={(e) => router.push(`/schedule/Schedule`)}
             >
-              {/* <Badge badgeContent={4} sx={{ color:"white"}}>  
+               {/* <Badge badgeContent={4} sx={{ color:"white"}}>   */}
               <Badge sx={{ color: "white" }}>
                 <CalendarMonthRoundedIcon />
               </Badge>
-            </IconButton> */}
+            </IconButton>
             <Tooltip title="Internos">
             <IconButton
               size="large"
@@ -309,8 +309,7 @@ export default function PrimarySearchAppBar() {
             </Tooltip>
 
             {/* si el usuario es bbroscheit o Lllamanzarez muestra la vista de mesa de ayuda */}
-            {user !== null &&
-              (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
+            { user !== null && (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
                 <Tooltip title="Mesa de Ayuda">
                 <IconButton
                   size="large"
@@ -327,8 +326,7 @@ export default function PrimarySearchAppBar() {
             ) : null}
 
             {/* Se crea boton para Añaños que pueda descargar el crudo de la base de datos */}
-            {user !== null && user.name === "Fañaños" ? 
-              <IconButton
+            { user !== null && user.name === "Fañaños" ? <IconButton
                 size="large"
                 aria-label="show 4 new mails"
                 onClick={handleDownload}
