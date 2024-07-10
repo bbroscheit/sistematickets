@@ -37,6 +37,7 @@ function Schedule() {
     const { monthIndex, setMonthIndex } = useContext(GlobalContext)
     const [selector , setSelector ] = useState(2)
     const [ user, setUser ] = useState(null)
+    const [ currentUser, setCurrentUser] = useState(null)
     const [input , setInput] = useState({
         detail : "",
         invited : [],
@@ -63,7 +64,7 @@ function Schedule() {
     useEffect(() => {
         let userLogin = localStorage.getItem("user");
         let loginParse = JSON.parse(userLogin);
-        
+        setCurrentUser(loginParse)
         setInput({
             ...input,
             invited: [...input.invited,loginParse.name]
@@ -77,8 +78,17 @@ function Schedule() {
 
     const handleOpen = () => setOpen(true);
 
-    const handleClose = () => setOpen(false);
-
+    function handleClose(){
+        setInput({
+            detail : "",
+            invited : [currentUser.name],
+            startdate : "",
+            starthour : "",
+            finishhour : "", 
+        })
+        setOpen(false)
+    }
+    
     function handleClickMonthPrev(){
         setMonthIndex(monthIndex - 1)
     }
@@ -119,7 +129,6 @@ function Schedule() {
     const startDateTime = dayjs(`${input.startdate} ${input.starthour}`).format('HH:mm');
     const finishDateTime = dayjs(`${input.startdate} ${input.finishhour}`).format('HH:mm');
 
-    // Fetch existing schedules on the selected date
     const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}&startHour=${startDateTime}&finishHour=${finishDateTime}`);
     const existingSchedules = await response.json();
         
@@ -143,7 +152,7 @@ function Schedule() {
         if(res.state === "success"){
             setInput({
                 detail : "",
-                invited : [],
+                invited : [currentUser.name],
                 startdate : "",
                 starthour : "",
                 finishhour : ""               
@@ -161,9 +170,8 @@ function Schedule() {
             }, 1500);
         }
     })
-}
-    console.log("input", input)
-  return (
+    }
+   return (
     <>
     <div className={mainStyle.container}>
         <div className={style.bodyContainer}>

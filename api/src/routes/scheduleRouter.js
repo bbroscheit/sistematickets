@@ -4,6 +4,7 @@ const getAllSchedule = require("../routes/controllers/getAllSchedule");
 const getAllScheduleByDate = require ('../routes/controllers/getAllScheduleByDate')
 const getAllScheduleByDateBase = require ('../routes/controllers/getAllScheduleByDateBase')
 const getAllScheduleById = require ('../routes/controllers/getAllScheduleById')
+const getAllScheduleByMonth = require('../routes/controllers/getAllScheduleByMonth')
 const postSchedule = require("../routes/controllers/postSchedule");
 const giraFechas  = require("./helpers/girafechas");
 
@@ -31,6 +32,21 @@ scheduleRouter.get("/schedules", async (req, res) => {
       let scheduleByDate = await getAllScheduleByDateBase(date, startHour, finishHour);
       
       scheduleByDate && scheduleByDate.length > 0 ? res.status(400).json(scheduleByDate) : res.status(200).json({ state: "available" });
+  } catch (e) {
+      console.log("error en ruta get schedule date", e.message);
+  }
+});
+
+scheduleRouter.get("/schedulesByMonth", async (req, res) => {
+  const { month, user } = req.query; 
+  console.log("month", month)
+ 
+  try {
+      
+      let scheduleByMonth = await getAllScheduleByMonth(month, user);
+      
+      //scheduleByMonth && scheduleByMonth.length > 0 ? res.status(200).json(scheduleByMonth) : res.status(400).json({ state: "failure" });
+      !scheduleByMonth ?  res.status(400).json({ state: "failure" }) : scheduleByMonth.length > 0 ? res.status(200).json(scheduleByMonth) : res.status(200).json({ state: 1 })
   } catch (e) {
       console.log("error en ruta get schedule date", e.message);
   }

@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
             allowNull:false
         },
         taskdetail:{
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(5000),
             defaultValue:'sin detalle',
             allowNull: false
         },

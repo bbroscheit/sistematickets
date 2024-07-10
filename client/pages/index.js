@@ -56,11 +56,13 @@ export default function Home() {
   async function onHandleSubmit(e) {
     e.preventDefault(e);
     let login = await getUser(input);
-    // console.log(login)
+    console.log(login)
     if(login.id){
       const user = {
         id: login.id,
         name: login.username,
+        firstname:login.firstname,
+        lastname:login.lastname,
         email: login.email,
         isWorker: login.isworker,
         isprojectmanager: login.isprojectmanager,
