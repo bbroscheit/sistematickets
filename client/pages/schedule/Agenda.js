@@ -30,7 +30,6 @@ function Agenda() {
 
   }, [monthIndex])
 
-  
   console.log("existing schedule", existingSchedules)
   return (
     
@@ -43,6 +42,7 @@ function Agenda() {
               <h4>Tema a tratar</h4>
               <h4>Asistencia</h4>
           </div>
+         
           {
             existingSchedules && existingSchedules.length > 0 ? 
               existingSchedules.map ( e =>
@@ -53,12 +53,12 @@ function Agenda() {
                   <h5>{e.detail}</h5>
                   <h5>{scheduleAsistencia(e, user.name, user.firstname , user.lastname) === true ? 
                     <div>
-                      <CheckCircleOutlineIcon />
-                      <CancelOutlinedIcon />
+                      <CheckCircleOutlineIcon className={style.accepted}/>
+                      <CancelOutlinedIcon className={style.pointer}/>
                     </div> : 
                     <div>
-                      <CheckCircleOutlineIcon />
-                      <CancelOutlinedIcon />
+                      <CheckCircleOutlineIcon className={style.pointer}/>
+                      <CancelOutlinedIcon className={style.rejected}/>
                     </div>}
                   </h5>
                 </div> ): null

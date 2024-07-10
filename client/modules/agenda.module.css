@@ -14,8 +14,20 @@
     display: grid;
     justify-content: center;
     align-items: center;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 10% 10% 10% 1fr 10%;
     /* grid-template-rows: repeat(5, 1fr); */
     grid-column-gap: 5px;
     grid-row-gap: 5px;
+}
+
+.pointer:hover{
+    cursor: pointer;
+}
+
+.accepted{
+    color: rgb(22, 146, 22);
+}
+
+.rejected{
+    color: rgb(201, 15, 15);
 }
