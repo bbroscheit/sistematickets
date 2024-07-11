@@ -286,19 +286,19 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* Se agrega icono de acceso al sector agenda */}
-            <Tooltip title="Agenda">  
+            {/* <Tooltip title="Agenda">  
             
              <IconButton
               size="large"
               aria-label="show 4 new mails"
               onClick={(e) => router.push(`/schedule/Schedule`)}
             >
-               {/* <Badge badgeContent={4} sx={{ color:"white"}}> */}  
+                
               <Badge sx={{ color: "white" }}>
                 <CalendarMonthRoundedIcon />
               </Badge>
             </IconButton>
-            </Tooltip> 
+            </Tooltip>  */}
 
             {/* Se agrega icono de acceso al listado de internos */}
             <Tooltip title="Internos">
