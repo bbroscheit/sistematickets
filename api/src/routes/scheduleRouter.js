@@ -39,8 +39,7 @@ scheduleRouter.get("/schedules", async (req, res) => {
 
 scheduleRouter.get("/schedulesByMonth", async (req, res) => {
   const { month, user } = req.query; 
-  console.log("month", month)
- 
+   
   try {
       
       let scheduleByMonth = await getAllScheduleByMonth(month, user);
@@ -63,18 +62,17 @@ scheduleRouter.get("/schedule/:date", async (req, res) => {
     }
 });
 
-// scheduleRouter.get("/schedule/date/:date", async (req, res) => {
-//   const { date } = req.params;
-//   if (!dayjs(date, 'YYYY-MM-DD', true).isValid()) {
-//       return res.status(400).json({ state: "failure", message: "Invalid date format" });
-//   }
-//   try {
-//       let scheduleByDate = await getAllScheduleByDate(date);
-//       scheduleByDate ? res.status(200).json(scheduleByDate) : res.status(400).json({ state: "failure" });
-//   } catch (e) {
-//       console.log("error en ruta get schedule date", e.message);
-//   }
-// });
+scheduleRouter.put("/toggleAccepted/:id", async (req, res) => {
+  const { id } = req.params;
+  const { user, firstname , lastname } = req.body
+  
+  try {
+      let toggle = await toggleAccepted(id, user, firstname , lastname);
+      toggle ? res.status(200).json({ state: "success" }) : res.status(400).json({ state: "failure" });
+  } catch (e) {
+      console.log("error en ruta put toggleAccepted", e.message);
+  }
+});
 
 scheduleRouter.get("/schedule/id/:id", async (req, res) => {
   const { id } = req.params

@@ -576,5 +576,16 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
     
 });
 
+ticketRouter.get( '/ticketsByGustavo' , async ( req, res ) => {
+    const workerName = "Garias"
+    
+    try {
+        let tickets = await getTicketByWorker(workerName);
+        tickets ? res.status(200).json(tickets) : res.status(400).json({ state:"failure" })
+    } catch (e) {
+        console.log( "error en ruta get ticketsByWorker" , e.message)
+    }
+})
+
 
 module.exports = ticketRouter;
