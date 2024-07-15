@@ -1,6 +1,8 @@
 export function horasPromedio(data) {
     
-    const diferenciasEnHoras = data.map(registro => {
+    let terminados = data.filter ( e => e.state ===  "Terminado")
+
+    const diferenciasEnHoras = terminados.map(registro => {
         const tiempoInicio = new Date(registro.createdAt).getTime();
         const tiempoFin = new Date(registro.finishdate).getTime();
 
@@ -19,9 +21,11 @@ export function horasPromedio(data) {
         console.log("no hay horas validas"); // caso en el que no hay horas validas
     }
 
+    console.log("horas validas", horasValidas)
     // Calculamos el promedio de horas
     const promedioHoras = horasValidas.reduce((total, horas) => total + horas, 0) / horasValidas.length;
-
+    
+    console.log("promedio", promedioHoras)
     return promedioHoras;
-    // console.log("promedio", promedioHoras)
+    
 }

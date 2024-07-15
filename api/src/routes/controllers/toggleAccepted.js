@@ -1,6 +1,7 @@
 const { Schedule } = require('../../bd')
 
-const toggleAccepted = async (id, answer) => {
+const toggleAccepted = async (id, user, firstname , lastname) => {
+    let completeName = `${firstname} ${lastname}`
     try {
         // Obtener el ticket actual
         const existingSchedule = await Schedule.findByPk(id);
@@ -9,11 +10,12 @@ const toggleAccepted = async (id, answer) => {
             throw new Error('Schedule no encontrado');
         }
 
+        if (existingSchedule.accepted.include( e === "user") || existingSchedule.accepted.include( e === completeName))
         // Actualizar el ticket con el nuevo detail
-        let setTicket = await existingTicket.update({ 
-            detail: updatedDetail, 
-            state: "Desarrollo" 
-        });
+        // let setTicket = await existingTicket.update({ 
+        //     detail: updatedDetail, 
+        //     state: "Desarrollo" 
+        // });
 
         setTicket = await existingTicket.update({
             files: existingTicket.files

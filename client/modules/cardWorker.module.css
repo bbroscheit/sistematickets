@@ -1,6 +1,6 @@
 .cardWorker{
     min-width: 250px;
-    height: 300px;
+    /* height: 300px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,4 +49,20 @@
 
 .desarrolloContainerTitles h4{
     color: aliceblue;
+}
+
+.gridTicket{
+    margin: 5px 0px;
+    display: grid;
+    justify-items: center;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 1fr; 
+}
+
+.gridTicketTitle{
+    justify-self: left;
+}
+
+.gridTicket h4{
+    color: #ffffff;
 }

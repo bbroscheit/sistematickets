@@ -8,7 +8,6 @@
 }
 
 .dashboardCard{
-    
     width: 45%;
     height: 130px;
     padding: 15px;
@@ -177,6 +176,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.mainDiv{
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: cadetblue;
+    text-align: center;
+    padding: 1.5rem;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+}
+
+.secondDiv{
+    text-align: center;
+    
+}
+
+.mainDiv h3{
+    font-size: 1rem;
+    
+}
+
+.mainDivIcon{
+    font-size: 5rem;
+}
+
+.center{
+    margin: auto;
 }
 
 /* media query para tablets */
