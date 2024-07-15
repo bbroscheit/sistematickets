@@ -286,7 +286,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {/* Se agrega icono de acceso al sector agenda */}
-            <Tooltip title="Agenda">  
+            {/* <Tooltip title="Agenda">  
             
              <IconButton
               size="large"
@@ -298,7 +298,7 @@ export default function PrimarySearchAppBar() {
                 <CalendarMonthRoundedIcon />
               </Badge>
             </IconButton>
-            </Tooltip> 
+            </Tooltip>  */}
 
             {/* Se agrega icono de acceso al listado de internos */}
             <Tooltip title="Internos">
