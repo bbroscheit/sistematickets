@@ -720,7 +720,7 @@ export default function PrimarySearchAppBar() {
               </Link>
             )
           )}
-        </List>) : user!==null && user.sector !== "Sistemas" && user.sector !== "Supervisor" ?
+        </List>) : user!==null && user.sector !== "Sistemas" && user.sector !== "Supervisor" && user.sector !== "Jefe de Administracion"?
            <List>
             {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
               (text, index) => (
