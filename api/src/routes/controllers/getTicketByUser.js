@@ -9,7 +9,12 @@ const getTicketByUser = async (username) => {
             include:{
                 model:User,
                 where: { username: username},
-            }
+            },
+            where: {
+                state: {
+                    [Sequelize.Op.not]: "Terminado"
+                }
+            },
         });
 
         return getTIcketByName;
