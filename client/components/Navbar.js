@@ -561,8 +561,8 @@ export default function PrimarySearchAppBar() {
           
          </> : null }
 
-        {/* Si el usuario es supervisor se carga la barra de navegacion con la vista de supervisor */}
-        { user !== null && user.sector === "Supervisor" ? (
+        {/* Si el usuario es jefe de administracion se carga la barra de navegacion con la vista de supervisor general */}
+        { user !== null && user.sector === "Jefe de Administracion" ? (
           <List>
             {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
               (text, index) => (
@@ -570,6 +570,60 @@ export default function PrimarySearchAppBar() {
                   href={
                     index === 0
                       ? "TicketsSupervisor"
+                      : index === 1
+                      ? "/soportes/nuevoSoporte"
+                      : index === 2
+                      ? "/soportes/historicoSoportes"
+                      : null
+                  }
+                >
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      className={styles.listItemButton}
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                        color: "#000000",
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                          color: "#EA6558",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <InsertDriveFileRoundedIcon />
+                        ) : index === 1 ? (
+                          <LiveHelpRoundedIcon />
+                        ) : (
+                          <FindInPageRoundedIcon />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              )
+            )}
+          </List>
+        ) : null }
+
+         {/* Si el usuario es supervisor se carga la barra de navegacion con la vista de supervisor */}
+         { user !== null && user.sector === "Supervisor" ? (
+          <List>
+            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
+              (text, index) => (
+                <Link
+                  href={
+                    index === 0
+                      ? "TicketSupervisorGeneral"
                       : index === 1
                       ? "/soportes/nuevoSoporte"
                       : index === 2
@@ -718,6 +772,7 @@ export default function PrimarySearchAppBar() {
             )}
           </List> : null
         }
+        
 
         <Divider />
 

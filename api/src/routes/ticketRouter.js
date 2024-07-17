@@ -556,10 +556,11 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
             { header: 'Comienzo', key: 'startdate', width: 20 },
             { header: 'Completado', key: 'finishdate', width: 20 },
             { header: 'Terminado', key: 'updatedAt', width: 20 },
-            // Agregar más columnas según las propiedades de Ticket que desees incluir en el Excel
+            
             { header: 'Usuario', key: 'username', width: 20 },
             { header: 'Sector', key: 'sectorname', width: 20 }, // Agregar columna para el nombre del sector
             { header: 'Punto de Venta', key: 'salepoint', width: 20 }, // Agregar columna para el nombre del sector
+            // Agregar más columnas según las propiedades de Ticket que desees incluir en el Excel
             
         ];
 
