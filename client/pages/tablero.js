@@ -13,6 +13,7 @@ import ScreenshotMonitorIcon from '@mui/icons-material/ScreenshotMonitor';
 import { ticketCompletos } from "@/functions/ticketCompletos";
 import { horasPromedio } from "@/functions/horasPromedio";
 import { horasPromedioHabiles } from "@/functions/horasPromedioHabiles";
+import CardBySalepoint from "@/components/CardBySalepoint";
 
 
 function Tablero() {
@@ -79,6 +80,12 @@ function Tablero() {
           }
           
         </div>
+        {/* <h1 className={mainStyles.title}>Sectores</h1>
+        <div className={`${style.tableContainer} ${style.tableContainerMargin}`}>
+          <CardBySalepoint salepoint={"Buenos Aires"}/>
+          <CardBySalepoint salepoint={"Baxpa"}/>
+          <CardBySalepoint salepoint={"Baebsa"}/>
+        </div> */}
         {/* <div className={style.chart}>
           <ChartBySalepoint />
         </div> */}

@@ -76,9 +76,13 @@ export default function Home() {
       
       if (sector === "Supervisor"){
           Router.push("/TicketsSupervisor")
-        }else if(sector.includes("Jefatura")){ Router.push("/TicketsSupervisorSector") } else {
+        }else if(sector.includes("Jefatura")){ 
+          Router.push("/TicketsSupervisorSector") } 
+          else if(sector.includes("Jefe")) {
+            Router.push("/TicketsSupervisorGeneral") } 
+            else{
           Router.push("/Tickets")
-      }
+        }
 
     }else{
       setErrorLogin({ state: true });
