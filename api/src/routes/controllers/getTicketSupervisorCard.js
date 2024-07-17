@@ -4,19 +4,19 @@ const { Sequelize } = require('sequelize');
 const getTicketSupervisorCard = async () => {
     
     let employees = [   
-                        Pranieri , 
-                        Lalfaro, 
-                        Tbobadilla, 
-                        Mdardenne, 
-                        Xmamani,
-                        MRomero,
-                        Mjalid, 
-                        Vgonzalez, 
-                        Dgimenez, 
-                        Rmorris, 
-                        Mperez, 
-                        Cgaravano, 
-                        Gvillareal,
+                        "Pranieri" , 
+                        "Lalfaro", 
+                        "Tbobadilla", 
+                        "Mdardenne", 
+                        "Xmamani",
+                        "MRomero",
+                        "Mjalid", 
+                        "Vgonzalez", 
+                        "Dgimenez", 
+                        "Rmorris", 
+                        "Mperez", 
+                        "Cgaravano", 
+                        "Gvillareal",
                     ]
 
     try{
