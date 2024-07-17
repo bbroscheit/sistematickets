@@ -1,35 +1,38 @@
 const { Ticket, User, Sector } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
-const getTicketSupervisorCard = async () => {
+const getTicketSupervisorCard = async (supervisorSector) => {
     
-    let employees = [   
-                        "Pranieri" , 
-                        "Lalfaro", 
-                        "Tbobadilla", 
-                        "Mdardenne", 
-                        "Xmamani",
-                        "MRomero",
-                        "Mjalid", 
-                        "Vgonzalez", 
-                        "Dgimenez", 
-                        "Rmorris", 
-                        "Mperez", 
-                        "Cgaravano", 
-                        "Gvillareal",
-                    ]
+    let sector = ''
+
+    switch (supervisorSector) {
+        case "Jefatura de Contabilidad":
+            sector = "Contabilidad"
+            break;
+        case "Jefatura de Cobranzas":
+            sector = "Cobranzas"
+            break;
+        case "Jefatura de Compras":
+            sector = "Compras"
+            break;
+        case "Jefatura de Facturacion":
+            sector = "Facturacion"
+            break;
+        case "Jefatura de Tesoreria":
+            sector = "Tesoreria"
+            break;
+    }
 
     try{
         
         let getTickets = await Ticket.findAll({
             include: [{
                 model: User,
-                required: true,
-                where: {
-                    username: {
-                        [Sequelize.Op.in]: employees
-                    }
-                }
+                required: true, 
+                include: [{
+                    model: Sector,
+                    where: { sectorname: sector }
+                }]
             }],
             where: {
                 state: {
