@@ -35,7 +35,7 @@ const style = {
 function FormFaq({ id, title, description, answer, uresolved, user, useremail }) {
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado
-  const [user, setUser] = useState(null);
+  const [user2, setUser2] = useState(null);
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: "sin asignar",
@@ -56,7 +56,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
+    setUser2(loginParse);
   }, []);
 
 
@@ -147,9 +147,9 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
         timer: 1500
       }));
       setTimeout(() => {
-        user.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
-          : sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
-          : sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
+        user2.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
+          : user2.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
+          : user2.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
           : Router.push("/Tickets"); 
         
       }, 1500);

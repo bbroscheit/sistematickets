@@ -95,8 +95,8 @@ function FormNormal({ user }) {
         }));
         setTimeout(() => {
           user.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
-            : sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
-            : sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
+            : user.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
+            : user.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
             : Router.push("/Tickets"); 
           
         }, 1500);
