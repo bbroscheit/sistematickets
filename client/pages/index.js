@@ -79,7 +79,7 @@ export default function Home() {
         }else if(sector.includes("Jefatura")){ 
           Router.push("/TicketsSupervisorSector") } 
           else if(sector.includes("Jefe")) {
-            Router.push("/TicketsSupervisorGeneral") } 
+            Router.push("/TicketSupervisorGeneral") } 
             else{
           Router.push("/Tickets")
         }
