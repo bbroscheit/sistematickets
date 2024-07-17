@@ -1,4 +1,5 @@
 const { Ticket, User } = require('../../bd');
+const { Sequelize } = require('sequelize');
 
 const getTicketByUser = async (username) => {
     
