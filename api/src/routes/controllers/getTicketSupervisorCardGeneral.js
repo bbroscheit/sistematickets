@@ -9,7 +9,7 @@ const getTicketSupervisorCardGeneral = async () => {
                         "Tbobadilla", 
                         "Mdardenne", 
                         "Xmamani",
-                        "MRomero",
+                        "Mromero",
                         "Mjalid", 
                         "Vgonzalez", 
                         "Dgimenez", 
