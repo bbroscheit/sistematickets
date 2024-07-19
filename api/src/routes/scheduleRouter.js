@@ -7,6 +7,7 @@ const getAllScheduleById = require ('../routes/controllers/getAllScheduleById')
 const getAllScheduleByMonth = require('../routes/controllers/getAllScheduleByMonth')
 const postSchedule = require("../routes/controllers/postSchedule");
 const giraFechas  = require("./helpers/girafechas");
+const toggleAccepted = require('../routes/controllers/toggleAccepted')
 
 scheduleRouter.get("/schedule", async (req, res) => {
   try {

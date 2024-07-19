@@ -2,26 +2,39 @@ const { Schedule } = require('../../bd')
 
 const toggleAccepted = async (id, user, firstname , lastname) => {
     let completeName = `${firstname} ${lastname}`
+    let updateSchedule
+    
     try {
-        // Obtener el ticket actual
+        
         const existingSchedule = await Schedule.findByPk(id);
-
+            
         if (!existingSchedule) {
             throw new Error('Schedule no encontrado');
         }
 
-        if (existingSchedule.accepted.include( e === "user") || existingSchedule.accepted.include( e === completeName))
-        // Actualizar el ticket con el nuevo detail
-        // let setTicket = await existingTicket.update({ 
-        //     detail: updatedDetail, 
-        //     state: "Desarrollo" 
-        // });
+        let invited = existingSchedule.invited;
+        let acceptedArray = existingSchedule.accepted;
 
-        setTicket = await existingTicket.update({
-            files: existingTicket.files
-        });
+        if(!invited.includes(user) && !invited.includes(completeName)){
+            throw new Error('Usuario no invitado');
+        }
 
-    return setTicket;
+        if (!acceptedArray.includes(user) && !acceptedArray.includes(completeName)) {
+            acceptedArray.push(completeName);
+            
+        } else {
+            acceptedArray = acceptedArray.filter(name => name !== user && name !== completeName);
+            console.log("Usuario eliminado de la lista de aceptados");
+        }
+
+        updateSchedule = await Schedule.update(
+            { accepted : acceptedArray},
+            { where: { id : id} }
+        )
+
+        console.log("update", updateSchedule)
+
+    return updateSchedule;
 } catch (error) {
     console.error("Error en toggleAccepted", error.message);
     throw error; 

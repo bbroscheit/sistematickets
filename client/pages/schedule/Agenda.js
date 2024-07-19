@@ -29,20 +29,25 @@ function Agenda() {
       setExistingSchedules(data)
     });
       
-
-  }, [monthIndex])
+}, [monthIndex])
 
   function handleAccept(e , id, user, firstname , lastname){
     e.preventDefault(e)
-    toggleAccepted(id,user, firstname , lastname )
-      // .then( res === "success" ?  fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedulesByMonth?month=${monthIndex+1}&user=${loginParse.name}`)
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     setExistingSchedules(data)
-      // }) : alert("no se pudo cambiar")) 
-  }
+    toggleAccepted( id, user, firstname , lastname )
+      .then( res => {
+        if (res === "success"){
+          // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedulesByMonth?month=${monthIndex+1}&user=${loginParse.name}`)
+          //   .then((res) => res.json())
+          //   .then((data) => { setExistingSchedules(data) })
+          console.log("cambiado con exito")
+          }
+        })
+      .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+      });
+    }
 
-  console.log("existing schedule", existingSchedules)
+  //console.log("existing schedule", existingSchedules)
   return (
     
       <div className={style.bodyContainer}>
@@ -66,7 +71,7 @@ function Agenda() {
                   <h5>{scheduleAsistencia(s, user.name, user.firstname , user.lastname) === true ? 
                     <div>
                       <CheckCircleOutlineIcon className={style.accepted}/>
-                      <CancelOutlinedIcon className={style.pointer}/>
+                      <CancelOutlinedIcon className={style.pointer} onClick={ e => handleAccept(e , s.id, user.name, user.firstname , user.lastname)}/>
                     </div> : 
                     <div>
                       <CheckCircleOutlineIcon className={style.pointer} onClick={ e => handleAccept(e , s.id, user.name, user.firstname , user.lastname)}/>
