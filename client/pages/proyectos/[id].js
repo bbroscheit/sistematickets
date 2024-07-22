@@ -217,7 +217,7 @@ function projectDetail() {
                   className={mainStyle.inputModal}
                 />
                 {
-                  worker !== null && worker.length > 2 ?
+                  worker !== null && worker.length > 1 ?
                     <div>
                       <label className={mainStyle.labelModal}>Responsable</label>
                       <select value={inputTask.worker} name="worker" onChange={e => handleSelectTask(e)} className={mainStyle.selectModal}>
