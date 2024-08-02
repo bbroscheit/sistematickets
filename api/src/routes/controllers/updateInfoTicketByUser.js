@@ -1,6 +1,8 @@
 const { Ticket } = require('../../bd')
 const fs = require('fs').promises;
 const path = require('path');
+const { TELEGRAMCHATID } = process.env
+const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 
 const updateInfoTicketByuser = async (id, answer) => {
     try {
@@ -60,6 +62,13 @@ const updateInfoTicketByuser = async (id, answer) => {
         setTicket = await existingTicket.update({
             files: existingTicket.files
         });
+
+        if(setTicket){
+            const telegramChatId = TELEGRAMCHATID;
+            const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id} : 
+            ${answer}`;
+            await sendTelegramMessage(telegramChatId, telegramMessage);
+        }
 
     return setTicket;
 } catch (error) {

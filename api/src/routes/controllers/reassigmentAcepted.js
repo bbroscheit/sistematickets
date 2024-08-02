@@ -1,4 +1,6 @@
 const { Ticket, Workernote, sequelize } = require('../../bd')
+const sendTelegramMessage = require('../helpers/sendTelegramMessage')
+const { TELEGRAMCHATID } = process.env
 
 const reassigmentAcepted = async (id, name, description) => {
     let lastWorker = ""
@@ -38,7 +40,14 @@ const reassigmentAcepted = async (id, name, description) => {
                     await newNote.setTicket(ticket.id)
 
                     }
-
+                    
+                
+                if(Ticket){
+                    const telegramChatId = TELEGRAMCHATID;
+                    const telegramMessage = `${name} , el usuario ${lastWorker} te ha re-asignado el soporte: N° ${id} por el siguiente motivo: 
+                    ${description}`;
+                    await sendTelegramMessage(telegramChatId, telegramMessage);
+                }
                 
                 await ticket.reload({ include: [{ model: Workernote }] });
                     
