@@ -41,6 +41,7 @@ function Schedule() {
     const [input , setInput] = useState({
         detail : "",
         invited : [],
+        accepted: [],
         startdate : "",
         starthour : "",
         finishhour : "",       
@@ -67,7 +68,8 @@ function Schedule() {
         setCurrentUser(loginParse)
         setInput({
             ...input,
-            invited: [...input.invited,loginParse.name]
+            invited: [...input.invited,loginParse.name],
+            accepted: [...input.accepted, loginParse.name]
         });
     }, []);
 

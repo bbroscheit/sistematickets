@@ -9,7 +9,7 @@ const getAllScheduleById = async (id) => {
             
         })
 
-        console.log("getSchedule", getSchedule)
+        
         return getSchedule
 
     } catch (e) {

@@ -130,7 +130,7 @@ userRouter.put("/deleteUser/:id", async (req, res) => {
   try {
     let deletedUser = await deleteUser(id);
     deletedUser
-      ? res.status(200).json({state:"sucess"})
+      ? res.status(200).json({state:"success"})
       : res.status(400).json({state:"failure"});;
   } catch (e) {
     console.log(" error en ruta delete user", e.message);

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import style from "@/modules/schedule.module.css";
+import mainStyle from '@/styles/Home.module.css'
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { extraeFecha } from "@/functions/extraeFecha";
 import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
 import { calcularDiferenciaHoraria } from "@/functions/calculaDiferenciaHoraria";
+import { deleteSchedule } from "@/pages/api/deleteSchedule";
+import Swal from 'sweetalert2'
 
 const styles = {
   position: "absolute",
@@ -19,8 +23,11 @@ const styles = {
 };
 
 function ScheduleCard({ id, detail, starthour }) {
+  const router = useRouter();
+
   const [schedule, setSchedule] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null)
   const [input, setInput] = useState({
     detail: "",
     invited: "",
@@ -28,6 +35,12 @@ function ScheduleCard({ id, detail, starthour }) {
     starthour: "",
     finishhour: "",
   });
+
+  useEffect(() => {
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setCurrentUser(loginParse)
+  }, []);
 
   async function handleOpenModal(e) {
     setOpenModal(true);
@@ -50,6 +63,27 @@ function ScheduleCard({ id, detail, starthour }) {
   }
 
   const handleClose = () => setOpenModal(false);
+
+  function handleDelete(e){
+    e.preventDefault()
+    deleteSchedule(id)
+    .then(res => {
+      setOpenModal(false)
+      if (res.state === "success") {
+      
+      Swal.fire(({
+        icon: "success",
+        title: "Tu reunión fue eliminada con éxito!",
+        showConfirmButton: false,
+        timer: 1500
+      }));
+      setTimeout(() => {
+         router.push("/schedule/Schedule")         
+      }, 1500);
+    }
+  })
+    
+  }
 
   return (
     <>
@@ -108,6 +142,11 @@ function ScheduleCard({ id, detail, starthour }) {
               {input.invited && input.invited.length > 0
                 ? input.invited.map((e) => <p key={e}>{e}</p>)
                 : null}
+              
+              {
+                currentUser && currentUser.name === input.invited[0] ? <div className={style.deleteButton}><button  onClick={handleDelete} className={mainStyle.buttonModal}>Eliminar</button></div> : null
+              }
+              
             </div>
           ) : (
             <p>No hay datos</p>

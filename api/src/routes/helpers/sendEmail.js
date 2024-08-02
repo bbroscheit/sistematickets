@@ -1,12 +1,12 @@
 require('dotenv').config();
 
 const nodemailer = require('nodemailer');
-const { LOCALHOST, PORTFRONT, MAIL_USER, MAIL_PASS} = process.env
+const { LOCALHOST, PORTFRONT, MAIL_USER, MAIL_PASS, MAIL_PORT} = process.env
 
 // Configuración del transporter (SMTP)
 const transporter = nodemailer.createTransport({
   host: 'mail.basani.com.ar',
-  port: 465,
+  port: MAIL_PORT,
   secure: true, // true para 465, false para otros puertos
   auth: {
     user: MAIL_USER,

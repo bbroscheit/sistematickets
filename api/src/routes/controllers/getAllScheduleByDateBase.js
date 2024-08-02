@@ -9,10 +9,6 @@ dayjs.extend(timezone);
 
 const getAllScheduleByDateBase = async (date, startHour, finishHour) => {
 
-    //console.log("date", date)
-    //console.log("startHour", startHour)
-    //console.log("finishHour", finishHour)
-
     const timezone = 'America/Argentina/Buenos_Aires';
 
     const adjustedStartHour = subtractHours(startHour, 3);
@@ -21,11 +17,10 @@ const getAllScheduleByDateBase = async (date, startHour, finishHour) => {
     const startDateTime = dayjs.tz(`${date} ${adjustedStartHour}`, timezone).toDate();
     const finishDateTime = dayjs.tz(`${date} ${adjustedFinishHour}`, timezone).toDate();
    
-    //console.log("startDateTime", startDateTime)
-    //console.log("finishDateTime", finishDateTime)
     try {
         const schedules = await Schedule.findAll({
             where: {
+                isdelete : true ,
                 [Op.or]: [
                     {
                         starthour: {

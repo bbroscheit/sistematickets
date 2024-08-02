@@ -7,7 +7,9 @@ const getAllScheduleById = require ('../routes/controllers/getAllScheduleById')
 const getAllScheduleByMonth = require('../routes/controllers/getAllScheduleByMonth')
 const postSchedule = require("../routes/controllers/postSchedule");
 const giraFechas  = require("./helpers/girafechas");
-const toggleAccepted = require('../routes/controllers/toggleAccepted')
+const toggleAccepted = require('../routes/controllers/toggleAccepted');
+const sendEmailSchedule = require('../routes/helpers/sendEmailSchedule');
+const deleteSchedule = require('./controllers/deleteSchedule')
 
 scheduleRouter.get("/schedule", async (req, res) => {
   try {
@@ -88,15 +90,35 @@ scheduleRouter.get("/schedule/id/:id", async (req, res) => {
 });
 
 scheduleRouter.post("/schedule", async (req, res) => {
-  const {  detail, invited, startdate, starthour, finishhour } = req.body;
-    let accepted = []
+  const {  detail, invited, accepted, startdate, starthour, finishhour } = req.body;
+    //let accepted = []
     startdateModify = giraFechas(startdate)
 
   try {
     let newSchedule = await postSchedule( detail, invited, accepted, startdateModify, starthour, finishhour );
-    newSchedule ? res.status(200).json({state: "success"}) : res.status(400).json({state : "failure"})
+    //newSchedule ? res.status(200).json({state: "success"}) : res.status(400).json({state : "failure"})
+    if(newSchedule){
+      await sendEmailSchedule(detail, invited , startdateModify, starthour, finishhour)
+      res.status(200).json({state: "success"}) 
+    }else{
+      res.status(400).json({state : "failure"})
+    }
   } catch (e) {
     console.log("error en ruta postSchedule ", e.message);
+  }
+});
+
+scheduleRouter.put("/deleteSchedule/:id", async (req, res) => {
+  
+  const { id } = req.params;
+
+  try {
+    let deletedSchedule = await deleteSchedule(id);
+    deletedSchedule
+      ? res.status(200).json({state:"success"})
+      : res.status(400).json({state:"failure"});;
+  } catch (e) {
+    console.log(" error en ruta deletedSchedule", e.message);
   }
 });
 

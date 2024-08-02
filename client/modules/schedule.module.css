@@ -250,3 +250,9 @@
     padding-bottom: 8px;
     margin-bottom: 8px;
 }
+
+.deleteButton{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
