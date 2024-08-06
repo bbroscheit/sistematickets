@@ -4,6 +4,7 @@ import Head from "next/head";
 import styles from "../modules/index.module.css";
 import { getUser } from "../pages/api/getUser";
 import Router from "next/router";
+import { subscribeUserToPush } from "@/functions/pushNotifications";
 
 export default function Home() {
   const [input, setInput] = useState({
@@ -56,7 +57,7 @@ export default function Home() {
   async function onHandleSubmit(e) {
     e.preventDefault(e);
     let login = await getUser(input);
-    console.log(login)
+    //console.log(login)
     if(login.id){
       const user = {
         id: login.id,
@@ -73,6 +74,8 @@ export default function Home() {
       }
       localStorage.setItem('user', JSON.stringify(user));
       let sector = login.sector.sectorname
+
+      await subscribeUserToPush();
       
       if (sector === "Supervisor"){
           Router.push("/TicketsSupervisor")

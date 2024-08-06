@@ -20,6 +20,7 @@ const scheduleRouter = require('../src/routes//scheduleRouter.js')
 const downloadRouter = require('../src/routes/downloadRouter.js');
 const gpRequestRouter = require('../src/routes/gpRequestRouter.js')
 const proveedorRouter = require('../src/routes/proveedorRouter.js');
+const suscriptionRouter = require('../src/routes/suscriptionRouter.js')
 
 
 const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
@@ -72,6 +73,7 @@ server.use('/', scheduleRouter);
 server.use('/' , downloadRouter);
 server.use('/' , gpRequestRouter);
 server.use('/' , proveedorRouter);
+server.use('/' , suscriptionRouter)
 
 server.use((err,req,res) => {
     const status = err.status || 500;

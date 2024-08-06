@@ -13,7 +13,7 @@ function TicketsSupervisor() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
-      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
+       //fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
       .then((res) => res.json())
       .then((data) => {
         setSoportes(data);
@@ -22,7 +22,7 @@ function TicketsSupervisor() {
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
-      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
+       //fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`)
       .then((res) => res.json())
       .then((data) => {
         setWorker(data);

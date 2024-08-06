@@ -50,9 +50,10 @@ const getTicketByUser = require('./controllers/getTicketByUser')
 const getTicketBySalepoint = require('./controllers/getTicketBySalepoint')
 const reassigmentAcepted = require('./controllers/reassigmentAcepted')
 const getTicketSupervisorCardGeneral = require('./controllers/getTicketSupervisorCardGeneral')
-
+const sendNotificationPush = require('./controllers/sendNotificacionPush');
 const Excel = require('exceljs');
 const { Ticket, User, Sector, Salepoint } = require('../bd');
+
 
 
 ticketRouter.get( '/ticket' , async ( req, res ) => {
@@ -258,7 +259,13 @@ ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     try {
          
         let newTicket = await postTicket(state, worker, subject, detail, answer, userresolved, user, req.files);  
-        newTicket ? res.status(200).json({state: "success"}) : res.status(404).json({state: "failure"})
+        //newTicket ? res.status(200).json({state: "success"}) : res.status(404).json({state: "failure"})
+        if(newTicket){
+            sendNotificationPush()
+            res.status(200).json({state: "success"})
+        }else{
+            res.status(404).json({state: "failure"})
+        }
     } catch (e) {
         console.log ( "error en ruta post ticket" , e.message)
     }

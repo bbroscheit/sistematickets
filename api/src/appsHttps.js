@@ -28,12 +28,17 @@ const faqRouter = require('../src/routes/faqRouter.js')
 const projectRouter = require('../src/routes/projectRouter.js')
 const userstoriesRouter = require('../src/routes/userstoriesRouter.js')
 const taskRouter = require('../src/routes/taskRouter.js')
+const scheduleRouter = require('../src/routes//scheduleRouter.js')
 const downloadRouter = require('../src/routes/downloadRouter.js');
+const gpRequestRouter = require('../src/routes/gpRequestRouter.js')
+const proveedorRouter = require('../src/routes/proveedorRouter.js');
+const suscriptionRouter = require('../src/routes/suscriptionRouter.js')
+
 const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
 
 
 // usamos cron para marcar cuando queremos que se ejecute la tarea programada
-cron.schedule('0 12 * * *', () => {
+cron.schedule('0 10 * * *', () => {
         console.log('Ejecutando tarea programada todos los dias a las 7 de la mañana');
     // closeTicketByTime();
   });
@@ -74,7 +79,11 @@ httpsServer.use('/' , faqRouter);
 httpsServer.use('/', projectRouter);
 httpsServer.use('/', userstoriesRouter);
 httpsServer.use('/', taskRouter);
+httpsServer.use('/', scheduleRouter);
 httpsServer.use('/' , downloadRouter);
+httpsServer.use('/' , gpRequestRouter);
+httpsServer.use('/' , proveedorRouter);
+httpsServer.use('/' , suscriptionRouter)
 
 httpsServer.use((err,req,res) => {
     const status = err.status || 500;
