@@ -65,8 +65,7 @@ const updateInfoTicketByuser = async (id, answer) => {
 
         if(setTicket){
             const telegramChatId = TELEGRAMCHATID;
-            const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id} : 
-            ${answer}`;
+            const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
             await sendTelegramMessage(telegramChatId, telegramMessage);
         }
 

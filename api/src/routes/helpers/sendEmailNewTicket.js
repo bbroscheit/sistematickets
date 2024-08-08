@@ -7,7 +7,7 @@ const { MAIL_USER, MAIL_PASS, MAIL_PORT } = process.env
 const transporter = nodemailer.createTransport({
   host: 'mail.basani.com.ar',
   port: MAIL_PORT,
-  secure: MAIL_PORT === 465 ? true : false, // true para 465, false para otros puertos
+  secure: true, // true para 465, false para otros puertos
   auth: {
     user: MAIL_USER,
     pass: MAIL_PASS,

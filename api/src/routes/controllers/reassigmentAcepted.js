@@ -44,8 +44,7 @@ const reassigmentAcepted = async (id, name, description) => {
                 
                 if(Ticket){
                     const telegramChatId = TELEGRAMCHATID;
-                    const telegramMessage = `${name} , el usuario ${lastWorker} te ha re-asignado el soporte: N° ${id} por el siguiente motivo: 
-                    ${description}`;
+                    const telegramMessage = `${name} , el usuario ${lastWorker} te ha re-asignado el soporte: N° ${id} `;
                     await sendTelegramMessage(telegramChatId, telegramMessage);
                 }
                 
