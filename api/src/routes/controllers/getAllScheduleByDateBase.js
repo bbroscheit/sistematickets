@@ -20,7 +20,7 @@ const getAllScheduleByDateBase = async (date, startHour, finishHour) => {
     try {
         const schedules = await Schedule.findAll({
             where: {
-                isdelete : true ,
+                isdelete : false ,
                 [Op.or]: [
                     {
                         starthour: {

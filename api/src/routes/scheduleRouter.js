@@ -91,7 +91,7 @@ scheduleRouter.get("/schedule/id/:id", async (req, res) => {
 
 scheduleRouter.post("/schedule", async (req, res) => {
   const {  detail, invited, accepted, startdate, starthour, finishhour } = req.body;
-    //let accepted = []
+    
     startdateModify = giraFechas(startdate)
 
   try {
