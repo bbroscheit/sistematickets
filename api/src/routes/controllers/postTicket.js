@@ -10,6 +10,8 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
         const ticketId = (await Ticket.create()).id;
         const folderName = `ticket_${ticketId}`;
 
+        const formattedNewDetail = `${detail}\n\n`;
+
         const folderPath = path.join(__dirname, '../../../../client/public', folderName);
 
         // Crear la carpeta si no existe
@@ -56,7 +58,7 @@ const postTicket = async (state, worker, subject, detail, answer, userresolved, 
             state : state, 
             worker : worker, 
             subject : subject, 
-            detail : detail, 
+            detail : formattedNewDetail, 
             answer : answer,
             files: filesArray,
             userresolved: userresolved

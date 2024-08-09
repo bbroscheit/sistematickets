@@ -14,8 +14,12 @@ const updateInfoTicket = async (id, info, files) => {
         // Obtener el valor actual de detail
         const currentDetail = existingTicket.detail || '';
 
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString(); // Formato de fecha, ajusta según necesidades
+        const formattedTime = now.toLocaleTimeString(); // Hora actual, opcional
+
         // Agrega un salto de línea
-        const formattedNewInfo = `\n${info}\n`;
+        const formattedNewInfo = `- ${existingTicket.worker} - ${formattedDate} ${formattedTime}\n- ${info}\n\n`;
 
         // Concatenar el nuevo contenido con el valor actual de detail
         const updatedDetail = currentDetail + formattedNewInfo;

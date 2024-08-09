@@ -1,4 +1,4 @@
-const { Ticket } = require('../../bd')
+const { Ticket, User } = require('../../bd')
 const fs = require('fs').promises;
 const path = require('path');
 const { TELEGRAMCHATID } = process.env
@@ -7,7 +7,15 @@ const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 const updateInfoTicketByuser = async (id, answer) => {
     try {
         // Obtener el ticket actual
-        const existingTicket = await Ticket.findByPk(id);
+        //const existingTicket = await Ticket.findByPk(id);
+        let existingTicket = await Ticket.findOne({
+            where:{ id : id }, 
+            include:[{
+                model:User,
+                attribute:["username"]
+            }]
+        });
+
 
         if (!existingTicket) {
             throw new Error('Ticket no encontrado');
@@ -16,8 +24,13 @@ const updateInfoTicketByuser = async (id, answer) => {
         // Obtener el valor actual de detail
         const currentDetail = existingTicket.detail || '';
 
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString(); // Formato de fecha, ajusta según necesidades
+        const formattedTime = now.toLocaleTimeString(); // Hora actual, opcional
+
+       
         // Agrega un salto de linea 
-        const formattedNewInfo = `\n${answer}\n`;
+        const formattedNewInfo = `- ${existingTicket.user.username } - ${formattedDate} ${formattedTime}\n- ${answer}\n\n`;
 
         // Concatenar el nuevo contenido con el valor actual de detail
         const updatedDetail = currentDetail + formattedNewInfo;
