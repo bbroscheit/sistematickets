@@ -4,7 +4,11 @@ const getAllFaqFinish = async () => {
     try{
         let getTickets = await Ticket.findAll({
             where: { state: "Terminado" },
-            
+            include:[{
+                model:User,
+                attribute:["username","sectorname","salepoint"],
+                
+            }]
         });
 
         getTickets ? getTickets.sort((a , b) => { return b.id - a.id }) : getTickets = 0

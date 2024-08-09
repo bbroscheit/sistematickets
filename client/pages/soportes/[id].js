@@ -32,6 +32,7 @@ import { postProveedor } from "../api/postProveedor";
 import { updateProveedor } from "../api/updateProveedor";
 import { closeProveedor } from "../api/closeProveedor";
 import { updateReasignar } from "../api/updateReasignar";
+import ajustaDevuelveHoraDesdeTimestamp from "@/functions/ajustaDevuelveHoraDesdeTimestamp";
 
 const styles = {
   position: "absolute",
@@ -719,8 +720,7 @@ function Soporte() {
     return errors
   }
 
-  console.log("soporte" , soporte)
-  console.log("user", user)
+  
   return (
     <>
       <div>
@@ -738,7 +738,7 @@ function Soporte() {
                       <div className={style.hours}>
                         <h5>Creado: </h5>
                         <h5>{extraeFecha(soporte.createdAt)}</h5>
-                        <h5>{devuelveHoraDesdeTimestamp(soporte.createdAt)}</h5>
+                        <h5>{ajustaDevuelveHoraDesdeTimestamp(soporte.createdAt)}</h5>
                       </div> : null}
 
                 <div className={style.titleContainer}>

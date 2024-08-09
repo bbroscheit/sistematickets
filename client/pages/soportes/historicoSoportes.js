@@ -6,14 +6,31 @@ import Card from "@/components/Card";
 
 function historicoSoportes() {
   const [soportes, setSoportes] = useState(null);
-
+  const [ soportesFiltered, setSoportesFiltered ] = useState(null)
+  const [user, setUser] = useState(null);
+  
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
+    
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setUser(loginParse);
+    
+    if(loginParse.sector === "Sistemas" || loginParse.sector === "Supervisor" || loginParse.sector === "Administrador"){
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
+      // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
       .then((res) => res.json())
       .then((data) => {
         setSoportes(data);
       });
+    }else{
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSoportes(data.filter( e => e.user.username === loginParse.name));
+      });
+    }
+    
   }, []);
 
   return (
