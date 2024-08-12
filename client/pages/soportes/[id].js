@@ -969,8 +969,8 @@ function Soporte() {
                   </div>: null
                 }
 
-                {/* si el soporte esta en Informacion y el usuario coincide con el usuario creador muestra "Agregar Información" */}
-                { soporte !== null && soporte.state === "Informacion" && user.name === soporte.user.username ? 
+                {/* si el soporte esta en cualquier estado salvo "terminado" o "completado" y el usuario coincide con el usuario creador muestra "Agregar Información" */}
+                { soporte !== null && soporte.state != "Terminado" && soporte.state != "Completado" && user.name === soporte.user.username ? 
                     <div className={mainStyle.buttonContainer}>
                     <button
                       onClick={(e) => handleOpenInfoUser(e)}

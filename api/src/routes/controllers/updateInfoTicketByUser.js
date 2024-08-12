@@ -66,23 +66,43 @@ const updateInfoTicketByuser = async (id, answer) => {
         } 
 
 
-        // Actualizar el ticket con el nuevo detail
-        let setTicket = await existingTicket.update({ 
-            detail: updatedDetail, 
-            state: "Desarrollo" 
-        });
+        // Actualizamos el ticket en estado informacion con el nuevo detalle y los archivos si existen
+        if(existingTicket.state === "Informacion") {
+            let setTicket = await existingTicket.update({ 
+                detail: updatedDetail, 
+                state: "Desarrollo" 
+            });
 
-        setTicket = await existingTicket.update({
-            files: existingTicket.files
-        });
+            setTicket = await existingTicket.update({
+                files: existingTicket.files
+            });
 
-        if(setTicket){
-            const telegramChatId = TELEGRAMCHATID;
-            const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
-            await sendTelegramMessage(telegramChatId, telegramMessage);
+            if(setTicket){
+                const telegramChatId = TELEGRAMCHATID;
+                const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
+                await sendTelegramMessage(telegramChatId, telegramMessage);
+            }
+            return setTicket;
+
+        } else {
+            
+                let setTicket = await existingTicket.update({
+                    files: existingTicket.files
+                });
+    
+                if(setTicket){
+                    const telegramChatId = TELEGRAMCHATID;
+                    const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
+                    await sendTelegramMessage(telegramChatId, telegramMessage);
+                 }
+            return setTicket;
+           
         }
+        
 
-    return setTicket;
+        
+
+    
 } catch (error) {
     console.error("Error en updateInfoTicket:", error.message);
     throw error; 

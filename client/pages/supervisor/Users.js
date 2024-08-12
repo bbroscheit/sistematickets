@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import style from '@/modules/users.module.css'
+import styleCard from "@/modules/ticketsSupervisor.module.css";
 import arrayUser from '@/functions/arrayUser';
 import CardSupervisorUsers from '@/components/CardSupervisorUsers';
 import CardSupervisorOwnUser from '@/components/CardSupervisorOwnUser';
@@ -40,7 +41,7 @@ function Users() {
   },[]);
 
   return (
-    <div className={style.container}>
+    <div className={styleCard.cardContainer}>
       {
         ownUser !== null && ownUser.length > 0 ? ownUser.map( e => <CardSupervisorUsers soportes={ownSoporte} usuario={e} />) : null
       }
