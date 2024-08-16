@@ -37,6 +37,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import { Tooltip } from "@mui/material";
 import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
@@ -773,6 +774,50 @@ export default function PrimarySearchAppBar() {
           </List> : null
         }
         
+
+        <Divider />
+
+        {/* Si el usuario puede ver y cargar capacitaciones */}
+        {user !== null ? (
+          user.sector === "Supervisor" || user.name === "Bbroscheit" ? (
+            <List>
+              {["Capacitaciones"].map((text, index) => (
+                <Link href={index === 0 ? "/capacitaciones/Capacitaciones" : "/"}>
+                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                    <ListItemButton
+                      className={styles.listItemButton}
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
+                        color: "#000000",
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
+                          color: "#EA6558",
+                        }}
+                      >
+                        {index === 0 ? (
+                          <ContentPasteIcon />
+                        ) : (
+                          <CreateNewFolderRoundedIcon />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={text}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+          ) : null
+        ) : null}
 
         <Divider />
 

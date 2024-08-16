@@ -8,6 +8,8 @@ import { horasPromedioHabiles } from '@/functions/horasPromedioHabiles';
 import { ticketFinalizados } from "@/functions/ticketFinalizados";
 import { ticketMasInformacion } from "@/functions/ticketMasInformacion";
 import { ticketAsignados } from "@/functions/ticketAsignados";
+import  {horasPromedioCapacitaciones } from '@/functions/horasPromedioCapacitaciones'
+
 
 
 function CardWorker({ worker, firstname, lastname }) {
@@ -15,6 +17,8 @@ function CardWorker({ worker, firstname, lastname }) {
   const [projectByWorker, setProyectByWorker] = useState(null);
   const [soportesCompletados, setSoportesCompletados] = useState(null)
   const [soportesFinalizados, setSoportesFinalizados] = useState(null)
+  const [capacitationByWorker , setCapacitationByWorker] = useState(null)
+  
   let promedioHoras = 0
 
   useEffect(() => {
@@ -36,12 +40,24 @@ function CardWorker({ worker, firstname, lastname }) {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(
+      `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/capacitationByWorker?worker=${worker}`
+    )
+      // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/capacitationByWorker?worker=${worker}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCapacitationByWorker(data);
+        
+      });
+  }, []);
+
   if (soportesCompletados && soportesFinalizados) {
     const soportes = [...soportesCompletados, ...soportesFinalizados];
     promedioHoras = horasPromedioHabiles(soportes);
   }
 
-
+  console.log("capacitationByWorker",capacitationByWorker)
 
   return (
     <>
@@ -78,6 +94,29 @@ function CardWorker({ worker, firstname, lastname }) {
           {projectByWorker !== null && projectByWorker.length > 0 ? Math.floor(horasPromedioHabiles(projectByWorker)) : 0} hs
           </h4>
         </div>
+
+        {
+          capacitationByWorker !== null && capacitationByWorker.length > 0 ?
+            <>  
+            <hr className={style.hr}></hr>
+            <h4 className={style.cardWorkerUserTitle}>
+              Capacitaciones
+            </h4>
+            <div className={style.gridTicket}>
+            <h4 className={style.gridTicketTitle}>Terminados :</h4>
+            <h4>{capacitationByWorker.length}</h4>
+            </div>
+
+            <div className={style.desarrolloContainerTitles}>
+              <h4>Tiempo de Capacitacion</h4>
+              <h4>
+                {Math.floor(horasPromedioCapacitaciones(capacitationByWorker))}
+              </h4>
+            </div>
+            </> : null
+        }
+
+
         
       </div>
     </>

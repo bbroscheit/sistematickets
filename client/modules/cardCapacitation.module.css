@@ -1,0 +1,48 @@
+.cardCapacitation{
+    background-color: white;
+    align-content: flex-start;
+    text-align: center;
+    padding: 2rem;
+    min-width: 300px;
+    min-height: 400px;
+    border-radius: 10px;
+    box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -webkit-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+    -moz-box-shadow: 6px 5px 5px 0px rgba(120,118,118,0.75);
+}
+
+.cardCapacitation h4{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.checkIcon{
+    text-align: right;
+    color: grey;
+}
+
+.icon{
+    cursor: pointer;
+}
+
+.dateContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.date input{
+    width: 10rem;
+}
+

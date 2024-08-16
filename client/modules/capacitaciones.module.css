@@ -1,0 +1,48 @@
+.form{
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 16px;
+}
+
+.dateContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap:16px;
+}
+
+
+
+.labelContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.labelContainer input{
+    width: 10rem;
+}
+
+.cardContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    
+}
+
+.platform{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: var(--color-basani);
+}
+
+.icon{
+    cursor: pointer;
+}
+

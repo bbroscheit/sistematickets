@@ -33,7 +33,24 @@ sequelize.models = Object.fromEntries(capEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades para relacionarlos hacemos un destructuring
 
-const { Sector, Ticket, User, Salepoint, Faq, Project, Userstories, Task, Priority, Newtask, Newproject, Schedule, Proveedor, Proveedornote , Workernote, Suscription } = sequelize.models;
+const { Sector, 
+        Ticket, 
+        User, 
+        Salepoint, 
+        Faq, 
+        Project, 
+        Userstories, 
+        Task, 
+        Priority, 
+        Newtask, 
+        Newproject, 
+        Schedule, 
+        Proveedor, 
+        Proveedornote , 
+        Workernote, 
+        Suscription, 
+        Capacitation, 
+        Platform } = sequelize.models;
 
 // Relacionamos las tablas
 // seccion de Soportes
@@ -63,8 +80,41 @@ Proveedornote.belongsTo(Proveedor);
 Ticket.hasOne(Workernote);
 Workernote.belongsTo(Ticket);
 
-// Ticket.belongsTo(Priority);
-// Priority.hasMany(Ticket);
+// Relación User - Capacitation
+User.hasMany(Capacitation, { foreignKey: 'teacher_id', as: 'teacherCapacitaciones' });
+Capacitation.belongsTo(User, { foreignKey: 'teacher_id', as: 'teacher' });
+
+// Relación muchos a muchos entre User y Capacitation para students
+User.belongsToMany(Capacitation, {
+    through: 'students',
+    as: 'enrolledCapacitations',
+    foreignKey: 'user_id',
+    otherKey: 'capacitations_id'
+});
+Capacitation.belongsToMany(User, {
+    through: 'students',
+    as: 'student',
+    foreignKey: 'capacitation_id',
+    otherKey: 'users_id'
+});
+
+Capacitation.hasOne(Platform);
+Platform.belongsTo(Capacitation);
+
+// Relación muchos a muchos entre User y plataformas para master
+User.belongsToMany(Platform, {
+    through: 'masters',
+    as: 'knowledgePlatforms',
+    foreignKey: 'user_id',
+    otherKey: 'platforms_id'
+});
+Platform.belongsToMany(User, {
+    through: 'masters',
+    as: 'masterPlatforms',
+    foreignKey: 'platforms_id',
+    otherKey: 'users_id'
+});
+
 
 // seccion de proyectos
 

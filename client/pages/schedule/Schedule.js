@@ -134,8 +134,6 @@ function Schedule() {
     const response = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedules?date=${input.startdate}&startHour=${startDateTime}&finishHour=${finishDateTime}`);
     const existingSchedules = await response.json();
       
-    console.log("existing schedule" , existingSchedules)
-    
     if (existingSchedules.state === "failure") {
         alert(existingSchedules.message);
         return;
@@ -204,6 +202,8 @@ function Schedule() {
             </div>
         </div>
     </div>
+
+    
      <Modal
         open={open}
         onClose={handleClose}

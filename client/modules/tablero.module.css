@@ -89,7 +89,7 @@
 .tableContainer{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px 5px;
     flex-wrap: wrap;
 }

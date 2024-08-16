@@ -47,7 +47,7 @@ taskRouter.post( '/task' , async (req, res) => {
     
     try {
         let newTask = await postTask( idProject, state, taskdetail, taskfinishdate, worker )
-        newTask ? res.status(200).json({state: "success"})  : res.status(400).send("failure")
+        newTask ? res.status(200).json({state: "success"})  : res.status(400).json({state: "failure"})
     } catch (e) {
         console.log("error en task post router", e.message)
     }
@@ -58,7 +58,7 @@ taskRouter.put( '/task/:id' , async (req, res) => {
     
     try {
         let updateTask= await updateCheckTask( id )
-        updateTask ? res.status(200).json("sucess")  : res.status(400).send("failure")
+        updateTask ? res.status(200).json("sucess")  : res.status(400).json({state: "failure"})
     } catch (e) {
         console.log("error en task post router", e.message)
     }
@@ -69,7 +69,7 @@ taskRouter.put( '/newtask/:idTask' , async (req, res) => {
     
     try {
         let updateTask= await updateCheckNewTask( idTask )
-        updateTask ? res.status(200).json({state:"success"})  : res.status(400).send("failure")
+        updateTask ? res.status(200).json({state:"success"})  : res.status(400).json({state: "failure"})
     } catch (e) {
         console.log("error en task post router", e.message)
     }
@@ -80,7 +80,7 @@ taskRouter.put( '/updateNewtask' , async (req, res) => {
     
     try {
         let updateTask= await updateNewtask( id , taskfinishdate )
-        updateTask ? res.status(200).json({state:"success"})  : res.status(400).send("failure")
+        updateTask ? res.status(200).json({state:"success"})  : res.status(400).json({state: "failure"})
     } catch (e) {
         console.log("error en task post router", e.message)
     }
@@ -91,7 +91,7 @@ taskRouter.get( '/userByTask/:id' , async (req, res) => {
     
     try {
         let userTask= await getUserInTask( id )
-        userTask ? res.status(200).json(userTask)  : res.status(400).send("failure")
+        userTask ? res.status(200).json(userTask)  : res.status(400).json({state: "failure"})
     } catch (e) {
         console.log("error en task post router", e.message)
     }
