@@ -76,7 +76,7 @@ function CardCapacitation( { key, id, teacher, subject, student, startdate }) {
         });
     }
 
-    console.log("input", input)
+    //console.log("input", input)
 
     return (
     <div key={key} className={style.cardCapacitation}>

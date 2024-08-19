@@ -733,8 +733,7 @@ function Soporte() {
                   <h2 className={style.subtitle}>{soporte.subject}</h2>                  
                 </div>
                   {/* Se agrega hora y fecha a pedido de Adrian y solo en las vistas de usuarios de Sistemas */}
-                  {user !== null &&
-                    user.sector === "Sistemas" ? 
+                  {user !== null && user.sector === "Sistemas" ? 
                       <div className={style.hours}>
                         <h5>Creado: </h5>
                         <h5>{extraeFecha(soporte.createdAt)}</h5>
@@ -866,17 +865,17 @@ function Soporte() {
                   <div>
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
-                      id="mi-textarea"
+                      
                       placeholder={soporte.answer}
                       // disabled
                       cols="80"
                       // rows="14"
-                      className={style.textarea}
                       style={{
-                        minHeight: '120px',
+                        height: '120px',
                         resize: 'none',
                         overflowY: 'hidden'
                       }}
+                      className={style.textarea}
                     />
                   </div>
                 ) : null}
@@ -886,17 +885,17 @@ function Soporte() {
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
-                        id="mi-textarea"
+                        //id="mi-textarea"
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
                         // rows="14"
-                        className={style.textarea}
                         style={{
                           minHeight: '120px',
                           resize: 'none',
                           overflowY: 'hidden'
                         }}
+                        className={style.textarea}
                       />
                     </div>
                   ) : null}
@@ -906,17 +905,17 @@ function Soporte() {
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
-                        id="mi-textarea"
+                        //id="mi-textarea"
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
                         // rows="14"
-                        className={style.textarea}
                         style={{
                           minHeight: '120px',
                           resize: 'none',
                           overflowY: 'hidden'
                         }}
+                        className={style.textarea}
                       />
                     </div>
                   ) : null}

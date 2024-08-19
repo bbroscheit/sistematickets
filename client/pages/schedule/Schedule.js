@@ -107,8 +107,8 @@ function Schedule() {
     }
 
     function handleSelect(e) {
-        console.log( "e select" , e)
-        console.log( "value select" , value)
+        //console.log( "e select" , e)
+        //console.log( "value select" , value)
         let value = e.target.innerHTML
         if (value && !input.invited.includes(value)) {
             setInput({
