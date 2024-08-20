@@ -1,8 +1,9 @@
-const { Project } = require('../../bd')
+const { Newproject } = require('../../bd')
 
 const updateProjectState = async (id) => {
-    let setProject = await Project.update(
-        { state: 'finalizado' },
+
+    let setProject = await Newproject.update(
+        { state: 'Finalizado' },
         { where: { id:id } } 
       );
 

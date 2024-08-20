@@ -18,15 +18,15 @@ platformRouter.get("/platform" , async (req, res) => {
 })
 
 platformRouter.post("/postPlatform" , async (req, res) => {
-    console.log("entre")
-    // const { name, detail, masters } = req.body
     
-    // try {
-    //     let newPlatform = await postPlatform( name, detail, masters )
-    //     newPlatform ? res.status(200).json({state: "success"})  : res.status(400).json({state: "failure"})
-    // } catch (e) {
-    //     console.log("error en newPlatform post router", e.message)
-    // }
+    const { name, detail, masters } = req.body
+    
+    try {
+        let newPlatform = await postPlatform( name, detail, masters )
+        newPlatform ? res.status(200).json({state: "success"})  : res.status(400).json({state: "failure"})
+    } catch (e) {
+        console.log("error en newPlatform post router", e.message)
+    }
 })
 
 // capacitationRouter.put( '/updateCapacitations' , async (req, res) => {

@@ -11,7 +11,6 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { postCapacitation } from '@/pages/api/postCapacitation';
-import { postPlatform } from '@/pages/api/postPlatform';
 import CardCapacitation from '@/components/CardCapacitation';
 
 const style = {
@@ -31,9 +30,8 @@ const style = {
 
 function Capacitaciones() {
     const router = useRouter();
-    const [open, setOpen] = useState(false)
-    const [openPlatform, setOpenPlatform] = useState(false)
     const [user, setUser] = useState(null)
+    const [open, setOpen] = useState(false)
     const [subject, setSubject] = useState("Ingrese un Tema")
     const [createdCapacitation, setCreatedCapacitation] = useState(null)
     const [platform, setPlatform] = useState(null)
@@ -46,11 +44,7 @@ function Capacitaciones() {
         starthour:"",
         platform:""
       });
-    const [inputPlatform, setInputPlatform] = useState({
-      name: "",
-      detail: "",
-      masters: [],
-    });
+
 
     useEffect(() => {
       fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
@@ -77,7 +71,8 @@ function Capacitaciones() {
         // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/platform`)
           .then((res) => res.json())
           .then((data) => {
-            setPlatform(data);
+            const allNames = data.map( e => `${e.name}`)
+            setPlatform(allNames);
           });
       }, []);
 
@@ -101,33 +96,9 @@ function Capacitaciones() {
         setOpen(false);
       }
 
-      
-    function handleOpenPlatform(e){
-      e.stopPropagation();
-      setOpenPlatform(true)        
-    }
-  
-    function handleClosePlatform(e) {
-      e.stopPropagation();
-      setInputPlatform({
-        name: "",
-        detail: "",
-        masters: [],
-      });
-  
-      setOpenPlatform(false);
-    }
-    
       function handleChange(e) {
         setCapacitation({
           ...capacitation,
-          [e.target.name]: e.target.value,
-        });
-      }
-
-      function handleChangePlatform(e) {
-        setInputPlatform({
-          ...inputPlatform,
           [e.target.name]: e.target.value,
         });
       }
@@ -155,21 +126,21 @@ function Capacitaciones() {
         })
         
       }
-    
-      const handleSelectTeacher = (e) => {
-        e.stopPropagation();
-        setCapacitation({
-          ...capacitation,
-          teacher: e.target.innerText,
-        });
-    
-      };
-
+      
       const handleSelectPlatform = (e) => {
         e.stopPropagation();
         setCapacitation({
           ...capacitation,
           platform: e.target.innerText,
+        });
+    
+      };
+
+      const handleSelectTeacher = (e) => {
+        e.stopPropagation();
+        setCapacitation({
+          ...capacitation,
+          teacher: e.target.innerText,
         });
     
       };
@@ -183,29 +154,11 @@ function Capacitaciones() {
     
       };
 
-      const handleSelectMaster = (e) => {
-        e.stopPropagation();  
-        setInputPlatform({
-          ...inputPlatform,
-          masters: [...inputPlatform.masters, e.target.innerText],
-        });
-    
-      };
-
       const deleteStudent = (e) => {
         e.stopPropagation();
         setCapacitation({
             ...capacitation,
             students: capacitation.students.filter( f => f !== e.target.innerText)
-        })
-    
-      };
-
-      const deleteMasters = (e) => {
-        e.stopPropagation();
-        setInputPlatform({
-            ...inputPlatform,
-            masters: inputPlatform.masters.filter( f => f !== e.target.innerText)
         })
     
       };
@@ -238,34 +191,8 @@ function Capacitaciones() {
           console.error("Error al enviar el formulario:", error);
         });
       }
-
-      function handleSubmitPlatform(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        postPlatform(inputPlatform)
-        // .then(res => {
-            
-        //   if (res.state === "success") {
-        //     setOpenPlatform(false);
-        //     setInputPlatform({
-        //       name: "",
-        //       detail: "",
-        //       masters: [],
-        //     });
-        //     Swal.fire(({
-        //       icon: "success",
-        //       title: "Tu Plataforma fue creada con éxito!",
-        //       showConfirmButton: false,
-        //       timer: 1500
-        //     }));
-        //   }
-        // })
-        // .catch(error => {
-        //   console.error("Error al enviar el formulario:", error);
-        // });
-      }
     
-      console.log("inputPlatform", inputPlatform)
+      //console.log("inputPlatform", inputPlatform)
 
   return (
     <div className={mainStyle.container}>
@@ -367,9 +294,11 @@ function Capacitaciones() {
                 {
                   platform !== null && platform.length > 1 ?
                     <div>
-                      <div>
+                      <div className={styleCap.platform}>
                       <label className={mainStyle.labelModal}>Plataforma</label>
-                      <AddCircleOutlineIcon />
+                      <AddCircleOutlineIcon className={styleCap.icon} onClick={() => {
+                        router.push(`/capacitaciones/NewPlatform`);
+                      }} />
                       </div>
                         <Autocomplete
                             disablePortal
@@ -383,7 +312,9 @@ function Capacitaciones() {
                     </div> : 
                     <div className={styleCap.platform}>
                       <label className={mainStyle.labelModal}>Plataforma</label>
-                      <AddCircleOutlineIcon className={styleCap.icon} onClick={handleOpenPlatform}/>
+                      <AddCircleOutlineIcon className={styleCap.icon} onClick={() => {
+                        router.push(`/capacitaciones/NewPlatform`);
+                      }}/> 
                     </div>
                 }
                  
@@ -424,68 +355,7 @@ function Capacitaciones() {
             </Box>
           </Modal>
                 
-          <Modal
-            open={openPlatform}
-            onClose={handleClosePlatform}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <form >
-                <div className={styleCap.form}>
-                <div >
-                    <label className={mainStyle.labelModal}>Plataforma</label>
-                    <input
-                        name="name"
-                        placeholder="Ingrese plataforma"
-                        onChange={(e) => handleChangePlatform(e)}
-                        value={inputPlatform.name}
-                        type="text"
-                        className={mainStyle.inputModal}
-                    />
-                </div>
-                <div >
-                    <label className={mainStyle.labelModal}>Detalle</label>
-                    <input
-                        name="detail"
-                        placeholder="Ingrese detalle"
-                        onChange={(e) => handleChangePlatform(e)}
-                        value={inputPlatform.detail}
-                        type="text"
-                        className={mainStyle.inputModal}
-                    />
-                </div>
-                <div>
-                {
-                  user !== null && user.length > 1 ?
-                    <div>
-                      <label className={mainStyle.labelModal}>Capacitador</label>
-                      <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={user}
-                            fullWidth
-                            renderInput={(params) => <TextField {...params}/>}
-                            onChange={(e) => handleSelectMaster(e)}
-                            sx={{margin:"8px 10px"}}
-                        />
-                        
-                      
-                    </div> : null
-                }
-                {
-                  inputPlatform.masters.length > 0 ? <div>{inputPlatform.masters.map( e => <p onClick={e => deleteMasters(e)}>{e}</p> )}</div> : null
-                }
-            </div>
-            <div className={mainStyle.buttonContainer}>
-                <button className={mainStyle.buttonModal} onClick={(e) => handleSubmitPlatform(e)}>Agregar</button>
-                <button className={mainStyle.buttonModalCancel} onClick={(e) => handleClosePlatform(e)}>Cancelar</button>
-            </div>
-            </div>
-                
-              </form>
-            </Box>
-          </Modal>
+
                 
     </div>
   )

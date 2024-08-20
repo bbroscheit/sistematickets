@@ -8,13 +8,18 @@ import { horasPromedioHabiles } from '@/functions/horasPromedioHabiles';
 import { ticketFinalizados } from "@/functions/ticketFinalizados";
 import { ticketMasInformacion } from "@/functions/ticketMasInformacion";
 import { ticketAsignados } from "@/functions/ticketAsignados";
-import  {horasPromedioCapacitaciones } from '@/functions/horasPromedioCapacitaciones'
+import { projectAsignados } from "@/functions/projectAsignados";
+import { projectFinalizados } from "@/functions/projectFinalizados";
+import { horasPromedioCapacitaciones } from '@/functions/horasPromedioCapacitaciones'
 
 
 
 function CardWorker({ worker, firstname, lastname }) {
   const [user, setUser] = useState(null);
   const [projectByWorker, setProyectByWorker] = useState(null);
+  const [project, setProyect] = useState(null);
+  const [projectAsignadosFiltered, setProyectAsignadosFiltered] = useState(null);
+  const [projectFinalizadosFiltered, setProyectFinalizadosFiltered] = useState(null);
   const [soportesCompletados, setSoportesCompletados] = useState(null)
   const [soportesFinalizados, setSoportesFinalizados] = useState(null)
   const [capacitationByWorker , setCapacitationByWorker] = useState(null)
@@ -42,6 +47,19 @@ function CardWorker({ worker, firstname, lastname }) {
 
   useEffect(() => {
     fetch(
+      `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/projectByWorker?worker=${worker}`
+    )
+      // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/projectByWorker?worker=${worker}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProyect(data);
+        setProyectAsignadosFiltered(projectAsignados(data))
+        setProyectFinalizadosFiltered(projectFinalizados(data))
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(
       `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/capacitationByWorker?worker=${worker}`
     )
       // fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/capacitationByWorker?worker=${worker}`)
@@ -57,7 +75,7 @@ function CardWorker({ worker, firstname, lastname }) {
     promedioHoras = horasPromedioHabiles(soportes);
   }
 
-  console.log("capacitationByWorker",capacitationByWorker)
+  
 
   return (
     <>
@@ -110,9 +128,26 @@ function CardWorker({ worker, firstname, lastname }) {
             <div className={style.desarrolloContainerTitles}>
               <h4>Tiempo de Capacitacion</h4>
               <h4>
-                {Math.floor(horasPromedioCapacitaciones(capacitationByWorker))}
+                {Math.floor(horasPromedioCapacitaciones(capacitationByWorker))} hs
               </h4>
             </div>
+            </> : null
+        }
+
+        {
+          project !== null && project.length && project.state !== "failure" > 0 ?
+            <>  
+            <hr className={style.hr}></hr>
+            <h4 className={style.cardWorkerUserTitle}>
+              Proyectos
+            </h4>
+            <div className={style.gridTicket}>
+            <h4 className={style.gridTicketTitle}>Asignados :</h4>
+            <h4>{ projectAsignadosFiltered !== null && projectAsignadosFiltered.length > 0 ? projectAsignadosFiltered.length : 0 }</h4>
+            <h4 className={style.gridTicketTitle}>Terminados :</h4>
+            <h4>{ projectFinalizadosFiltered !== null && projectFinalizadosFiltered.length > 0 ? projectFinalizadosFiltered.length : 0 }</h4>
+            </div>
+            
             </> : null
         }
 

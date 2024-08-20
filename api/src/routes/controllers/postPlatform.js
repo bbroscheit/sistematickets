@@ -1,7 +1,7 @@
 const { User , Platform } = require('../../bd');
 
 const postPlatform = async ( name, detail, masters ) => {
-    console.log("entre a la funcion")
+    //console.log("entre a la funcion")
     try {
         // Creo el ticket vacio para tener el ID que le va a dar nombre a la carpeta
         const newPlatform = await Platform.create({
@@ -20,10 +20,10 @@ const postPlatform = async ( name, detail, masters ) => {
 
         const validStudents = studentsFinder.filter(student => student !== null);
         if (validStudents.length !== mastersNames.length) {
-            throw new Error('Some students not found');
+            throw new Error('Some masters not found');
         }
 
-        await newPlatform.addStudent(validStudents);
+        await newPlatform.setMasterPlatforms(validStudents);
 
 
         

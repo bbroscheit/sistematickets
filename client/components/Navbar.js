@@ -778,7 +778,7 @@ export default function PrimarySearchAppBar() {
         <Divider />
 
         {/* Si el usuario puede ver y cargar capacitaciones */}
-        {/* {user !== null ? (
+        {user !== null ? (
           user.sector === "Supervisor" || user.name === "Bbroscheit" ? (
             <List>
               {["Capacitaciones"].map((text, index) => (
@@ -819,7 +819,7 @@ export default function PrimarySearchAppBar() {
           ) : null
         ) : null}
 
-        <Divider /> */}
+        <Divider />
 
         {/* Si el usuario puede cargar desarrollos */}
         {user !== null ? (
