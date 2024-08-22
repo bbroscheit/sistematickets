@@ -50,7 +50,8 @@ const { Sector,
         Workernote, 
         Suscription, 
         Capacitation, 
-        Platform } = sequelize.models;
+        Platform,
+        Formproject } = sequelize.models;
 
 // Relacionamos las tablas
 // seccion de Soportes
@@ -116,6 +117,7 @@ Platform.belongsToMany(User, {
 });
 
 
+
 // seccion de proyectos
 
 Project.hasMany(Userstories);
@@ -142,7 +144,8 @@ Project.belongsToMany(User , { through: 'user_project'})
 User.belongsToMany(Newproject , { through: 'user_newproject'})
 Newproject.belongsToMany(User , { through: 'user_newproject'})
 
-
+Newproject.hasOne(Formproject);
+Formproject.belongsTo(Newproject);
 
 // Autenticamos y conectamos
 

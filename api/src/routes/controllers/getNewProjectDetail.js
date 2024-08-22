@@ -1,4 +1,4 @@
-const { Newproject, User, Newtask, sequelize} = require('../../bd')
+const { Newproject, User, Newtask, Formproject, sequelize} = require('../../bd')
 
 const getNewProjectDetail = async (id) => {
     
@@ -24,6 +24,11 @@ const getNewProjectDetail = async (id) => {
                     order: [
                         [sequelize.literal('CAST("Newtask"."taskfinishdate" AS DATE)'), 'ASC'] 
                     ]
+                },
+                {
+                    model: Formproject,
+                    required: false,
+                    
                 }
             ]
         })

@@ -366,6 +366,8 @@ ticketRouter.post( '/updateInfoTicketByUser/:id' , uploadFiles(), async ( req, r
     const { id } = req.params
     const { answer } = req.body
     
+    //console.log( "id", id, "answer", answer )
+
     try {
         let updatedTicket = await updateInfoTicketByUser(id , answer, req.files)
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})

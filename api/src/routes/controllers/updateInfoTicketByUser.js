@@ -67,7 +67,7 @@ const updateInfoTicketByuser = async (id, answer) => {
 
 
         // Actualizamos el ticket en estado informacion con el nuevo detalle y los archivos si existen
-        if(existingTicket.state === "Informacion") {
+        if( existingTicket.state === "Informacion" || existingTicket.state === "Completado" ) {
             let setTicket = await existingTicket.update({ 
                 detail: updatedDetail, 
                 state: "Desarrollo" 
@@ -95,7 +95,10 @@ const updateInfoTicketByuser = async (id, answer) => {
                     const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
                     await sendTelegramMessage(telegramChatId, telegramMessage);
                  }
-            return setTicket;
+        
+        
+        
+        return setTicket;
            
         }
         

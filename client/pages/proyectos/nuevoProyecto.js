@@ -3,19 +3,24 @@ import mainStyle from "@/styles/Home.module.css";
 import Swal from "sweetalert2";
 import Style from "@/modules/nuevoProyecto.module.css";
 import Router from "next/router";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import { postProject } from "../api/postProject";
 
 
 function nuevoProyecto() {
   const [user, setUser] = useState(null);
-  const [login, setLogin] = useState(null);
-  const [input, setInput] = useState({
+  const [ allUser , setAllUser ] = useState(null)
+  const [ altUser , setAltUser ] = useState(null)
+  const [ login, setLogin ] = useState(null);
+  const [ input, setInput ] = useState({
     state: "creado",
     projectname: "",
     projectdetail: "",
     requirer: "",
     worker: [],
     finishdate: "",
+    files:[]
   });
 
   useEffect(() => {
@@ -35,6 +40,8 @@ function nuevoProyecto() {
       .then((data) => {
         let userFiltered = data.filter((e) => e.isprojectworker === true);
         setUser(userFiltered);
+        const allNames = data.map( e => `${e.username}`)
+        setAllUser(allNames);
       });
   }, []);
 
@@ -53,6 +60,15 @@ function nuevoProyecto() {
     }
   }
 
+  const handleSelect = (e) => {
+    e.stopPropagation();
+    setInput({
+      ...input,
+      requirer: e.target.innerText,
+    });
+    setAltUser( e.target.innerText );
+  };
+
   function handleChange(e) {
     e.preventDefault();
     setInput({
@@ -65,6 +81,15 @@ function nuevoProyecto() {
     setInput({
       ...input,
       projectdetail: e.target.value,
+    });
+  }
+
+  function handleChangeFile(e) {
+    e.preventDefault();
+    const filesArray = [...e.target.files];  // Convierte la colección de archivos en un array
+    setInput({
+      ...input,
+      files: filesArray,
     });
   }
 
@@ -107,9 +132,23 @@ function nuevoProyecto() {
     });
   }
 
+  console.log("user", altUser)
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Nuevo Proyecto</h1>
+
+      <div className={Style.labelContainerCreator}>
+            <label >Elegir en caso de que sea solicitado por otro usuario</label>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={allUser}
+              fullWidth
+              renderInput={(params) => <TextField {...params}/>}
+              onChange={(e) => handleSelect(e)}
+              sx={{margin:"8px 10px"}}
+            />
+      </div>
       <form className={mainStyle.form} onSubmit={(e) => handleSubmit(e)}>
         <div className={mainStyle.minimalGrid}>
           <label className={mainStyle.subtitle}>Nombre :</label>
@@ -158,6 +197,17 @@ function nuevoProyecto() {
               ))}</div>
           </div>
         </div>
+        <div>
+        <h3 className={mainStyle.subtitle}> ¿ Deseas agregar algun archivo ?</h3>
+        <input
+          type="file"
+          name="files"
+          multiple
+          className={mainStyle.inputFile}
+          // value={input.files}
+          onChange={(e) => handleChangeFile(e)}
+        />
+      </div>
         <div className={mainStyle.buttonContainer}>
           <button className={mainStyle.button} type="submit">
             Crear

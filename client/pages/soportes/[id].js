@@ -575,8 +575,7 @@ function Soporte() {
       files: filesArray,
     });
   }
-
-
+  
   // funcion para pasar el estado del ticket a Terminado
   function SubmitCloseTicket(e) {
     e.preventDefault();
