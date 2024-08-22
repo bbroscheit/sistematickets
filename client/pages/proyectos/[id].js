@@ -275,7 +275,7 @@ function projectDetail() {
               </Tooltip> : null
             }
             {
-              files !== null ?
+              files !== null && files != [] ?
               <Tooltip title="Descargar Formulario">
               <a href={encodeURI(files.files[0])} download><ContentPasteIcon className={Style.iconformulario} /></a>
               </Tooltip> : null

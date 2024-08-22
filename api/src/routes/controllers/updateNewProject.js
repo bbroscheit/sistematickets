@@ -38,7 +38,7 @@ const updateNewProject = async (
     }
 
 
-    // Mueve todos los archivos con el prefijo "new_" desde la carpeta "uploads" a la carpeta del ticket
+    // Mueve todos los archivos con el prefijo "new_" desde la carpeta "uploads" a la carpeta del proyecto
     const uploadFolderPath = path.join(__dirname, '../../../../client/public');
 
           
@@ -68,48 +68,53 @@ const updateNewProject = async (
     })
 
     // Actualizamos los usuarios vinculados al proyecto
-    if (requirer || (worker && worker.length > 0)) {
-      // Creamos un array para los nuevos usuarios (requirer y workers)
-      const allUserIds = [];
-
+    if ( requirer || (worker && worker.length > 0)) {
+      // Creamos un array para los nuevos usuarios (requirer y workers) y separamos a requirer que viene en formato "nombre + apellido" y en la BD estan guardados por separado
+      let allUserIds = [];
+      let [name, surname] = requirer.split(" ")
+      
       // Buscamos y añadimos al `requirer` si existe
       if (requirer) {
-        let require = await User.findOne({
-          where: { isdelete: false, username: requirer }
+        if(surname) {
+          let require = await User.findOne({
+          where: { isdelete: false, firstname: name , lastname : surname }
         });
-        if (require) {
-          allUserIds.push(require.id);
+          if (require) {
+            await setProject.setUsers(require.id);
+            
+          }
+        }else{
+          let require = await User.findOne({
+            where: { isdelete: false, username : requirer }
+          });
+          if (require) {
+            await setProject.setUsers(require.id);
+            
+          }
         }
-        console.log("requirerid", require)
       }
-
-      
 
       // Buscamos y añadimos a los `workers` si existen
       if (worker && worker.length > 0) {
-        for (let i = 0; i < worker.length; i++) {
-          let workerFind = await User.findOne({
-            where: { isdelete: false, username: worker[i] }
-          });
-          if (workerFind) {
-            allUserIds.push(workerFind.id);
-          }
+        let workerNames = worker.split(",")
+        for (let i = 0; i < workerNames.length; i++) {
+          let workerFind = await User.findOne({ where: { isdelete: false, username: workerNames[i] }});
+          if (workerFind) { allUserIds.push(workerFind.id);}
         }
-        console.log("woeker", allUserIds)
       }
 
       // Sobrescribimos todos los usuarios del proyecto con el nuevo array
-      await setProject.setUsers(allUserIds);  // Esto borra los usuarios previos y añade los nuevos
+      await setProject.addUsers(allUserIds);  
     }
 
-    if(newForm){
+    if(newForm && newForm !== undefined){
       await setProject.setFormproject(newForm.id)
     }
 
     return setProject;
 
   } catch (e) {
-    console.log("error en postNewProject", e.message);
+    console.log("error en updateProject", e.message);
   }
 };
 

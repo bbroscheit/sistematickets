@@ -84,7 +84,7 @@ projectRouter.put("/project/:id" , async (req, res) => {
 
 projectRouter.post( '/project' , uploadFiles() , async (req, res) => {
     const { state, projectname, projectdetail, requirer , worker, finishdate} = req.body
-    console.log(state, projectname, projectdetail, requirer , worker, finishdate)
+    
     try {
         let newProject = await postProject(state, projectname, projectdetail, requirer, worker, finishdate, req.files )
         
@@ -108,13 +108,13 @@ projectRouter.post( '/newproject' , uploadFiles() , async (req, res) => {
 
 projectRouter.put( '/updateproject' , uploadFiles() , async (req, res) => {
     const { idProject,  projectname, projectdetail, requirer , worker, finishdate } = req.body
-    console.log( idProject,  projectname, projectdetail, requirer , worker, finishdate)
+    
     try {
         let newProject = await updateNewProject( idProject, projectname, projectdetail, requirer, worker, finishdate , req.files)
         
         newProject ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})
     } catch (e) {
-        console.log("error en postNewProject", e.message)
+        console.log("error en updateProject", e.message)
     }
 })
 
