@@ -6,12 +6,13 @@ import soportesFiltradosPorUsuarios from '@/functions/soportesFiltradosPorUsuari
 
 function CardSupervisorUsers({soportes, usuario , key}) {
     const [soporteFiltrado, setSoporteFiltrado ] = useState(soportesFiltradosPorUsuarios(soportes, usuario))
-    const [soporteFiltradoSinAsignar, setSoporteFiltradoSinAsignar ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Sin Asignar"))
+    const [soporteFiltradoSinAsignar, setSoporteFiltradoSinAsignar ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "sin asignar"))
     const [soporteFiltradoAsignado, setSoporteFiltradoAsignado ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Asignado"))
     const [soporteFiltradoDesarrollo, setSoporteFiltradoDesarrollo ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Desarrollo"))
     const [soporteFiltradoInformacion, setSoporteFiltradoInformacion ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Informacion"))
     const [soporteFiltradoCompletado, setSoporteFiltradoCompletado ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Completado"))
 
+    console.log("sportes",soporteFiltrado)
   return (
     <div className={styleCard.workerContainer} key={key}>
         <h2 className={styleCard.titleCard}>{usuario}</h2>
@@ -52,7 +53,7 @@ function CardSupervisorUsers({soportes, usuario , key}) {
             soporteFiltradoCompletado && soporteFiltradoCompletado.length > 0 ?
                 <>
                   <h3 className={styleCard.subtitle}>Completado</h3>
-                  {soporteFiltrado.map( e =>  <CardTicketUser id={e.id} created={e.createdAt} subject={e.subject} worker={e.worker} key={e.id}/> ) }
+                  {soporteFiltradoCompletado.map( e =>  <CardTicketUser id={e.id} created={e.createdAt} subject={e.subject} worker={e.worker} key={e.id}/> ) }
                 </>: null
                 
         }
