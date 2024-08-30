@@ -37,24 +37,24 @@ function projectDetail() {
   const router = useRouter();
   const id = router.query.id;
   const [ user, setUser ] = useState(null)
-  const [ allUsers , setAllUsers] = useState(null)
-  const [data, setData] = useState(null);
-  const [files , setFiles] = useState(null)
-  const [idProyecto, setIdProyecto] = useState(0)
-  const [task , setTask] = useState(null)
-  const [taskFinish , setTaskFinish] = useState(null)
-  const [open, setOpen] = useState(false);
-  const [openTask, setOpenTask] = useState(false);
-  const [worker, setWorker] = useState(null)
+  const [ allUsers , setAllUsers  ] = useState(null)
+  const [ data, setData ] = useState(null);
+  const [ files , setFiles  ] = useState(null)
+  const [ idProyecto, setIdProyecto] = useState(0)
+  const [ task , setTask  ] = useState(null)
+  const [ taskFinish , setTaskFinish  ] = useState(null)
+  const [ open, setOpen ] = useState(false);
+  const [ openTask, setOpenTask ] = useState(false);
+  const [ worker, setWorker ] = useState(null)
   const [ allWorker, setAllWorker ] = useState(null)
-  const [inputTask, setInputTask] = useState({
+  const [ inputTask, setInputTask ] = useState({
     idProject: idProyecto,
     state: "generado",
     taskdetail: "",
     taskfinishdate: "",
     worker:""
   });
-  const [modifyProject, setModifyProject] = useState({
+  const [ modifyProject, setModifyProject ] = useState({
     idProject: idProyecto,
     projectname: "",
     projectdetail:"",
@@ -89,24 +89,24 @@ function projectDetail() {
       .then((res) => res.json())
       .then((data) => {
         setData(data)
-        setFiles(data[0].formproject )
-        setTask(data[0].newtasks.filter( e => e.state === "generado") )
-        setTaskFinish( data[0].newtasks.filter( e => e.state !== "generado") )
-        setIdProyecto(data[0].id )
-        setWorker( data[0].users  )
+        setFiles( data[0] ? data[0].formproject : [] )
+        setTask( data[0] ? data[0].newtasks.filter( e => e.state === "generado") : [])
+        setTaskFinish( data[0] ? data[0].newtasks.filter( e => e.state !== "generado") : [])
+        setIdProyecto( data[0] ? data[0].id : 0 )
+        setWorker( data[0] ? data[0].users : [] )
         setInputTask({
           ...inputTask,
-          idProject: data[0].id 
+          idProject: data[0] ? data[0].id : 0
         })
         setModifyProject({
           ...modifyProject,
-          idProject:data[0].id,
-          projectname: data[0].projectname  ,
-          projectdetail: data[0].projectdetail ,
-          requirer: data[0].users[0].username ,
-          worker: arrayUserProject( data[0] ) ,
-          finishdate:data[0].finishdate ,
-          files: data[0].formproject ? data[0].formproject.files : []
+          idProject: data[0] ? data[0].id : 0,
+          projectname: data[0] ? data[0].projectname : "" ,
+          projectdetail: data[0] ? data[0].projectdetail : "",
+          requirer: data[0]? data[0].users[0].username : "",
+          worker:data[0]?  arrayUserProject( data[0] ) : [] ,
+          finishdate: data[0] ? data[0].finishdate : "" ,
+          files: data[0] ? data[0].formproject.files : []
         })
       });
 
@@ -115,9 +115,9 @@ function projectDetail() {
       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newproject/${id}`)
       .then((res) => res.json())
       .then((data) => {
-          setTask(data[0].newtasks)
-          setTask(data[0].newtasks.filter( e => e.state === "generado"))
-          setTaskFinish(data[0].newtasks.filter( e => e.state !== "generado"))
+          setTask( data[0] ? data[0].newtasks : [])
+          setTask( data[0] ? data[0].newtasks.filter( e => e.state === "generado") : [] )
+          setTaskFinish( data[0] ? data[0].newtasks.filter( e => e.state !== "generado") : [] )
         });
       }, 5000)
 
@@ -239,6 +239,33 @@ function projectDetail() {
     });
   }
 
+  function handleSubmitTask(e) {
+    e.preventDefault();
+    postTask(inputTask)
+    .then(res => {
+
+      if (res.state === "success") {
+        setOpenTask(false);
+        setInputTask({
+          idProject: idProyecto,
+          state: "generado",
+          taskdetail: "",
+          taskfinishdate: "",
+          worker:""
+        });
+        Swal.fire(({
+          icon: "success",
+          title: "Tu tarea se creó con éxito!",
+          showConfirmButton: false,
+          timer: 1500
+        }));
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
+  }
+
   function handleOpen(e){
     setOpen(true)
 
@@ -259,7 +286,7 @@ function projectDetail() {
     setOpen(false);
   }
 
-  console.log("data", modifyProject)
+  console.log("data", inputTask)
 
   return (
     <div className={mainStyle.container}>

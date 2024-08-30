@@ -184,7 +184,9 @@
 .ScheduleCardContainer{
     display: grid;
     grid-template-columns: 20% 1fr;
-    gap: 2px; 
+    gap: 8px; 
+    justify-content: center;
+    align-items: center;
     font-size: 0.8rem;
     text-align: center;
     border: none;
@@ -255,4 +257,11 @@
     margin-top: 1rem;
     display: flex;
     justify-content: center;
+}
+
+.errormodal{
+    color: var(--color-basani);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
 }

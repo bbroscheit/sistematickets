@@ -32,13 +32,15 @@ const styles = {
   };
 
 function Schedule() {
-    const [open, setOpen] = useState(false);
-    const [currentMonth , setCurrentMonth] = useState(getDaysForSchedule())
+    const [ open, setOpen   ] = useState(false);
+    const [ currentMonth , setCurrentMonth  ] = useState(getDaysForSchedule())
     const { monthIndex, setMonthIndex } = useContext(GlobalContext)
-    const [selector , setSelector ] = useState(2)
+    const [ selector , setSelector ] = useState(2)
     const [ user, setUser ] = useState(null)
-    const [ currentUser, setCurrentUser] = useState(null)
-    const [input , setInput] = useState({
+    const [ currentUser, setCurrentUser ] = useState(null)
+    const [ error, setError ] = useState("");
+    const [button, setButton] = useState({ complete : false })
+    const [ input , setInput    ] = useState({
         detail : "",
         invited : [],
         accepted: [],
@@ -104,7 +106,39 @@ function Schedule() {
             ...input,
             [e.target.name ]:e.target.value
         })
+        setError(validate({
+            ...input,
+            [e.target.name] : e.target.value
+        }))
     }
+
+    function validate(input){
+        let errors = []
+          if (!input.detail) {
+            errors.detail = "El campo no puede estar vacío";
+          }
+          if (!input.startdate) {
+            errors.startdate = "El campo no puede estar vacío";
+          }
+          if (!input.starthour) {
+            errors.starthour = "El campo no puede estar vacío";
+          }
+          if (!input.finishhour) {
+            errors.finishhour = "El campo no puede estar vacío";
+          }
+          if (input.invited.length < 1 ) {
+            errors.invited = "El campo de tener un mínimo de 1 participante";
+          }
+
+          if (!errors.detail && !errors.startdate && !errors.starthour && !errors.finishhour && !errors.invited ) {
+            setButton({ complete : true })
+          }else{
+            setButton({ complete: false })
+          }
+          
+        return errors
+      }
+
 
     function handleSelect(e) {
         //console.log( "e select" , e)
@@ -204,54 +238,57 @@ function Schedule() {
     </div>
 
     
-     <Modal
+    <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
     >
-    <Box sx={styles}>
-        <div>
-            <div className={style.asuntoModalSchedule}>
-                <label>Asunto :</label>
-                <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
-        </div>
-        <div className={style.fechaModalSchedule}>
-            <label>Fecha de Inicio</label>
-            <input type="date" name="startdate" value={input.startdate} onChange={ e => handleChange(e)}></input>
-        </div>
-        <div className={style.horaModalSchedule}>
-            <label >Selecciona una hora de inicio</label>
-            <input type="time" name="starthour" value={input.starthour} onChange={ e => handleChange(e)}></input>
-        </div>
-        <div className={style.horaModalSchedule}> 
-            <label >Selecciona una hora de cierre</label>
-            <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
-        </div>
-      <label className={style.modalAutocomplete}>Elije a los participantes</label>
-      <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={user}
-                fullWidth
-                renderInput={(params) => <TextField {...params}/>}
-                onChange={(e) => handleSelect(e)}
-                sx={{margin:"8px 10px"}}
-            />
-      {input.invited.length > 0 ? 
-            <div className={style.userContainer}>
-            { input.invited.map( e => <div className={style.userCard}><h5 onClick={ e => handleUnselect(e)}>{e}</h5></div>) }
-            </div> : null}
-        <div></div>
-    </div>
-    <button onClick={handleSubmit} className={mainStyle.buttonModal}>Aceptar</button>
-                
-    </Box>
-  </Modal>   
+        <Box sx={styles}>
+            <div>
+                <div className={style.asuntoModalSchedule}>
+                    <label>Asunto :</label>
+                    <input type='text' name="detail" value={input.detail} onChange={e => handleChange(e)}></input>
+                </div>
+                <p className={style.errormodal}>{error.detail}</p>
+                <div className={style.fechaModalSchedule}>
+                    <label>Fecha de Inicio</label>
+                    <input type="date" name="startdate" value={input.startdate} onChange={ e => handleChange(e)}></input>
+                </div>
+                <p className={style.errormodal}>{error.startdate}</p>
+                <div className={style.horaModalSchedule}>
+                    <label >Selecciona una hora de inicio</label>
+                    <input type="time" name="starthour" value={input.starthour} onChange={ e => handleChange(e)}></input>
+                </div>
+                <p className={style.errormodal}>{error.starthour}</p>
+                <div className={style.horaModalSchedule}> 
+                    <label >Selecciona una hora de cierre</label>
+                    <input type="time" name="finishhour" value={input.finishhour} onChange={e => handleChange(e)}></input>
+                </div>
+                <p className={style.errormodal}>{error.finishhour}</p>
+                <label className={style.modalAutocomplete}>Elije a los participantes</label>
+                <Autocomplete
+                   disablePortal
+                    id="combo-box-demo"
+                    options={user}
+                    fullWidth
+                    renderInput={(params) => <TextField {...params}/>}
+                    onChange={(e) => handleSelect(e)}
+                    sx={{margin:"8px 10px"}}
+                />
+                {input.invited.length > 0 ? 
+                    <div className={style.userContainer}>
+                        { input.invited.map( e => <div className={style.userCard}><h5 onClick={ e => handleUnselect(e)}>{e}</h5></div>) }
+                 </div> : <p className={style.errormodal}>{error.invited}</p>}
+                </div>
+            {
+                button.complete === true ?
+                    <button className={mainStyle.button} type="submit"> Aceptar </button> 
+                    : <button className={mainStyle.buttonDisabled} onClick={handleSubmit} type="submit" disabled> Aceptar </button> 
+            }
+        </Box>
+    </Modal>   
     </>
-    
-    
-  )
-}
+)}
 
 export default Schedule

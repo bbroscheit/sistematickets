@@ -44,7 +44,7 @@ taskRouter.get("/newtask" , async (req, res) => {
 
 taskRouter.post( '/task' , async (req, res) => {
     const { idProject, state, taskdetail, taskfinishdate, worker } = req.body
-    
+    console.log("taskfinishdate", taskfinishdate)
     try {
         let newTask = await postTask( idProject, state, taskdetail, taskfinishdate, worker )
         newTask ? res.status(200).json({state: "success"})  : res.status(400).json({state: "failure"})

@@ -3,6 +3,8 @@ const {  Newproject, Newtask, User, sequelize } = require("../../bd");
 const postTask = async (
     idProject, state, taskdetail, taskfinishdate, worker, taskdate = sequelize.literal('CURRENT_TIMESTAMP')
 ) => {
+
+  console.log( "task", taskfinishdate)
     try {
 
       let newTask = await Newtask.create({

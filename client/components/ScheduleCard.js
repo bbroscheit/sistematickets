@@ -22,7 +22,7 @@ const styles = {
   p: 4,
 };
 
-function ScheduleCard({ id, detail, starthour }) {
+function ScheduleCard({ id, detail, starthour, finishhour }) {
   const router = useRouter();
 
   const [schedule, setSchedule] = useState(null);
@@ -93,7 +93,11 @@ function ScheduleCard({ id, detail, starthour }) {
           handleOpenModal(e);
         }}
       >
-        <p>{starthour}</p>
+        <div> 
+          <p>{starthour}</p>
+          <p>{finishhour}</p>
+        </div>
+       
         <p>{detail}</p>
       </div>
 

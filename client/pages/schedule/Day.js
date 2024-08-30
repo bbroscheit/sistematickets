@@ -59,7 +59,7 @@ function Day({day , idx }) {
             <div className={style.taskContainer} >
             {
                 schedules !== null && schedules.length > 0 ? 
-                schedules.map( e => <ScheduleCard key={e.id} id={e.id} detail={e.detail} starthour={devuelveHoraDesdeTimestamp(e.starthour)} onClick={(e) => e.stopPropagation()}/>)
+                schedules.map( e => <ScheduleCard key={e.id} id={e.id} detail={e.detail} starthour={devuelveHoraDesdeTimestamp(e.starthour)} finishhour={devuelveHoraDesdeTimestamp(e.finishhour)}onClick={(e) => e.stopPropagation()}/>)
                 : null
           }
             </div>
