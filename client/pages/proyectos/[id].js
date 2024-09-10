@@ -106,7 +106,7 @@ function projectDetail() {
           requirer: data[0]? data[0].users[0].username : "",
           worker:data[0]?  arrayUserProject( data[0] ) : [] ,
           finishdate: data[0] ? data[0].finishdate : "" ,
-          files: data[0] ? data[0].formproject.files : []
+          //files: data[0] ? data[0].formproject.files : []
         })
       });
 
@@ -216,22 +216,17 @@ function projectDetail() {
     e.preventDefault();
     updateProject(modifyProject)
     .then(res => {
-
       if (res.state === "success") {
-        setOpenTask(false);
-        // setInputTask({
-        //   idProject: idProyecto,
-        //   state: "generado",
-        //   taskdetail: "",
-        //   taskfinishdate: "",
-        //   worker:""
-        // });
+        handleClose();
         Swal.fire(({
           icon: "success",
           title: "Tu proyecto fue modificado con éxito!",
           showConfirmButton: false,
           timer: 1500
         }));
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 1500);
       }
     })
     .catch(error => {
@@ -285,8 +280,6 @@ function projectDetail() {
 
     setOpen(false);
   }
-
-  console.log("data", inputTask)
 
   return (
     <div className={mainStyle.container}>

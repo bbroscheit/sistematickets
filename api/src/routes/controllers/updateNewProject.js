@@ -111,6 +111,7 @@ const updateNewProject = async (
       await setProject.setFormproject(newForm.id)
     }
 
+    console.log("llegue al final del controller")
     return setProject;
 
   } catch (e) {

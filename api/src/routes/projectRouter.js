@@ -108,7 +108,7 @@ projectRouter.post( '/newproject' , uploadFiles() , async (req, res) => {
 
 projectRouter.put( '/updateproject' , uploadFiles() , async (req, res) => {
     const { idProject,  projectname, projectdetail, requirer , worker, finishdate } = req.body
-    
+    console.log("entre a la ruta")
     try {
         let newProject = await updateNewProject( idProject, projectname, projectdetail, requirer, worker, finishdate , req.files)
         
