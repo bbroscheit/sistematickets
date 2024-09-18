@@ -21,6 +21,10 @@ const postNewProject = async (
 ) => {
   try {
 
+    console.log("requirer", requirer)
+    console.log("worker", worker)
+    let workerArray = worker.split(',')
+
     // Creamos el projecto con todos los datos recibidos menos el archivo y los users
     let newProject = await Newproject.create({state, projectname, projectdetail, finishdate});
 
@@ -65,24 +69,27 @@ const postNewProject = async (
       }
     }
 
-    if (worker && worker.length > 0) {
+    if (workerArray && workerArray.length > 0) {
       // Crear una lista para almacenar los IDs de los trabajadores
       const workerIds = [];
 
-      for (let i = 0; i < worker.length; i++) {
+      for (let i = 0; i < workerArray.length; i++) {
         let workerFind = await User.findOne({
-          where: [{ isdelete: false }, { username: worker[i] }],
+          where: [{ isdelete: false }, { username: workerArray[i] }],
         });
         
         if (workerFind) {
           workerIds.push(workerFind.id);
         }
+
+        console.log("workerIds", workerIds)
       }
 
       // Agregar todos los trabajadores al proyecto
       await newProject.addUsers(workerIds);
     }
 
+    console.log("newProject", newProject)
     if(newForm){
       await newProject.setFormproject(newForm.id)
     }
