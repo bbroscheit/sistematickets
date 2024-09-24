@@ -2,14 +2,24 @@ import React, { useState, useEffect, Fragment } from "react";
 import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/ticketsSupervisor.module.css";
 import Card from "@/components/Card";
+import arrayUser from '@/functions/arrayUser';
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CardWorkerSupervisor from "@/components/CardWorkerSupervisor";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import CardSupervisorUsers from '@/components/CardSupervisorUsers';
 
 function TicketsSupervisor() {
-  const [soportes, setSoportes] = useState(null);
-  const [openSinAsignar, setOpenSinAsignar] = useState(true);
-  const [worker , setWorker] = useState(null)
+  const [ soportes, setSoportes] = useState(null);
+  const [ soporteUnfinished , setSoporteUnfinished ] = useState(null);
+  //const [ soporteUnfinishedAlt , setSoporteUnfinishedAlt ] = useState(null);
+  const [ usuarios , setUsuarios ] = useState(null)
+  const [ usuariosAlt , setUsuariosAlt ] = useState(null)
+  const [ openSinAsignar, setOpenSinAsignar] = useState(true);
+  const [ worker , setWorker] = useState(null)
+  const [ view , setView ] = useState(1)
+  const [ title , setTitle] = useState("Desarrollador")
+  const [ finder , setFinder] = useState("")
 
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
@@ -29,11 +39,32 @@ function TicketsSupervisor() {
       });
   },[]);
 
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`)
+       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`)
+       .then((res) => res.json())
+       .then((data) => {
+          setSoporteUnfinished(data);
+          //setSoporteUnfinishedAlt(data);
+          setUsuarios(arrayUser(data))
+          setUsuariosAlt(arrayUser(data))
+  });
+  },[]);
+
   function handleClick(e) {
     e.preventDefault();
     openSinAsignar === false
       ? setOpenSinAsignar(true)
       : setOpenSinAsignar(false);
+  }
+
+  function handleClickChange(e){
+    view === 1 ? setView(2) : setView(1)
+    title === "Desarrollador" ? setTitle("Usuarios") : setTitle("Desarrollador")
+  }
+
+  function handleChangeFinder(e){
+    e.target.value === "" ? setUsuariosAlt(usuarios) : setUsuariosAlt( usuarios.filter( f => f.includes(e.target.value)))
   }
 
   return (
@@ -71,16 +102,37 @@ function TicketsSupervisor() {
         {/* se añade este salto de linea par ano modificar los estilos generales */}
         <br /> 
 
-        <div className={style.supervisorTitle}>    
-                <h2>Soportes por Desarrollador</h2>
-        </div>
-
-        <div className={style.cardContainer}>
+        {
+          view === 1 ? 
+          <>
+            <div className={style.supervisorTitle}>    
+                <h2>Soportes por {title}</h2>
+                <ChangeCircleIcon onClick={ e => handleClickChange(e)}/>
+            </div>
+            <div className={style.cardContainer}>
             {
-                worker !== null && worker.length > 0 ? worker.map( e => <CardWorkerSupervisor worker={e.username} firstname={e.firstname} lastname={e.lastname}/>)
-                     : null
+              worker !== null && worker.length > 0 ? worker.map( e => <CardWorkerSupervisor worker={e.username} firstname={e.firstname} lastname={e.lastname}/>)
+              : null
             }
         </div>
+          </> :
+          <>
+            <div className={style.supervisorTitle}>    
+                <h2>Soportes por {title}</h2>
+                <ChangeCircleIcon onClick={ e => handleClickChange(e)}/>
+            </div>
+            <div>
+              <h5>Ingresa el apellido del usuario</h5>
+              <input type="search" onChange={ e => handleChangeFinder(e)}></input>
+            </div>
+            <div className={style.cardContainer}>
+            {
+              usuariosAlt !== null && usuariosAlt.length > 0 ? usuariosAlt.map( e => <CardSupervisorUsers soportes={soporteUnfinished} usuario = { e } key={e}/> ): <h3>No hay usuarios con tickets activos</h3>
+            }
+          </div>
+          </>
+        }
+        
       </div>
     </div>
   );

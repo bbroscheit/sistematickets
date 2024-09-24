@@ -48,6 +48,7 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
   const [task, setTask] = useState (null)
   const [open, setOpen] = useState(false);
   const [promedio, setPromedio] = useState(null)
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -61,6 +62,11 @@ function projectCard({id , state, projectName, projectDetail, requirer, worker, 
       });
     
   }, [id]);
+
+  useEffect(() => {
+    let userLogin = JSON.parse(localStorage.getItem("user"));
+    userLogin ? setUser(userLogin) : null;
+  }, []);
 
   useEffect(() => {
     if(task !== null){
@@ -123,7 +129,7 @@ function handleClose() {
   return (
    
     <div className={Style.cardContainer}> 
-      <CheckCircleOutlineIcon />
+      {/* <CheckCircleOutlineIcon /> */}
       <Link href={`/proyectos/${id}`} className={Style.cardLink}>
       {/* <div className={Style.cardLink} onClick={(e) => {
             idKeep(e);
@@ -153,7 +159,12 @@ function handleClose() {
               <div className={Style.progressGrid}>
                 <BorderLinearProgress variant="determinate" value={calculaPromedio(task)} className={Style.progressBar}/>
                 <span>{calculaPromedio(task)} %</span>
-                <CheckCircleOutlineIcon className= {calculaPromedio(task) !== 100 ? Style.iconcheck : Style.iconcheckActive} onClick={handleOpen}/>
+                {
+                  user !== null && user.isprojectmanager === true ?
+                    <CheckCircleOutlineIcon className= {calculaPromedio(task) !== 100 ? Style.iconcheck : Style.iconcheckActive} onClick={handleOpen}/>
+                    : null
+                }
+                
               </div> : null
             }
                         

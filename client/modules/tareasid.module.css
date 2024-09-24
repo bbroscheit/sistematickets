@@ -6,8 +6,28 @@
     margin: 0px auto;
     width: 100%;
     text-align: center;
+
 }
 
 .detailContainer h4{
     margin-top: 10px;
+}
+
+.titleContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin: 15px auto;
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+}
+
+.titleContainer h1{
+   margin: 0;
+   padding: 0;
+}
+
+.iconformulario{
+    color: var(--color-basani)
 }

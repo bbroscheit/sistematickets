@@ -7,6 +7,7 @@ const postTask = require('./controllers/postTask')
 const updateCheckTask = require("./controllers/updateCheckTask")
 const updateCheckNewTask = require('./controllers/updateCheckNewtask')
 const updateNewtask = require('./controllers/updateNewtask')
+const updateTask = require("./controllers/updateTask")
 
 taskRouter.get("/task" , async (req, res) => {
     
@@ -44,7 +45,7 @@ taskRouter.get("/newtask" , async (req, res) => {
 
 taskRouter.post( '/task' , async (req, res) => {
     const { idProject, state, taskdetail, taskfinishdate, worker } = req.body
-    console.log("taskfinishdate", taskfinishdate)
+    //console.log("taskfinishdate", taskfinishdate)
     try {
         let newTask = await postTask( idProject, state, taskdetail, taskfinishdate, worker )
         newTask ? res.status(200).json({state: "success"})  : res.status(400).json({state: "failure"})
@@ -83,6 +84,17 @@ taskRouter.put( '/updateNewtask' , async (req, res) => {
         updateTask ? res.status(200).json({state:"success"})  : res.status(400).json({state: "failure"})
     } catch (e) {
         console.log("error en task post router", e.message)
+    }
+})
+
+taskRouter.put( '/updateTask' , async (req, res) => {
+    const { id , description } = req.body
+    console.log( "ruta" ,id , description )
+    try {
+        let updateNewTask= await updateTask( id , description )
+        updateNewTask ? res.status(200).json({state:"success"})  : res.status(400).json({state: "failure"})
+    } catch (e) {
+        console.log("error en task put router", e.message)
     }
 })
 

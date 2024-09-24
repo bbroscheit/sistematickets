@@ -11,6 +11,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function Dashboard() {
     const [project, setProject] = useState(null)
+    const [user, setUser] = useState(null);
     
     useEffect(() => {
     try {
@@ -26,17 +27,25 @@ function Dashboard() {
         
     }, []);
 
+    useEffect(() => {
+        let userLogin = JSON.parse(localStorage.getItem("user"));
+        userLogin ? setUser(userLogin) : null;
+      }, []);
+
     // console.log("proyectos",project)
     return (
         <div className={mainStyle.container}>
             <h1 className={mainStyle.title}>PROYECTOS</h1>
-            <div className={style.subtitleContainer}>
-                <h5>Nuevo Proyecto</h5>
-                <hr />
-                <Link href="proyectos/nuevoProyecto">
-                    <AddCircleOutlineIcon sx={{cursor:"pointer", color:"#FFFFFF", paddingTop:"2px"}}/>
-                </Link>
-            </div>
+            { user !== null && user.isprojectmanager === true ?
+                <div className={style.subtitleContainer}>
+                    <h5>Nuevo Proyecto</h5>
+                    <hr />
+                    <Link href="proyectos/nuevoProyecto">
+                        <AddCircleOutlineIcon sx={{cursor:"pointer", color:"#FFFFFF", paddingTop:"2px"}}/>
+                    </Link>
+                </div> : null
+            }
+            
             <hr className={style.divider}/>
             <div className={style.cardContainer}>
             {

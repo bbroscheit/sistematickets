@@ -289,13 +289,13 @@ function projectDetail() {
             <div className={Style.containertitle}>
             <h1 className={mainStyle.title}>{data[0].projectname}</h1>
             {
-              user !== null ?
+              user !== null && user.isprojectmanager === true?
               <Tooltip title="Editar Proyecto">
                 <a onClick={handleOpen}><EditIcon className={Style.iconformulario} /></a>
               </Tooltip> : null
             }
             {
-              files !== null && files != [] ?
+              files !== null && files != [] && user.isprojectmanager === true?
               <Tooltip title="Descargar Formulario">
               <a href={encodeURI(files.files[0])} download><ContentPasteIcon className={Style.iconformulario} /></a>
               </Tooltip> : null
@@ -306,11 +306,15 @@ function projectDetail() {
           <hr className={Style.horizontalLine} />
           <div className={Style.userStorieTitle}>
             <div className={Style.titleContainer}>
-              <div className={Style.button}>
-                <h5 >Nueva Tarea</h5>
-                <hr />
-                <AddCircleOutlineIcon cursor="pointer" sx={{ color:"#ffffff"}} onClick={(e) => handleOpenTask(e)} />
-              </div>
+              {
+                user !== null & user.isprojectmanager === true ?
+                  <div className={Style.button}>
+                    <h5 >Nueva Tarea</h5>
+                    <hr />
+                      <AddCircleOutlineIcon cursor="pointer" sx={{ color:"#ffffff"}} onClick={(e) => handleOpenTask(e)} />
+                  </div> : null
+              }
+              
             </div>
           </div>
           {task && task.length > 0  ?

@@ -12,7 +12,7 @@ function CardSupervisorUsers({soportes, usuario , key}) {
     const [soporteFiltradoInformacion, setSoporteFiltradoInformacion ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Informacion"))
     const [soporteFiltradoCompletado, setSoporteFiltradoCompletado ] = useState(soportesFiltradosPorUsuarios(soportes, usuario, "Completado"))
 
-    console.log("sportes",soporteFiltrado)
+    //console.log("sportes",soporteFiltrado)
   return (
     <div className={styleCard.workerContainer} key={key}>
         <h2 className={styleCard.titleCard}>{usuario}</h2>

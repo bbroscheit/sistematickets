@@ -103,6 +103,14 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [login, setLogin] = React.useState(0);
+  let usersGerentes = [
+    "Gparente",
+    "Fañaños",
+    "Vrobles",
+    "Nsueiro",
+    "Ggranetto",
+    "Rgonzalez"
+  ]
  
 
   React.useEffect(() => {
@@ -821,9 +829,9 @@ export default function PrimarySearchAppBar() {
 
         <Divider />
 
-        {/* Si el usuario puede cargar desarrollos */}
+        {/* Si el usuario puede cargar desarrollos , participar en ellos o es gerente*/}
         {user !== null ? (
-          user.isprojectmanager === true || user.isprojectworker === true ? (
+          user.isprojectmanager === true || user.isprojectworker === true || usersGerentes.includes(user.name) ? (
             <List>
               {["Proyectos"].map((text, index) => (
                 <Link href={index === 0 ? "/Dashboard" : "/"}>
