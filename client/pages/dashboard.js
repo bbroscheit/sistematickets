@@ -32,7 +32,7 @@ function Dashboard() {
         userLogin ? setUser(userLogin) : null;
       }, []);
 
-    // console.log("proyectos",project)
+     console.log("user ", user)
     return (
         <div className={mainStyle.container}>
             <h1 className={mainStyle.title}>PROYECTOS</h1>
