@@ -192,6 +192,37 @@ function Soporte() {
     }
   }, [inputFaq.description]);
 
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaSolutionSistemas');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [inputFaq.description]);
+
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaSolutionUsuario');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [inputFaq.description]);
+
+  useEffect(() => {
+    if (soporte !== null) {
+      const textarea = document.getElementById('mi-textareaSolutionTerminado');
+      if (textarea) {
+        textarea.style.height = 'auto'; // Restablece la altura a automática
+        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
+      }
+    }
+  }, [inputFaq.description]);
+
+
   
   useEffect(() => {
     if (soporte !== null) {
@@ -864,7 +895,7 @@ function Soporte() {
                   <div>
                     <h3 className={style.label}>Solución : </h3>
                     <textarea
-                      
+                      id="mi-textareaSolutionSistemas"
                       placeholder={soporte.answer}
                       // disabled
                       cols="80"
@@ -884,7 +915,7 @@ function Soporte() {
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
-                        //id="mi-textarea"
+                        id="mi-textareaSolutionUsuario"
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
@@ -904,7 +935,7 @@ function Soporte() {
                     <div>
                       <h3 className={style.label}>Solución : </h3>
                       <textarea
-                        //id="mi-textarea"
+                        id="mi-textareaSolutionTerminado"
                         placeholder={soporte.answer}
                         // disabled
                         cols="80"
