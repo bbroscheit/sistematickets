@@ -32,7 +32,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
 
     sector = sector.trim();
     // creamos un array con los nombres de los desarrolladores hasta encontrar el problema con la BD y el sector Sistemas
-    const desarrolladores = ["Lllamanzarez", "Vlodigiani", "Llamanzarez"]
+    const desarrolladores = ["Lllamanzarez", "Vlodigiani", "Llamanzarez","Asuarez","Masencio","Fduhalde","Cobranzasprueba1"]
     //console.log("sector en controller", sector)
 
     const sectores = await Sector.findAll();

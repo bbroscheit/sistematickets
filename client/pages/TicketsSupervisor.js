@@ -21,6 +21,14 @@ function TicketsSupervisor() {
   const [ title , setTitle] = useState("Desarrollador")
   const [ finder , setFinder] = useState("")
 
+  const [user, setUser] = useState(null);
+    
+  useEffect(() => {
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    setUser(loginParse);
+  }, []);
+
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
        //fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`)
@@ -71,7 +79,21 @@ function TicketsSupervisor() {
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Supervisor</h1>
       
-      <div className={style.gridContainer}>
+      {
+        user !== null && user.name === "Asuarez" ?
+        <>
+        <div className={style.supervisorTitle}>    
+            <h2>Soportes por {title}</h2>
+            <ChangeCircleIcon onClick={ e => handleClickChange(e)}/>
+        </div>
+        <div className={style.cardContainer}>
+        {
+          worker !== null && worker.length > 0 ? worker.map( e => <CardWorkerSupervisor worker={e.username} firstname={e.firstname} lastname={e.lastname}/>)
+          : null
+        }
+    </div>
+      </> :
+        <div className={style.gridContainer}>
         {soportes !== null && soportes.length > 0 ? (
           <>
             <div className={style.supervisorTitle}>    
@@ -134,6 +156,70 @@ function TicketsSupervisor() {
         }
         
       </div>
+      }
+      {/* <div className={style.gridContainer}>
+        {soportes !== null && soportes.length > 0 ? (
+          <>
+            <div className={style.supervisorTitle}>    
+                <h2>Soportes sin Asignar</h2>
+                {openSinAsignar === false ? (
+                <KeyboardArrowDownIcon onClick={(e) => handleClick(e)} />
+                    ) : (
+                <KeyboardArrowUpIcon onClick={(e) => handleClick(e)} />
+                )}
+            </div>
+
+            {openSinAsignar === true
+              ? soportes.map((e) => (
+                  <React.Fragment key={e.id}>
+                    <Card
+                      key={e.id}
+                      id={e.id}
+                      subject={e.subject}
+                      state={e.state}
+                      created={e.created}
+                    />
+                  </React.Fragment>
+                ))
+              : null}
+          </>
+        ) : null}
+
+        { se añade este salto de linea par ano modificar los estilos generales 
+        <br /> 
+
+        {
+          view === 1 ? 
+          <>
+            <div className={style.supervisorTitle}>    
+                <h2>Soportes por {title}</h2>
+                <ChangeCircleIcon onClick={ e => handleClickChange(e)}/>
+            </div>
+            <div className={style.cardContainer}>
+            {
+              worker !== null && worker.length > 0 ? worker.map( e => <CardWorkerSupervisor worker={e.username} firstname={e.firstname} lastname={e.lastname}/>)
+              : null
+            }
+        </div>
+          </> :
+          <>
+            <div className={style.supervisorTitle}>    
+                <h2>Soportes por {title}</h2>
+                <ChangeCircleIcon onClick={ e => handleClickChange(e)}/>
+            </div>
+            <div>
+              <h5>Ingresa el apellido del usuario</h5>
+              <input type="search" onChange={ e => handleChangeFinder(e)}></input>
+            </div>
+            <div className={style.cardContainer}>
+            {
+              usuariosAlt !== null && usuariosAlt.length > 0 ? usuariosAlt.map( e => <CardSupervisorUsers soportes={soporteUnfinished} usuario = { e } key={e}/> ): <h3>No hay usuarios con tickets activos</h3>
+            }
+          </div>
+          </>
+        }
+        
+      </div> */}
     </div>
   );
 }
