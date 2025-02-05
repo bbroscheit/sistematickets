@@ -30,6 +30,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
         
     }
 
+    sector = sector.trim();
     console.log("sector en controller", sector)
 
     try{
