@@ -31,31 +31,41 @@ const getTicketSupervisorCard = async (supervisorSector) => {
     }
 
     sector = sector.trim();
-    console.log("sector en controller", sector)
+    // creamos un array con los nombres de los desarrolladores hasta encontrar el problema con la BD y el sector Sistemas
+    const desarrolladores = ["Lllamanzarez", "Vlodigiani", "Llamanzarez"]
+    //console.log("sector en controller", sector)
+
+    const sectores = await Sector.findAll();
+    sectores.forEach(s => {
+        //console.log(`Sector: '${s.sectorname}'`);
+    });
 
     try{
         
-        let getTickets = await Ticket.findAll({
-            include: [{
-                model: User,
-                required: true, 
+        let getTickets 
+        if (sector === "Sistemas") {
+            //console.log("Buscando tickets para desarrolladores:", desarrolladores);
+            getTickets = await Ticket.findAll({
                 include: [{
-                    model: Sector,
-                    // where: { sectorname: sector }
+                    model: User,
+                    required: true,
                     where: {
-                        [Sequelize.Op.and]: [
-                            Sequelize.where(Sequelize.fn('TRIM', Sequelize.col('sectorname')), sector)
-                        ]
+                        username: desarrolladores
                     }
                 }]
-            }],
-            where: {
-                state: {
-                    [Sequelize.Op.not]: "Terminado"
-                }
-            },
-            order: [['state', 'ASC']]
-        });
+            });
+        } else {
+            getTickets = await Ticket.findAll({
+                include: [{
+                    model: User,
+                    required: true,
+                    include: [{
+                        model: Sector,
+                        where: { sectorname: sector }
+                    }]
+                }]
+            });
+        }
 
         console.log("getTickets en controller", getTickets) 
         return getTickets;

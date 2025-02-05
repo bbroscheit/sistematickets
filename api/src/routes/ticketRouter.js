@@ -200,10 +200,10 @@ ticketRouter.get( '/ticketsBySalepoint' , async ( req, res ) => {
 
 ticketRouter.get( '/ticketsByUser' , async ( req, res ) => {
     const username = req.query.username
-    console.log("username en router", username)
+    
     try {
         let tickets = await getTicketByUser(username);
-        console.log("tickets propios en router", tickets)
+        
         tickets ? res.status(200).json(tickets) : res.status(400).json({ state:"failure" })
     } catch (e) {
         console.log( "error en ruta get ticketsByWorker" , e.message)
@@ -234,10 +234,10 @@ ticketRouter.get( '/ticketDeveloperView/:name' , async ( req, res ) => {
 
 ticketRouter.get( '/ticketSupervisorData' , async ( req, res ) => {
     const supervisorSector = req.query.sector
-    console.log("sector en router", supervisorSector)
+    //console.log("sector en router", supervisorSector)
     try {
         let tickets = await getTicketSupervisorCard(supervisorSector);
-        console.log("tickets supervisor en router", tickets)
+        //console.log("tickets supervisor en router", tickets)
         tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
     } catch (e) {
         console.log( "error en ruta get ticketSupervisorData" , e.message)

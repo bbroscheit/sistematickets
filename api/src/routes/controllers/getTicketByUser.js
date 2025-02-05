@@ -2,7 +2,7 @@ const { Ticket, User } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
 const getTicketByUser = async (username) => {
-    console.log("username en controller", username)
+    
     try{
 
         let getTIcketByName = await Ticket.findAll({
@@ -18,7 +18,7 @@ const getTicketByUser = async (username) => {
             },
         });
 
-        console.log("getTIcketByName en controller", getTIcketByName)
+        
         return getTIcketByName;
     }catch(e){
         console.log( "error en controller getTicketByUser" , e.message)
