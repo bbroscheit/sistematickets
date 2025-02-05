@@ -29,7 +29,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             break;
     }
 
-    console.log("sector", sector)
+    console.log("sector en controller", sector)
 
     try{
         
@@ -50,6 +50,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             order: [['state', 'ASC']]
         });
 
+        console.log("getTickets en controller", getTickets) 
         return getTickets;
     }catch(e){
         console.log( "error en controller getTicketSupervisorCard" , e.message)
