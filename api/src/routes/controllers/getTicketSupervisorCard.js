@@ -24,6 +24,9 @@ const getTicketSupervisorCard = async (supervisorSector) => {
         case "Jefatura de Logistica":
             sector = "Logistica"
             break;
+        case "Jefatura de Sistemas":
+            sector = "Sistemas"
+            break;
     }
 
     try{
