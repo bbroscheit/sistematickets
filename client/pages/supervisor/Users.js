@@ -40,6 +40,9 @@ function Users() {
        });
   },[]);
 
+  console.log("soporte", soporte)
+  console.log("ownsoporte", ownSoporte)
+
   return (
     <div className={styleCard.cardContainer}>
       {

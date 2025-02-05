@@ -40,7 +40,12 @@ const getTicketSupervisorCard = async (supervisorSector) => {
                 required: true, 
                 include: [{
                     model: Sector,
-                    where: { sectorname: sector }
+                    // where: { sectorname: sector }
+                    where: {
+                        [Sequelize.Op.and]: [
+                            Sequelize.where(Sequelize.fn('TRIM', Sequelize.col('sectorname')), sector)
+                        ]
+                    }
                 }]
             }],
             where: {
