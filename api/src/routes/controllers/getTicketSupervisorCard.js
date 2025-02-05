@@ -25,8 +25,9 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             sector = "Logistica"
             break;
         case "Jefatura de Sistemas":
-            sector = "Sistema"
+            sector = "Sistemas"
             break;
+        
     }
 
     console.log("sector en controller", sector)
