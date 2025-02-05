@@ -236,6 +236,7 @@ ticketRouter.get( '/ticketSupervisorData' , async ( req, res ) => {
     console.log("sector", supervisorSector)
     try {
         let tickets = await getTicketSupervisorCard(supervisorSector);
+        console.log("tickets", tickets)
         tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
     } catch (e) {
         console.log( "error en ruta get ticketSupervisorData" , e.message)
