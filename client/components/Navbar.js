@@ -424,7 +424,7 @@ export default function PrimarySearchAppBar() {
         ) : null}
 
         {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
-        {user !== null && user.sector === "Sistemas" ? (
+        {user !== null && ( user.sector === "Sistemas" || user.name === "Bbroscheit" )  ? (
           <List>
             {["Inicio", "Usuarios", "Nuevo Usuario"].map((text, index) => (
               <Link

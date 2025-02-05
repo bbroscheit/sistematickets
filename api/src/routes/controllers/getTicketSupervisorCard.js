@@ -29,6 +29,8 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             break;
     }
 
+    console.log("sector", sector)
+
     try{
         
         let getTickets = await Ticket.findAll({

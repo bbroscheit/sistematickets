@@ -233,7 +233,7 @@ ticketRouter.get( '/ticketDeveloperView/:name' , async ( req, res ) => {
 
 ticketRouter.get( '/ticketSupervisorData' , async ( req, res ) => {
     const supervisorSector = req.query.sector
-    
+    console.log("sector", supervisorSector)
     try {
         let tickets = await getTicketSupervisorCard(supervisorSector);
         tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
