@@ -5,144 +5,138 @@ import styles from "@/modules/usuarios.module.css";
 import CardUsers from "@/components/CardUsers";
 
 function Usuarios() {
-  const [user, setUser] = useState(null);
-  const [userAlt , setUserAlt] = useState(null);
-  const [sector, setSector] = useState(null);
-  const [salepoint, setSalepoint] = useState(null)
+  const [data, setData] = useState({
+    users: [],
+    sectors: [],
+    salepoints: [],
+  });
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSector, setSelectedSector] = useState("todos");
+  const [selectedSalepoint, setSelectedSalepoint] = useState("todos");
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        setUserAlt(data)
+    const fetchData = async () => {
+      const [usersRes, sectorsRes, salepointsRes] = await Promise.all([
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`).then(
+          (res) => res.json()
+        ),
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`).then(
+          (res) => res.json()
+        ),
+        fetch(
+          `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`
+        ).then((res) => res.json()),
+      ]);
+
+      // Ordenar los usuarios por nombre de usuario
+      usersRes.sort((a, b) => a.username.localeCompare(b.username));
+
+      setData({
+        users: usersRes,
+        sectors: sectorsRes,
+        salepoints: salepointsRes,
       });
+      setFilteredUsers(usersRes);
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSector(data);
-      });
-  }, []);
+    let filtered = data.users;
 
-  useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/salepoint`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSalepoint(data);
-      });
-  }, []);
+    if (searchTerm) {
+      filtered = filtered.filter((user) =>
+        user.username.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
+    if (selectedSector !== "todos") {
+      filtered = filtered.filter((user) =>
+        user.sector ? user.sector.sectorname === selectedSector : false
+      );
+    }
 
-  function handleSector(e){
-    e.preventDefault()
-    e.target.value === "todos" ? setUserAlt( user) : setUserAlt( user.filter( user => user.sector ? user.sector.sectorname === e.target.value : null ))
-    
-  }
+    if (selectedSalepoint !== "todos") {
+      filtered = filtered.filter((user) =>
+        user.salepoint ? user.salepoint.salepoint === selectedSalepoint : false
+      );
+    }
 
-  function handleSalepoint(e){
-    e.preventDefault()
-    e.target.value === "todos" ? setUserAlt( user) : setUserAlt( user.filter( user =>  user.salepoint ? user.salepoint.salepoint === e.target.value : null ))
-    
-  }
+    setFilteredUsers(filtered);
+  }, [searchTerm, selectedSector, selectedSalepoint, data.users]);
 
-  function handleSearch(e){
-    e.preventDefault()
-    setUserAlt( user.filter( user => user.username.includes(e.target.value)))
-  }
- 
-  // console.log("user", user)
+  const renderFilters = () => (
+    <div className={styles.filterContainer}>
+      <div className={styles.searchContainer}>
+        <h3>Busqueda por usuario</h3>
+        <input
+          type="search"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      <div className={styles.searchContainer}>
+        <h3>Filtro por Sector</h3>
+        <select onChange={(e) => setSelectedSector(e.target.value)}>
+          <option value="todos">Todos</option>
+          {data.sectors.map((e) => (
+            <option key={e.id} value={e.sectorname}>
+              {e.sectorname}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className={styles.searchContainer}>
+        <h3>Filtro por Unidad de Negocio</h3>
+        <select onChange={(e) => setSelectedSalepoint(e.target.value)}>
+          <option value="todos">Todos</option>
+          {data.salepoints.map((e) => (
+            <option key={e.id} value={e.salepoint}>
+              {e.salepoint}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+
+  const renderUsers = () => (
+    <div className={styles.cardContainer}>
+      {filteredUsers.map((e) => (
+        <CardUsers
+          key={e.id}
+          id={e.id}
+          username={e.username}
+          firstname={e.firstname}
+          lastname={e.lastname}
+          phonenumber={e.phonenumber}
+          email={e.email}
+          sector={e.sector}
+          salepoint={e.salepoint}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <>
-    <div className={mainStyles.container}>
-      <h1 className={mainStyles.title}>Usuarios</h1>
-      <div className={styles.mainContainer}>
-        <div className={styles.filterContainer}>
-          <div className={styles.searchContainer}>
-            <h3>Busqueda por usuario</h3>
-            <input type="search" onChange={e => handleSearch(e)}/>
-          </div>
-          <div className={styles.searchContainer}>
-            <h3>Filtro por Sector</h3>
-            <select onChange={ e => handleSector(e)}>
-              <option value="todos">Todos</option>
-              { sector && sector.map( e => <option key={e.id} value={e.sectorname}>{e.sectorname}</option> )}
-            </select>
-          </div>
-          <div className={styles.searchContainer}>
-            <h3>Filtro por Unidad de Negocio</h3>
-            <select onChange={ e => handleSalepoint(e)}>
-              <option value="todos">Todos</option>
-              { salepoint && salepoint.map( e => <option key={e.id} value={e.salepoint}>{e.salepoint}</option> )}
-            </select>
-          </div>
-        </div>
-        <div className={styles.cardContainer}>
-          {userAlt &&
-            userAlt.map((e) => (
-              <CardUsers
-                id={e.id}
-                username={e.username}
-                firstname={e.firstname}
-                lastname={e.lastname}
-                phonenumber={e.phonenumber}
-                email={e.email}
-                sector={e.sector}
-                salepoint={e.salepoint}
-              />
-            ))}
+      <div className={mainStyles.container}>
+        <h1 className={mainStyles.title}>Usuarios</h1>
+        <div className={styles.mainContainer}>
+          {renderFilters()}
+          {renderUsers()}
         </div>
       </div>
-    </div>
 
-    <div className={mainStyles.containerMobile}>
-      <h1 className={mainStyles.title}>Usuarios</h1>
-      <div className={styles.mainContainer}>
-        <div className={styles.filterContainer}>
-          <div className={styles.searchContainer}>
-            <h3>Busqueda por usuario</h3>
-            <input type="search" onChange={e => handleSearch(e)}/>
-          </div>
-          <div className={styles.searchContainer}>
-            <h3>Filtro por Sector</h3>
-            <select onChange={ e => handleSector(e)}>
-              <option value="todos">Todos</option>
-              { sector && sector.map( e => <option key={e.id} value={e.sectorname}>{e.sectorname}</option> )}
-            </select>
-          </div>
-          <div className={styles.searchContainer}>
-            <h3>Filtro por Unidad de Negocio</h3>
-            <select onChange={ e => handleSalepoint(e)}>
-              <option value="todos">Todos</option>
-              { salepoint && salepoint.map( e => <option key={e.id} value={e.salepoint}>{e.salepoint}</option> )}
-            </select>
-          </div>
-        </div>
-        <div className={styles.cardContainer}>
-          {userAlt &&
-            userAlt.map((e) => (
-              <CardUsers
-                id={e.id}
-                username={e.username}
-                firstname={e.firstname}
-                lastname={e.lastname}
-                phonenumber={e.phonenumber}
-                email={e.email}
-                sector={e.sector}
-                salepoint={e.salepoint}
-              />
-            ))}
+      <div className={mainStyles.containerMobile}>
+        <h1 className={mainStyles.title}>Usuarios</h1>
+        <div className={styles.mainContainer}>
+          {renderFilters()}
+          {renderUsers()}
         </div>
       </div>
-    </div>
-
-  </>
+    </>
   );
 }
 

@@ -703,8 +703,8 @@ function Soporte() {
     let errors = []
       if (!solution.solution) {
         errors.solution = "El campo no puede estar vacío";
-      }else if(solution.solution.length < 20 ){
-        errors.solution = "El campo debe tener más de 20 caracteres"
+      }else if(solution.solution.length < 8 ){
+        errors.solution = "El campo debe tener más de 80 caracteres"
       }
 
       if (!errors.solution) {
