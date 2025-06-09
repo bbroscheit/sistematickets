@@ -11,6 +11,11 @@ const getTicketDeveloperView = async () => {
             },
             include:[{
                 model:User,
+                where: {
+                    isdeleted: {
+                        [Sequelize.Op.not]: true // Filtrar usuarios que no están eliminados
+                    }
+                },
                 attribute:["username","sectorname","salepoint"]
             }]
         });

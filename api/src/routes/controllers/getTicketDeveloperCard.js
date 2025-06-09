@@ -1,5 +1,5 @@
 const { Ticket, User } = require('../../bd');
-const { Sequelize } = require('sequelize');
+const { Sequelize, where } = require('sequelize');
 
 const getTicketDeveloperCard = async (workerName) => {
     try{
@@ -12,6 +12,11 @@ const getTicketDeveloperCard = async (workerName) => {
             }],
             include:[{
                 model:User,
+                where: {
+                    isdeleted: {
+                        [Sequelize.Op.not]: true // Filtrar usuarios que no están eliminados
+                    }
+                },
                 attribute:["username","sectorname","salepoint"]
             }]
         });
