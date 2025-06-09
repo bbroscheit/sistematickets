@@ -48,9 +48,13 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             getTickets = await Ticket.findAll({
                 include: [{
                     model: User,
+                    
                     required: true,
                     where: {
-                        username: desarrolladores
+                        username: desarrolladores,
+                        isdeleted: {
+                            [Sequelize.Op.not]: true // Filtrar usuarios que no están eliminados
+                        }
                     }
                 }]
             });
@@ -58,6 +62,11 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             getTickets = await Ticket.findAll({
                 include: [{
                     model: User,
+                    where: {
+                    isdeleted: {
+                        [Sequelize.Op.not]: true // Filtrar usuarios que no están eliminados
+                    }
+                },
                     required: true,
                     include: [{
                         model: Sector,
