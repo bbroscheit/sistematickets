@@ -52,7 +52,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
                     required: true,
                     where: {
                         username: desarrolladores,
-                        isdeleted: {
+                        isdelete: {
                             [Sequelize.Op.not]: true // Filtrar usuarios que no están eliminados
                         }
                     }
@@ -63,7 +63,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
                 include: [{
                     model: User,
                     where: {
-                    isdeleted: {
+                    isdelete: {
                         [Sequelize.Op.not]: true // Filtrar usuarios que no están eliminados
                     }
                 },
@@ -76,7 +76,7 @@ const getTicketSupervisorCard = async (supervisorSector) => {
             });
         }
 
-        console.log("getTickets en controller", getTickets) 
+        //console.log("getTickets en controller", getTickets) 
         return getTickets;
     }catch(e){
         console.log( "error en controller getTicketSupervisorCard" , e.message)
