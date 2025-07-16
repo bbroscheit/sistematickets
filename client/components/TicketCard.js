@@ -33,7 +33,7 @@ function ticketCard() {
     promedioHoras = horasPromedioHabiles(soportes);
   }
    
-  console.log("ticketcompletado", soportesCompletados, " soportes terminados", soportesTerminados)
+  //console.log("ticketcompletado", soportesCompletados, " soportes terminados", soportesTerminados)
   
   return (
     <div className={ `${style.dashboardCard} ${style.blue}`   } >

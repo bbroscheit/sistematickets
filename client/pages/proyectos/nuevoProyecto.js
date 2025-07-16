@@ -132,7 +132,6 @@ function nuevoProyecto() {
     });
   }
 
-  console.log("user", altUser)
   return (
     <div className={mainStyle.container}>
       <h1 className={mainStyle.title}>Nuevo Proyecto</h1>

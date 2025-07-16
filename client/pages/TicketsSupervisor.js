@@ -21,12 +21,8 @@ function TicketsSupervisor() {
   const [finder, setFinder] = useState("");
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const userLogin = localStorage.getItem("user");
-    const loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
 
-    const fetchData = async () => {
+  const fetchData = async () => {
       const [soportesRes, workerRes, unfinishedRes] = await Promise.all([
         fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketGenerados`).then((res) => res.json()),
         fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`).then((res) => res.json()),
@@ -40,7 +36,23 @@ function TicketsSupervisor() {
       setUsuariosAlt(arrayUser(unfinishedRes));
     };
 
+
+  useEffect(() => {
+    const userLogin = localStorage.getItem("user");
+    const loginParse = JSON.parse(userLogin);
+    setUser(loginParse);
+
+    
+
     fetchData();
+
+    const intervalId = setInterval(() => {
+      fetchData();
+      console.log("Datos actualizados");
+    }, 900000); // 15 minutos = 900000 ms
+
+    return () => clearInterval(intervalId); 
+
   }, []);
 
   const handleClick = (e) => {

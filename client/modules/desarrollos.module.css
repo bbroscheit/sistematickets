@@ -1,0 +1,19 @@
+.userContainer{ 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 5px; 
+}
+
+.userContainer p {
+    margin: 0;
+    cursor: pointer;
+}
+
+.gridContainer{
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}

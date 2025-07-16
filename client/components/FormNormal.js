@@ -4,12 +4,15 @@ import Swal from 'sweetalert2'
 import Router from "next/router";
 import style from "@/modules/formNormal.module.css";
 import mainStyle from "@/styles/Home.module.css";
+import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos.js";
+import { postTicketFormDataAndDesarrollo }  from "@/pages/api/postTicketFormDataAndDesarrollo";
 import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
 import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 
 
 function FormNormal({ user }) {
-  
+  const [desarrollos, setDesarrollos] = useState(null);
+  const [desarrolloInput, setDesarrolloInput] = useState({option: 0});
   const [input, setInput] = useState({
     state: "sin asignar",
     worker: "sin asignar",
@@ -27,6 +30,17 @@ function FormNormal({ user }) {
   })
 
   useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/desarrollo`)
+    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/desarrollo`)
+      .then((res) => res.json())
+      .then((data) => {
+          setDesarrollos(data.filter((des) =>
+          des.users?.some((u) => u.username === user.name)
+        ));
+      });
+  }, []);
+
+  useEffect(() => {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
     setLogin(loginParse);
@@ -35,9 +49,6 @@ function FormNormal({ user }) {
       user:loginParse.name,
       email:loginParse.email
     })
-    // setEmail({
-      
-    // })
   }, []);
 
   useEffect(() => {
@@ -80,9 +91,17 @@ function FormNormal({ user }) {
     });
   }
 
+  function handleSelectDesarrollo(e) {
+    e.preventDefault();
+    setDesarrolloInput({
+      option : e.target.value,
+    });
+  }
+
   function handleSubmitNoFaq(e) {
     e.preventDefault();
-    postTicketFormData(input)
+    if(desarrolloInput.option === 0 ){
+      postTicketFormData(input)
       .then(res => {
         
         if (res.state === "success") {
@@ -105,6 +124,33 @@ function FormNormal({ user }) {
     .catch(error => {
       console.error("Error al enviar el formulario:", error);
     });
+    }else{
+      //postTicketFormData(input)
+      postTicketFormDataAndDesarrollo(input, desarrolloInput)
+      .then(res => {
+        
+        if (res.state === "success") {
+        sendEmailNewTicket(input)
+        Swal.fire(({
+          icon: "success",
+          title: "Tu soporte fue generado con éxito!",
+          showConfirmButton: false,
+          timer: 1500
+        }));
+        setTimeout(() => {
+          user.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
+            : user.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
+            : user.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
+            : Router.push("/Tickets"); 
+          
+        }, 1500);
+      }
+    })
+    .catch(error => {
+      console.error("Error al enviar el formulario:", error);
+    });
+    }
+    
   }
 
   function validate(input){
@@ -128,7 +174,7 @@ function FormNormal({ user }) {
     return errors
   }
 
-  
+  console.log("desarrollosInput", desarrolloInput);
   return (
     <form className={mainStyle.interform} onSubmit={(e) => handleSubmitNoFaq(e)}  encType="multipart/form-data">
       <div className={mainStyle.minimalGrid}>
@@ -145,6 +191,24 @@ function FormNormal({ user }) {
       <p className={ error.subject ? `${mainStyle.danger}` : `${mainStyle.normal}`}>
           {error.subject}
       </p>
+      { desarrollos !== null && desarrollos.length > 0 ?
+        <div className={mainStyle.minimalGrid}>
+        <h3 className={mainStyle.subtitle}>Desarrollo :</h3>
+          <select
+            className={mainStyle.select}
+            name="option"
+            value={desarrolloInput.option}
+            onChange={(e) => handleSelectDesarrollo(e)}
+          >
+            <option value={0}>Sin desarrollo</option>
+            {desarrollos.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.title}
+              </option>
+            ))}
+          </select>
+      </div> : null
+      }
       <div className={mainStyle.labelWithTextarea}>
         <h3 className={mainStyle.subtitle}>Descripcíon :</h3>
         <textarea

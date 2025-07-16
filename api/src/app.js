@@ -23,17 +23,18 @@ const proveedorRouter = require('../src/routes/proveedorRouter.js');
 const suscriptionRouter = require('../src/routes/suscriptionRouter.js')
 const capacitationRouter = require('../src/routes/capacitationRouter.js')
 const platformRouter = require('../src/routes/platformRouter.js')
+const desarrolloRouter = require('../src/routes/desarrolloRouter.js');
 
 
-const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
+// const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
 
 
 
 // usamos cron para marcar cuando queremos que se ejecute la tarea programada
-cron.schedule('0 10 * * *', () => {
-    console.log('Ejecutando tarea programada todos los dias a las 7 de la mañana');
-    closeTicketByTime();
-  });
+// cron.schedule('0 10 * * *', () => {
+//     console.log('Ejecutando tarea programada todos los dias a las 7 de la mañana');
+//     closeTicketByTime();
+//   });
 
 
 const server = express();
@@ -78,6 +79,7 @@ server.use('/' , proveedorRouter);
 server.use('/' , suscriptionRouter);
 server.use('/', capacitationRouter);
 server.use('/', platformRouter);
+server.use('/', desarrolloRouter);
 
 server.use((err,req,res) => {
     const status = err.status || 500;

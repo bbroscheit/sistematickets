@@ -38,6 +38,7 @@ import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import { Tooltip } from "@mui/material";
 import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
@@ -294,6 +295,22 @@ export default function PrimarySearchAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            
+            {/* Se agrega icono de acceso al sector desarrollos */}
+            <Tooltip title="Desarrollos">  
+            
+             <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              onClick={(e) => router.push(`/desarrollos/Desarrollos`)}
+            >
+                
+              <Badge sx={{ color: "white" }}>
+                <PostAddRoundedIcon />
+              </Badge>
+            </IconButton>
+            </Tooltip> 
+
             {/* Se agrega icono de acceso al sector agenda */}
             <Tooltip title="Agenda">  
             
@@ -351,17 +368,6 @@ export default function PrimarySearchAppBar() {
               </IconButton> : null
             }
             
-            {/* <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>*/}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             {/* se deshabilito el menu de celulares hasta no encontrar algo util que agregar ahi */}
@@ -780,8 +786,7 @@ export default function PrimarySearchAppBar() {
               )
             )}
           </List> : null
-        }
-        
+        }        
 
         <Divider />
 

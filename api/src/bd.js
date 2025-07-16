@@ -51,7 +51,8 @@ const { Sector,
         Suscription, 
         Capacitation, 
         Platform,
-        Formproject } = sequelize.models;
+        Formproject,
+        Desarrollo } = sequelize.models;
 
 // Relacionamos las tablas
 // seccion de Soportes
@@ -84,6 +85,25 @@ Workernote.belongsTo(Ticket);
 // Relación User - Capacitation
 User.hasMany(Capacitation, { foreignKey: 'teacher_id', as: 'teacherCapacitaciones' });
 Capacitation.belongsTo(User, { foreignKey: 'teacher_id', as: 'teacher' });
+
+// Relación Desarrollos - Users m:M
+Desarrollo.belongsToMany(User, {
+    through: 'user_desarrollo',
+    as: 'users',
+    foreignKey: 'desarrollo_id',
+    otherKey: 'user_id'
+});
+User.belongsToMany(Desarrollo, {
+    through: 'user_desarrollo',
+    as: 'desarrollos',
+    foreignKey: 'user_id',
+    otherKey: 'desarrollo_id'
+});
+
+// Relación Desarrollos - Tickets M:1
+Desarrollo.hasMany(Ticket, { foreignKey: 'desarrollo_id', as: 'tickets' });
+Ticket.belongsTo(Desarrollo, { foreignKey: 'desarrollo_id', as: 'desarrollo' });
+
 
 // Relación muchos a muchos entre User y Capacitation para students
 User.belongsToMany(Capacitation, {

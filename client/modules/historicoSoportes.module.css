@@ -5,3 +5,18 @@
     flex-direction: column;
     justify-content: left;
 }
+
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* flex-wrap: wrap; */
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filters input, .filters button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}        

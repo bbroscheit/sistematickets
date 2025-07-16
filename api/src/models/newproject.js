@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         state:{
             type: DataTypes.STRING,
-            defaultVale:"iniciado",
+            defaultValue:"iniciado",
             allowNull:false
         },
         projectname:{

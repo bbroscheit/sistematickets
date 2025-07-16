@@ -25,11 +25,18 @@
 }
 
 .gridElementBolder{
-    text-align: center;
+    font-size: 1rem;
     color: black;
     overflow: hidden; /* Oculta cualquier contenido que desborde del contenedor */
     white-space: nowrap; /* Evita que el texto se divida en líneas */
     text-overflow: ellipsis; /* Muestra puntos suspensivos (...) para indicar que hay más texto oculto */
+}
+
+.centerOfGrid{
+    font-size: 0.9rem;
+    padding-left: 2%;
+    text-align: left;
+    border-left: 1px solid rgba(128, 128, 128, 0.781);
 }
 
 .gridElement{
@@ -162,4 +169,3 @@
     }
 
  }
-

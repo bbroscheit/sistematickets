@@ -67,7 +67,7 @@ function Tareas() {
     let id = e.target.value
     let stories = project.filter ( p => p.id === id)
     setStoriesname({stories : stories[0].userstories });
-    console.log("value", e.target.value, stories)
+    //console.log("value", e.target.value, stories)
   }
   
   function handleClose(e) {
