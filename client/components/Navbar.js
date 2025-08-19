@@ -296,7 +296,8 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             
-            {/* Se agrega icono de acceso al sector desarrollos */}
+          {/* Se agrega icono de acceso al sector desarrollos - solo usuario bbroscheit */}
+          { user !== null && user.name === "Bbroscheit"  ? (
             <Tooltip title="Desarrollos">  
             
              <IconButton
@@ -310,6 +311,7 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             </Tooltip> 
+          ) : null}
 
             {/* Se agrega icono de acceso al sector agenda */}
             <Tooltip title="Agenda">  

@@ -3,6 +3,7 @@ import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/ticketsSupervisor.module.css";
 import Card from "@/components/Card";
 import arrayUser from '@/functions/arrayUser';
+import useUser from "@/hooks/useUser.js";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import CardWorkerSupervisor from "@/components/CardWorkerSupervisor";
@@ -19,7 +20,7 @@ function TicketsSupervisor() {
   const [view, setView] = useState(1);
   const [title, setTitle] = useState("Desarrollador");
   const [finder, setFinder] = useState("");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useUser();
 
 
   const fetchData = async () => {
@@ -38,17 +39,11 @@ function TicketsSupervisor() {
 
 
   useEffect(() => {
-    const userLogin = localStorage.getItem("user");
-    const loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
-
-    
-
     fetchData();
 
     const intervalId = setInterval(() => {
       fetchData();
-      console.log("Datos actualizados");
+      //console.log("Datos actualizados");
     }, 900000); // 15 minutos = 900000 ms
 
     return () => clearInterval(intervalId); 

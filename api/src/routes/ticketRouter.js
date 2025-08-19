@@ -378,6 +378,7 @@ ticketRouter.post( '/updateInfoTicket/:id' , uploadFiles(), async ( req, res ) =
     
     try {
         let updatedTicket = await updateInfoTicket(id , info, req.files)
+        console.log("updatedInfoTicket", updatedTicket)
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({state:"failure"})
     } catch (e) {
         console.log( "error en ruta post updateInfoTicket" , e.message)
@@ -393,6 +394,7 @@ ticketRouter.post( '/updateInfoTicketByUser/:id' , uploadFiles(), async ( req, r
 
     try {
         let updatedTicket = await updateInfoTicketByUser(id , answer, req.files)
+        console.log("updatedInfoTicketByUser", updatedTicket)
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})
     } catch (e) {
         console.log( "error en ruta put updateInfoTicket" , e.message)

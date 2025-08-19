@@ -4,21 +4,16 @@ import style from "@/modules/ticketSupervisorSector.module.css";
 import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos";
 import UsersGeneral from "./supervisor/UsersGeneral";
 import TicketVistaDesarrollo from "./desarrollos/TicketVistaDesarrollo";
+import useUser from "@/hooks/useUser";
 
 function TicketsSupervisorGeneral() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useUser()
   const [desarrollos, setDesarrollos] = useState(null);
   const [flag, setFlag] = useState(false);
 
   const baseUrl = `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001`;
 
   useAutoFetchDesarrollos(`${baseUrl}/desarrollo`, setDesarrollos);
-
-  useEffect(() => {
-    let userLogin = localStorage.getItem("user");
-    let loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
-  }, []);
 
   return (
     <div className={mainStyle.container}>
@@ -27,30 +22,18 @@ function TicketsSupervisorGeneral() {
       ) : (
         <h1 className={mainStyle.title}>Jefe de Administración</h1>
       )}
-      {desarrollos && desarrollos === 0 ? (
+      {desarrollos === null || desarrollos.length === 0 ? (
         <div className={style.container}>
           <UsersGeneral />
         </div>
       ) : (
         <>
           <div className={style.buttonContainer}>
-            <button
-              className={
-                flag === false ? style.buttonActive : style.buttonInactive
-              }
-              onClick={() => setFlag(false)}
-            >
-              {" "}
-              Soportes{" "}
+            <button className={flag === false ? style.buttonActive : style.buttonInactive}onClick={() => setFlag(false)}>
+              Soportes
             </button>
-            <button
-              className={
-                flag === false ? style.buttonInactive : style.buttonActive
-              }
-              onClick={() => setFlag(true)}
-            >
-              {" "}
-              Desarrollos{" "}
+            <button className={ flag === false ? style.buttonInactive : style.buttonActive} onClick={() => setFlag(true)}>
+              Desarrollos
             </button>
           </div>
           {flag === false ? (

@@ -33,6 +33,7 @@ import { updateProveedor } from "../api/updateProveedor";
 import { closeProveedor } from "../api/closeProveedor";
 import { updateReasignar } from "../api/updateReasignar";
 import ajustaDevuelveHoraDesdeTimestamp from "@/functions/ajustaDevuelveHoraDesdeTimestamp";
+import useUser from "@/hooks/useUser";
 
 const styles = {
   position: "absolute",
@@ -62,7 +63,7 @@ function Soporte() {
   const [openProveedor, setOpenProveedor] = useState(false);
   const [openPriority, setOpenPriority] = useState(false);
   const [newPriority, setNewPriority] = useState({ name: "sin asignar" });
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useUser();
   const [soporte, setSoporte] = useState(null);
   const [worker, setWorker] = useState(null);
   const [proveedor, setProveedor] = useState(null);
@@ -161,10 +162,6 @@ function Soporte() {
       .then((data) => {
         setFaq(data);
       });
-
-      let userLogin = localStorage.getItem("user");
-      let loginParse = JSON.parse(userLogin);
-      setUser(loginParse);
 
       let idSoporte = localStorage.getItem("idSoporte");
       setSoporteId(idSoporte);
@@ -478,7 +475,7 @@ function Soporte() {
     updateSolutionTicket(soporteId, solution)
     .then(res => {
       if (res.state === "success") {
-        postFaq(inputFaq);
+        //postFaq(inputFaq);
         sendEmailComplete(email);
         window.location.reload(true);
       }
@@ -833,7 +830,7 @@ function Soporte() {
               
               {/* si el soporte esta en desarrollo muestra el boton , sino muestra la informacion del tercero y el boton de finalizar */}
               {
-                soporte !== null && soporte.state === "Desarrollo" && soporte.proveedornote ?
+                soporte !== null && soporte.state === "Desarrollo" && soporte.proveedornote && user.sector === "Sistemas" ?
                   <div className={style.centerStateContainer}> 
                     <div>
                       <h3>{soporte.proveedornote.proveedor.name}</h3>
@@ -855,7 +852,7 @@ function Soporte() {
               }
 
               {/* si el soporte esta terminado o completado , solo muestra la informacion del proveedor */}
-              { soporte !== null && (soporte.state === "Terminado" || soporte.state === "Completado")&& soporte.proveedornote ?
+              { soporte !== null && (soporte.state === "Terminado" || soporte.state === "Completado") && soporte.proveedornote && user.sector === "Sistemas"?
                   <div className={style.centerStateContainer}> 
                     <div>
                       <h3>{soporte.proveedornote.proveedor.name}</h3>
@@ -981,7 +978,7 @@ function Soporte() {
                 }
 
                 {/* si el soporte esta en Desarrollo y el desarrollador coincide con el worker muestra "resolver y mas info" */}
-                { soporte !== null && soporte.state === "Desarrollo" && user.name === soporte.worker ? 
+                { soporte !== null && ( soporte.state === "Desarrollo" || soporte.state === "Informacion" ) && user.name === soporte.worker ? 
                     <div className={mainStyle.buttonContainer}>
                     <button
                       onClick={(e) => handleOpenSolution(e)}
@@ -993,7 +990,7 @@ function Soporte() {
                       onClick={(e) => handleOpenInfo(e)}
                       className={mainStyle.button}
                     >
-                      Mas Info
+                      Agregar Información
                     </button>
                   </div>: null
                 }
@@ -1010,7 +1007,7 @@ function Soporte() {
                   </div>: null
                 }
 
-                {/* si el soporte esta en Completado y el usuario coincide con el usuario creador muestra "Re Abrir y Cerar Ticket" */}
+                {/* si el soporte esta en Completado y el usuario coincide con el usuario creador muestra "Re Abrir y Cerrar Ticket" */}
                 { soporte !== null && soporte.state === "Completado" && user.name === soporte.user.username ? 
                     <div className={mainStyle.buttonContainer}>
                     <button

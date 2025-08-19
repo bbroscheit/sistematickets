@@ -5,6 +5,7 @@ const { TELEGRAMCHATID } = process.env
 const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 
 const updateInfoTicketByuser = async (id, answer) => {
+    console.log("updateInfoTicketByuser", id, answer)
     try {
         // Obtener el ticket actual
         //const existingTicket = await Ticket.findByPk(id);
@@ -34,6 +35,8 @@ const updateInfoTicketByuser = async (id, answer) => {
 
         // Concatenar el nuevo contenido con el valor actual de detail
         const updatedDetail = currentDetail + formattedNewInfo;
+
+
 
         const updatedFiles = existingTicket.files ? [...existingTicket.files] : [];
             const folderName = `ticket_${existingTicket.id}`;
@@ -67,7 +70,7 @@ const updateInfoTicketByuser = async (id, answer) => {
 
 
         // Actualizamos el ticket en estado informacion con el nuevo detalle y los archivos si existen
-        if( existingTicket.state === "Informacion" || existingTicket.state === "Completado" ) {
+        if( existingTicket.state === "Desarrollo" || existingTicket.state === "Informacion" || existingTicket.state === "Completado" ) {
             let setTicket = await existingTicket.update({ 
                 detail: updatedDetail, 
                 state: "Desarrollo" 

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import styles from "@/modules/Ticket.module.css";
 import mainStyles from "@/styles/Home.module.css";
+import useUser from "@/hooks/useUser.js";
 import useAutoFetch from "@/hooks/useAutoFetch.js";
 import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos.js";
 import TicketVista from "./ticketVista/TicketVista.js";
@@ -14,14 +15,8 @@ function Tickets() {
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
   const [ticketCompletado, setTicketsCompletado] = useState(null);
   const [desarrollos, setDesarrollos] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useUser();
   const [flag, setFlag] = useState(false);
-
-  useEffect(() => {
-    let userLogin = localStorage.getItem("user");
-    let loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
-  }, []);
 
   const baseUrl = `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001`;
 
@@ -52,12 +47,12 @@ function Tickets() {
   //   };
   // })
 
-  console.log("desarrollo", desarrollos);
+  //console.log("desarrollo", desarrollos);
   return (
 
       <div className={`${mainStyles.container} ${styles.mobileContainer}`}>
         <h1 className={mainStyles.title}>SOPORTES</h1>
-        {desarrollos === null ? (
+        {desarrollos === null || desarrollos.length === 0 ? (
           < >
             <TicketVista
               ticketGenerados={ticketGenerados}

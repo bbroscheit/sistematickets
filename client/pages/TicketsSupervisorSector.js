@@ -36,9 +36,10 @@ import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos";
 import style from "@/modules/ticketSupervisorSector.module.css";
 import Users from "./supervisor/Users";
 import TicketVistaDesarrollo from "./desarrollos/TicketVistaDesarrollo";
+import useUser from "@/hooks/useUser";
 
 function TicketsSupervisorSector() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useUser();
   const [desarrollos, setDesarrollos] = useState(null);
   const [flag, setFlag] = useState(false);
 
@@ -46,18 +47,12 @@ function TicketsSupervisorSector() {
   
   useAutoFetchDesarrollos(`${baseUrl}/desarrollo`, setDesarrollos);
   
-  useEffect(() => {
-    let userLogin = localStorage.getItem("user");
-    let loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
-  }, []);
-
-  console.log("desarrollo", desarrollos)
+  //console.log("desarrollo", desarrollos)
 
   return (
     <div className={mainStyle.container}>
       { user !== null ? <h1 className={mainStyle.title}>{user.sector}</h1> : <h1 className={mainStyle.title}>Jefatura</h1> }
-        { desarrollos && desarrollos.length === 0 ?
+        { desarrollos === null || desarrollos.length === 0 ?
           <div className={style.container}>
             <Users />
           </div> : 

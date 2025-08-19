@@ -53,14 +53,17 @@
 // export default UsersGeneral
 
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router';
 import style from '@/modules/users.module.css'
 import arrayUser from '@/functions/arrayUser';
 import useAutoFetchDesarrollos from '@/hooks/useAutoFetchDesarrollos';
 import CardSupervisorUsers from '@/components/CardSupervisorUsers';
+import useUser from '@/hooks/useUser';
 
 function UsersGeneral() {
+  const router = useRouter();
   const [soporte, setSoporte] = useState(null)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useUser();
   const [ownSoporte, setOwnSoporte] = useState(null)
   const [ownUser, setOwnUser] = useState(null)
   const [usuarios, setUsuarios] = useState(null);
@@ -74,9 +77,6 @@ function UsersGeneral() {
 
   // Recibe todos los tickets generados por el sector que corresponda y hace un array con los usuarios generadores
   useEffect(() => {
-    let userLogin = localStorage.getItem("user");
-    let loginParse = JSON.parse(userLogin);
-    setUser(loginParse);
       fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSupervisorDataGeneral`)
        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSupervisorDataGeneral`)
        .then((res) => res.json())
@@ -89,6 +89,7 @@ function UsersGeneral() {
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
+    if (loginParse) {
       fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsByUser?username=${loginParse.name}`)
        // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsByUser?username=${loginParse.name}`)
        .then((res) => res.json())
@@ -96,6 +97,9 @@ function UsersGeneral() {
           setOwnSoporte(data);
           setOwnUser(arrayUser(data))
        });
+      }else{
+        router.push("/");
+      }
   },[]);
 
   return (

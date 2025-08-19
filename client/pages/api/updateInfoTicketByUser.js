@@ -1,6 +1,4 @@
 export async function updateInfoTicketByUser(id, answer) {
-  console.log("id", id)
-  
   const formData = new FormData();
 
   // Agrega los campos del formulario al objeto FormData

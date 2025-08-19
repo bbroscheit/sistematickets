@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const updateInfoTicket = async (id, info, files) => {
+    console.log("updateInfoTicket", id, info);
     try {
         // Obtener el ticket actual
         const existingTicket = await Ticket.findByPk(id);
