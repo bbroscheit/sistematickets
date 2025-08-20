@@ -388,12 +388,10 @@ ticketRouter.post( '/updateInfoTicket/:id' , uploadFiles(), async ( req, res ) =
 
 ticketRouter.post( '/updateInfoTicketByUser/:id' , uploadFiles(), async ( req, res ) => {
     const { id } = req.params
-    const { answer } = req.body
+    const { answer, firstname, lastname } = req.body
     
-    //console.log( "id", id, "answer", answer )
-
     try {
-        let updatedTicket = await updateInfoTicketByUser(id , answer, req.files)
+        let updatedTicket = await updateInfoTicketByUser(id , answer, firstname, lastname, req.files)
         console.log("updatedInfoTicketByUser", updatedTicket)
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})
     } catch (e) {

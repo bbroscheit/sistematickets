@@ -47,7 +47,7 @@ function Tickets() {
   //   };
   // })
 
-  //console.log("desarrollo", desarrollos);
+  console.log("desarrollo", desarrollos);
   return (
 
       <div className={`${mainStyles.container} ${styles.mobileContainer}`}>

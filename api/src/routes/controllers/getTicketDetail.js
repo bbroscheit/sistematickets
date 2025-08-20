@@ -1,4 +1,4 @@
-const { Ticket, User, Proveedornote, Proveedor, Workernote } = require('../../bd');
+const { Ticket, User, Proveedornote, Proveedor, Workernote, Sector } = require('../../bd');
 
 const getTicketDetail = async (id) => {
     
@@ -7,7 +7,12 @@ const getTicketDetail = async (id) => {
             where:{ id : id }, 
             include:[{
                 model:User,
-                attribute:["username"]
+                attribute:["username"],
+                include: [{
+                    model: Sector,
+                    attribute: ["sectorname"]
+                }]
+                
             },
             {
                 model: Proveedornote,

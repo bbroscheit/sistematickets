@@ -4,8 +4,8 @@ const path = require('path');
 const { TELEGRAMCHATID } = process.env
 const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 
-const updateInfoTicketByuser = async (id, answer) => {
-    console.log("updateInfoTicketByuser", id, answer)
+const updateInfoTicketByuser = async (id, answer, firstname, lastname) => {
+    //console.log("updateInfoTicketByuser", id, answer, firstname, lastname);
     try {
         // Obtener el ticket actual
         //const existingTicket = await Ticket.findByPk(id);
@@ -31,7 +31,7 @@ const updateInfoTicketByuser = async (id, answer) => {
 
        
         // Agrega un salto de linea 
-        const formattedNewInfo = `- ${existingTicket.user.username } - ${formattedDate} ${formattedTime}\n- ${answer}\n\n`;
+        const formattedNewInfo = `- ${firstname} ${lastname} - ${formattedDate} ${formattedTime}\n- ${answer}\n\n`;
 
         // Concatenar el nuevo contenido con el valor actual de detail
         const updatedDetail = currentDetail + formattedNewInfo;
@@ -87,9 +87,10 @@ const updateInfoTicketByuser = async (id, answer) => {
             }
             return setTicket;
 
-        } else {
+        } else if( existingTicket.state === "Generado" || existingTicket.state === "Asignado" || existingTicket.state === "sin asignar" ) {
             
                 let setTicket = await existingTicket.update({
+                    detail: updatedDetail, 
                     files: existingTicket.files
                 });
     

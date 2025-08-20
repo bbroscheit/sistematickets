@@ -27,7 +27,6 @@ import getFilename from "../../functions/getFilename";
 import { ticketAssigment } from "../api/ticketAssigment";
 import { updatePriority } from "../api/updatePriority";
 import { extraeFecha } from "@/functions/extraeFecha";
-import devuelveHoraDesdeTimestamp from "@/functions/devuelveHoraDesdeTimestamp";
 import { postProveedor } from "../api/postProveedor";
 import { updateProveedor } from "../api/updateProveedor";
 import { closeProveedor } from "../api/closeProveedor";
@@ -96,6 +95,8 @@ function Soporte() {
   const [soporteId, setSoporteId] = useState(1)
   const [answer , setAnswer] = useState({ 
     info: "" , 
+    firstname:"",
+    lastname:"",
     files: []
   })
   const [errorAnswer, setErrorAnswer] = useState("");
@@ -130,13 +131,6 @@ function Soporte() {
       .then((res) => res.json())
       .then((data) => {
         setSoporte(data);
-        setInputFaq({
-          title: data.subject,
-          description: data.detail,
-          answer: data.answer,
-          uresolved: false,
-          questioner: data.user ? data.user.username : "sin usuario",
-        });
         setSolution({
           ...solution,
           solution: user ? data.answer : "Sin resolución",
@@ -405,13 +399,7 @@ function Soporte() {
           .then((res) => res.json())
           .then((data) => {
             setSoporte(data);
-            setInputFaq({
-              title: data.subject,
-              description: data.detail,
-              answer: data.answer,
-              uresolved: false,
-              questioner: data.user ? data.user.username : "sin usuario",
-            });})
+            })
       }
     })
     .catch(error => {
@@ -445,29 +433,20 @@ function Soporte() {
       ...solution,
       [e.target.name] : e.target.value
     }))
-    setInputFaq({
-      ...inputFaq,
-      answer: e.target.value,
-    });
+    
   }
 
   // dentro del modal de la solucion permite decir si el usuario puede resolverlo o no
   function handleClickUresolvedYes(e) {
     e.preventDefault();
     setYesState(true);
-    setInputFaq({
-      ...inputFaq,
-      uresolved: true,
-    });
+    
   }
 
   function handleClickUresolvedNo(e) {
     e.preventDefault();
     setYesState(false);
-    setInputFaq({
-      ...inputFaq,
-      uresolved: false,
-    });
+    
   }
 
   function submitSolution(e) {
@@ -515,10 +494,20 @@ function Soporte() {
 
   function handleOpenInfoUser(e) {
     e.preventDefault();
+    setAnswer({
+      ...answer,
+      firstname: user.firstname,
+      lastname: user.lastname,
+    })
     setOpenInfoUser(true);
   }
 
   function handleCloseInfoUser() {
+    setAnswer({
+      ...answer,
+      firstname: "",
+      lastname: "",
+    })
     control === 0 ? setControl(1) : setControl(0);
     setOpenInfoUser(false);
   }
@@ -565,7 +554,7 @@ function Soporte() {
     updateInfoTicketByUser(soporteId, answer)
       .then(res => {
         if (res.state === "success") {
-          sendEmailInfoUser(email);
+          //sendEmailInfoUser(email);
           window.location.reload(true);
         }
       })
@@ -747,6 +736,7 @@ function Soporte() {
     return errors
   }
 
+  console.log("answer", answer)
   
   return (
     <>
@@ -997,6 +987,18 @@ function Soporte() {
 
                 {/* si el soporte esta en cualquier estado salvo "terminado" o "completado" y el usuario coincide con el usuario creador muestra "Agregar Información" */}
                 { soporte !== null && soporte.state != "Terminado" && soporte.state != "Completado" && user.name === soporte.user.username ? 
+                    <div className={mainStyle.buttonContainer}>
+                    <button
+                      onClick={(e) => handleOpenInfoUser(e)}
+                      className={mainStyle.button}
+                    >
+                      Agregar Información
+                    </button>
+                  </div>: null
+                }
+
+                {/* si el soporte esta en cualquier estado salvo "terminado" o "completado" y el sector del usuario creador coincide con la jefatura del usuario, muestra "Agregar Información" */}
+                { soporte !== null && user !== null && user.sector.includes(soporte.user.sector.sectorname)   ? 
                     <div className={mainStyle.buttonContainer}>
                     <button
                       onClick={(e) => handleOpenInfoUser(e)}
