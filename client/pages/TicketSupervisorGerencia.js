@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/ticketSupervisorSector.module.css";
 import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos";
-import UsersGeneralGerencia from "@/components/UsersGeneralGerencia";
+import UsersGeneralGerencia from "@/pages/supervisor/UsersGerencia";
 import TicketVistaDesarrollo from "./desarrollos/TicketVistaDesarrollo";
 import useUser from "@/hooks/useUser";
 
