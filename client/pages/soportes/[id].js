@@ -181,7 +181,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [soporte.detail]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -191,7 +191,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [soporte.answer]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -201,7 +201,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [soporte.answer]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -211,10 +211,8 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [soporte.answer]);
 
-
-  
   useEffect(() => {
     if (soporte !== null) {
       const textarea = document.getElementById('mi-textareaAnswer');
@@ -736,7 +734,7 @@ function Soporte() {
     return errors
   }
 
-  console.log("answer", answer)
+  //console.log("answer", answer)
   
   return (
     <>
