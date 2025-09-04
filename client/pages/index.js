@@ -82,7 +82,7 @@ export default function Home() {
         Router.push("/TicketsSupervisorSector");
       } else if (sector.includes("Jefe")) {
         Router.push("/TicketSupervisorGeneral");
-      } else if (lastname.includes("Granetto")) {
+      } else if (sector.includes("Gerencia Administracion")) {
         Router.push("/TicketSupervisorGeneralGerencia");
       } else {
         Router.push("/Tickets");
