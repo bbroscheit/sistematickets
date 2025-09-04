@@ -1,0 +1,64 @@
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router';
+import style from '@/modules/users.module.css'
+import arrayUser from '@/functions/arrayUser';
+import useAutoFetchDesarrollos from '@/hooks/useAutoFetchDesarrollos';
+import CardSupervisorUsers from '@/components/CardSupervisorUsers';
+import useUser from '@/hooks/useUser';
+
+function UsersGerencia() {
+  const router = useRouter();
+  const [soporte, setSoporte] = useState(null)
+  const [user, setUser] = useUser();
+  const [ownSoporte, setOwnSoporte] = useState(null)
+  const [ownUser, setOwnUser] = useState(null)
+  const [usuarios, setUsuarios] = useState(null);
+  const [desarrollos, setDesarrollos] = useState(null);
+  const [flag, setFlag] = useState(false);
+  
+  const baseUrl = `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001`;
+    
+  useAutoFetchDesarrollos(`${baseUrl}/desarrollo`, setDesarrollos);
+
+
+  // Recibe todos los tickets generados por el sector que corresponda y hace un array con los usuarios generadores
+  useEffect(() => {
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSupervisorDataGeneralGerencia`)
+       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketSupervisorDataGeneralGerencia`)
+       .then((res) => res.json())
+       .then((data) => {
+          setSoporte(data);
+          setUsuarios(arrayUser(data))
+       });
+  },[]);
+
+  useEffect(() => {
+    let userLogin = localStorage.getItem("user");
+    let loginParse = JSON.parse(userLogin);
+    if (loginParse) {
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsByUser?username=${loginParse.name}`)
+       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsByUser?username=${loginParse.name}`)
+       .then((res) => res.json())
+       .then((data) => {
+          setOwnSoporte(data);
+          setOwnUser(arrayUser(data))
+       });
+      }else{
+        router.push("/");
+      }
+  },[]);
+
+  return (
+    <div className={style.container}>
+      {
+        ownUser !== null && ownUser.length > 0 ? ownUser.map( e => <CardSupervisorUsers soportes={ownSoporte} usuario={e} />) : null
+      }
+      {
+        usuarios !== null && usuarios.length > 0 ? usuarios.map( e => <CardSupervisorUsers soportes={soporte} usuario = { e } key={e}/> ): <h3>No hay usuarios con tickets activos</h3>
+      }
+      
+    </div>
+  )
+}
+
+export default UsersGerencia

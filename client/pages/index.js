@@ -30,7 +30,6 @@ export default function Home() {
         [e.target.name]: e.target.value,
       })
     );
-   
   }
 
   function validate(input) {
@@ -58,41 +57,41 @@ export default function Home() {
     e.preventDefault(e);
     let login = await getUser(input);
     //console.log(login)
-    if(login.id){
+    if (login.id) {
       const user = {
         id: login.id,
         name: login.username,
-        firstname:login.firstname,
-        lastname:login.lastname,
+        firstname: login.firstname,
+        lastname: login.lastname,
         email: login.email,
         isWorker: login.isworker,
         isprojectmanager: login.isprojectmanager,
         isprojectworker: login.isprojectworker,
         phoneNumber: login.phonenumber,
         salePoint: login.salepoint.salepoint,
-        sector: login.sector.sectorname
-      }
-      localStorage.setItem('user', JSON.stringify(user));
-      let sector = login.sector.sectorname
+        sector: login.sector.sectorname,
+      };
+      localStorage.setItem("user", JSON.stringify(user));
+      let sector = login.sector.sectorname;
 
       //await subscribeUserToPush();
-      
-      if (sector === "Supervisor"){
-          Router.push("/TicketsSupervisor")
-        }else if(sector.includes("Jefatura")){ 
-          Router.push("/TicketsSupervisorSector") } 
-          else if(sector.includes("Jefe")) {
-            Router.push("/TicketSupervisorGeneral") } 
-            else{
-          Router.push("/Tickets")
-        }
 
-    }else{
+      if (sector === "Supervisor") {
+        Router.push("/TicketsSupervisor");
+      } else if (sector.includes("Jefatura")) {
+        Router.push("/TicketsSupervisorSector");
+      } else if (sector.includes("Jefe")) {
+        Router.push("/TicketSupervisorGeneral");
+      } else if (lastname.includes("Granetto")) {
+        Router.push("/TicketSupervisorGeneralGerencia");
+      } else {
+        Router.push("/Tickets");
+      }
+    } else {
       setErrorLogin({ state: true });
     }
   }
 
-  
   return (
     <>
       <Head>

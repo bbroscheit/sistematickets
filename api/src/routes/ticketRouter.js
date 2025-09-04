@@ -256,6 +256,17 @@ ticketRouter.get( '/ticketSupervisorDataGeneral' , async ( req, res ) => {
     }
 })
 
+ticketRouter.get( '/ticketSupervisorDataGeneralGerencia' , async ( req, res ) => {
+    
+    
+    try {
+        let tickets = await getTicketSupervisorCardGeneralGerencia();
+        tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
+    } catch (e) {
+        console.log( "error en ruta get ticketSupervisorData" , e.message)
+    }
+})
+
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;
     

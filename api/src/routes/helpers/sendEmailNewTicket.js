@@ -1,5 +1,6 @@
 // const { User, Sector } = require("../../bd");
 const nodemailer = require("nodemailer");
+const { getAllUser } = require("../controllers/getAllUser");
 
 const { MAIL_USER, MAIL_PASS, MAIL_PORT } = process.env
 
@@ -20,7 +21,7 @@ const sendEmailNewTicket = async (findTicket) => {
       
       const info = await transporter.sendMail({
         from: 'mesadeayuda@basani.com.ar',
-        to: "bernardo.broscheit@basani.com.ar",
+        to: "mesadeayuda@basani.com.ar",
         subject: `${findTicket.user.firstname} ${findTicket.user.lastname} ha creado el soporte N° ${findTicket.id}`,
         html: `
           <p>Buenos días,</p>
