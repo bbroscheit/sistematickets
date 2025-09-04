@@ -1,6 +1,7 @@
 const { Ticket, User, Proveedornote, Proveedor, Workernote, Sector } = require('../../bd');
 
 const getTicketDetail = async (id) => {
+    //console.log("id en controller", id)
     
     try {
         let ticketDetail = await Ticket.findOne({
@@ -28,6 +29,7 @@ const getTicketDetail = async (id) => {
             }
             ]
         });
+        //console.log("ticketDetail en controller ticket", ticketDetail)
         return ticketDetail;
     } catch (e) {
         console.log("Error en controllers/getTicketdetail.js" , e.message)

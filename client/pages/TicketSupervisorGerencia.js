@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/ticketSupervisorSector.module.css";
 import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos";
-import UsersGeneral from "./supervisor/UsersGeneral";
+import UsersGeneralGerencia from "@/components/UsersGeneralGerencia";
 import TicketVistaDesarrollo from "./desarrollos/TicketVistaDesarrollo";
 import useUser from "@/hooks/useUser";
 
@@ -24,7 +24,7 @@ function TicketsSupervisorGerencia() {
       )}
       {desarrollos === null || desarrollos.length === 0 ? (
         <div className={style.container}>
-          <UsersGeneral />
+          <UsersGeneralGerencia />
         </div>
       ) : (
         <>
@@ -45,7 +45,7 @@ function TicketsSupervisorGerencia() {
               }
             >
               <div className={style.container}>
-                <UsersGeneral />
+                <UsersGeneralGerencia />
               </div>
             </div>
           ) : (

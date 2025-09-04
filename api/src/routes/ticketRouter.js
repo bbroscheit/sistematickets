@@ -50,6 +50,7 @@ const getTicketByUser = require('./controllers/getTicketByUser')
 const getTicketBySalepoint = require('./controllers/getTicketBySalepoint')
 const reassigmentAcepted = require('./controllers/reassigmentAcepted')
 const getTicketSupervisorCardGeneral = require('./controllers/getTicketSupervisorCardGeneral')
+const getTicketSupervisorCardGeneralGerencia = require('./controllers/getTicketSupervisorCardGeneralGerencia')
 const postTicketAndDesarrollo = require('./controllers/postTicketAndDesarrollo')
 const sendNotificationPush = require('./controllers/sendNotificacionPush');
 const Excel = require('exceljs');
@@ -95,8 +96,10 @@ ticketRouter.get( '/ticketSupervisorView' , async ( req, res ) => {
 
 ticketRouter.get("/ticketDetail/:id" , async ( req, res ) => {
     const { id } = req.params
+    //console.log("id en router", id)
     try {
         let ticketDetail = await getTicketDetail(id);
+        //console.log("ticketDetail en router", ticketDetail)
         ticketDetail ? res.status(200).json(ticketDetail) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta get ticketDetail" , e.message)

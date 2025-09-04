@@ -78,7 +78,7 @@ function Soporte() {
   const [errorReasignar, setErrorReasignar] = useState("");
   const [buttonReasignar, setButtonReasignar] = useState({complete:false})
   const [control, setControl] = useState(0);
-  const [faq, setFaq] = useState(null);
+  //const [faq, setFaq] = useState(null);
   const [solution, setSolution] = useState({ 
     solution: "" , 
     files : []
@@ -150,12 +150,12 @@ function Soporte() {
         setWorker(data);
       });
 
-      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
-    // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
-      .then((res) => res.json())
-      .then((data) => {
-        setFaq(data);
-      });
+    //   fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
+    // // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setFaq(data);
+    //   });
 
       let idSoporte = localStorage.getItem("idSoporte");
       setSoporteId(idSoporte);
@@ -181,7 +181,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [soporte.detail]);
+  }, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -191,7 +191,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [soporte.answer]);
+  }, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -201,7 +201,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [soporte.answer]);
+  }, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -211,7 +211,7 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [soporte.answer]);
+  }, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -734,7 +734,7 @@ function Soporte() {
     return errors
   }
 
-  //console.log("answer", answer)
+  //onsole.log("soporte", soporte.answer)
   
   return (
     <>
