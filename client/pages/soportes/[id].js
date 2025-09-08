@@ -118,7 +118,7 @@ function Soporte() {
   });
 
   
-
+  // trae el detalle del soporte segun el id y la lista de los programadores
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
@@ -1006,8 +1006,11 @@ function Soporte() {
                   </div>: null
                 }
 
-                {/* si el soporte esta en cualquier estado salvo "terminado" o "completado" y el sector del usuario creador coincide con la jefatura del usuario, muestra "Agregar Información" */}
-                { soporte !== null && user !== null && user.sector.includes(soporte.user.sector.sectorname)   ? 
+                {/* si el soporte esta en cualquier estado salvo "terminado" o "completado"
+                    el usuario no es el creador  
+                    el sector del usuario creador coincide con la jefatura del usuario
+                    muestra "Agregar Información" */}
+                { soporte !== null && user !== null && user.name !== soporte.user.username && user.sector.includes(soporte.user.sector.sectorname)   ? 
                     <div className={mainStyle.buttonContainer}>
                     <button
                       onClick={(e) => handleOpenInfoUser(e)}
