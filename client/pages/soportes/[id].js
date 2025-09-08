@@ -109,13 +109,7 @@ function Soporte() {
     question:"",
     answer:""
   });
-  const [inputFaq, setInputFaq] = useState({
-    title: "",
-    description: "",
-    answer: "",
-    uresolved: false,
-    questioner: "",
-  });
+  const [textareaControl, setTextareaControl] = useState("");
   const [inputProveedor, setInputProveedor] = useState({
     name: "",
     description: "",
@@ -150,13 +144,6 @@ function Soporte() {
         setWorker(data);
       });
 
-    //   fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
-    // // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setFaq(data);
-    //   });
-
       let idSoporte = localStorage.getItem("idSoporte");
       setSoporteId(idSoporte);
       
@@ -181,7 +168,8 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [textareaControl]);
+  //}, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -191,7 +179,8 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+   }, [textareaControl]);
+  //}, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -201,7 +190,8 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [textareaControl]);
+  //}, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -211,7 +201,8 @@ function Soporte() {
         textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
       }
     }
-  }, [inputFaq.description]);
+  }, [textareaControl]);
+  //}, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -856,10 +847,30 @@ function Soporte() {
                     </div>
                   </div> : null
               }
-                         
+              { /* probamos insertar en un bloque para que tome el valor soporte.detail */}
               <div className={style.form}>
+              { soporte !== null  ? (
+                  
+                    <div>
+                    <h3 className={style.label}>Detalle : </h3>
+                    <textarea
+                    id="mi-textarea"
+                    type="text"
+                    value={soporte.detail}
+                    cols="80"
+                    style={{
+                      minHeight: '120px',
+                      resize: 'none',
+                      //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
+                    }}
+                    className={style.textarea}
+                  />
+                  </div>
+                ) : null}
+                     
+              {/* <div className={style.form}> */}
                                 
-                <div>
+                {/* <div>
                   <h3 className={style.label}>Detalle : </h3>
                   <textarea
                     id="mi-textarea"
@@ -873,7 +884,7 @@ function Soporte() {
                     }}
                     className={style.textarea}
                   />
-                </div>
+                </div> */}
 
                 {/* Abre la vista solucion para cualquier usuario perteneciente a Sistemas*/}
                 { user !== null && user.sector !== "Sistemas" ? null : soporte !== null && soporte.answer !== "Sin resolución" ? (
@@ -888,7 +899,7 @@ function Soporte() {
                       style={{
                         height: '120px',
                         resize: 'none',
-                        overflowY: 'hidden'
+                        //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
                       }}
                       className={style.textarea}
                     />
@@ -908,7 +919,7 @@ function Soporte() {
                         style={{
                           minHeight: '120px',
                           resize: 'none',
-                          overflowY: 'hidden'
+                          //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
                         }}
                         className={style.textarea}
                       />
@@ -928,7 +939,7 @@ function Soporte() {
                         style={{
                           minHeight: '120px',
                           resize: 'none',
-                          overflowY: 'hidden'
+                          //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
                         }}
                         className={style.textarea}
                       />
