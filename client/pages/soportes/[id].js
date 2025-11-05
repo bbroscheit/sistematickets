@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import style from "../../modules/detail.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import Swal from "sweetalert2";
+import AutoResizeTextarea from "@/components/soporte/AutoResizeTextarea";
+import BotonesDetail from "@/components/soporte/BotonesDetail"
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Box from "@mui/material/Box";
@@ -13,7 +15,6 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import { updateWorker } from "../api/updateWorker";
 import { updateSolutionTicket } from "../api/updateSolutionTicket";
-import { postFaq } from "../api/postFaq";
 import { updateInfoTicket } from "../api/updateInfoTicket";
 import { updateInfoTicketByUser } from "../api/updateInfoTicketByUser";
 import { updateCloseTicket } from "../api/updateCloseTicket";
@@ -77,8 +78,7 @@ function Soporte() {
   });
   const [errorReasignar, setErrorReasignar] = useState("");
   const [buttonReasignar, setButtonReasignar] = useState({complete:false})
-  const [control, setControl] = useState(0);
-  //const [faq, setFaq] = useState(null);
+  const [control, setControl] = useState(0); 
   const [solution, setSolution] = useState({ 
     solution: "" , 
     files : []
@@ -109,7 +109,6 @@ function Soporte() {
     question:"",
     answer:""
   });
-  const [textareaControl, setTextareaControl] = useState("");
   const [inputProveedor, setInputProveedor] = useState({
     name: "",
     description: "",
@@ -158,51 +157,6 @@ function Soporte() {
         setProveedor(data);
       });
   }, [router.query.id])
-
-  // los siguientes effects se encargan de agrandar el textarea hasta que css permita el uso de form-sizing
-  useEffect(() => {
-    if (soporte !== null) {
-      const textarea = document.getElementById('mi-textarea');
-      if (textarea) {
-        textarea.style.height = 'auto'; // Restablece la altura a automática
-        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
-      }
-    }
-  }, [textareaControl]);
-  //}, [inputFaq.description]);
-
-  useEffect(() => {
-    if (soporte !== null) {
-      const textarea = document.getElementById('mi-textareaSolutionSistemas');
-      if (textarea) {
-        textarea.style.height = 'auto'; // Restablece la altura a automática
-        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
-      }
-    }
-   }, [textareaControl]);
-  //}, [inputFaq.description]);
-
-  useEffect(() => {
-    if (soporte !== null) {
-      const textarea = document.getElementById('mi-textareaSolutionUsuario');
-      if (textarea) {
-        textarea.style.height = 'auto'; // Restablece la altura a automática
-        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
-      }
-    }
-  }, [textareaControl]);
-  //}, [inputFaq.description]);
-
-  useEffect(() => {
-    if (soporte !== null) {
-      const textarea = document.getElementById('mi-textareaSolutionTerminado');
-      if (textarea) {
-        textarea.style.height = 'auto'; // Restablece la altura a automática
-        textarea.style.height = textarea.scrollHeight + 'px'; // Establece la altura según el contenido
-      }
-    }
-  }, [textareaControl]);
-  //}, [inputFaq.description]);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -853,56 +807,16 @@ function Soporte() {
                   
                     <div>
                     <h3 className={style.label}>Detalle : </h3>
-                    <textarea
-                    id="mi-textarea"
-                    type="text"
-                    value={soporte.detail}
-                    cols="80"
-                    style={{
-                      minHeight: '120px',
-                      resize: 'none',
-                      //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
-                    }}
-                    className={style.textarea}
-                  />
+                    <AutoResizeTextarea value={soporte.detail} />
+                    
                   </div>
                 ) : null}
                      
-              {/* <div className={style.form}> */}
-                                
-                {/* <div>
-                  <h3 className={style.label}>Detalle : </h3>
-                  <textarea
-                    id="mi-textarea"
-                    type="text"
-                    value={soporte.detail}
-                    cols="80"
-                    style={{
-                      minHeight: '120px',
-                      resize: 'none',
-                      overflowY: 'hidden'
-                    }}
-                    className={style.textarea}
-                  />
-                </div> */}
-
                 {/* Abre la vista solucion para cualquier usuario perteneciente a Sistemas*/}
                 { user !== null && user.sector !== "Sistemas" ? null : soporte !== null && soporte.answer !== "Sin resolución" ? (
                   <div>
                     <h3 className={style.label}>Solución : </h3>
-                    <textarea
-                      id="mi-textareaSolutionSistemas"
-                      placeholder={soporte.answer}
-                      // disabled
-                      cols="80"
-                      // rows="14"
-                      style={{
-                        height: '120px',
-                        resize: 'none',
-                        //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
-                      }}
-                      className={style.textarea}
-                    />
+                    <AutoResizeTextarea placeholder={soporte.answer} />
                   </div>
                 ) : null}
                 
@@ -910,19 +824,7 @@ function Soporte() {
                 { user !== null && user.sector === "Sistemas" ? null : soporte !== null && soporte.state === "Completado" ? (
                     <div>
                       <h3 className={style.label}>Solución : </h3>
-                      <textarea
-                        id="mi-textareaSolutionUsuario"
-                        placeholder={soporte.answer}
-                        // disabled
-                        cols="80"
-                        // rows="14"
-                        style={{
-                          minHeight: '120px',
-                          resize: 'none',
-                          //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
-                        }}
-                        className={style.textarea}
-                      />
+                      <AutoResizeTextarea placeholder={soporte.answer} />
                     </div>
                   ) : null}
 
@@ -930,19 +832,7 @@ function Soporte() {
                 { user !== null && user.sector === "Sistemas" ? null : soporte !== null && soporte.state === "Terminado" ? (
                     <div>
                       <h3 className={style.label}>Solución : </h3>
-                      <textarea
-                        id="mi-textareaSolutionTerminado"
-                        placeholder={soporte.answer}
-                        // disabled
-                        cols="80"
-                        // rows="14"
-                        style={{
-                          minHeight: '120px',
-                          resize: 'none',
-                          //overflowY: 'hidden' deshabilitamos esta opcion hasta descubrir porque no renderiza bien el textarea
-                        }}
-                        className={style.textarea}
-                      />
+                      <AutoResizeTextarea placeholder={soporte.answer} />
                     </div>
                   ) : null}
 
@@ -963,86 +853,19 @@ function Soporte() {
                 ) : null}
 
                 {/* definicion de botones por usuario y estado del soporte */}
-
-                {/* si el soporte esta Asignado y el desarrollador coincide con el worker muestra "comenzar desarrollo" */}
-                { soporte !== null && soporte.state === "Asignado" && user.name === soporte.worker ? 
-                    <div className={mainStyle.buttonContainer}>
-                      <button
-                        onClick={(e) => submitAcceptAssigment(e)}
-                        className={mainStyle.button}
-                      >
-                        Comenzar Desarrollo
-                      </button>
-                    </div>: null
-                }
-
-                {/* si el soporte esta en Desarrollo y el desarrollador coincide con el worker muestra "resolver y mas info" */}
-                { soporte !== null && ( soporte.state === "Desarrollo" || soporte.state === "Informacion" ) && user.name === soporte.worker ? 
-                    <div className={mainStyle.buttonContainer}>
-                    <button
-                      onClick={(e) => handleOpenSolution(e)}
-                      className={mainStyle.button}
-                    >
-                      Resolver
-                    </button>
-                    <button
-                      onClick={(e) => handleOpenInfo(e)}
-                      className={mainStyle.button}
-                    >
-                      Agregar Información
-                    </button>
-                  </div>: null
-                }
-
-                {/* si el soporte esta en cualquier estado salvo "terminado" o "completado" y el usuario coincide con el usuario creador muestra "Agregar Información" */}
-                { soporte !== null && soporte.state != "Terminado" && soporte.state != "Completado" && user.name === soporte.user.username ? 
-                    <div className={mainStyle.buttonContainer}>
-                    <button
-                      onClick={(e) => handleOpenInfoUser(e)}
-                      className={mainStyle.button}
-                    >
-                      Agregar Información
-                    </button>
-                  </div>: null
-                }
-
-                {/* si el soporte esta en cualquier estado salvo "terminado" o "completado"
-                    el usuario no es el creador  
-                    el sector del usuario creador coincide con la jefatura del usuario
-                    muestra "Agregar Información" */}
-                { soporte !== null && user !== null && user.name !== soporte.user.username && user.sector.includes(soporte.user.sector.sectorname)   ? 
-                    <div className={mainStyle.buttonContainer}>
-                    <button
-                      onClick={(e) => handleOpenInfoUser(e)}
-                      className={mainStyle.button}
-                    >
-                      Agregar Información
-                    </button>
-                  </div>: null
-                }
-
-                {/* si el soporte esta en Completado y el usuario coincide con el usuario creador muestra "Re Abrir y Cerrar Ticket" */}
-                { soporte !== null && soporte.state === "Completado" && user.name === soporte.user.username ? 
-                    <div className={mainStyle.buttonContainer}>
-                    <button
-                      onClick={(e) => handleOpenInfoUser(e)}
-                      className={mainStyle.button}
-                    >
-                      Re Abrir 
-                    </button>
-                    <button
-                      onClick={(e) => SubmitCloseTicket(e)}
-                      className={mainStyle.button}
-                    >
-                      Cerrar Ticket
-                    </button>
-                  
-                  </div>: null
-                }
-
+                
+                <BotonesDetail
+                  soporte={soporte}
+                  user={user}
+                  submitAcceptAssigment={submitAcceptAssigment}
+                  handleOpenSolution={handleOpenSolution}
+                  handleOpenInfo={handleOpenInfo}
+                  SubmitCloseTicket={SubmitCloseTicket}
+                  handleOpenInfoUser={handleOpenInfoUser}
+                  submitComplete={SubmitCloseTicket}
+                />
               </div>
             </div>
-
           </>
         ) : (
           <h3> Loading... </h3>

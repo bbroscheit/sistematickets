@@ -16,7 +16,7 @@ function PhoneCard({id, firstname , lastname, phone}) {
   return (
     <div key={id} className={style.phoneCard} >
         <p>{` ${firstname} ${lastname}` }</p>
-        <h5><a href={`http://172.19.31.19/ws/dial.php?interno=${mainNumber}&numero=${phone}`} target="_blank">{phone}</a></h5>
+        <h5><a href={`http://172.19.31.19:2080/ws/dial.php?interno=${mainNumber}&numero=${phone}`} target="_blank">{phone}</a></h5>
     </div>
   )
 }
