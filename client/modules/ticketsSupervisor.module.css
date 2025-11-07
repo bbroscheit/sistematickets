@@ -1,6 +1,6 @@
 .gridContainer{
     width: 100%;
-    
+
     padding: 10px 20px;
     display: flex;
     flex-direction: column;
@@ -58,9 +58,9 @@
 
 .buttonContainer{
     margin: left;
-    
+
     width: 100%;
-    
+
 }
 
 .buttonActive{
@@ -90,6 +90,78 @@
     margin: auto;
     width: 100%;
     background-color:  #94a1b2;
+}
+
+.barContainer{
+    display: grid;
+    grid-template-columns: 20% 4% 66% 10% ;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 0.7rem 1.2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.finderInput{
+    padding: 8px 12px;
+    border: 1px solid #d6dbe0;
+    box-shadow: none;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.changeCircleIcon{
+    color: #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.changeCircleIcon:hover{
+    cursor: pointer;
+    color: #94a1b2;
+}
+
+.circlesContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.circles{
+    color: #728ff0;
+    background-color: rgb(226, 243, 250);
+    border-radius: 9999px;
+    width: fit-content;
+    padding: 8px 10px;
+    border: 2px solid rgb(189, 232, 250);
+}
+
+.circles:hover{
+    cursor: pointer;
+    background-color: #94a1b2;
+    color: white;
+}
+
+.cardInformacionContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+
+}
+
+.containerInfoTicket{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    
 }
 
 @media (min-width: 768px) and (max-width: 1024px){

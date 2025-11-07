@@ -2,20 +2,20 @@ import React from "react";
 import { useState, useEffect } from "react";
 import styles from "@/modules/Ticket.module.css";
 import mainStyles from "@/styles/Home.module.css";
-import useUser from "@/hooks/useUser.js";
+import useUser from "../hooks/useUser";
 import useAutoFetch from "@/hooks/useAutoFetch.js";
 import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos.js";
 import TicketVista from "./ticketVista/TicketVista.js";
 import TicketVistaDesarrollo from "./desarrollos/TicketVistaDesarrollo.js";
 
 function Tickets() {
+  const [user, setUser] = useUser("");
   const [ticketGenerados, setTicketsGenerados] = useState(null);
   const [ticketAsignados, setTicketsAsignados] = useState(null);
   const [ticketDesarrollo, setTicketsDesarrollo] = useState(null);
   const [ticketDesarrollo2, setTicketsDesarrollo2] = useState(null); // le puse desarrollo2 pero en realidad son los que necesitan mas informacion
   const [ticketCompletado, setTicketsCompletado] = useState(null);
   const [desarrollos, setDesarrollos] = useState(null);
-  const [user, setUser] = useUser();
   const [flag, setFlag] = useState(false);
 
   const baseUrl = `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001`;
@@ -47,7 +47,7 @@ function Tickets() {
   //   };
   // })
 
-  console.log("desarrollo", desarrollos);
+  //console.log("desarrollo", desarrollos);
   return (
 
       <div className={`${mainStyles.container} ${styles.mobileContainer}`}>

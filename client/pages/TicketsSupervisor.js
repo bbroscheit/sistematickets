@@ -43,7 +43,6 @@ function TicketsSupervisor() {
 
     const intervalId = setInterval(() => {
       fetchData();
-      //console.log("Datos actualizados");
     }, 900000); // 15 minutos = 900000 ms
 
     return () => clearInterval(intervalId); 

@@ -1,0 +1,32 @@
+.card{
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 250px;
+    min-height: 350px;
+}
+
+.titulo{
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    
+}
+
+.lineInfo{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}

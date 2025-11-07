@@ -6,7 +6,7 @@ const getAllWorker = async () => {
             where:{isdelete:false, isworker: true},  
         });
 
-        allWorker.sort((a , b) => { return a.id - b.id })
+        allWorker.sort((a , b) => { return a.firstname - b.firstname })
 
         return allWorker;
     } catch (e) {

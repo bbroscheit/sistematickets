@@ -1,0 +1,42 @@
+.infoContainer{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 16px 0;
+
+}
+
+.infoContainerGroupSelection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.infoContainerButton{
+    display: flex;
+    flex-direction: row;
+    padding: 5px 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: var(--color-basani);
+}
+
+.infoContainerButton p{
+    color: #f9f9f9;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.infoContainerButton p:hover{
+    color: #f9f9f9;
+    padding: 5px;
+    background-color: #e95345;
+    cursor: pointer;
+}
+

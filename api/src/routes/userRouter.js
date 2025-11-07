@@ -5,6 +5,7 @@ const getAllWorker = require("../routes/controllers/getAllWorker");
 const loginUser = require("../routes/controllers/loginUser");
 const postUser = require("./controllers/postUser");
 const updateUser = require("./controllers/updateUser");
+const updateUserByUser = require("./controllers/updateUserByUser");
 const deleteUser = require("./controllers/deleteUser");
 
 
@@ -116,7 +117,39 @@ userRouter.put("/updateUser/:id", async (req, res) => {
       salepoint
     );
     updatedUser
-      ? res.status(200).json({state:"sucess"})
+      ? res.status(200).json({state:"success"})
+      : res.status(404).json({state:"failure"});;
+  } catch (e) {
+    console.log("error en ruta put user", e.message);
+  }
+});
+
+userRouter.put("/updateUserByUser/:id", async (req, res) => {
+  let { id } = req.params;
+  let {
+    username,
+    firstname,
+    lastname,
+    password,
+    email,
+    phonenumber,
+    
+  } = req.body;
+
+  
+  try {
+    let updatedUser = await updateUserByUser(
+      id,
+      username,
+      firstname,
+      lastname,
+      password,
+      email,
+      phonenumber,
+      
+    );
+    updatedUser
+      ? res.status(200).json({state:"success"})
       : res.status(404).json({state:"failure"});;
   } catch (e) {
     console.log("error en ruta put user", e.message);

@@ -22,6 +22,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import CircleNotificationsRoundedIcon from "@mui/icons-material/CircleNotificationsRounded";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
@@ -314,7 +315,7 @@ export default function PrimarySearchAppBar() {
           ) : null}
 
             {/* Se agrega icono de acceso al sector agenda */}
-            <Tooltip title="Agenda">  
+            {/* <Tooltip title="Agenda">  
             
              <IconButton
               size="large"
@@ -326,9 +327,11 @@ export default function PrimarySearchAppBar() {
                 <CalendarMonthRoundedIcon />
               </Badge>
             </IconButton>
-            </Tooltip> 
+            </Tooltip>  */}
 
             {/* Se agrega icono de acceso al listado de internos */}
+             
+            { user !== null ?
             <Tooltip title="Internos">
             <IconButton
               size="large"
@@ -339,7 +342,7 @@ export default function PrimarySearchAppBar() {
                 <HeadsetMicRoundedIcon />
               </Badge>
             </IconButton>
-            </Tooltip>
+            </Tooltip>: null}
 
             {/* si el usuario es bbroscheit o Lllamanzarez muestra la vista de mesa de ayuda */}
             { user !== null && (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (
@@ -353,6 +356,22 @@ export default function PrimarySearchAppBar() {
                   <Badge sx={{ color: "white" }}>
                     {/* <Badge badgeContent={5} sx={{ color:"white"}}> */}
                     <CircleNotificationsRoundedIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            ) : null}
+
+            { user !== null ? (
+                <Tooltip title="Perfil">
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="white"
+                  onClick={(e) => router.push(`/usuarios/Perfil`)}
+                >
+                  <Badge sx={{ color: "white" }}>
+                    {/* <Badge badgeContent={5} sx={{ color:"white"}}> */}
+                    <AccountCircleSharpIcon />
                   </Badge>
                 </IconButton>
               </Tooltip>
