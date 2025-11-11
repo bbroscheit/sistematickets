@@ -77,7 +77,7 @@ export default function Home() {
       //await subscribeUserToPush();
 
       if (sector === "Supervisor") {
-        Router.push("/TicketsSupervisor");
+        Router.push("/NewTicketSupervisor");
       } else if (sector.includes("Jefatura")) {
         Router.push("/TicketsSupervisorSector");
       } else if (sector.includes("Jefe")) {

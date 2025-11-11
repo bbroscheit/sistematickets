@@ -1,6 +1,5 @@
 export  function extraeFecha(date) {
     
-    // console.log(date)
     const fecha = new Date(date);
 
     const dia = fecha.getDate();

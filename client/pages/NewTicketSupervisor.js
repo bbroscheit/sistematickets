@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Router from "next/router";
 import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/ticketsSupervisor.module.css";
 import Card from "@/components/Card";
@@ -6,6 +7,7 @@ import arrayUser from "@/functions/arrayUser";
 import useUser from "@/hooks/useUser.js";
 import { devuelveIniciales } from "@/functions/devuelveIniciales";
 import { devuelveInicialDesdeUsuario } from "@/functions/devuelveInicialDesdeUsuario";
+import { ticketSinAsignar } from "@/functions/ticketSinAsignar";
 import NoAccountsSharpIcon from "@mui/icons-material/NoAccountsSharp";
 import FilterAltOffRoundedIcon from "@mui/icons-material/FilterAltOffRounded";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -16,6 +18,9 @@ import CardSupervisorUsers from "@/components/CardSupervisorUsers";
 import CardInformacionGeneral from "@/components/CardInformacionGeneral";
 import CardInformacionWorker from "@/components/CardInformacionWorker";
 import CardInformacionTicketsWorker from "@/components/CardInformacionTicketWorker";
+import CardInformacionTicketUsuario from "@/components/CardInformacionTicketUsuario";
+import CardInformacionUsuario from "@/components/CardInformacionUsuario";
+import ListadoSinAsignar from "@/components/ListadoSinAsignar";
 
 function NewTicketsSupervisor() {
   const [soportes, setSoportes] = useState(null);
@@ -26,6 +31,7 @@ function NewTicketsSupervisor() {
   const [worker, setWorker] = useState(null);
   const [workerAlt, setWorkerAlt] = useState(null);
   const [view, setView] = useState(1);
+  const [viewMenu, setViewMenu] = useState(1);
   const [finder, setFinder] = useState("");
   const [user, setUser] = useUser();
 
@@ -43,6 +49,7 @@ function NewTicketsSupervisor() {
     setUsuarios(arrayUser(unfinishedRes));
     setUsuariosAlt(arrayUser(unfinishedRes));
     setWorkerAlt(workerRes);
+    setSoporteUnfinished(ticketSinAsignar(unfinishedRes))
   };
 
   useEffect(() => {
@@ -62,8 +69,25 @@ function NewTicketsSupervisor() {
     );
   };
 
+  const handleClickUsuarios = (e) => {
+    e.preventDefault();
+    setUsuariosAlt(
+      usuarios.filter((f) => f === e.target.getAttribute("value"))
+    );
+  };
+
   const handleClickChange = (e) => {
-    setView(view === 1 ? 2 : 1);
+    if(view === 1){
+      setView(2)
+      setUsuariosAlt(usuarios)
+    }else{
+      setView(1)
+      setWorkerAlt(worker)
+    }
+  };
+
+  const handleOpenMenu = (e) => {
+    setViewMenu(viewMenu === 1 ? 2 : 1);
   };
 
   const handleResetFilters = (e) => {
@@ -90,10 +114,27 @@ function NewTicketsSupervisor() {
     );
   };
 
-  //console.log("workeralkt", workerAlt);
+  //console.log("usuariosAlt", usuariosAlt);
 
   return (
     <div className={mainStyle.container}>
+      <div className={style.barContainerTickets}>
+        <div className={style.barContainerMenu}>
+          <h2>Tickets sin Asignar</h2>
+          {
+            soporteUnfinished && soporteUnfinished !== null ? <h5>{soporteUnfinished.length}</h5> : <h5>0</h5>
+          }
+        </div>
+        <div className={style.changeCircleIcon}>
+          {
+            viewMenu === 1 ? <KeyboardArrowDownIcon onClick={(e) => handleOpenMenu(e)} /> : <KeyboardArrowUpIcon onClick={(e) => handleOpenMenu(e)} />
+          }
+          
+        </div>
+      </div>
+      {
+        viewMenu === 2 ? <div className={style.listadoContainer}><ListadoSinAsignar soportes={soporteUnfinished}/> </div> : null
+      }
       {/* nueva barra horizontal con busqueda por usuario y perfiles de usuarios */}
       <div className={style.barContainer}>
         <input
@@ -124,7 +165,9 @@ function NewTicketsSupervisor() {
               )
             ) : usuarios.length > 0 ? (
               usuarios.map((u) => (
-                <p className={style.circles}>
+                <p className={style.circles}
+                    onClick={(e) => handleClickUsuarios(e)}
+                    value={u}>
                   {devuelveInicialDesdeUsuario(u)}
                 </p>
               ))
@@ -160,8 +203,22 @@ function NewTicketsSupervisor() {
           </div>
         ) : null
       ) : (
-        <p>otra vista</p>
-      )}
+    usuariosAlt !== null && usuariosAlt.length >= 1 ? (
+      <div className={style.cardInformacionContainer}>
+        {usuariosAlt.length === usuarios.length ? <CardInformacionGeneral /> : null}
+        {usuariosAlt.map((e) => (
+          <div className={style.containerInfoTicket}>
+            <CardInformacionUsuario
+              user={e}
+            />
+            {usuariosAlt.length !== usuarios.length ? (
+              <CardInformacionTicketUsuario user={e} />
+            ) : null}
+          </div>
+        ))}
+      </div>
+    ) : null
+  )}
     </div>
   );
 }

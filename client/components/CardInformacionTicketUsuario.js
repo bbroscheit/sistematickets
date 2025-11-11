@@ -2,18 +2,18 @@ import React, {useState, useEffect} from 'react'
 import style from '../modules/cardInformacionTicketWorker.module.css'
 import CardTicketWorker from '@/components/CardTicketWorker'
 
-function CardInformacionTicketsWorker({id}) {
+function CardInformacionTicketUsuario({user}) {
     const [ soportes, setSoportes ] = useState(null);
     const [ soportesAlt, setSoportesAlt ] = useState(null);
 
     useEffect(() => {
-        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsByWorkerId?workerId=${id}`)
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketsByUsuarioId?usuarioId=${user}`)
         .then(res => res.json())    
         .then(data => {
             setSoportes(data);
             setSoportesAlt(data);
         })
-    }, [id]);
+    }, [user]);
 
     function handleResetFilter(){
         setSoportesAlt(soportes)
@@ -25,14 +25,14 @@ function CardInformacionTicketsWorker({id}) {
         setSoportesAlt(soportes.filter(s => s.state === e.target.getAttribute("value"))) 
     }
 
-    //console.log("soportes en CardInformacionTicketsWorker:", soportesAlt);
-
+    
   return (
     <div className={style.infoContainer}>
         <div className={style.infoContainerGroupSelection}>
             <h3>Tickets</h3>
             <div className={style.infoContainerButton}>
                 <p onClick={e => handleResetFilter(e)}>Todos</p>
+                <p onClick={e => handleSelectFilter(e)} value="sin asignar">Sin Asignar</p>
                 <p onClick={e => handleSelectFilter(e)} value="Asignado">Asignados</p>
                 <p onClick={e => handleSelectFilter(e)} value="Desarrollo">Desarrollo</p>
                 <p onClick={e => handleSelectFilter(e)} value="Informacion">Información</p>
@@ -54,4 +54,4 @@ function CardInformacionTicketsWorker({id}) {
   )
 }
 
-export default CardInformacionTicketsWorker
+export default CardInformacionTicketUsuario

@@ -11,7 +11,7 @@
     padding: 10px;
     width: 100%;
     display: grid;
-    grid-template-columns: 10% 15% 75%;
+    grid-template-columns: 7% 12% 1fr 20%;
     gap: 2px;
     font-size: 0.9rem;
     margin-bottom: 3px;

@@ -11,6 +11,9 @@ const getTicketByWorkerId = async (id) => {
 
         let getTIcketByName = await Ticket.findAll({
             where: { worker: worker.username},
+            include:{
+                model: User
+            }           
         });
 
         getTIcketByName ? getTIcketByName.sort((a , b) => { return a.id - b.id }) : getTIcketByName = 0

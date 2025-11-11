@@ -12,6 +12,7 @@ const getTicketsGenerados = require('./controllers/getTicketGenerado');
 const getTicketDeveloperView = require('./controllers/getTicketDeveloperView');
 const getInformacionGeneral = require('./controllers/getInformacionGeneral');
 const getInformacionWorker = require('./controllers/getInformacionWorker');
+const getInformacionUsuario = require('./controllers/getInformacionUsuario')
 const postTicket = require('./controllers/postTicket');
 const updateTicket = require('./controllers/updateTicket');
 const getTicketTerminado = require('./controllers/getTicketTerminado');
@@ -36,6 +37,7 @@ const sendEmailAdvertisement = require('./helpers/sendEmailAdvertisement')
 const getTicketsPendientes24 = require('./controllers/getTicketsPendientes24')
 const getTicketByWorker = require('./controllers/getTicketByWorker')
 const getTicketByWorkerId = require('./controllers/getTicketByWorkerId')
+const getTicketByUsuarioId = require('./controllers/getTicketByUsuarioId')
 const updatePriority = require('./controllers/updatePriority')
 const getPriority = require('./controllers/getPriority');
 const getTicketsBySubject = require('./helpers/getTicketBySubject');
@@ -238,6 +240,17 @@ ticketRouter.get( '/ticketsByWorkerId' , async ( req, res ) => {
     }
 })
 
+ticketRouter.get( '/ticketsByUsuarioId' , async ( req, res ) => {
+    const usuarioId = req.query.usuarioId
+
+    try {
+        let tickets = await getTicketByUsuarioId(usuarioId);
+        tickets ? res.status(200).json(tickets) : res.status(400).json({state:"failure"})
+    } catch (e) {
+        console.log( "error en ruta get ticketsByUsuarioId" , e.message)
+    }
+})
+
 ticketRouter.get( '/ticketDeveloperView/:name' , async ( req, res ) => {
     const workerName = req.params.name
     
@@ -283,7 +296,6 @@ ticketRouter.get( '/ticketSupervisorDataGeneralGerencia' , async ( req, res ) =>
     }
 })
 
-
 ticketRouter.get("/informacionGeneral" , async ( req, res ) => {
     
     try {
@@ -307,6 +319,16 @@ ticketRouter.get("/informacionWorker" , async ( req, res ) => {
     }
 })
 
+ticketRouter.get("/informacionUsuario" , async ( req, res ) => {
+    const { user } = req.query
+    
+    try {
+        let ticketInformacionUsuario = await getInformacionUsuario(user);
+        ticketInformacionUsuario ? res.status(200).json(ticketInformacionUsuario) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get ticketInformacionUsuario" , e.message)
+    }
+})
 
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;

@@ -659,7 +659,7 @@ export default function PrimarySearchAppBar() {
                 <Link
                   href={
                     index === 0
-                      ? "/TicketsSupervisor"
+                      ? "/NewTicketSupervisor"
                       : index === 1
                       ? "/soportes/nuevoSoporte"
                       : index === 2

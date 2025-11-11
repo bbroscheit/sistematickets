@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
 import style from "../modules/cardInformacionWorker.module.css";
 
-function CardInformacionWorker({ id , firstname , lastname}) {
+function CardInformacionUsuario({user}) {
   //console.log("CardInformacionWorker id:", id);
   const [data, setData] = useState(null);
-  let nombreCompleto = `${firstname} ${lastname}`;
+  //let nombreCompleto = `${firstname} ${lastname}`;
 
   useEffect(() => {
-    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/informacionWorker?id=${id}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/informacionUsuario?user=${user}`)
       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
       .then((res) => res.json())
       .then((data) => {
         setData(data);
       });
-  }, [id]);
+  }, [user]);
+
+  //console.log("data", data)
 
   return (
     <div className={style.card}>
-      <h1 className={style.titulo}>{nombreCompleto}</h1>
+      <h1 className={style.titulo}>{data && data !== null ? data.nombreCompleto : "usuario"}</h1>
       <div className={style.lineInfo}>
-        <p>Total Ticket :</p>{" "}
-        <span>{data && data !== null ? data.totalTickets : 0}</span>
+        <p>No Asignados :</p>{" "}
+        <span>{data && data !== null ? data.sinAsignar : 0}</span>
       </div>
-      
       <div className={style.lineInfo}>
         <p>Asignados :</p>{" "}
         <span>{data && data !== null ? data.asignados : 0}</span>
@@ -43,12 +44,12 @@ function CardInformacionWorker({ id , firstname , lastname}) {
         <p>Terminado :</p>{" "}
         <span>{data && data !== null ? data.terminado : 0}</span>
       </div>
-      <div className={style.lineInfo}>
+      {/* <div className={style.lineInfo}>
         <p>Hs Promedio :</p>{" "}
         <span>{data && data !== null ? data.hsPromedio : 0}</span>
-      </div>
+      </div> */}
     </div>
   );
 }
 
-export default CardInformacionWorker;
+export default CardInformacionUsuario;

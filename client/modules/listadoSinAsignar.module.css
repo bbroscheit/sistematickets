@@ -1,0 +1,19 @@
+.ticketContainer{
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.ticketLine{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 10% 15% 1fr 20%;
+    padding: 8px 18px;
+    flex-direction: row;
+    border-top: 1px solid rgb(196, 196, 196);
+    font-size: 0.9rem;
+}
+
+.ticketLine:nth-child(odd){
+    background-color: rgb(237, 245, 252);
+}

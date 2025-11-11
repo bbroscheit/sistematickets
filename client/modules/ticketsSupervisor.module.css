@@ -99,6 +99,7 @@
     align-items: center;
     width: 100%;
     gap: 10px;
+    margin-top: 10px;
     margin-bottom: 10px;
     padding: 0.7rem 1.2rem;
     background-color: #ffffff;
@@ -161,7 +162,41 @@
     display: flex;
     flex-direction: row;
     gap: 16px;
-    
+    align-items: flex-start;
+}
+
+.barContainerTickets{
+    display: grid;
+    grid-template-columns: 1fr 7%  ;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 0px;
+    padding:  0.7rem 1.5rem 0.7rem 2rem;
+    background-color: #ffffff;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.barContainerMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: flex-start;
+}
+
+.barContainerMenu h5{
+    border: 1px solid #ffffff;
+    border-radius: 9999px;
+    padding: 2px 5px;
+    font-size: 0.7rem;
+    width: fit-content;
+    background-color: var(--color-basani);
+    color: #ffffff;
+}
+
+.listadoContainer{
+    width: 100%;
 }
 
 @media (min-width: 768px) and (max-width: 1024px){
