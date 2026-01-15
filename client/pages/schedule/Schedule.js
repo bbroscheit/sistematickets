@@ -283,10 +283,11 @@ function Schedule() {
                 </div>
             {
                 button.complete === true ?
-                    <button className={mainStyle.button} type="submit"> Aceptar </button> 
+                    <button className={mainStyle.button} type="submit" onClick={handleSubmit}> Aceptar </button> 
                     : <button className={mainStyle.buttonDisabled} onClick={handleSubmit} type="submit" disabled> Aceptar </button> 
             }
         </Box>
+        
     </Modal>   
     </>
 )}

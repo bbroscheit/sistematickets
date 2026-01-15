@@ -298,7 +298,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             
           {/* Se agrega icono de acceso al sector desarrollos - solo usuario bbroscheit */}
-          { user !== null && user.name === "Bbroscheit"  ? (
+          { user !== null && user.sector === "RRHH"  ? (
             <Tooltip title="Desarrollos">  
             
              <IconButton
@@ -315,7 +315,7 @@ export default function PrimarySearchAppBar() {
           ) : null}
 
             {/* Se agrega icono de acceso al sector agenda */}
-            {/* <Tooltip title="Agenda">  
+            <Tooltip title="Agenda">  
             
              <IconButton
               size="large"
@@ -327,7 +327,7 @@ export default function PrimarySearchAppBar() {
                 <CalendarMonthRoundedIcon />
               </Badge>
             </IconButton>
-            </Tooltip>  */}
+            </Tooltip> 
 
             {/* Se agrega icono de acceso al listado de internos */}
              
