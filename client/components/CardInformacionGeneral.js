@@ -13,6 +13,7 @@ function CardInformacionGeneral() {
       });
   }, []);
 
+  console.log("data informacion general:", data);
   return (
     <div className={style.card}>
       <h1 className={style.titulo}>Información General</h1>
