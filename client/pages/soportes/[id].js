@@ -394,7 +394,7 @@ function Soporte() {
 
   function submitSolution(e) {
     e.preventDefault();
-    updateSolutionTicket(soporteId, solution)
+    updateSolutionTicket(id, solution)
     .then(res => {
       if (res.state === "success") {
         //postFaq(inputFaq);
@@ -421,7 +421,7 @@ function Soporte() {
 
   function submitInfo(e) {
     e.preventDefault();
-    updateInfoTicket(soporteId, info)
+    updateInfoTicket(id, info)
       .then(res => {
         if (res.state === "success") {
           sendEmailMoreInfo(email);
@@ -494,7 +494,7 @@ function Soporte() {
 
   function submitInfoUser(e) {
     e.preventDefault();
-    updateInfoTicketByUser(soporteId, answer)
+    updateInfoTicketByUser(id, answer)
       .then(res => {
         if (res.state === "success") {
           //sendEmailInfoUser(email);
