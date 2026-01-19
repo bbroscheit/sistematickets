@@ -37,7 +37,7 @@ function CardInformacionWorker({ id , firstname , lastname}) {
       </div>
       <div className={style.lineInfo}>
         <p>Completo :</p>{" "}
-        <span>{data && data !== null ? data.completo : 0}</span>
+        <span>{data && data !== null ? data.completado : 0}</span>
       </div>
       <div className={style.lineInfo}>
         <p>Terminado :</p>{" "}

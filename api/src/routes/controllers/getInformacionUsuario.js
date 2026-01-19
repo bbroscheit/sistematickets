@@ -37,7 +37,7 @@ const getInformacionUsuario = async (user) => {
         results.asignados = getTickets.filter( e => e.state === "Asignado").length;
         results.desarrollo = getTickets.filter( e => e.state === "Desarrollo").length;
         results.informacion = getTickets.filter( e => e.state === "Informacion").length;
-        results.completo = getTickets.filter( e => e.state === "Completado").length;
+        results.completado = getTickets.filter( e => e.state === "Completado").length;
         results.terminado = getTickets.filter( e => e.state === "Terminado").length;
         results.nombreCompleto = userFind[0].firstname + " " + userFind[0].lastname;
 
