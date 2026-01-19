@@ -36,7 +36,7 @@ function CardInformacionTicketUsuario({user}) {
                 <p onClick={e => handleSelectFilter(e)} value="Asignado">Asignados</p>
                 <p onClick={e => handleSelectFilter(e)} value="Desarrollo">Desarrollo</p>
                 <p onClick={e => handleSelectFilter(e)} value="Informacion">Información</p>
-                <p onClick={e => handleSelectFilter(e)} value="Completo">Completo</p>
+                <p onClick={e => handleSelectFilter(e)} value="Completado">Completo</p>
             </div>
         </div>
         <div >
