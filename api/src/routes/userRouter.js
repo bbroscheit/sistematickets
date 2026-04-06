@@ -96,10 +96,12 @@ userRouter.put("/updateUser/:id", async (req, res) => {
     isworker = false,
     isprojectmanager = false,
     isprojectworker = false,
-    sectorname = null,
-    salepoint = null,
+    sectorIds = [],
+    salepointIds = [],
+    role,
   } = req.body;
 
+  console.log("body updateUser", req.body);
   
   try {
     let updatedUser = await updateUser(
@@ -111,10 +113,11 @@ userRouter.put("/updateUser/:id", async (req, res) => {
       email,
       phonenumber,
       isworker,
-      isprojectmanager = false,
+      isprojectmanager,
       isprojectworker,
-      sectorname,
-      salepoint
+      sectorIds,
+      salepointIds,
+      role,
     );
     updatedUser
       ? res.status(200).json({state:"success"})

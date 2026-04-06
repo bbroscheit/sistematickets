@@ -40,6 +40,7 @@ import { Tooltip } from "@mui/material";
 import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
@@ -272,6 +273,8 @@ export default function PrimarySearchAppBar() {
     router.push(`/`);
   }
 
+  console.log("user en navbar:", user); 
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ backgroundColor: "#EA6558" }}>
@@ -298,7 +301,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             
           {/* Se agrega icono de acceso al sector desarrollos - solo usuario bbroscheit */}
-          { user !== null && user.sector === "RRHH"  ? (
+          { user !== null && user.sector.includes(5) ? (
             <Tooltip title="Desarrollos">  
             
              <IconButton
@@ -315,6 +318,7 @@ export default function PrimarySearchAppBar() {
           ) : null}
 
             {/* Se agrega icono de acceso al sector agenda */}
+            { user !== null && user.sector.includes(21) ? (
             <Tooltip title="Agenda">  
             
              <IconButton
@@ -328,7 +332,8 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             </Tooltip> 
-
+           ) : null}
+           
             {/* Se agrega icono de acceso al listado de internos */}
              
             { user !== null ?
@@ -377,17 +382,6 @@ export default function PrimarySearchAppBar() {
               </Tooltip>
             ) : null}
 
-            {/* Se crea boton para Añaños que pueda descargar el crudo de la base de datos */}
-            { user !== null && user.name === "Fañaños" ? <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                onClick={handleDownload}
-              >
-                <Badge sx={{ color: "white" }}>
-                  <CalendarMonthRoundedIcon />
-                </Badge>
-              </IconButton> : null
-            }
             
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -544,17 +538,20 @@ export default function PrimarySearchAppBar() {
 
         
         {/* Si el usuario pertenece a sistemas se carga la barra de navegacion de sistemas ( soportes , faq e historico ) */}
-        {user !== null && user.sector === "Sistemas" ?
+        {
+        user !== null && user.sector.includes(5) ? 
           <>
           <List>
-            {["Soportes", "Faq", " Hist. Soportes"].map((text, index) => (
+            {["Soportes", "Nuevo Soporte", "Faq", " Hist. Soportes"].map((text, index) => (
               <Link
                 href={
                   index === 0
-                    ? "/Tickets"
+                    ? "/NewTicketSupervisor" 
                     : index === 1
-                    ? "/Faq"
+                    ? "/soportes/nuevoSoporte"
                     : index === 2
+                    ? "/Faq"
+                    : index === 3
                     ? "/soportes/historicoSoportes"
                     : null
                 }
@@ -580,6 +577,8 @@ export default function PrimarySearchAppBar() {
                       {index === 0 ? (
                         <InsertDriveFileRoundedIcon />
                       ) : index === 1 ? (
+                        <NoteAddIcon />
+                      ) : index === 2 ? (
                         <LiveHelpRoundedIcon />
                       ) : (
                         <FindInPageRoundedIcon />
@@ -595,125 +594,15 @@ export default function PrimarySearchAppBar() {
             ))}
           </List>
           
-         </> : null }
-
-        {/* Si el usuario es jefe de administracion se carga la barra de navegacion con la vista de supervisor general */}
-        { user !== null && user.sector === "Jefe de Administracion" ? (
+        </> :
+        user != null && user.role === 1 ?
+          <>
           <List>
-            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
-              (text, index) => (
-                <Link
-                  href={
-                    index === 0
-                      ? "/TicketSupervisorGeneral"
-                      : index === 1
-                      ? "/soportes/nuevoSoporte"
-                      : index === 2
-                      ? "/soportes/historicoSoportes"
-                      : null
-                  }
-                >
-                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                    <ListItemButton
-                      className={styles.listItemButton}
-                      sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
-                        px: 2.5,
-                        color: "#000000",
-                      }}
-                    >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                          color: "#EA6558",
-                        }}
-                      >
-                        {index === 0 ? (
-                          <InsertDriveFileRoundedIcon />
-                        ) : index === 1 ? (
-                          <LiveHelpRoundedIcon />
-                        ) : (
-                          <FindInPageRoundedIcon />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              )
-            )}
-          </List>
-        ) : null }
-
-         {/* Si el usuario es supervisor se carga la barra de navegacion con la vista de supervisor */}
-         { user !== null && user.sector === "Supervisor" ? (
-          <List>
-            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
-              (text, index) => (
-                <Link
-                  href={
-                    index === 0
-                      ? "/NewTicketSupervisor"
-                      : index === 1
-                      ? "/soportes/nuevoSoporte"
-                      : index === 2
-                      ? "/soportes/historicoSoportes"
-                      : null
-                  }
-                >
-                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                    <ListItemButton
-                      className={styles.listItemButton}
-                      sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
-                        px: 2.5,
-                        color: "#000000",
-                      }}
-                    >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                          color: "#EA6558",
-                        }}
-                      >
-                        {index === 0 ? (
-                          <InsertDriveFileRoundedIcon />
-                        ) : index === 1 ? (
-                          <LiveHelpRoundedIcon />
-                        ) : (
-                          <FindInPageRoundedIcon />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              )
-            )}
-          </List>
-        ) : null }
-
-        {/* Si el usuario pertenece a una jefatura se carga la barra de navegacion con la vista de jefatura, sino se carga la barra comun */}
-        {user !== null && user.sector.includes("Jefatura") ? (
-          <List>
-          {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
-            (text, index) => (
+            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map((text, index) => (
               <Link
                 href={
                   index === 0
-                    ? "/TicketsSupervisorSector"
+                    ? "/Tickets" 
                     : index === 1
                     ? "/soportes/nuevoSoporte"
                     : index === 2
@@ -742,7 +631,7 @@ export default function PrimarySearchAppBar() {
                       {index === 0 ? (
                         <InsertDriveFileRoundedIcon />
                       ) : index === 1 ? (
-                        <LiveHelpRoundedIcon />
+                        <NoteAddIcon />
                       ) : (
                         <FindInPageRoundedIcon />
                       )}
@@ -754,60 +643,62 @@ export default function PrimarySearchAppBar() {
                   </ListItemButton>
                 </ListItem>
               </Link>
-            )
-          )}
-        </List>) : user!==null && user.sector !== "Sistemas" && user.sector !== "Supervisor" && user.sector !== "Jefe de Administracion"?
-           <List>
-            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map(
-              (text, index) => (
-                <Link
-                  href={
-                    index === 0
-                      ? "/Tickets"
-                      : index === 1
-                      ? "/soportes/nuevoSoporte"
-                      : index === 2
-                      ? "/soportes/historicoSoportes"
-                      : null
-                  }
-                >
-                  <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                    <ListItemButton
-                      className={styles.listItemButton}
+            ))}
+          </List>
+          
+         </> : <>
+          <List>
+            {["Soportes", "Nuevo Soporte", " Hist. Soportes"].map((text, index) => (
+              <Link
+                href={
+                  index === 0
+                    ? "/NewTicketSupervisorGeneral" 
+                    : index === 1
+                    ? "/soportes/nuevoSoporte"
+                    : index === 2
+                    ? "/soportes/historicoSoportes"
+                    : null
+                }
+              >
+                <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    className={styles.listItemButton}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      color: "#000000",
+                    }}
+                  >
+                    <ListItemIcon
                       sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
-                        px: 2.5,
-                        color: "#000000",
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "#EA6558",
                       }}
                     >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                          color: "#EA6558",
-                        }}
-                      >
-                        {index === 0 ? (
-                          <InsertDriveFileRoundedIcon />
-                        ) : index === 1 ? (
-                          <LiveHelpRoundedIcon />
-                        ) : (
-                          <FindInPageRoundedIcon />
-                        )}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              )
-            )}
-          </List> : null
-        }        
+                      {index === 0 ? (
+                        <InsertDriveFileRoundedIcon />
+                      ) : index === 1 ? (
+                        <NoteAddIcon />
+                      ) : (
+                        <FindInPageRoundedIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+          
+         </>
+        
+        }
 
         <Divider />
 

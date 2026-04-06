@@ -5,7 +5,7 @@ const fs = require ( 'fs' );
 const path = require ( 'path' );
 const { DB_HOST, DB_PASSWORD, DB_USER, DB_PORT} = process.env
 
-const sequelize = new Sequelize(`postgres://${DB_HOST}:${DB_PASSWORD}@${DB_USER}:${DB_PORT}/sistemasTicket` , {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/sistemasTicket` , {
     logging : false,
     native: false,
     // timezone: '-03:00'
@@ -52,23 +52,47 @@ const { Sector,
         Capacitation, 
         Platform,
         Formproject,
-        Desarrollo } = sequelize.models;
+        Desarrollo,
+        Role,
+        TicketEvent,
+        TicketEventRecipient } = sequelize.models;
 
 // Relacionamos las tablas
 // seccion de Soportes
 
-User.belongsTo(Sector);
-Sector.hasMany(User);
+User.belongsToMany(Sector, {
+  through: 'UserSectors',
+  foreignKey: 'user_id',
+  otherKey: 'sector_id',
+  as: 'sectors'
+});
+
+Sector.belongsToMany(User, {
+  through: 'UserSectors',
+  foreignKey: 'sector_id',
+  otherKey: 'user_id',
+  as: 'users'
+});
+
+User.belongsTo(Role, { as: 'role' });
+Role.hasMany(User , { as : 'users'});
 
 User.hasMany(Ticket);
 Ticket.belongsTo(User);
 
-// Proveedor.hasMany(Ticket);
-// // Ticket.belongsTo(Proveedor);
-// Ticket.belongsTo(Proveedor, { foreignKey: 'proveedor_id' });
+User.belongsToMany(Salepoint, {
+  through: 'UserSalepoints',
+  foreignKey: 'user_id',
+  otherKey: 'salepoint_id',
+    as: 'salepoints'
+});
 
-User.belongsTo(Salepoint);
-Salepoint.hasMany(User);
+Salepoint.belongsToMany(User, {
+  through: 'UserSalepoints',
+  foreignKey: 'salepoint_id',
+  otherKey: 'user_id',
+    as: 'users'
+});
 
 Sector.belongsTo(Salepoint);
 Salepoint.hasMany(Sector);
@@ -81,6 +105,40 @@ Proveedornote.belongsTo(Proveedor);
 
 Ticket.hasOne(Workernote);
 Workernote.belongsTo(Ticket);
+
+//creamos las relaciones para TicketEvent y TicketEventRecipient
+Ticket.hasMany(TicketEvent, {
+  foreignKey: "ticketId",
+  as: "events",
+});
+
+TicketEvent.belongsTo(Ticket, {
+  foreignKey: "ticketId",
+  as: "ticket",
+});
+
+TicketEventRecipient.belongsTo(TicketEvent, {
+  foreignKey: "ticketEventId",
+  as: "ticketEvent",
+});
+
+TicketEvent.hasMany(TicketEventRecipient, {
+  foreignKey: "ticketEventId",
+  as: "recipients",
+});
+
+User.hasMany(TicketEvent, {
+  foreignKey: "actorUserId",
+  as: "generatedEvents",
+});
+
+TicketEvent.belongsTo(User, {
+  foreignKey: "actorUserId",
+  as: "actor",
+});
+
+
+
 
 // Relación User - Capacitation
 User.hasMany(Capacitation, { foreignKey: 'teacher_id', as: 'teacherCapacitaciones' });

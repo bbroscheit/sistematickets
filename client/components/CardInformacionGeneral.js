@@ -45,10 +45,10 @@ function CardInformacionGeneral() {
         <p>Terminado :</p>{" "}
         <span>{data && data !== null ? data.terminado : 0}</span>
       </div>
-      <div className={style.lineInfo}>
+      {/* <div className={style.lineInfo}>
         <p>Hs Promedio :</p>{" "}
         <span>{data && data !== null ? data.hsPromedio : 0}</span>
-      </div>
+      </div> */}
     </div>
   );
 }

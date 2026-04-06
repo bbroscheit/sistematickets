@@ -5,15 +5,9 @@ const getUserDetail = async (id) => {
     try{
         const user = await User.findByPk(id, {
             include:[
-                {
-                    model:Sector,
-                    attribute: ["sectorname"],
-                },
-                {
-                    model:Salepoint,
-                    attribute: ["salepoint"],
-                }
-            ]
+                { model: Sector, as: "sectors", through: { attributes: [] } },
+                { model: Salepoint, as: "salepoints", through: { attributes: [] } }
+            ] 
         });
         return user;
     } catch (e) {

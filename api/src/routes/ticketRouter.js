@@ -56,6 +56,7 @@ const reassigmentAcepted = require('./controllers/reassigmentAcepted')
 const getTicketSupervisorCardGeneral = require('./controllers/getTicketSupervisorCardGeneral')
 const getTicketSupervisorCardGeneralGerencia = require('./controllers/getTicketSupervisorCardGeneralGerencia')
 const postTicketAndDesarrollo = require('./controllers/postTicketAndDesarrollo')
+const getTicketsUnfinishedByUser = require('./controllers/getTicketUnfinishedByUser')
 const sendNotificationPush = require('./controllers/sendNotificacionPush');
 const Excel = require('exceljs');
 const { Ticket, User, Sector, Salepoint } = require('../bd');
@@ -79,6 +80,18 @@ ticketRouter.get( '/ticketUnfinished' , async ( req, res ) => {
         console.log( "error en ruta get tickets" , e.message)
     }
 })
+
+ticketRouter.get("/newTicketUnfinished/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const tickets = await getTicketsUnfinishedByUser(userId);
+    res.status(200).json(tickets);
+  } catch (e) {
+    console.log("error en ruta get tickets", e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
 
 ticketRouter.get( '/ticketDeveloperView' , async ( req, res ) => {
     try {

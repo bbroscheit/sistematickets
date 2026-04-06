@@ -9,10 +9,7 @@ const getTicketDetail = async (id) => {
             include:[{
                 model:User,
                 attribute:["username"],
-                include: [{
-                    model: Sector,
-                    attribute: ["sectorname"]
-                }]
+                include: [{ model: Sector, as: "sectors", through: { attributes: [] } }]
                 
             },
             {

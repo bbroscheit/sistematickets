@@ -24,6 +24,7 @@ const suscriptionRouter = require('../src/routes/suscriptionRouter.js')
 const capacitationRouter = require('../src/routes/capacitationRouter.js')
 const platformRouter = require('../src/routes/platformRouter.js')
 const desarrolloRouter = require('../src/routes/desarrolloRouter.js');
+const roleRouter = require('../src/routes/roleRouter.js');
 
 
 // const closeTicketByTime = require('./routes/helpers/closeTicketByTime.js');
@@ -80,6 +81,7 @@ server.use('/' , suscriptionRouter);
 server.use('/', capacitationRouter);
 server.use('/', platformRouter);
 server.use('/', desarrolloRouter);
+server.use('/', roleRouter);
 
 server.use((err,req,res) => {
     const status = err.status || 500;

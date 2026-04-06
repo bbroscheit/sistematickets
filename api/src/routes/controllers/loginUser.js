@@ -1,6 +1,7 @@
 const {User} = require('../../bd');
 const {Sector} = require('../../bd');
 const {Salepoint} = require ('../../bd');
+const {Role} = require ('../../bd');
 
 const loginUser = async (username,password) => {
     
@@ -9,13 +10,11 @@ const loginUser = async (username,password) => {
     try {
         let user = await User.findOne({
             where:{ isdelete:false , username:modifiedUsername, password:password}, 
-            include:[{
-                model:Sector,
-                attribute:["sector"]
-            },{
-                model:Salepoint,
-                attribute:["salepoint"]
-            }]
+            include:[
+                { model: Sector, as: "sectors", through: { attributes: [] } },
+                { model: Salepoint, as: "salepoints", through: { attributes: [] } },
+                { model: Role, as: "role" }
+            ]
         });
         // console.log(user)
         return user;

@@ -119,6 +119,8 @@ function Usuarios() {
     </div>
   );
 
+  console.log("filteredUsers", filteredUsers);
+
   return (
     <>
       <div className={mainStyles.container}>

@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "../modules/index.module.css";
 import { getUser } from "../pages/api/getUser";
 import Router from "next/router";
-//import { subscribeUserToPush } from "@/functions/pushNotifications";
+
 
 export default function Home() {
   const [input, setInput] = useState({
@@ -56,7 +56,7 @@ export default function Home() {
   async function onHandleSubmit(e) {
     e.preventDefault(e);
     let login = await getUser(input);
-    //console.log(login)
+
     if (login.id) {
       const user = {
         id: login.id,
@@ -68,25 +68,26 @@ export default function Home() {
         isprojectmanager: login.isprojectmanager,
         isprojectworker: login.isprojectworker,
         phoneNumber: login.phonenumber,
-        salePoint: login.salepoint.salepoint,
-        sector: login.sector.sectorname,
+        salePoint: login.salepoints?.map((sp) => sp.id) || [],
+        sector: login.sectors?.map((s) => s.id) || [],
+        role: login.roleId,
       };
       localStorage.setItem("user", JSON.stringify(user));
-      let sector = login.sector.sectorname;
+      let sector = login.sectors?.map((s) => s.id) || [];
+      let role = login.roleId;
 
-      //await subscribeUserToPush();
 
-      if (sector === "Supervisor") {
+      //direcciona a los supervisores a la pantalla de supervisores;
+      if(sector.includes(5)) {
         Router.push("/NewTicketSupervisor");
-      } else if (sector.includes("Jefatura")) {
-        Router.push("/TicketsSupervisorSector");
-      } else if (sector.includes("Jefe")) {
-        Router.push("/TicketSupervisorGeneral");
-      } else if (sector.includes("Gerencia Administracion")) {
-        Router.push("/TicketSupervisorGerencia");
+        return;
+      }
+
+      if (role === 3 || role === 4 || role === 2) {
+        Router.push("/NewTicketSupervisorGeneral");
       } else {
         Router.push("/Tickets");
-      }
+      } 
     } else {
       setErrorLogin({ state: true });
     }
