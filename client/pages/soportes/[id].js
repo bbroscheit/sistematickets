@@ -679,7 +679,8 @@ function Soporte() {
     return errors
   }
 
-  //onsole.log("soporte", soporte.answer)
+  //console.log("soporte", soporte)
+  //console.log("user", user)
   
   return (
     <>

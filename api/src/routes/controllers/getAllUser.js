@@ -4,14 +4,10 @@ const getAllUsers = async () => {
     try {
         let allUsers = await User.findAll({
             where:{isdelete:false},  
-            include:[{
-                model:Sector,
-                attribute: ["sectorname"]
-            },{
-                model:Salepoint,
-                attribute:["salepoint"]
-            }]  
-
+            include:[
+                { model: Sector, as: "sectors", through: { attributes: [] } },
+                { model: Salepoint, as: "salepoints", through: { attributes: [] } }
+            ]  
         });
 
         allUsers.sort((a , b) => { return a.id - b.id })

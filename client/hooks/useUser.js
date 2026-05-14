@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 function useUser() {
-  console.log("useUser hook initialized");
+  //console.log("useUser hook initialized");
   const [user, setUser] = useState(null);
   const router = useRouter();
 

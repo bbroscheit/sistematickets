@@ -5,7 +5,9 @@
     height: 100vh;
     overflow: hidden;
     padding: 3rem;
+    overflow-y: auto;
 }
+
 
 .listItemButton{
     font-family: 'Titillium Web', sans-serif;

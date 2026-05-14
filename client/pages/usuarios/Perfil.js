@@ -44,6 +44,7 @@ function Perfil() {
   useEffect(() => {
     let userLogin = localStorage.getItem("user");
     let loginParse = JSON.parse(userLogin);
+    setUser(loginParse);
 
     fetch(
       `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${loginParse.id}`
@@ -51,7 +52,7 @@ function Perfil() {
       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setUser(data);
+        //setUser(data);
         setInput({
           username: data.username,
           password: data.password,
@@ -79,7 +80,7 @@ function Perfil() {
       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setUser(data);
+        //setUser(data);
         setInput({
           username: data.username,
           password: data.password,
@@ -95,8 +96,8 @@ function Perfil() {
   function handleUserBack(e) {
     e.preventDefault();
     setTimeout(() => {
-      router.push("/Tickets");
-    }, 300);
+      router.push( user.sector.includes(5) ? "/NewTicketSupervisor" : user.roleId === 1 ? "/Tickets" : "/NewTicketSupervisorGeneral" );
+    }, 1000);
   }
 
   function handleChange(e) {
@@ -169,6 +170,8 @@ function Perfil() {
     e.preventDefault();
     setOpenChange(false);
   }
+
+  console.log("user en perfil", user);
 
   return (
     <>
