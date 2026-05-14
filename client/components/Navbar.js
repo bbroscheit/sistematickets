@@ -113,6 +113,37 @@ export default function PrimarySearchAppBar() {
     "Ggranetto",
     "Rgonzalez"
   ]
+
+  let usersAlmanaque = [
+    "Lalvarez",
+    "Fañaños",
+    "Gcurcio",
+    "Sgil",
+    "Vgonzalez",
+    "Rgonzalez",
+    "Ggranetto",
+    "Diuliani",
+    "Gjulian",
+    "Alucio",
+    "Cluque",
+    "Mmoreyra",
+    "Anebbia",
+    "Mnebbia",
+    "Gparente",
+    "Sparente",
+    "Spicarella",
+    "Hprezioso",
+    "Pranieri",
+    "Vrobles",
+    "Erodriguez",
+    "Lrosas",
+    "Dsoro",
+    "Asuarez",
+    "Nsueiro",
+    "Pzuberec",
+    "Bbroscheit"
+    
+  ]
  
 
   React.useEffect(() => {
@@ -314,8 +345,10 @@ export default function PrimarySearchAppBar() {
             </Tooltip> 
           ) : null}
 
-            {/* Se agrega icono de acceso al sector agenda */}
-            <Tooltip title="Agenda">  
+          {/* Se agrega icono de acceso al sector agenda, solo usuarios del listado pueden ver la agenda */}
+          {
+            user !== null && usersAlmanaque.includes(user.name) ? (
+              <Tooltip title="Agenda">  
             
              <IconButton
               size="large"
@@ -328,6 +361,23 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             </Tooltip> 
+            )
+            : null
+          }
+           
+            {/* <Tooltip title="Agenda">  
+            
+             <IconButton
+              size="large"
+              aria-label="show 4 new mails"
+              onClick={(e) => router.push(`/schedule/Schedule`)}
+            >
+                
+              <Badge sx={{ color: "white" }}>
+                <CalendarMonthRoundedIcon />
+              </Badge>
+            </IconButton>
+            </Tooltip>  */}
 
             {/* Se agrega icono de acceso al listado de internos */}
              
