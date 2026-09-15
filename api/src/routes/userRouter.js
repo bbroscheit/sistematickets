@@ -99,10 +99,9 @@ userRouter.put("/updateUser/:id", async (req, res) => {
     sectorIds = [],
     salepointIds = [],
     role,
+    managerId = null,
   } = req.body;
 
-  console.log("body updateUser", req.body);
-  
   try {
     let updatedUser = await updateUser(
       id,
@@ -118,6 +117,7 @@ userRouter.put("/updateUser/:id", async (req, res) => {
       sectorIds,
       salepointIds,
       role,
+      managerId,
     );
     updatedUser
       ? res.status(200).json({state:"success"})

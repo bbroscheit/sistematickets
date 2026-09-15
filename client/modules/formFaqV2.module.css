@@ -1,0 +1,273 @@
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.block label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+  margin-bottom: 8px;
+}
+
+.readtext {
+  font-size: 0.92rem;
+  color: #3C3C3B;
+  line-height: 1.5;
+  background: #f6f7f9;
+  border-radius: 8px;
+  padding: 14px 16px;
+  white-space: pre-line;
+}
+
+.solution {
+  border-radius: 10px;
+  border: 1px solid #f6d9d4;
+  background: #fdece9;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.solution .lbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #c9463a;
+}
+
+.solution .ic {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #EA6558;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.solution .steps {
+  font-size: 0.92rem;
+  color: #3C3C3B;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.ask h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.answerPair {
+  display: flex;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.field textarea {
+  border-radius: 8px;
+  border: 1px solid #dde1e6;
+  background: #fbfbfc;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  font-family: 'Titillium Web', sans-serif;
+  color: #3C3C3B;
+  box-shadow: none;
+  outline: none;
+  min-height: 150px;
+  resize: none;
+  line-height: 1.5;
+}
+
+.field textarea:focus {
+  border-color: #EA6558;
+  background: #ffffff;
+}
+
+.dropzone {
+  position: relative;
+  border: 1.5px dashed #dde1e6;
+  border-radius: 10px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fbfbfc;
+  cursor: pointer;
+}
+
+.dropzone.dragOver {
+  border-color: #EA6558;
+  background: #fdece9;
+}
+
+.dropzone .ic {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #fdece9;
+  color: #c9463a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dropzone .txt strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #3C3C3B;
+}
+
+.dropzone .txt span {
+  font-size: 0.78rem;
+  color: #8a8f98;
+}
+
+.dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: #EA6558;
+  color: #ffffff;
+}
+
+.btnSecondary {
+  background: #ffffff;
+  color: #8a8f98;
+  border: 1px solid #dde1e6;
+}
+
+.btnYes {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #EA6558;
+  color: #ffffff;
+}
+
+.btnNo {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: #ffffff;
+  color: #3C3C3B;
+  border: 1.5px solid #dde1e6;
+}
+
+.modalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.modalBox .ic {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: #eaf5ec;
+  color: #3a7a4d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalBox h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  text-align: center;
+}
+
+.modalBox p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #8a8f98;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.modalActions .btn {
+  flex: 1;
+  padding: 11px 0;
+}

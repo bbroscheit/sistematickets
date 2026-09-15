@@ -65,7 +65,6 @@ const { User, Sector, Salepoint, Role } = require("../../bd");
 
 const updateUser = async (
   id,
- 
     username,
     firstname,
     lastname,
@@ -78,7 +77,7 @@ const updateUser = async (
     sectorIds,
     salepointIds,
     roleId,
-  
+    managerId,
 ) => {
   try {
     const user = await User.findByPk(id);
@@ -98,6 +97,7 @@ const updateUser = async (
       isprojectmanager,
       isprojectworker,
       roleId,
+      managerId: managerId || null,
     });
 
     if (Array.isArray(sectorIds)) {

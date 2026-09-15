@@ -10,7 +10,7 @@ function ListadoSinAsignar({ soportes }) {
     const idSoporte = e.target.getAttribute("value");
     localStorage.setItem("idSoporte", JSON.stringify(idSoporte));
     
-    router.push(`/soportes/[id]`, `/soportes/${idSoporte}`)
+    router.push(`/soportes/v2/[id]`, `/soportes/v2/${idSoporte}`)
   }
 
   return (

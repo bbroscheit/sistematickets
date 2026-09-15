@@ -96,7 +96,7 @@ function Perfil() {
   function handleUserBack(e) {
     e.preventDefault();
     setTimeout(() => {
-      router.push( user.sector.includes(5) ? "/NewTicketSupervisor" : user.roleId === 1 ? "/Tickets" : "/NewTicketSupervisorGeneral" );
+      router.push( user.sector.includes(5) ? "/NewTicketSupervisorV2" : user.roleId === 1 ? "/TicketsV2" : "/NewTicketSupervisorGeneralV2" );
     }, 1000);
   }
 

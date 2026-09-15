@@ -1,0 +1,277 @@
+.pageWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 1160px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pageHeadLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pageHeadLeft h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.pageHeadLeft p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #8a8f98;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btnPrimary {
+  background: #EA6558;
+  color: #ffffff;
+}
+
+/* --- filtros --- */
+
+.filterCard {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.searchRow {
+  padding: 14px 20px;
+  border-bottom: 1px solid #e3e6ea;
+}
+
+.searchInput {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #fff;
+  height: 40px;
+  width: 280px;
+  max-width: 100%;
+  color: #8a8f98;
+}
+
+.searchInput input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  font-size: 0.86rem;
+  padding: 0;
+  width: 100%;
+  background: transparent;
+  color: #3C3C3B;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.filterRow {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filterRow:not(:last-child) {
+  border-bottom: 1px solid #e3e6ea;
+}
+
+.filterLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8a8f98;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.chipRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #e3e6ea;
+  background: #fff;
+  white-space: nowrap;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #3C3C3B;
+  cursor: pointer;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.chip:hover {
+  border-color: #EA6558;
+}
+
+.chipActive {
+  background: #EA6558;
+  border-color: #EA6558;
+  color: #fff;
+}
+
+/* --- grilla de usuarios --- */
+
+.userGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.userCard {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.userCard:hover {
+  border-color: #EA6558;
+  box-shadow: 0 4px 14px rgba(234, 101, 88, 0.14);
+}
+
+.userHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userHandle {
+  font-size: 0.78rem;
+  color: #8a8f98;
+}
+
+.tagRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.tagGray { background: #eef0f2; color: #6b7280; }
+.tagBlue { background: #e4eefb; color: #2f5f96; }
+.tagAmber { background: #fbf1e0; color: #a8752c; }
+.tagPurple { background: #f2eaf9; color: #7a4ea0; }
+.tagGreen { background: #eaf5ec; color: #3a7a4d; }
+.tagTeal { background: #e5f4f5; color: #2f7d84; }
+
+.contactBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: #8a8f98;
+  border-top: 1px solid #f0f1f3;
+  padding-top: 12px;
+}
+
+.contactBlock span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- avatar / tag color rotation --- */
+
+.c0 { background: #e4eefb; color: #2f5f96; }
+.c1 { background: #fdece9; color: #c14b3d; }
+.c2 { background: #eaf5ec; color: #3a7a4d; }
+.c3 { background: #fbf1e0; color: #a8752c; }
+.c4 { background: #f2eaf9; color: #7a4ea0; }
+.c5 { background: #e5f4f5; color: #2f7d84; }
+
+/* --- estado vacio --- */
+
+.emptyState {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.emptyTitle {
+  font-size: 0.92rem;
+  color: #8a8f98;
+  font-weight: 600;
+}
+
+.emptySub {
+  font-size: 0.82rem;
+  color: #c3c7cd;
+}

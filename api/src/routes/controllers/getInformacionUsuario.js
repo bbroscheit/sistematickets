@@ -1,45 +1,34 @@
 const { Ticket, User } = require('../../bd');
 
-let results = {
-    totalTickets: 0,
-    sinAsignar: 0,
-    asignados: 0,
-    desarrollo: 0,
-    informacion: 0,
-    completado: 0,
-    terminado: 0,
-    nombreCompleto: ""
-};
-
 const getInformacionUsuario = async (user) => {
-    console.log("user", user)
-    try{
-        let userFind = await User.findAll({
-            where: { username: user }
-        })
+    const results = {
+        totalTickets: 0,
+        sinAsignar: 0,
+        asignados: 0,
+        desarrollo: 0,
+        informacion: 0,
+        completado: 0,
+        terminado: 0,
+        nombreCompleto: ""
+    };
 
-        if(!userFind || userFind.length === 0){
-            throw new Error("Worker no encontrado");
+    try{
+        let userFind = await User.findOne({ where: { username: user } });
+
+        if(!userFind){
+            throw new Error("Usuario no encontrado");
         }
 
-        // buscamos todos los tickets asignados a este worker , usando su username como referencia
-        let getTickets = await Ticket.findAll(
-            {include:[{
-                model:User,
-            }]});
-
-        getTickets = getTickets.filter( e => e.user.id === userFind[0].id );
-
+        let getTickets = await Ticket.findAll({ where: { userId: userFind.id } });
 
         results.totalTickets = getTickets.length;
-
         results.sinAsignar = getTickets.filter( e => e.state === "sin asignar").length;
         results.asignados = getTickets.filter( e => e.state === "Asignado").length;
         results.desarrollo = getTickets.filter( e => e.state === "Desarrollo").length;
         results.informacion = getTickets.filter( e => e.state === "Informacion").length;
         results.completado = getTickets.filter( e => e.state === "Completado").length;
         results.terminado = getTickets.filter( e => e.state === "Terminado").length;
-        results.nombreCompleto = userFind[0].firstname + " " + userFind[0].lastname;
+        results.nombreCompleto = userFind.firstname + " " + userFind.lastname;
 
         return results;
     }catch(e){

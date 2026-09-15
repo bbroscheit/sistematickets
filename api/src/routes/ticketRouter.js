@@ -12,7 +12,11 @@ const getTicketsGenerados = require('./controllers/getTicketGenerado');
 const getTicketDeveloperView = require('./controllers/getTicketDeveloperView');
 const getInformacionGeneral = require('./controllers/getInformacionGeneral');
 const getInformacionWorker = require('./controllers/getInformacionWorker');
-const getInformacionUsuario = require('./controllers/getInformacionUsuario')
+const getInformacionUsuario = require('./controllers/getInformacionUsuario');
+const getInformacionTodosWorkers = require('./controllers/getInformacionTodosWorkers');
+const getInformacionTodosUsuarios = require('./controllers/getInformacionTodosUsuarios');
+const getSoportesPorSucursal = require('./controllers/getSoportesPorSucursal');
+const getTicketsPorSucursalEstado = require('./controllers/getTicketsPorSucursalEstado');
 const postTicket = require('./controllers/postTicket');
 const updateTicket = require('./controllers/updateTicket');
 const getTicketTerminado = require('./controllers/getTicketTerminado');
@@ -34,6 +38,9 @@ const sendEmailWorkerFinish = require( './helpers/sendEmailWorkerFinish')
 const sendEmailUserFinish = require('./helpers/sendEmailUserFinish')
 const sendEmailNewTicket = require('./helpers/sendEmailNewTicket');
 const sendEmailAdvertisement = require('./helpers/sendEmailAdvertisement')
+const sendEmailManagerNewTicket = require('./helpers/sendEmailManagerNewTicket')
+const sendEmailManagerComplete = require('./helpers/sendEmailManagerComplete')
+const getManagersForUser = require('./helpers/getManagersForUser')
 const getTicketsPendientes24 = require('./controllers/getTicketsPendientes24')
 const getTicketByWorker = require('./controllers/getTicketByWorker')
 const getTicketByWorkerId = require('./controllers/getTicketByWorkerId')
@@ -209,7 +216,7 @@ ticketRouter.get( '/ticketsByWorker' , async ( req, res ) => {
 })
 
 ticketRouter.get( '/ticketsBySalepoint' , async ( req, res ) => {
-    const salepoint = req.query.worker
+    const salepoint = req.query.salepoint
     
     try {
         let tickets = await getTicketBySalepoint(salepoint);
@@ -320,6 +327,29 @@ ticketRouter.get("/informacionGeneral" , async ( req, res ) => {
     }
 })
 
+ticketRouter.get("/soportesPorSucursal" , async ( req, res ) => {
+
+    try {
+        let data = await getSoportesPorSucursal();
+        data ? res.status(200).json(data) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get soportesPorSucursal" , e.message)
+        res.status(500).json({ state: "failure" })
+    }
+})
+
+ticketRouter.get("/ticketsPorSucursalEstado" , async ( req, res ) => {
+    const { salepoint, state } = req.query
+
+    try {
+        let data = await getTicketsPorSucursalEstado(salepoint, state);
+        data ? res.status(200).json(data) : res.status(400).send("failure")
+    } catch (e) {
+        console.log( "error en ruta get ticketsPorSucursalEstado" , e.message)
+        res.status(500).json({ state: "failure" })
+    }
+})
+
 ticketRouter.get("/informacionWorker" , async ( req, res ) => {
     const { id } = req.query
 
@@ -334,7 +364,7 @@ ticketRouter.get("/informacionWorker" , async ( req, res ) => {
 
 ticketRouter.get("/informacionUsuario" , async ( req, res ) => {
     const { user } = req.query
-    
+
     try {
         let ticketInformacionUsuario = await getInformacionUsuario(user);
         ticketInformacionUsuario ? res.status(200).json(ticketInformacionUsuario) : res.status(400).send("failure")
@@ -342,6 +372,24 @@ ticketRouter.get("/informacionUsuario" , async ( req, res ) => {
         console.log( "error en ruta get ticketInformacionUsuario" , e.message)
     }
 })
+
+ticketRouter.get("/informacionTodosWorkers", async (req, res) => {
+    try {
+        let data = await getInformacionTodosWorkers();
+        data ? res.status(200).json(data) : res.status(400).send("failure");
+    } catch (e) {
+        console.log("error en ruta get informacionTodosWorkers", e.message);
+    }
+});
+
+ticketRouter.get("/informacionTodosUsuarios", async (req, res) => {
+    try {
+        let data = await getInformacionTodosUsuarios();
+        data ? res.status(200).json(data) : res.status(400).send("failure");
+    } catch (e) {
+        console.log("error en ruta get informacionTodosUsuarios", e.message);
+    }
+});
 
 ticketRouter.post( '/ticket', uploadFiles() , async ( req, res ) => {
     const { state, worker, subject, detail, answer = "Sin resolución", userresolved, user } = req.body;
@@ -404,6 +452,7 @@ ticketRouter.put( '/updateAssignment/:id' , async ( req, res ) => {
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put updateAssignment" , e.message)
+        res.status(500).json({ state: "failure" })
     }
 
 })
@@ -418,6 +467,7 @@ ticketRouter.put( '/updatereassignment/:id' , async ( req, res ) => {
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).send("failure")
     } catch (e) {
         console.log( "error en ruta put /updatereassignment/:id" , e.message)
+        res.status(500).json({ state: "failure" })
     }
 
 })
@@ -483,6 +533,7 @@ ticketRouter.post( '/updateInfoTicketByUser/:id' , uploadFiles(), async ( req, r
         updatedTicket ? res.status(200).json({state: "success"}) : res.status(400).json({ state : "failure"})
     } catch (e) {
         console.log( "error en ruta put updateInfoTicket" , e.message)
+        res.status(500).json({ state: "failure" })
     }
 
 })
@@ -501,18 +552,22 @@ ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
 
 ticketRouter.post('/sendEmailNewTicket', async (req, res) => {
     const {subject, email} = req.body
-        
-    let findTicket = await getTicketsBySubject(subject)
-    
+
     try {
+        let findTicket = await getTicketsBySubject(subject)
         await sendEmail( email, findTicket);
         await sendEmailNewTicket(findTicket);
-        
+
+        const managerEmails = await getManagersForUser(findTicket.user);
+        for (const managerEmail of managerEmails) {
+            await sendEmailManagerNewTicket(findTicket, managerEmail);
+        }
+
+        res.send('Emails enviados exitosamente');
     } catch (e) {
         console.log(e.message)
+        res.status(500).send('Error al enviar emails');
     }
-
-    res.send('Emails enviados exitosamente');
   });
 
 ticketRouter.post('/sendEmailAssigment', async (req, res) => {
@@ -560,21 +615,24 @@ ticketRouter.post('/sendEmailAssigmentUser', async (req, res) => {
 
 ticketRouter.post('/sendEmailComplete', async (req, res) => {
     const { idTicket, useremail, worker, detail, question, answer } = req.body
-    
-    let ticket = await getTicketDetail(idTicket)
-    let workerFind = await getworkerByName(ticket)
-    let onlyDetail = await getDetailOnly(ticket)
-    
 
     try {
+        let ticket = await getTicketDetail(idTicket)
+        let workerFind = await getworkerByName(ticket)
+        let onlyDetail = await getDetailOnly(ticket)
+
         await sendEmailUserComplete( ticket, useremail, workerFind, onlyDetail );
-        // await sendEmailWorkerComplete( ticket, useremail, workerFind, onlyDetail );
+
+        const managerEmails = await getManagersForUser(ticket.user);
+        for (const managerEmail of managerEmails) {
+            await sendEmailManagerComplete(ticket, managerEmail, workerFind, onlyDetail);
+        }
+
+        res.send('Soporte completado exitosamente');
     } catch (e) {
         console.log(e.message)
+        res.status(500).send('Error al enviar emails');
     }
-   
-    res.send('Soporte creado exitosamente');
-
   });
 
 ticketRouter.post('/sendEmailMoreInfo', async (req, res) => {
@@ -696,7 +754,7 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
                 randomdate: ticket.randomdate,
                 startdate: ticket.startdate,
                 finishdate: ticket.finishdate,
-                udpatedAt: ticket.updatedAt,
+                updatedAt: ticket.updatedAt,
                 // Agregar más propiedades según las que quieras incluir en el Excel
                 username: ticket.user ? ticket.user.username : 'Usuario no disponible', // Obtener el nombre de usuario del ticket
                 sectorname: ticket.user && ticket.user.sector ? ticket.user.sector.sectorname : 'Sector no disponible', // Obtener el nombre del sector del usuario del ticket
@@ -720,16 +778,6 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
     
 });
 
-ticketRouter.get( '/ticketsByGustavo' , async ( req, res ) => {
-    const workerName = "Garias"
-    
-    try {
-        let tickets = await getTicketByWorker(workerName);
-        tickets ? res.status(200).json(tickets) : res.status(400).json({ state:"failure" })
-    } catch (e) {
-        console.log( "error en ruta get ticketsByWorker" , e.message)
-    }
-})
 
 
 module.exports = ticketRouter;

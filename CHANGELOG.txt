@@ -1,0 +1,630 @@
+LOG DE CAMBIOS - sistematickets
+================================
+Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
+Al final hay un apartado de PENDIENTES.
+
+
+2026-09-15 (fix crítico: no existía migración para el modelo Role)
+-------------------------------------------------------------------
+- El usuario preguntó si ya estaba todo listo para hacer commit/push y
+  después asignar roles en producción. Antes de confirmar, se revisó
+  qué migraciones existen (api/migrations/) contra lo que el código
+  realmente necesita, y apareció un problema serio: el modelo Role
+  (api/src/models/role.js) y la columna users.roleId (inferida por la
+  asociación `User.belongsTo(Role, {as:'role'})` en bd.js) NUNCA
+  tuvieron una migración - ni una. En local funcionaba solo porque la
+  base de datos local se reconstruyó a mano esta sesión (por eso
+  "roles" y "roleId" ya existían ahí sin que ninguna migración los
+  haya creado).
+- Por qué esto rompía el plan "commit + push + asignar roles": en
+  producción la tabla "users" YA EXISTE de antes. api/index.js corre
+  `conn.sync({force:false})` en cada arranque, que SOLO crea tablas
+  que faltan - nunca agrega columnas nuevas a una tabla que ya existe.
+  O sea: al desplegar este código en producción, sync() iba a crear la
+  tabla "roles" (vacía, sin los 4 roles) pero NO iba a poder agregar
+  "roleId" a "users" - cualquier consulta que incluya el rol de un
+  usuario iba a tirar un error real de SQL ("column does not exist"),
+  no el error ya resuelto de "usuario sin rol asignado".
+- Se creó api/migrations/20260915000000-add-roles-table-and-userid.js:
+  crea la tabla "roles", carga los 4 roles (empleado/encargado/
+  jefe/gerente, mismos niveles que en local) y agrega la columna
+  users.roleId (nullable, FK a roles, ON DELETE SET NULL). Es
+  defensiva a propósito: chequea si la tabla/columna/filas ya existen
+  antes de crearlas, por si sync() ya alcanzó a crear la tabla "roles"
+  vacía en algún arranque previo con este código ya en producción.
+  Probada corriendo migration.up() directo contra la base local (que
+  ya tiene todo esto creado a mano): no rompe nada, detecta que ya
+  existe y no hace nada.
+- Sigue pendiente confirmar con el usuario si alguna de las otras 2
+  migraciones nuevas (managerId, sector Mesa de Ayuda) ya se corrió
+  alguna vez contra producción, y cuál es el proceso real de deploy
+  (¿se reinicia el server antes o después de correr las migraciones?)
+  antes de dar por seguro el orden commit -> push -> migrar -> asignar
+  roles.
+
+
+2026-09-14 (Detalle de Proyecto V2 - última vista del módulo Proyectos)
+-------------------------------------------------------------------
+- Mockup aprobado, llevado a código en hoja aparte:
+  client/pages/proyectos/v2/[id].js (siguiendo el mismo patrón de ruta
+  que /soportes/v2/[id]) + client/components/TaskRowV2.js +
+  client/modules/proyectoDetalleV2.module.css. proyectos/[id].js
+  original queda intacto. ProjectCardV2 (click en una card del
+  Dashboard) ahora navega a /proyectos/v2/:id en vez de a la vieja.
+- Simplificación: ya no hace el fetch extra por tarea a
+  /userByTask/:id (como hacía UserstoriesCard) - /newproject/:id ya
+  trae `task.users` incluido.
+- Mismas validaciones que en Nuevo Proyecto (mínimo 20 caracteres en
+  campos de texto) aplicadas también al modal de Editar Proyecto y al
+  de Nueva Tarea - ninguno de los dos tenía validación antes. En
+  "Nueva Tarea" además se hizo obligatorio elegir un responsable: sin
+  eso, postTask.js revienta silenciosamente en el backend
+  (`workerFind.id` sobre null) - antes el modal ni siquiera mostraba
+  el selector si el proyecto tenía un solo desarrollador y no lo
+  preseleccionaba bien en otros casos.
+- Se agregó manejo de error visible (Swal) en los 3 flujos (crear
+  tarea, reprogramar/reabrir tarea, editar proyecto) para no repetir
+  el "no pasa nada" que motivó el fix de mkdirSync.
+- Se preservó el comportamiento original de las tareas: click en el
+  circulo de una tarea pendiente = marcarla cumplida directo; click en
+  el circulo de una tarea cumplida = reabrirla pidiendo nueva fecha;
+  click en la fecha de una tarea pendiente = reprogramarla sin
+  marcarla cumplida. Se le sumó color rojo a la fecha cuando la tarea
+  pendiente ya venció (no existía antes).
+- Probado en caliente contra la API real (crear tarea, marcarla
+  cumplida, reabrirla con nueva fecha, editar el proyecto): los 4
+  flujos devuelven success con el payload que arma cada modal.
+- Limitación heredada del original, no resuelta (fuera de alcance):
+  al subir archivos nuevos editando un proyecto que YA tenía archivos
+  cargados, updateNewProject.js arma un Formproject nuevo y reemplaza
+  el vínculo en vez de sumarlo al anterior - los archivos viejos
+  siguen en el disco pero se pierde el link para descargarlos desde la
+  ficha. Y el ícono de descarga del encabezado solo baja el primer
+  archivo si hay varios cargados (mismo límite que projectCard.js
+  original).
+
+
+2026-09-14 (fix: "Crear Proyecto" no hacía nada al apretarlo)
+-------------------------------------------------------------------
+- Reportado por el usuario: al apretar "Crear Proyecto" no pasaba
+  absolutamente nada (ni error ni éxito). Reproducido con curl
+  simulando el mismo POST multipart que manda el formulario.
+- Causa real (backend, preexistente - no introducida por el V2):
+  api/src/routes/controllers/postNewProject.js hace
+  `fs.mkdirSync(folderPath)` SIN `{recursive: true}` para crear la
+  carpeta del proyecto dentro de client/public/Proyectos/ - pero esa
+  carpeta "Proyectos" nunca existió en este entorno. mkdirSync tira
+  ENOENT porque no puede crear una carpeta si el padre tampoco existe,
+  eso se cae en el catch de la función (que solo hace console.log) y
+  la función devuelve undefined -> la ruta responde 400 "failure" ->
+  el frontend, que solo manejaba el caso "success", no mostraba nada.
+  Fix: se agregó `{recursive: true}`.
+- Efecto secundario del mismo bug: como `Newproject.create()` corre
+  ANTES del mkdirSync que fallaba, cada intento fallido igual dejaba
+  una fila húerfana en la base (sin carpeta ni archivos). Se
+  encontraron 2 filas así ("prueba de desarrollo", ids 1 y 2) que
+  parecen ser intentos previos del usuario - se dejaron sin tocar,
+  pendiente de confirmar si se pueden borrar.
+- nuevoProyectoV2.js: se agregó manejo real de error (Swal de error)
+  para el caso en que postProject no devuelva "success" o falle la
+  petición - antes ese caso no mostraba nada, igual que en la ruta
+  original nuevoProyecto.js (no se tocó esa, sigue con el mismo bug de
+  no avisar en error, más allá de que ahora sí va a funcionar el alta).
+- Se encontró el mismo patrón (mkdirSync sin recursive) en
+  updateNewProject.js (se usa al editar un proyecto y subir archivos
+  desde proyectos/[id].js) - mismo riesgo en producción apenas alguien
+  suba el primer archivo ahí. Se aplicó el mismo fix. postTicket.js y
+  postTicketAndDesarrollo.js tienen el mismo mkdirSync sin recursive
+  pero apuntan directo a client/public (carpeta que sí está en el
+  repo), no a una subcarpeta que no existe - no corren el mismo riesgo,
+  no se tocaron.
+
+
+2026-09-14 (Nuevo Proyecto V2)
+-------------------------------------------------------------------
+- Mockup aprobado + 2 ajustes pedidos por el usuario, llevado a código
+  en hoja aparte: client/pages/proyectos/nuevoProyectoV2.js +
+  client/modules/nuevoProyectoV2.module.css. proyectos/nuevoProyecto.js
+  original queda intacto; el botón "Nuevo Proyecto" de DashboardV2 ya
+  apunta acá.
+- Validaciones agregadas (el formulario original no tenía ninguna):
+  Nombre y Detalle piden mínimo 20 caracteres, Fecha de finalización
+  no puede quedar vacía. A diferencia de nuevoUsuario.js (que solo
+  muestra el error pero deja enviar igual), acá el submit SE BLOQUEA
+  de verdad si hay errores.
+- Solicitante: ahora es un <select> simple (sin buscador/Autocomplete)
+  con TODOS los usuarios de la app, precargado por defecto con el
+  usuario logueado (marcado "(vos)"), tal cual se pidió.
+- Desarrolladores pasó de checkboxes sueltos a chips seleccionables
+  (mismo patrón que sectores/salepoints en usuarios/[id].js).
+- Sección de Archivos rediseñada con dropzone (click o arrastrar) +
+  lista de archivos cargados con botón para sacar cada uno, en vez del
+  input de archivo desnudo del original. Sigue mandando los mismos
+  campos al backend (postProject.js sin cambios), no se tocó nada del
+  lado del servidor.
+
+
+2026-09-14 (Dashboard de Proyectos V2)
+-------------------------------------------------------------------
+- Mockup aprobado y llevado a código en hoja aparte (Dashboard.js queda
+  intacto): client/pages/DashboardV2.js + client/components/ProjectCardV2.js
+  + client/modules/dashboardV2.module.css. Navbar ("Proyectos") y el
+  redirect post-alta en proyectos/nuevoProyecto.js ahora apuntan acá.
+- Se agregó un chip "Mostrar finalizados" (por defecto apagado, pedido
+  explícito del usuario) que filtra los proyectos con state ===
+  "Finalizado" en el listado.
+- Bug de base encontrado y corregido para que el filtro tenga algo que
+  mostrar: api/src/routes/controllers/getAllNewProject.js filtraba
+  `state: "creado"` en el WHERE, así que un proyecto marcado como
+  Finalizado directamente NUNCA llegaba al frontend (desaparecía de
+  /newproject para siempre, sin ningún lugar de la app donde volver a
+  verlo). Se sacó ese filtro del WHERE (solo queda isdelete: false); el
+  filtrado activos/finalizados ahora se hace en el cliente con el chip
+  nuevo.
+- ProjectCardV2 ya no vuelve a pedir /newproject/:id por card (como
+  hacía components/projectCard.js original) - usa los datos que ya
+  trae el listado (incluye newtasks), evitando fetches redundantes.
+  También muestra TODOS los desarrolladores del proyecto (el original
+  solo mostraba al primero, users[1], ignorando el resto). La card
+  entera navega al detalle con router.push (no es un <Link> como el
+  original) para poder tener el botón de "marcar como finalizado"
+  adentro sin anidar un <button> dentro de un <a> (html inválido).
+- "Marcar como finalizado" (botón que ve isprojectmanager) ya no hace
+  window.location.reload(true) como el original: refresca solo la
+  lista de proyectos (fetch de nuevo) tras confirmar.
+- Pendiente (así avisado, no implementado todavía): proyectos/[id].js
+  y proyectos/nuevoProyecto.js siguen con el diseño viejo - son los
+  siguientes mockups a hacer. El link "Nuevo Proyecto" y el click en
+  una card de DashboardV2 todavía apuntan a esas páginas viejas hasta
+  que tengan su V2.
+
+
+2026-09-10 (mail a manager ahora usa la jerarquía de roles, no managerId)
+-------------------------------------------------------------------
+- Pedido del usuario: ya que existe la jerarquía empleado/encargado/
+  jefe/gerente + sector + salepoint, dejar de depender del campo suelto
+  managerId ("Reporta a") para decidir a quién avisarle por mail cuando
+  se crea o se completa un ticket.
+- Nuevo helper api/src/routes/helpers/getManagersForUser.js: dado el
+  usuario que creó/completó el ticket, busca el primer nivel superior
+  que tenga al menos un usuario en su mismo sector+sucursal, subiendo la
+  cadena si hace falta (empleado -> encargado -> jefe -> gerente). Si no
+  hay ningún encargado en ese sector+sucursal prueba con jefe, y si
+  tampoco con gerente (gerente no filtra por sector/sucursal, ya que ve
+  todo). Si hay varios usuarios en el nivel encontrado (ej. 2 encargados
+  del mismo sector+sucursal), les llega el mail a todos. Decisión tomada
+  con el usuario (opción "primer nivel que exista, subiendo" sobre
+  "solo nivel inmediato" o "todos los niveles superiores").
+- ticketRouter.js (/sendEmailNewTicket y /sendEmailComplete): se
+  reemplazó el bloque `if (ticket.user?.managerId) { ... }` por
+  `getManagersForUser(ticket.user)` + loop enviando el mail a cada
+  email devuelto. sendEmailManagerNewTicket.js / sendEmailManagerComplete.js
+  no cambiaron (siguen recibiendo un email por llamada).
+- Con esto, el campo managerId / "Reporta a" queda sin ningún uso
+  funcional real (antes lo usaba solo este mecanismo de mail, ver nota
+  del 2026-09-09 más abajo). Pendiente: decidir si se saca la tarjeta
+  "Reporta a" de usuarios/[id].js o se deja como dato informativo nomás
+  - no se tocó la UI todavía, a la espera de esa decisión.
+- Resuelto: se sacó la tarjeta "Reporta a" de client/pages/usuarios/[id].js
+  (vista y edición) junto con el fetch de /user y el estado allUsers que
+  solo existían para ese selector. En usuarios/nuevoUsuario.js (alta de
+  usuario) no había ningún campo de este tipo, así que no hubo nada que
+  sacar ahí. Importante: como el frontend ya no manda managerId en el
+  body de /updateUser, y tanto userRouter.js como updateUser.js
+  defaultean managerId a null cuando no viene, a partir de ahora CADA
+  guardado de un usuario desde esta pantalla pone su managerId en null
+  (se pierde el dato viejo si lo tenía). No se tocó el modelo de datos
+  ni la columna managerId, solo dejó de usarse.
+
+
+2026-09-09 (fix de seguridad para producción: usuarios sin rol)
+-------------------------------------------------------------------
+- api/src/routes/controllers/getTicketUnfinishedByUser.js: hacía
+  `user.role.name` sin chequear si `user.role` existe. En producción,
+  como el rol es un concepto nuevo (recién agregado esta sesión), es
+  altamente probable que NINGÚN usuario real tenga roleId asignado
+  todavía - eso hubiera crasheado el endpoint para cualquiera que
+  llegara a NewTicketSupervisorGeneral(V2) (encargado/jefe/gerente),
+  con el mismo error "data.map is not a function" que ya vimos en dev.
+  Se arregló: si el usuario no tiene rol asignado, se lo trata como
+  "empleado" (el nivel más restrictivo - ve 0 o solo lo suyo) en vez de
+  romper. Probado con un usuario real sin rol (Spereyra): antes
+  crasheaba, ahora devuelve 0 tickets sin error.
+- Confirmado: Sector y Salepoint no se tocaron en ningún momento de esta
+  sesión (ni el modelo ni las relaciones) - los sectores y sucursales
+  que ya existen en producción siguen funcionando exactamente igual que
+  antes de todos estos cambios.
+- "Reporta a" (managerId) en la ficha de usuario: el usuario preguntó si
+  es redundante ahora que el rol+sector+sucursal ya arma la jerarquía de
+  visibilidad. Se confirmó que NO es redundante: managerId no interviene
+  en nada de la visibilidad de tickets (getTicketUnfinishedByUser.js
+  nunca lo lee) - es un mecanismo aparte que dispara el envío de mail al
+  manager directo de un usuario cuando crea o completa un ticket
+  (sendEmailManagerNewTicket / sendEmailManagerComplete en
+  ticketRouter.js). Se mantiene la tarjeta tal cual está.
+
+
+2026-09-09 (fix: la restauración de la URL no se aplicaba)
+-------------------------------------------------------------
+- La URL guardaba bien ?view=1&worker=1, pero al volver la pantalla
+  igual mostraba "Todos". Causa: la restauración vivía adentro de
+  applyData(), llamada desde el useEffect de carga (dependencias []) -
+  ese efecto corre una sola vez al montar, y en ese momento
+  router.query puede todavía estar vacío (router.isReady en false, un
+  tick de Next.js) incluso viniendo de un "atrás" del navegador. Como
+  ya se había marcado "restaurado" con esa primera lectura vacía, nunca
+  se volvía a intentar aunque el query apareciera un instante después.
+- Fix en NewTicketSupervisorV2.js y NewTicketSupervisorGeneralV2.js:
+  se separó la restauración a su propio useEffect, con
+  [router.isReady, router.query, worker/usuarios] como dependencias -
+  así se aplica en el momento en que router.isReady sea true Y los
+  datos ya hayan llegado, sea cual sea el que tarde más.
+
+
+2026-09-09 (no perder la vista al volver de un ticket)
+---------------------------------------------------------
+- Problema: al entrar al detalle de un soporte desde NewTicketSupervisorV2
+  o NewTicketSupervisorGeneralV2 (con un worker/usuario específico
+  seleccionado) y volver atrás, la pantalla se remonta de cero y vuelve
+  a "Todos" - se perdía la selección.
+- Solución elegida (de las dos que se charlaron: pestaña nueva vs.
+  recordar la selección): la selección actual (pestaña Workers/Usuarios
+  + el worker o usuario elegido) ahora se refleja en la URL como query
+  param (ej. /NewTicketSupervisorV2?view=1&worker=3), usando
+  router.replace (no agrega entradas nuevas al historial por cada click
+  en un chip - solo entrar a un ticket agrega una entrada real). Al
+  volver atrás con el botón del navegador, la página lee esos params al
+  cargar los datos y restaura la misma selección en vez de caer en
+  "Todos". Aplicado en ambas pantallas (NewTicketSupervisorV2 y
+  NewTicketSupervisorGeneralV2), mismo patrón.
+
+
+2026-09-09 (sector Mesa de Ayuda)
+------------------------------------
+- Nueva migración api/migrations/20260909000000-add-mesa-de-ayuda-sector.js:
+  crea el sector "Mesa de Ayuda" (sin punto de venta asociado, igual que
+  Sistemas, ya que es un sector transversal) SI todavía no existe
+  (chequea por nombre antes de insertar). No pisa nada existente. Todavía
+  no se corrió contra producción - eso lo tienen que hacer ustedes
+  cuando deployen (npm run migrate).
+- En la base local no se pudo correr vía `sequelize-cli db:migrate`
+  porque hay una migración vieja (20260129165428, de antes de esta
+  sesión) que no está marcada como aplicada en esta base local
+  reconstruida a mano, y falla porque asume una columna vieja
+  ("sectorId" en users) que ya no existe acá - la base local quedó
+  reconstruida directamente con el modelo nuevo, no vía migraciones. Es
+  un problema de esta base local puntual, no de la migración que
+  escribí ni de producción (ahí esa migración vieja ya se aplicó en su
+  momento). Por las dudas no toqué el tracking de migraciones para no
+  arriesgar nada - simplemente inserté el sector a mano en la base local
+  con el mismo efecto.
+- client/components/Navbar.js: el menú "Usuarios" (gestión de usuarios)
+  usaba el chequeo roto de siempre (user.sector === "Sistemas" ||
+  user.name === "Bbroscheit"). Se reemplazó por un chequeo real: ahora
+  el Navbar busca el id del sector "Mesa de Ayuda" contra /sector al
+  montar, y muestra el menú solo si user.sector.includes(ese id). Ya no
+  depende de Sistemas ni de tu nombre de usuario hardcodeado.
+- Se agregó a Bbroscheit el sector "Mesa de Ayuda" (además de
+  Supervisor que ya tenía, no se lo saqué) para que sigas viendo el
+  menú de Usuarios al probar.
+- IMPORTANTE, encontrado de paso y NO tocado: en Navbar.js línea ~417
+  hay OTRO ícono llamado "Mesa de Ayuda" (lleva a /helpDesk/Principal),
+  gateado también con nombres de usuario hardcodeados
+  (user.name === "Bbroscheit" || user.name === "Lllamanzarez"). Es un
+  feature distinto (la vista de helpDesk, no el menú de Usuarios), pero
+  comparte el mismo nombre "Mesa de Ayuda" y el mismo antipatrón. Y en
+  la línea ~771 hay un tercer chequeo similar (user.sector ===
+  "Supervisor" || user.name === "Bbroscheit"). Ninguno de los dos se
+  tocó porque no era lo pedido - avisen si quieren que también pasen a
+  chequear por el sector real ahora que existe.
+
+
+2026-09-09 (Usuarios.js)
+--------------------------
+- Nueva client/pages/UsuariosV2.js (mockup aprobado) + CardUsersV2.js +
+  usuariosV2.module.css. Reemplaza a Usuarios.js en el Navbar (el
+  original queda intacto). Búsqueda por usuario + filtros de Sector y
+  Punto de venta como chips, tarjetas con avatar, sector/sucursal reales
+  y datos de contacto.
+- Bug real corregido de paso (existía en Usuarios.js/CardUsers.js
+  original): tanto el filtro como la tarjeta usaban user.sector /
+  user.salepoint (singular), pero el usuario en realidad tiene
+  sectors / salepoints (array, puede tener varios) - por eso el filtro
+  por sector/punto de venta no filtraba nada y cada tarjeta mostraba
+  siempre "no hay datos". La V2 usa el array real: para mostrar en la
+  tarjeta toma el primer sector/sucursal (mismo criterio que el
+  Tablero), y para filtrar chequea si el usuario pertenece a ESE
+  sector/sucursal en cualquier posición del array (.some()).
+- Pendiente de decisión (no tocado, fuera del pedido): el link
+  "Usuarios" en el Navbar solo se muestra si
+  user.sector === "Sistemas" || user.name === "Bbroscheit" - el mismo
+  bug de comparar un array contra un string, parchado a mano en su
+  momento con un nombre de usuario hardcodeado. Hoy en la práctica solo
+  Bbroscheit ve el menú de gestión de usuarios. Ver PENDIENTES.
+
+
+2026-09-09 (fixes en TableroV2)
+---------------------------------
+- client/modules/tableroV2.module.css: los números de la matriz
+  sucursal x estado eran un <button> sin ancho propio, así que aunque
+  tenían text-align:center no ocupaban toda la celda y quedaban pegados
+  a la izquierda (la columna Total sí centraba bien porque esa era texto
+  plano en el <td>, no un botón). Se le agregó display:block +
+  width:100% al botón para que centre igual que el header y el total.
+- Bug real y pre-existente (no introducido por mí, estaba igual en el
+  Tablero.js original) en api/src/routes/controllers/getAllTicket.js:
+  el include de Salepoint dentro de User no tenía el alias "salepoints"
+  que usa esa asociación (belongsToMany), entonces Sequelize tiraba
+  error y el endpoint /ticket devolvía siempre 400 "failure" en vez del
+  listado. Como el frontend hace .json() sobre esa respuesta, tiraba un
+  error silencioso (unhandled) y "Soportes Totales" quedaba pegado en 0
+  para siempre. Se agregó el alias correcto (as: "salepoints", through:
+  {attributes:[]}) - el endpoint ahora sí devuelve los 18 tickets reales.
+
+
+2026-09-08 (segundo punto de venta para probar aislamiento)
+-------------------------------------------------------------
+- Se creó un segundo Salepoint "Cordoba" (id 2) y se duplicaron los
+  mismos 2 nombres de sector que ya existían en Buenos Aires -
+  "Cobranzas" (id 9) y "Administracion" (id 10), cada uno atado a
+  Cordoba - replicando a propósito el patrón real de la app (un sector
+  por sucursal, mismo nombre repetido). No se tocó el modelo de datos.
+- 8 usuarios nuevos (contraseña Test2026! para todos), con la escalera
+  completa de roles en cada sector de Cordoba: cordoba_cobra_empleado,
+  cordoba_cobra_encargado, cordoba_cobra_jefe, cordoba_cobra_gerente,
+  cordoba_admin_empleado, cordoba_admin_encargado, cordoba_admin_jefe,
+  cordoba_admin_gerente. Cada uno con su propio ticket de prueba "sin
+  asignar".
+- Con esto queda el grid completo 2 sectores x 2 sucursales x 4 roles
+  (16 usuarios de prueba en total, sumados a los 8 de Buenos Aires del
+  28/08). Verificado: cobra_jefe (Cobranzas @ Buenos Aires) NO ve los
+  tickets de cordoba_cobra_jefe (Cobranzas @ Cordoba) aunque el sector
+  se llame igual - el aislamiento es por id de sector+sucursal, no por
+  nombre. Un gerente sigue viendo todo sin importar sucursal (18
+  tickets en total). El Tablero (matriz por sucursal) también separa
+  correctamente Buenos Aires de Cordoba.
+
+
+2026-09-08 (Tablero de indicadores)
+------------------------------------
+- Nueva client/pages/TableroV2.js (mockup aprobado), reemplaza a
+  Tablero.js en el Navbar (link "Dashboard"). El original queda intacto,
+  sin borrar.
+- Se sacó la grilla de "un card por desarrollador" (el usuario indicó que
+  esa info ya está en la pantalla de cada desarrollador) y en su lugar se
+  agregó una matriz "Soportes por sucursal x estado", con drill-down al
+  hacer click en una sucursal, un estado, o una celda puntual (sucursal +
+  estado combinados) - muestra N°, título, creador, desarrollador, fecha
+  de creación y última modificación.
+- Se mantuvieron el resumen (Totales/Terminados/Tiempo promedio) y las 4
+  tarjetas de cola (Pendientes de asignación/Asignados/Desarrollo/+24hs),
+  reusando exactamente la misma lógica de fetch que ya tenían, solo con
+  el estilo nuevo. Nuevo componente DashboardCardTicketV2.js (el original
+  DashboardCardTicket.js no se tocó).
+- Backend nuevo (aditivo, no modifica nada existente):
+  api/src/routes/controllers/getSoportesPorSucursal.js y
+  getTicketsPorSucursalEstado.js, rutas GET /soportesPorSucursal y
+  GET /ticketsPorSucursalEstado?salepoint=X&state=Y (ambos parámetros
+  opcionales) en ticketRouter.js. La "sucursal" de un ticket se resuelve
+  desde el PRIMER sector de su creador (Ticket -> User -> Sectors ->
+  Salepoint); si el usuario no tiene sector o el sector no tiene
+  salepoint (caso de "Sistemas", que es cross-sucursal), el ticket cae en
+  el bucket "Sin sucursal". No se tocó el modelo de datos de
+  Sector/Salepoint.
+- Probado de punta a punta: los dos endpoints nuevos devuelven datos
+  reales y correctos, y la página compila y renderiza bien.
+
+
+2026-08-28 (vista de Jefe/Gerente/Encargado)
+---------------------------------------------
+- Nueva client/pages/NewTicketSupervisorGeneralV2.js (mockup aprobado),
+  reemplaza a NewTicketSupervisorGeneral.js en la navegación (login,
+  Perfil.js y Navbar.js actualizados a la V2; el archivo viejo se dejó
+  intacto sin borrar). Mismo lenguaje visual que NewTicketSupervisorV2,
+  sin el toggle Workers/Usuarios (acá no se asignan desarrolladores).
+- Bug encontrado y corregido de paso: el original NUNCA le pasaba el prop
+  `data` a CardInformacionUsuario, así que los números de cada tarjeta
+  (No Asignados/Asignados/Desarrollo/etc.) estaban siempre en 0 - un
+  cartel muerto que nadie iba a notar a simple vista. La V2 ahora sí trae
+  /informacionTodosUsuarios y le pasa los datos reales.
+- El "Información General" NO reusa CardInformacionGeneralV2 (ese
+  componente pega a /informacionGeneral, que es un total GLOBAL de todos
+  los tickets del sistema - correcto para la vista de Sistemas, pero
+  hubiera mostrado números de toda la empresa en vez de los del equipo
+  del jefe/gerente que está mirando). En su lugar, el resumen se calcula
+  en el propio front a partir de los tickets que ya trae
+  /newTicketUnfinished/:id (que sí viene filtrado por jerarquía).
+- Pendiente de probar en el navegador por el mismo motivo que la
+  redirección general: los puertos estaban ocupados por otro proyecto.
+
+2026-08-28 (continuación)
+-------------------------
+- Redirección completa hacia las pantallas V2 (a pedido: "necesito tener
+  todos los V2 activos... los archivos viejos no los borres solo cambia la
+  ruta"). Ningún archivo viejo se borró ni se le cambió el estilo, solo el
+  destino de la navegación:
+  - client/pages/index.js (redirect post-login) y
+    client/pages/usuarios/Perfil.js: /NewTicketSupervisor -> V2,
+    /Tickets -> /TicketsV2. /NewTicketSupervisorGeneral se dejó igual
+    (todavía no tiene V2).
+  - client/components/Navbar.js: los 3 links del menú lateral (Soportes /
+    Nuevo Soporte) ahora apuntan a NewTicketSupervisorV2 / TicketsV2 /
+    nuevoSoporteV2 según corresponda.
+  - Todos los componentes que navegan al detalle de un ticket
+    (Card.js, CardV2.js, CardTicketSupervisor.js, CardTicketUser.js,
+    CardTicketWorker.js, CardTicketWorkerV2.js, ListadoSinAsignar.js)
+    ahora llevan a /soportes/v2/[id] en vez de /soportes/[id] - incluso
+    los que siguen usados por pantallas viejas (ej. NewTicketSupervisorGeneral),
+    para que el detalle que se abre sea siempre el nuevo.
+  - FormNormal.js, FormFaq.js, FormNormalV2.js, FormFaqV2.js: el redirect
+    post-creación de ticket a "/Tickets" pasa a "/TicketsV2". Los redirects
+    a /TicketsSupervisor y /TicketsSupervisorSector NO se tocaron (esas
+    pantallas no tienen V2 todavía).
+  - Pendiente de probar en el navegador: los puertos 3000/3001 estaban
+    ocupados por otro proyecto (el usuario abrió otro proyecto en paralelo),
+    así que este cambio se verificó solo por lectura de código, no en vivo.
+- Usuarios de prueba para validar la jerarquía empleado/encargado/jefe/gerente
+  (contraseña de todos: Test2026!): cobra_empleado, cobra_encargado,
+  cobra_jefe, cobra_gerente (sector Cobranzas) y admin_empleado,
+  admin_encargado, admin_jefe, admin_gerente (sector Administracion), todos
+  en el punto de venta Buenos Aires, cada uno con 1 ticket "sin asignar"
+  propio. Verificado corriendo directamente getTicketUnfinishedByUser.js:
+  empleado ve solo el suyo, encargado ve empleado+encargado, jefe ve
+  empleado+encargado+jefe, gerente ve todo (incluso otro sector); un jefe
+  de un sector no ve los tickets del otro sector (aislamiento por sector +
+  punto de venta confirmado).
+- No se armó la carga masiva por Excel (el usuario la ofreció como
+  alternativa "o generame usuarios...") - se optó por el camino más rápido
+  ya que el objetivo era solo probar la jerarquía de roles. Si más adelante
+  hace falta un import real de usuarios por Excel, queda pendiente.
+
+2026-08-28
+----------
+- api/src/routes/controllers/getTicketDetail.js: se agregó el include de
+  Salepoint del usuario dueño del ticket (antes solo traía Sector). Es un
+  cambio aditivo, no afecta nada de lo que ya funcionaba. Deja la data lista
+  para el día que se complete el chequeo de jefatura/gerencia en el detalle
+  del ticket (ver PENDIENTES).
+- Se detectó que los puertos 3000/3001 estaban ocupados por otro proyecto
+  (validacionGP), no por sistematickets. Se pararon esos procesos y se
+  volvió a levantar el cliente y la API de sistematickets limpios.
+
+
+2026-08-27 / 2026-08-25 (misma sesión de trabajo)
+--------------------------------------------------
+Bug de asignación de desarrollador (no aparecía el nombre, no recargaba la
+página al asignar):
+- client/pages/soportes/v2/[id].js: el <select> nativo de "asignar
+  desarrollador" y el de "reasignar desarrollador" no sincronizaban su
+  valor inicial con lo que el navegador mostraba seleccionado por defecto
+  (a diferencia del <Select> de MUI que usa el original). Si el usuario
+  no tocaba el desplegable, se mandaba "sin asignar" en vez del nombre
+  real. Se corrigió sincronizando el estado al abrir cada modal.
+- api/src/routes/controllers/updateAssignment.js,
+  reassigmentAcepted.js, updateInfoTicketByUser.js: el envío de
+  notificación por Telegram se hacía con `await`, bloqueando toda la
+  respuesta al frontend si Telegram tardaba o fallaba. Como en el .env
+  local no hay TELEGRAMTOKEN configurado, el pedido quedaba colgado para
+  siempre (por eso "no pasaba nada" al asignar: ni cartel, ni reload).
+  Se cambió a "fire and forget" (no bloquea la respuesta).
+- api/src/routes/ticketRouter.js: las rutas /updateAssignment/:id,
+  /updatereassignment/:id y /updateInfoTicketByUser/:id no mandaban
+  ninguna respuesta de error en el catch, dejando el pedido colgado ante
+  cualquier falla. Ahora siempre responden (500 + { state: "failure" }).
+- api/src/routes/controllers/reassigmentAcepted.js: typo en el catch
+  (`e.message` en vez de `error.message`, rompía el logging del error).
+
+Bug de permisos "Sistemas / Supervisor" en el detalle del ticket:
+- client/pages/soportes/v2/[id].js: `isSistemas` / `isSupervisorOSistemas`
+  comparaban `user.sector` (un array de ids que viene del localStorage)
+  contra el string "Sistemas"/"Supervisor" - nunca daba true. Se corrigió
+  a `user.sector.includes(id)`, mismo patrón que ya usan index.js y
+  Navbar.js. Por esto no aparecía la opción de asignar/reasignar.
+  (Nota: este mismo bug sigue existiendo en el [id].js ORIGINAL a
+  propósito, no se tocó - decisión explícita de dejar los archivos
+  originales intactos por si hay que hacer rollback).
+- client/components/soporte/BotonesDetailV2.js: la regla de
+  jefatura/gerencia usaba `user.sectors`, `user.salepoints` y
+  `user.roleId`, que no existen en el objeto de localStorage (ahí se
+  guardan como `user.sector`, `user.salePoint` y `user.role`). Se
+  corrigieron los nombres. Sigue faltando el dato de salepoints del
+  dueño del ticket para que esta regla funcione del todo (resuelto hoy
+  27/08, ver arriba).
+
+Base de datos local de desarrollo (la base se había vaciado, no afecta
+producción):
+- Se sembraron los Sector: Sistemas(5), Administracion(6),
+  Supervisor(7), Cobranzas(8).
+- La tabla Roles estaba completamente vacía (por eso rompía
+  NewTicketSupervisorGeneral con "data.map is not a function" al
+  intentar leer user.role.name de un usuario sin rol). Se sembraron:
+  empleado(1), encargado(2), jefe(3), gerente(4).
+- Usuario de prueba bbroscheit: sector Supervisor, rol gerente (ve
+  todos los tickets sin restricción, para poder probar libremente).
+- Tickets de prueba 1 y 2 reseteados a estado "sin asignar" varias
+  veces durante las pruebas de asignación.
+
+Pantalla de detalle de soporte (la más grande, 1333 líneas / 9 modales):
+- Implementada en archivos nuevos (a pedido explícito: "creemoslo igual
+  que el otro, en un archivo aparte y su css aparte"):
+  client/pages/soportes/v2/[id].js,
+  client/components/soporte/BotonesDetailV2.js,
+  client/modules/detailV2.module.css
+- Cambios deliberados durante el port (además de solo estilos):
+  - Los 2 <Select> de MUI (asignar/reasignar worker) pasados a <select>
+    nativo.
+  - key={worker.id} -> key={e.id} en los maps de workers (bug del
+    original).
+  - Selector de prioridad: pasó de un MUI Select roto (comparaba
+    newPriority.name pero se escribía .state, nunca coincidía) a 3
+    botones tipo pill.
+  - Id duplicado "mi-textareaAnswer" en dos modales distintos del
+    original - se le puso un id único al del modal de proveedor.
+  - answer.answer faltaba en el estado inicial (causaba warning de
+    input no controlado).
+  - Textarea de solo-lectura de "nota de reasignación" pasado a un
+    <div> (el original usaba <textarea>{children}</textarea>, un
+    anti-patrón de React).
+  - NO se corrigió (a propósito, informado en su momento): yesState
+    ("¿puede resolverlo el usuario?") se setea pero nunca se lee ni se
+    manda en el submit de la solución - bug pre-existente del original,
+    requeriría cambios de backend para resolverse bien.
+
+
+Trabajo anterior en la misma sesión (pantallas ya entregadas antes de
+esta ronda de bugs):
+- NewTicketSupervisorV2.js + CardInformacionWorkerV2/UsuarioV2/GeneralV2
+  + ticketsSupervisorV2.module.css. Bug fix: handleClick usaba e.target
+  en vez de e.currentTarget (rompía con los nuevos chips).
+- nuevoUsuario.js (a pedido, editado DIRECTO sobre el original, no en
+  archivo nuevo) + newUser.module.css. Bug fix: botón "Limpiar" no
+  tenía type="button", enviaba el formulario sin querer.
+- nuevoSoporteV2.js + FormNormalV2.js + FormFaqV2.js + css modules. Bug
+  fix: modal "No, cancelar" no cerraba el modal. Mínimo de caracteres
+  de título/descripción bajado de 50 a 20 (pedido explícito).
+- TicketsV2.js + TicketVistaV2.js + CardV2.js + css modules. Bug fix:
+  las secciones mostraban el título aunque no hubiera tickets
+  visibles para ese usuario; se agregó estado vacío con link a crear
+  soporte. key={worker.id} -> key={e.id} en el select de workers.
+- Bug de arranque: api/index.js tenía `sync({alter:true})`, generaba
+  SQL inválido por la FK managerId (self-referencing) y crasheaba la
+  API en cada arranque. Se sacó el alter:true.
+- deleteUser.js: no chequeaba si el usuario existía antes de
+  actualizar y fallaba silenciosamente. Ahora devuelve error real.
+
+
+PENDIENTES
+==========
+1. Completar el control de acceso al DETALLE del ticket (no solo a la
+   lista). Hoy /ticketDetail/:id devuelve cualquier ticket a cualquiera
+   que sepa el id, sin chequear sector/rol/salepoint. Pausado hasta
+   confirmar que los roles (empleado/encargado/jefe/gerente) funcionan
+   bien en la lista, y hay que pensar bien las excepciones (el
+   dueño del ticket y el worker asignado siempre deberían poder verlo,
+   aunque no compartan sector/salepoint con quien pregunta). Además el
+   sistema no tiene autenticación real en el backend (todo se basa en
+   lo que el frontend manda desde localStorage, que es editable por el
+   usuario) - antes de bloquear accesos en serio habría que resolver
+   eso primero.
+2. Terminar de probar en el navegador el flujo completo de asignar y
+   reasignar desarrollador en /soportes/v2/[id] con los últimos fixes
+   (Telegram no bloqueante + selects sincronizados).
+3. Sector/Salepoint: el usuario decidió explícitamente NO cambiar el
+   modelo de datos (un Sector por cada Salepoint, ej. "Administración"
+   repetido ~15 veces) para no romper producción. No tocar esto salvo
+   que se pida de nuevo.
+4. Probar en el navegador la redirección a las pantallas V2 (login,
+   Navbar, links a detalle de ticket) - se hizo el cambio en el código
+   pero no se pudo levantar sistematickets para verlo en vivo porque los
+   puertos 3000/3001 estaban ocupados por otro proyecto abierto en
+   paralelo.
+5. Si hace falta cargar usuarios de forma masiva de verdad (no solo los
+   8 de prueba para la jerarquía), evaluar un import por Excel - no se
+   construyó todavía, se priorizó la carga rápida vía script.
+6. El link "Usuarios" del Navbar (acceso a la gestión de usuarios) se
+   muestra solo si user.sector === "Sistemas" || user.name ===
+   "Bbroscheit" - el mismo bug de comparar un array contra un string,
+   parchado en su momento a mano con un nombre de usuario hardcodeado.
+   En la práctica hoy solo Bbroscheit ve ese menú. No se tocó (no era
+   parte de lo pedido), pero conviene arreglarlo con el mismo criterio
+   de id de sector que ya usamos en otros lados (sector.includes(5)).

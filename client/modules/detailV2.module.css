@@ -1,0 +1,467 @@
+.pageWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.badge {
+  align-self: flex-start;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #c9463a;
+  background: #fdece9;
+  border-radius: 999px;
+  padding: 4px 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pageHead h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.pageHead h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 24px;
+  font-size: 0.84rem;
+  color: #8a8f98;
+}
+
+.metaRow strong {
+  color: #3C3C3B;
+}
+
+.pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.pillGray { background: #eef0f2; color: #6b7280; }
+.pillBlue { background: #e4eefb; color: #2f5f96; }
+.pillAmber { background: #fbf1e0; color: #a8752c; }
+.pillPurple { background: #f2eaf9; color: #7a4ea0; }
+.pillGreen { background: #eaf5ec; color: #3a7a4d; }
+.pillRed { background: #fdeceb; color: #d92d20; }
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.fieldLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f1f3;
+}
+
+.fieldLine:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.fieldLine .lbl {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #8a8f98;
+  min-width: 110px;
+}
+
+.fieldLine .val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #3C3C3B;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.linkbtn {
+  background: none;
+  border: none;
+  color: #EA6558;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.linkbtn:hover {
+  color: #c9463a;
+}
+
+.iconbtn {
+  color: #8a8f98;
+  cursor: pointer;
+  display: flex;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.iconbtn:hover {
+  color: #EA6558;
+}
+
+.proveedorCard {
+  background: #f6f7f9;
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.proveedorCard h4 {
+  margin: 0 0 4px 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.proveedorCard p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #8a8f98;
+}
+
+.proveedorDates {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #8a8f98;
+  white-space: nowrap;
+}
+
+.readtext {
+  font-size: 0.92rem;
+  color: #3C3C3B;
+  line-height: 1.5;
+  background: #f6f7f9;
+  border-radius: 8px;
+  padding: 14px 16px;
+  white-space: pre-line;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #dde1e6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  color: #3C3C3B;
+}
+
+.chip svg {
+  color: #8a8f98;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary { background: #EA6558; color: #ffffff; }
+.btnPrimary:disabled { background: #f3c6c0; cursor: not-allowed; }
+.btnSecondary { background: #ffffff; color: #8a8f98; border: 1px solid #dde1e6; }
+.btnSecondary:disabled { color: #c3c7cd; cursor: not-allowed; }
+
+.loading {
+  padding: 60px 0;
+  text-align: center;
+  color: #8a8f98;
+  font-size: 1rem;
+}
+
+/* ---------- modales ---------- */
+
+.modalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.modalBox h2 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.hint {
+  font-size: 0.76rem;
+  color: #8a8f98;
+  font-weight: 400;
+}
+
+.field select,
+.field input,
+.field textarea {
+  border-radius: 8px;
+  border: 1px solid #dde1e6;
+  background: #fbfbfc;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  font-family: 'Titillium Web', sans-serif;
+  color: #3C3C3B;
+  box-shadow: none;
+  outline: none;
+}
+
+.field select,
+.field input {
+  height: 44px;
+  padding: 0 14px;
+}
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a8f98' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: none;
+  line-height: 1.5;
+}
+
+.field select:focus,
+.field input:focus,
+.field textarea:focus {
+  border-color: #EA6558;
+  background: #ffffff;
+}
+
+.fieldError {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-dangerForm);
+}
+
+.priorityRow {
+  display: flex;
+  gap: 10px;
+}
+
+.priorityOpt {
+  flex: 1;
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 8px;
+  border: 1.5px solid #dde1e6;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  color: #8a8f98;
+  background: #ffffff;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.priorityOptSelectedAlta { background: #fdeceb; border-color: #f2b8b3; color: #d92d20; }
+.priorityOptSelectedMedia { background: #fbf1e0; border-color: #f0d9ad; color: #a8752c; }
+.priorityOptSelectedBaja { background: #eaf5ec; border-color: #c7e3cd; color: #3a7a4d; }
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ask h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.togglePair {
+  display: flex;
+  border: 1px solid #dde1e6;
+  border-radius: 999px;
+  padding: 3px;
+  width: fit-content;
+  background: #fbfbfc;
+}
+
+.togglePair button {
+  border: none;
+  background: none;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 999px;
+  color: #8a8f98;
+  cursor: pointer;
+}
+
+.togglePair button.selectedYes { background: #3a7a4d; color: #fff; }
+.togglePair button.selectedNo { background: #d92d20; color: #fff; }
+
+.dropzone {
+  position: relative;
+  border: 1.5px dashed #dde1e6;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fbfbfc;
+  cursor: pointer;
+}
+
+.dropzone.dragOver {
+  border-color: #EA6558;
+  background: #fdece9;
+}
+
+.dropzone .ic {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #fdece9;
+  color: #c9463a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dropzone .txt strong {
+  display: block;
+  font-size: 0.84rem;
+  color: #3C3C3B;
+}
+
+.dropzone .txt span {
+  font-size: 0.74rem;
+  color: #8a8f98;
+}
+
+.dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.readonlyBox {
+  font-size: 0.9rem;
+  color: #3C3C3B;
+  line-height: 1.55;
+  background: #f6f7f9;
+  border-radius: 8px;
+  padding: 14px 16px;
+  white-space: pre-line;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+}
+
+.modalActions .btn {
+  flex: 1;
+}

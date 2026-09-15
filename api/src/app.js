@@ -2,8 +2,6 @@ const express = require ('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require ('body-parser');
 const morgan = require('morgan');
-let cors = require('cors');
-const cron = require('node-cron');
 
 require('./bd.js')
 
@@ -16,7 +14,7 @@ const faqRouter = require('../src/routes/faqRouter.js')
 const projectRouter = require('../src/routes/projectRouter.js')
 const userstoriesRouter = require('../src/routes/userstoriesRouter.js')
 const taskRouter = require('../src/routes/taskRouter.js')
-const scheduleRouter = require('../src/routes//scheduleRouter.js')
+const scheduleRouter = require('../src/routes/scheduleRouter.js')
 const downloadRouter = require('../src/routes/downloadRouter.js');
 const gpRequestRouter = require('../src/routes/gpRequestRouter.js')
 const proveedorRouter = require('../src/routes/proveedorRouter.js');
@@ -61,8 +59,6 @@ server.use((req, res, next) => {
     }
 });
 
-server.use(express.json());
-server.use(cors());
 
 // llamamos a los diferentes Routers
 server.use('/' , sectorRouter);
@@ -83,7 +79,7 @@ server.use('/', platformRouter);
 server.use('/', desarrolloRouter);
 server.use('/', roleRouter);
 
-server.use((err,req,res) => {
+server.use((err,req,res,next) => {
     const status = err.status || 500;
     const message = err.message || err;
     console.log(err);

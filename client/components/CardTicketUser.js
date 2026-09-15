@@ -32,10 +32,10 @@ function CardTicketUser({id , created , subject , worker, key}) {
   return (
     <div key={key} className={styleCard.cardContainer}>
         <h5
-          onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`);
+          onClick={(e) => { idKeep(e); router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);
           }}>N° {id}</h5>
         <h5 className={styleCard.subject}
-            onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`) }}
+            onClick={(e) => { idKeep(e); router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`) }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             >
@@ -43,11 +43,11 @@ function CardTicketUser({id , created , subject , worker, key}) {
         </h5>
         <h5 onClick={(e) => {
             idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
+            router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);
           }}>{extraeFecha(created)}</h5>
         <h5 
           className={styleCard.subject}
-          onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`);}}
+          onClick={(e) => { idKeep(e); router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);}}
           
           >{`${worker}`}</h5>
     </div>

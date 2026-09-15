@@ -77,6 +77,9 @@ Sector.belongsToMany(User, {
 User.belongsTo(Role, { as: 'role' });
 Role.hasMany(User , { as : 'users'});
 
+User.belongsTo(User, { as: 'manager', foreignKey: 'managerId' });
+User.hasMany(User, { as: 'subordinates', foreignKey: 'managerId' });
+
 User.hasMany(Ticket);
 Ticket.belongsTo(User);
 

@@ -14,7 +14,10 @@ const getTicketsUnfinishedByUser = async (userId) => {
 
     if (!user) throw new Error("Usuario no encontrado");
 
-    const roleName = user.role.name; // ej: "empleado", "encargado", etc
+    // si el usuario todavia no tiene un rol asignado (caso esperado en producción
+    // hasta que se le asigne uno a todo el mundo), se lo trata como "empleado"
+    // (el nivel más restrictivo) en vez de romper
+    const roleName = user.role ? user.role.name : "empleado";
 
     const sectorIds = user.sectors.map((s) => s.id);
     const salepointIds = user.salepoints.map((sp) => sp.id);

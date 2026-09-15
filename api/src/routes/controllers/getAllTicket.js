@@ -8,6 +8,8 @@ const getAllTicket = async () => {
                 attribute:["username","sectorname","salepoint"],
                 include:[{
                     model: Salepoint,
+                    as: "salepoints",
+                    through: { attributes: [] },
                     attribute:["salepoint"]
                 }]
             }]

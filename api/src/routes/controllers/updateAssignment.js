@@ -11,9 +11,10 @@ const updateAssignment = async (id, name) => {
     if(setTicket){
       const telegramChatId = TELEGRAMCHATID;
       const telegramMessage = `${name} Se te ha asignado el soporte: N° ${id}`;
-      await sendTelegramMessage(telegramChatId, telegramMessage);
+      // no bloqueamos la respuesta si Telegram tarda o falla
+      sendTelegramMessage(telegramChatId, telegramMessage).catch(e => console.log("error al enviar telegram en updateAssignment", e.message));
     }
-    
+
 
     return setTicket
     

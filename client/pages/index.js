@@ -79,15 +79,15 @@ export default function Home() {
 
       //direcciona a los supervisores a la pantalla de supervisores;
       if(sector.includes(5)) {
-        Router.push("/NewTicketSupervisor");
+        Router.push("/NewTicketSupervisorV2");
         return;
       }
 
       if (role === 3 || role === 4 || role === 2) {
-        Router.push("/NewTicketSupervisorGeneral");
+        Router.push("/NewTicketSupervisorGeneralV2");
       } else {
-        Router.push("/Tickets");
-      } 
+        Router.push("/TicketsV2");
+      }
     } else {
       setErrorLogin({ state: true });
     }

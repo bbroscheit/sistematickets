@@ -164,7 +164,7 @@ function Card({ id, subject, state, created }) {
         <div
           onClick={(e) => {
             idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
+            router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);
           }}
           className={styles.pointer}
         >
@@ -173,7 +173,7 @@ function Card({ id, subject, state, created }) {
         <div
           onClick={(e) => {
             idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
+            router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);
           }}
           className={styles.pointer}
         >

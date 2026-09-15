@@ -116,7 +116,7 @@ function FormNormal({ user }) {
           user.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
             : user.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
             : user.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
-            : Router.push("/Tickets"); 
+            : Router.push("/TicketsV2"); 
           
         }, 1500);
       }
@@ -141,7 +141,7 @@ function FormNormal({ user }) {
           user.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
             : user.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
             : user.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
-            : Router.push("/Tickets"); 
+            : Router.push("/TicketsV2"); 
           
         }, 1500);
       }

@@ -1,16 +1,19 @@
-const { Ticket, User, Proveedornote, Proveedor, Workernote, Sector } = require('../../bd');
+const { Ticket, User, Proveedornote, Proveedor, Workernote, Sector, Salepoint } = require('../../bd');
 
 const getTicketDetail = async (id) => {
     //console.log("id en controller", id)
-    
+
     try {
         let ticketDetail = await Ticket.findOne({
-            where:{ id : id }, 
+            where:{ id : id },
             include:[{
                 model:User,
                 attribute:["username"],
-                include: [{ model: Sector, as: "sectors", through: { attributes: [] } }]
-                
+                include: [
+                    { model: Sector, as: "sectors", through: { attributes: [] } },
+                    { model: Salepoint, as: "salepoints", through: { attributes: [] } }
+                ]
+
             },
             {
                 model: Proveedornote,

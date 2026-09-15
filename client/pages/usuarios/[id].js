@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import style from "../../modules/detail.module.css";
 import mainStyles from "@/styles/Home.module.css";
+import style from "../../modules/detail.module.css";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { deleteUser } from "../api/deleteUser";
 import { updateUser } from "../api/updateUser";
 import { devuelveIniciales } from "@/functions/devuelveIniciales";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
-const styles = {
+const modalPosition = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 300,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+  width: 420,
+  maxWidth: "calc(100vw - 40px)",
 };
 
 function Soporte() {
@@ -49,13 +40,14 @@ function Soporte() {
     isworker: "",
     isprojectmanager: "",
     isprojectworker: "",
-    sectorname: "",
-    salepoint: "",
+    sectorIds: [],
+    salepointIds: [],
     role: "",
   });
 
   // Trae el detalle del usuario
   useEffect(() => {
+    if (!id) return;
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
       // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userDetail/${id}`)
       .then((res) => res.json())
@@ -71,10 +63,8 @@ function Soporte() {
           isworker: data.isworker,
           isprojectmanager: data.isprojectmanager,
           isprojectworker: data.isprojectworker,
-          //cambiamos los antiguos sectores por arrays
           sectorIds: data.sectors?.map((s) => s.id) || [],
           salepointIds: data.salepoints?.map((sp) => sp.id) || [],
-          //agregamos el role
           role: data.roleId,
         });
       });
@@ -197,12 +187,18 @@ function Soporte() {
     setModify(false);
   }
 
-  function handleUserDelete(e) {
+  async function handleUserDelete(e) {
     e.preventDefault();
-    deleteUser(id);
-    setTimeout(() => {
-      router.push("/usuarios");
-    }, 300);
+    try {
+      const result = await deleteUser(id);
+      if (result && result.state === "success") {
+        router.push("/usuarios");
+      } else {
+        alert("No se pudo eliminar el usuario. Intentá nuevamente.");
+      }
+    } catch (err) {
+      alert("No se pudo eliminar el usuario. Intentá nuevamente.");
+    }
   }
 
   function handleChange(e) {
@@ -271,356 +267,248 @@ function Soporte() {
     setOpen(false);
   }
 
-  //helpers
-
-  function renderCheck(active) {
-    return active ? (
-      <CheckBoxIcon className={style.checked} />
-    ) : (
-      <CheckBoxOutlineBlankIcon className={style.unchecked} />
-    );
-  }
-
-  console.log("input", input);
-
   return (
     <>
       <div className={mainStyles.container}>
-        <h1 className={mainStyles.title}>Usuario</h1>
-        <form className={mainStyles.form} onSubmit={(e) => handleSubmit(e)}>
-          {/* Div contenedor de imagen e input usuario - password - nombre -apellido - interno - email */}
+      <div className={style.pageWrap}>
+        <form className={style.column} onSubmit={(e) => e.preventDefault()}>
+          <div className={style.pageHead}>
+            <h1>Usuario</h1>
+            {user && user.firstname ? <p>Datos y permisos de {user.firstname} {user.lastname}</p> : null}
+          </div>
 
-          <div className={style.divContainerInfo}>
-            <div className={style.divContainerInitials}>
-              {user && user != null ? (
-                devuelveIniciales(user?.firstname, user?.lastname)
-              ) : (
-                <p>NN</p>
-              )}
-            </div>
-            <div className={style.divContainerInputs}>
-              <div className={mainStyles.minimalGrid}>
-                <h3 className={mainStyles.subtitle}>Usuario</h3>
-                <input
-                  type="text"
-                  name="username"
-                  value={input.username}
-                  className={mainStyles.input}
-                  onChange={(e) => handleChange(e)}
-                  disabled={modify === false ? true : false}
-                />
+          {/* Datos personales */}
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>1</span>Datos personales</div>
+            <div className={style.personalRow}>
+              <div className={style.avatarLg}>
+                {user && user.firstname ? devuelveIniciales(user.firstname, user.lastname) : "NN"}
               </div>
-              <p
-                className={
-                  error.username
-                    ? `${mainStyles.danger}`
-                    : `${mainStyles.normal}`
-                }
-              >
-                {error.username}
-              </p>
-              <div className={mainStyles.minimalGrid}>
-                <h3 className={mainStyles.subtitle}>Password </h3>
-                <input
-                  type="password"
-                  name="password"
-                  value={input.password}
-                  className={mainStyles.input}
-                  onChange={(e) => handleChange(e)}
-                  disabled={modify === false ? true : false}
-                />
-                <h3 className={mainStyles.subtitle}>Nombre</h3>
-                <input
-                  type="text"
-                  name="firstname"
-                  value={input.firstname}
-                  className={mainStyles.input}
-                  onChange={(e) => handleChange(e)}
-                  disabled={modify === false ? true : false}
-                />
-                <h3 className={mainStyles.subtitle}>Apellido</h3>
-                <input
-                  type="text"
-                  name="lastname"
-                  value={input.lastname}
-                  className={mainStyles.input}
-                  onChange={(e) => handleChange(e)}
-                  disabled={modify === false ? true : false}
-                />
-                <h3 className={mainStyles.subtitle}>E-mail</h3>
-                <input
-                  type="email"
-                  name="email"
-                  value={input.email}
-                  className={mainStyles.input}
-                  onChange={(e) => handleChange(e)}
-                  disabled={modify === false ? true : false}
-                />
+              <div className={style.fieldGrid}>
+                <div className={style.field}>
+                  <label>Usuario</label>
+                  <input
+                    type="text"
+                    name="username"
+                    value={input.username}
+                    onChange={(e) => handleChange(e)}
+                    disabled={!modify}
+                  />
+                  {error.username ? <p className={style.fieldError}>{error.username}</p> : null}
+                </div>
+                <div className={style.field}>
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={input.password}
+                    onChange={(e) => handleChange(e)}
+                    disabled={!modify}
+                  />
+                  {error.password ? <p className={style.fieldError}>{error.password}</p> : null}
+                </div>
+                <div className={style.field}>
+                  <label>Nombre</label>
+                  <input
+                    type="text"
+                    name="firstname"
+                    value={input.firstname}
+                    onChange={(e) => handleChange(e)}
+                    disabled={!modify}
+                  />
+                  {error.firstname ? <p className={style.fieldError}>{error.firstname}</p> : null}
+                </div>
+                <div className={style.field}>
+                  <label>Apellido</label>
+                  <input
+                    type="text"
+                    name="lastname"
+                    value={input.lastname}
+                    onChange={(e) => handleChange(e)}
+                    disabled={!modify}
+                  />
+                  {error.lastname ? <p className={style.fieldError}>{error.lastname}</p> : null}
+                </div>
+                <div className={`${style.field} ${style.fieldWide}`}>
+                  <label>E-mail</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={input.email}
+                    onChange={(e) => handleChange(e)}
+                    disabled={!modify}
+                  />
+                  {error.email ? <p className={style.fieldError}>{error.email}</p> : null}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Div contenedor de Soportes - Proyectos - Desarrollos */}
-
-          <div className={style.divContainerWorker}>
-            <div
-              className={style.workerOptions}
-              onClick={() => togglePermission("isworker")}
-              style={{
-                cursor: modify ? "pointer" : "default",
-                opacity: modify ? 1 : 0.6,
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              <p>Soportes ?</p>
-              {renderCheck(input.isworker)}
-            </div>
-
-            <div
-              className={style.workerOptions}
-              onClick={() => togglePermission("isprojectmanager")}
-              style={{
-                cursor: modify ? "pointer" : "default",
-                opacity: modify ? 1 : 0.6,
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              <p>Proyectos ?</p>
-              {renderCheck(input.isprojectmanager)}
-            </div>
-
-            <div
-              className={style.workerOptions}
-              onClick={() => togglePermission("isprojectworker")}
-              style={{
-                cursor: modify ? "pointer" : "default",
-                opacity: modify ? 1 : 0.6,
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-            >
-              <p>Desarrollos ?</p>
-              {renderCheck(input.isprojectworker)}
+          {/* Permisos */}
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>2</span>Permisos</div>
+            <div className={style.permisosRow}>
+              <div className={style.toggleGroup}>
+                <label>Soportes</label>
+                <div className={`${style.togglePair} ${!modify ? style.disabled : ""}`}>
+                  <button type="button" className={input.isworker ? style.selectedYes : ""} onClick={() => togglePermission("isworker")}>Sí</button>
+                  <button type="button" className={!input.isworker ? style.selectedNo : ""} onClick={() => togglePermission("isworker")}>No</button>
+                </div>
+              </div>
+              <div className={style.toggleGroup}>
+                <label>Proyectos</label>
+                <div className={`${style.togglePair} ${!modify ? style.disabled : ""}`}>
+                  <button type="button" className={input.isprojectmanager ? style.selectedYes : ""} onClick={() => togglePermission("isprojectmanager")}>Sí</button>
+                  <button type="button" className={!input.isprojectmanager ? style.selectedNo : ""} onClick={() => togglePermission("isprojectmanager")}>No</button>
+                </div>
+              </div>
+              <div className={style.toggleGroup}>
+                <label>Desarrollos</label>
+                <div className={`${style.togglePair} ${!modify ? style.disabled : ""}`}>
+                  <button type="button" className={input.isprojectworker ? style.selectedYes : ""} onClick={() => togglePermission("isprojectworker")}>Sí</button>
+                  <button type="button" className={!input.isprojectworker ? style.selectedNo : ""} onClick={() => togglePermission("isprojectworker")}>No</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Div contenedor de sectores - punto de ventas */}
-
-          {loading ? (
-            <p>Cargando puntos de venta...</p>
-          ) : (
-            <div className={style.sectorContainer}>
-              <h3 className={mainStyles.subtitle}>Punto de Venta</h3>
-              <div className={style.gridContainer}>
+          {/* Punto de venta */}
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>3</span>Punto de venta</div>
+            {loading ? (
+              <p className={style.reportaAText}>Cargando puntos de venta...</p>
+            ) : (
+              <div className={style.chipRow}>
                 {salepoints.map((sp) => {
                   const active = input.salepointIds.includes(sp.id);
-
                   return (
-                    <div
+                    <button
+                      type="button"
                       key={sp.id}
                       onClick={() => toggleSalepoint(sp.id)}
-                      style={{
-                        padding: "0.75rem",
-                        border: "1px solid #ccc",
-                        borderRadius: "6px",
-                        background: active ? "#e3f2fd" : "#f9f9f9",
-                        cursor: modify ? "pointer" : "default",
-                        opacity: modify ? 1 : 0.6,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                      }}
+                      className={`${style.chip} ${active ? style.chipSelected : ""} ${!modify ? style.chipDisabled : ""}`}
                     >
-                      {renderCheck(active)}
                       {sp.salepoint}
-                    </div>
+                    </button>
                   );
                 })}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Div contenedor de sectores - punto de ventas */}
-
-          {loading ? (
-            <p>Cargando sectores...</p>
-          ) : (
-            <div className={style.sectorContainer}>
-              <h3 className={mainStyles.subtitle}> Sectores</h3>
-              <div className={style.gridContainer}>
+          {/* Sectores */}
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>4</span>Sectores</div>
+            {loading ? (
+              <p className={style.reportaAText}>Cargando sectores...</p>
+            ) : (
+              <div className={style.chipRow}>
                 {sectors.map((sector) => {
                   const active = input.sectorIds.includes(sector.id);
-
                   return (
-                    <div
+                    <button
+                      type="button"
                       key={sector.id}
                       onClick={() => toggleSector(sector.id)}
-                      style={{
-                        padding: "0.75rem",
-                        border: "1px solid #ccc",
-                        borderRadius: "6px",
-                        background: active ? "#e8f5e9" : "#f9f9f9",
-                        cursor: modify ? "pointer" : "default",
-                        opacity: modify ? 1 : 0.6,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                      }}
+                      className={`${style.chip} ${active ? style.chipSelected : ""} ${!modify ? style.chipDisabled : ""}`}
                     >
-                      {renderCheck(active)}
                       {sector.sectorname}
-                    </div>
+                    </button>
                   );
                 })}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Roles */}
-
-          {loading ? (
-            <p>Cargando roles...</p>
-          ) : (
-            <div className={style.sectorContainer}>
-              <h3 className={mainStyles.subtitle}>Roles</h3>
-              <div className={style.gridContainer}>
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>5</span>Rol</div>
+            {loading ? (
+              <p className={style.reportaAText}>Cargando roles...</p>
+            ) : (
+              <div className={style.chipRow}>
                 {roles.map((role) => {
                   const active = input.role === role.id;
-
                   return (
-                    <div
+                    <button
+                      type="button"
                       key={role.id}
                       onClick={() => selectRole(role.id)}
-                      style={{
-                        padding: "0.75rem",
-                        border: "1px solid #ccc",
-                        borderRadius: "6px",
-                        background: active ? "#fff3e0" : "#f9f9f9",
-                        cursor: modify ? "pointer" : "default",
-                        opacity: modify ? 1 : 0.6,
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                      }}
+                      className={`${style.chip} ${active ? style.chipSelected : ""} ${!modify ? style.chipDisabled : ""}`}
                     >
-                      {renderCheck(active)}
                       {role.name}
-                    </div>
+                    </button>
                   );
                 })}
               </div>
-            </div>
-          )}
-
-          {/* Div contenedor de botones Modificar - Borrar Usuario */}
-          <div className={style.buttonContainer}>
-            {modify === false ? (
-              <button
-                className={mainStyles.button}
-                onClick={(e) => handleModify(e)}
-              >
-                Modificar
-              </button>
-            ) : (
-              <button
-                className={mainStyles.button}
-                onClick={(e) => handleOpenChange(e)}
-              >
-                Guardar Cambios
-              </button>
             )}
+          </div>
+
+          {/* Acciones */}
+          <div className={style.actions}>
+            <button type="button" className={`${style.btn} ${style.btnDanger}`} onClick={(e) => handleOpen(e)}>
+              Borrar usuario
+            </button>
             {modify === true ? (
-              <button
-                className={mainStyles.button}
-                onClick={(e) => handleModifyReset(e)}
-              >
+              <button type="button" className={`${style.btn} ${style.btnSecondary}`} onClick={(e) => handleModifyReset(e)}>
                 Borrar cambios
               </button>
             ) : null}
-            <button
-              className={mainStyles.button}
-              onClick={(e) => handleOpen(e)}
-            >
-              Borrar Usuario
-            </button>
+            {modify === false ? (
+              <button type="button" className={`${style.btn} ${style.btnPrimary}`} onClick={(e) => handleModify(e)}>
+                Modificar
+              </button>
+            ) : (
+              <button type="button" className={`${style.btn} ${style.btnPrimary}`} onClick={(e) => handleOpenChange(e)}>
+                Guardar cambios
+              </button>
+            )}
           </div>
         </form>
       </div>
+      </div>
 
       {/* Modal de Borrar Usuario */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styles}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            className={style.modalTitle}
-          >
-            ¿ Deseas eliminar este usuario ?
-          </Typography>
-          <button
-            onClick={(e) => {
-              handleUserDelete(e);
-              handleClose(e);
-            }}
-            className={style.modalButton}
-          >
-            Aceptar
-          </button>
-          <button
-            onClick={(e) => {
-              handleClose(e);
-            }}
-            className={style.modalButton}
-          >
-            Cancelar
-          </button>
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={modalPosition} className={style.modalBox}>
+          <h2>¿Deseás eliminar este usuario?</h2>
+          <div className={style.modalActions}>
+            <button type="button" className={`${style.btn} ${style.btnSecondary}`} onClick={(e) => handleClose(e)}>
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className={`${style.btn} ${style.btnPrimary}`}
+              onClick={(e) => {
+                handleUserDelete(e);
+                handleClose(e);
+              }}
+            >
+              Aceptar
+            </button>
+          </div>
         </Box>
       </Modal>
 
       {/* Acepta o no los cambios realizados */}
-      <Modal
-        open={openChange}
-        onClose={handleCloseChange}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={styles}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            className={style.modalTitle}
-          >
-            ¿ Deseas guardar los cambios ?
-          </Typography>
-          <button
-            onClick={(e) => {
-              submitChange(e);
-              handleCloseChange(e);
-            }}
-            className={style.modalButton}
-          >
-            Aceptar
-          </button>
-          <button
-            onClick={(e) => {
-              handleCloseChange(e);
-            }}
-            className={style.modalButton}
-          >
-            Cancelar
-          </button>
+      <Modal open={openChange} onClose={handleCloseChange}>
+        <Box sx={modalPosition} className={style.modalBox}>
+          <h2>¿Deseás guardar los cambios?</h2>
+          <div className={style.modalActions}>
+            <button type="button" className={`${style.btn} ${style.btnSecondary}`} onClick={(e) => handleCloseChange(e)}>
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className={`${style.btn} ${style.btnPrimary}`}
+              onClick={(e) => {
+                submitChange(e);
+                handleCloseChange(e);
+              }}
+            >
+              Aceptar
+            </button>
+          </div>
         </Box>
       </Modal>
     </>

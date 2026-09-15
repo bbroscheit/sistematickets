@@ -45,7 +45,8 @@ const reassigmentAcepted = async (id, name, description) => {
                 if(Ticket){
                     const telegramChatId = TELEGRAMCHATID;
                     const telegramMessage = `${name} , el usuario ${lastWorker} te ha re-asignado el soporte: N° ${id} `;
-                    await sendTelegramMessage(telegramChatId, telegramMessage);
+                    // no bloqueamos la respuesta si Telegram tarda o falla
+                    sendTelegramMessage(telegramChatId, telegramMessage).catch(e => console.log("error al enviar telegram en reassigmentAcepted", e.message));
                 }
                 
                 await ticket.reload({ include: [{ model: Workernote }] });
@@ -55,7 +56,7 @@ const reassigmentAcepted = async (id, name, description) => {
             
 
       } catch (error) {
-        console.log(" error en controller reassigmentAcepted ", e.message);
+        console.log(" error en controller reassigmentAcepted ", error.message);
       }
         
 }

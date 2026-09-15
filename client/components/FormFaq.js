@@ -150,7 +150,7 @@ function FormFaq({ id, title, description, answer, uresolved, user, useremail })
         user2.sector === "Supervisor" ? Router.push("/TicketsSupervisor") 
           : user2.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
           : user2.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral") 
-          : Router.push("/Tickets"); 
+          : Router.push("/TicketsV2"); 
         
       }, 1500);
     }

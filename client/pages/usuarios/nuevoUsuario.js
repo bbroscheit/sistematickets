@@ -68,6 +68,13 @@ function nuevoUsuario() {
     }))
   }
 
+  function handleToggle(field, value) {
+    setInput({
+      ...input,
+      [field]: value,
+    })
+  }
+
   function handleSelect(e){
     e.preventDefault();
     setInput({
@@ -76,6 +83,24 @@ function nuevoUsuario() {
     })
     let filterSector = salepoint.filter( t => t.salepoint === e.target.value )
     setSector(filterSector[0].sectors)
+  }
+
+  function handleReset(e) {
+    e.preventDefault();
+    setInput({
+      username: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      email: "",
+      phonenumber: "",
+      isworker: "",
+      isprojectmanager:"",
+      isprojectworker:"",
+      sectorname: "",
+      salepoint: "",
+    })
+    setError("")
   }
 
   function handleSubmit(e) {
@@ -99,119 +124,141 @@ function nuevoUsuario() {
 
   return (
     <div className={mainStyles.container}>
-      <h1 className={mainStyles.title}>Creación de Usuario</h1>
-      <form className={mainStyles.form} onSubmit={(e) => handleSubmit(e)}>
-        <div className={mainStyles.minimalGrid}>
-          <h3 className={mainStyles.subtitle}>Usuario</h3>
-          <input
-            type="text"
-            name="username"
-            value={input.username}
-            className={mainStyles.input}
-            onChange={e => handleChange(e)}
-          />
-        </div>
-        <p
-          className={
-            error.username ? `${mainStyles.danger}` : `${mainStyles.normal}`
-          }
-        >
-          {error.username}
-        </p>
-        <div className={mainStyles.minimalGrid}>
-          <h3 className={mainStyles.subtitle}>Password </h3>
-          <input
-            type="password"
-            name="password"
-            value={input.password}
-            className={mainStyles.input}
-            onChange={e => handleChange(e)}
-          />
-          <h3 className={mainStyles.subtitle}>Nombre</h3>
-          <input
-            type="text"
-            name="firstname"
-            value={input.firstname}
-            className={mainStyles.input}
-            onChange={e => handleChange(e)}
-          />
-          <h3 className={mainStyles.subtitle}>Apellido</h3>
-          <input
-            type="text"
-            name="lastname"
-            value={input.lastname}
-            className={mainStyles.input}
-            onChange={e => handleChange(e)}
-          />
-          <h3 className={mainStyles.subtitle}>E-mail</h3>
-          <input
-            type="email"
-            name="email"
-            value={input.email}
-            className={mainStyles.input}
-            onChange={e => handleChange(e)}
-          />
-        </div>
-        
-          <div className={mainStyles.minimalGrid}>
-            <h3 className={mainStyles.subtitle}>Interno</h3>
-            <input type="text" name="phonenumber" value={input.phonenumber} onChange={e => handleChange(e)}/>
+      <div className={style.pageWrap}>
+        <form className={style.form} onSubmit={(e) => handleSubmit(e)}>
+          <div className={style.pageHead}>
+            <h1 className={mainStyles.title}>Creación de Usuario</h1>
+            <p>Completá los datos para dar de alta un nuevo usuario en el sistema.</p>
           </div>
-        <div className={mainStyles.minimalFlex}>  
-          <div className={mainStyles.minimalGrid}>
-            <h3 className={mainStyles.subtitle} >Soporte ?</h3>
-            <select value={input.isworker} name="isworker" onChange={e => handleChange(e)} className={mainStyles.select}>
-              <option className={mainStyles.option}>Elija una opción</option>
-              <option value= "yes" className={mainStyles.option}>Si</option>
-              <option value="no" className={mainStyles.option}>No</option>
-            </select>
-          </div>
-          <div className={mainStyles.minimalGrid}>
-            <h3 className={mainStyles.subtitle} >Projectos ?</h3>
-            <select value={input.isprojectmanager} name="isprojectmanager" onChange={e => handleChange(e)} className={mainStyles.select}>
-              <option className={mainStyles.option}>Elija una opción</option>
-              <option value= "yes" className={mainStyles.option}>Si</option>
-              <option value="no" className={mainStyles.option}>No</option>
-            </select>
-          </div>
-          <div className={mainStyles.minimalGrid}>
-            <h3 className={mainStyles.subtitle} >Desarrollador ?</h3>
-            <select value={input.isprojectworker} name="isprojectworker" onChange={e => handleChange(e)} className={mainStyles.select}>
-              <option className={mainStyles.option}>Elija una opción</option>
-              <option value= "yes" className={mainStyles.option}>Si</option>
-              <option value="no" className={mainStyles.option}>No</option>
-            </select>
-          </div>
-        </div>
-        <div className={mainStyles.minimalGrid}>
-          <h3 className={mainStyles.subtitle}>Localidad</h3>
-          <select className={mainStyles.select} value={input.salepoint} name="salepoint" onChange={e => handleSelect(e)}>
-            <option className={mainStyles.option} value="">Elija una Opción</option>
-            {salepoint &&
-              salepoint.map((e) => (
-                <option className={mainStyles.option} value={e.salepoint} key={e.id}>{e.salepoint}</option>
-              ))}
-          </select>
-        </div>
-        <div className={mainStyles.minimalGrid}>
-          <h3 className={mainStyles.subtitle}>Sector</h3>
-          <select className={mainStyles.select} value={input.sectorname} name="sectorname" onChange={e => handleChange(e)}>
-            <option className={mainStyles.option} value="">Elija una Opción</option>
-            {sector &&
-              sector.map((e) => (
-                <option className={mainStyles.option} value={e.sector} key={e.id}>{e.sectorname}</option>
-              ))}
-            
-          </select>
-        </div>
 
-        <div className={style.buttonContainer}>
-          <button type="submit" className={mainStyles.button}>
-            Crear
-          </button>
-          <button className={mainStyles.button}>Limpiar</button>
-        </div>
-      </form>
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>1</span>Cuenta</div>
+            <div className={style.fieldRow}>
+              <div className={style.field}>
+                <label>Usuario</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={input.username}
+                  onChange={e => handleChange(e)}
+                />
+                {error.username ? <p className={style.fieldError}>{error.username}</p> : null}
+              </div>
+              <div className={style.field}>
+                <label>Contraseña</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={input.password}
+                  onChange={e => handleChange(e)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>2</span>Datos personales</div>
+            <div className={style.fieldRow}>
+              <div className={style.field}>
+                <label>Nombre</label>
+                <input
+                  type="text"
+                  name="firstname"
+                  value={input.firstname}
+                  onChange={e => handleChange(e)}
+                />
+              </div>
+              <div className={style.field}>
+                <label>Apellido</label>
+                <input
+                  type="text"
+                  name="lastname"
+                  value={input.lastname}
+                  onChange={e => handleChange(e)}
+                />
+              </div>
+            </div>
+            <div className={style.fieldRow}>
+              <div className={style.field}>
+                <label>E-mail</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={input.email}
+                  onChange={e => handleChange(e)}
+                />
+              </div>
+              <div className={style.field}>
+                <label>Interno</label>
+                <input
+                  type="text"
+                  name="phonenumber"
+                  value={input.phonenumber}
+                  onChange={e => handleChange(e)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>3</span>Permisos</div>
+            <div className={style.permisosRow}>
+              <div className={style.toggleGroup}>
+                <label>¿Soporte?</label>
+                <div className={style.togglePair}>
+                  <button type="button" className={input.isworker === "yes" ? style.selectedYes : ""} onClick={() => handleToggle("isworker", "yes")}>Sí</button>
+                  <button type="button" className={input.isworker === "no" ? style.selectedNo : ""} onClick={() => handleToggle("isworker", "no")}>No</button>
+                </div>
+              </div>
+              <div className={style.toggleGroup}>
+                <label>¿Proyectos?</label>
+                <div className={style.togglePair}>
+                  <button type="button" className={input.isprojectmanager === "yes" ? style.selectedYes : ""} onClick={() => handleToggle("isprojectmanager", "yes")}>Sí</button>
+                  <button type="button" className={input.isprojectmanager === "no" ? style.selectedNo : ""} onClick={() => handleToggle("isprojectmanager", "no")}>No</button>
+                </div>
+              </div>
+              <div className={style.toggleGroup}>
+                <label>¿Desarrollador?</label>
+                <div className={style.togglePair}>
+                  <button type="button" className={input.isprojectworker === "yes" ? style.selectedYes : ""} onClick={() => handleToggle("isprojectworker", "yes")}>Sí</button>
+                  <button type="button" className={input.isprojectworker === "no" ? style.selectedNo : ""} onClick={() => handleToggle("isprojectworker", "no")}>No</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={style.card}>
+            <div className={style.cardTitle}><span className={style.n}>4</span>Ubicación y sector</div>
+            <div className={style.fieldRow}>
+              <div className={style.field}>
+                <label>Localidad</label>
+                <select value={input.salepoint} name="salepoint" onChange={e => handleSelect(e)}>
+                  <option value="">Elija una opción</option>
+                  {salepoint &&
+                    salepoint.map((e) => (
+                      <option value={e.salepoint} key={e.id}>{e.salepoint}</option>
+                    ))}
+                </select>
+              </div>
+              <div className={style.field}>
+                <label>Sector</label>
+                <select value={input.sectorname} name="sectorname" onChange={e => handleChange(e)}>
+                  <option value="">Elija una opción</option>
+                  {sector &&
+                    sector.map((e) => (
+                      <option value={e.sector} key={e.id}>{e.sectorname}</option>
+                    ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className={style.actions}>
+            <button type="button" className={`${style.btn} ${style.btnSecondary}`} onClick={handleReset}>Limpiar</button>
+            <button type="submit" className={`${style.btn} ${style.btnPrimary}`}>Crear usuario</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

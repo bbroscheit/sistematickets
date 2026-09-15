@@ -1,0 +1,68 @@
+.pageWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.pageHead p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #8a8f98;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #8a8f98;
+  margin: 0;
+}
+
+.autocomplete :global(.MuiOutlinedInput-root) {
+  border-radius: 10px;
+  background: #ffffff;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.autocomplete :global(.MuiOutlinedInput-notchedOutline) {
+  border-color: #dde1e6;
+}
+
+.autocomplete :global(.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: #EA6558 !important;
+  border-width: 1.5px;
+}
+
+.autocomplete :global(.MuiOutlinedInput-input) {
+  padding: 13px 14px !important;
+  font-size: 0.95rem;
+}

@@ -113,7 +113,7 @@ function nuevoProyecto() {
             timer: 1500
           }));
           setTimeout(() => {
-            Router.push("/Dashboard");
+            Router.push("/DashboardV2");
           }, 1500);
         }
       })

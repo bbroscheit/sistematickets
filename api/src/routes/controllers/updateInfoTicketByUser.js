@@ -83,7 +83,8 @@ const updateInfoTicketByuser = async (id, answer, firstname, lastname) => {
             if(setTicket){
                 const telegramChatId = TELEGRAMCHATID;
                 const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
-                await sendTelegramMessage(telegramChatId, telegramMessage);
+                // no bloqueamos la respuesta si Telegram tarda o falla
+                sendTelegramMessage(telegramChatId, telegramMessage).catch(e => console.log("error al enviar telegram en updateInfoTicketByUser", e.message));
             }
             return setTicket;
 
@@ -97,7 +98,8 @@ const updateInfoTicketByuser = async (id, answer, firstname, lastname) => {
                 if(setTicket){
                     const telegramChatId = TELEGRAMCHATID;
                     const telegramMessage = `${existingTicket.worker} han contestado tu consulta en el ticket N° ${id}`;
-                    await sendTelegramMessage(telegramChatId, telegramMessage);
+                    // no bloqueamos la respuesta si Telegram tarda o falla
+                    sendTelegramMessage(telegramChatId, telegramMessage).catch(e => console.log("error al enviar telegram en updateInfoTicketByUser", e.message));
                  }
         
         

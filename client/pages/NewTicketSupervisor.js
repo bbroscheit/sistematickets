@@ -22,6 +22,9 @@ import CardInformacionTicketUsuario from "@/components/CardInformacionTicketUsua
 import CardInformacionUsuario from "@/components/CardInformacionUsuario";
 import ListadoSinAsignar from "@/components/ListadoSinAsignar";
 
+const CACHE_KEY = "supervisor_data_v1";
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
+
 function NewTicketsSupervisor() {
   const [soportes, setSoportes] = useState(null);
   const [soporteUnfinished, setSoporteUnfinished] = useState(null);
@@ -30,34 +33,59 @@ function NewTicketsSupervisor() {
   const [openSinAsignar, setOpenSinAsignar] = useState(true);
   const [worker, setWorker] = useState(null);
   const [workerAlt, setWorkerAlt] = useState(null);
+  const [infoWorkers, setInfoWorkers] = useState(null);
+  const [infoUsuarios, setInfoUsuarios] = useState(null);
   const [view, setView] = useState(1);
   const [viewMenu, setViewMenu] = useState(1);
   const [finder, setFinder] = useState("");
   const [user, setUser] = useUser();
 
-  const fetchData = async () => {
-    const [workerRes, unfinishedRes] = await Promise.all([
-      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`).then(
-        (res) => res.json()
-      ),
-      fetch(
-        `http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`
-      ).then((res) => res.json()),
-    ]);
-
+  const applyData = (workerRes, unfinishedRes, infoWorkersRes, infoUsuariosRes) => {
     setWorker(workerRes);
     setUsuarios(arrayUser(unfinishedRes));
     setUsuariosAlt(arrayUser(unfinishedRes));
     setWorkerAlt(workerRes);
-    setSoporteUnfinished(ticketSinAsignar(unfinishedRes))
+    setSoporteUnfinished(ticketSinAsignar(unfinishedRes));
+    setInfoWorkers(infoWorkersRes);
+    setInfoUsuarios(infoUsuariosRes);
+  };
+
+  const fetchData = async () => {
+    try {
+      const cached = sessionStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TTL) {
+          applyData(data.workerRes, data.unfinishedRes, data.infoWorkersRes, data.infoUsuariosRes);
+          return;
+        }
+      }
+    } catch (_) {}
+
+    const [workerRes, unfinishedRes, infoWorkersRes, infoUsuariosRes] = await Promise.all([
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/worker`).then((res) => res.json()),
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketUnfinished`).then((res) => res.json()),
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/informacionTodosWorkers`).then((res) => res.json()),
+      fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/informacionTodosUsuarios`).then((res) => res.json()),
+    ]);
+
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+        data: { workerRes, unfinishedRes, infoWorkersRes, infoUsuariosRes },
+        timestamp: Date.now(),
+      }));
+    } catch (_) {}
+
+    applyData(workerRes, unfinishedRes, infoWorkersRes, infoUsuariosRes);
   };
 
   useEffect(() => {
     fetchData();
 
     const intervalId = setInterval(() => {
+      sessionStorage.removeItem(CACHE_KEY);
       fetchData();
-    }, 900000); // 15 minutos = 900000 ms
+    }, 900000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -77,12 +105,12 @@ function NewTicketsSupervisor() {
   };
 
   const handleClickChange = (e) => {
-    if(view === 1){
-      setView(2)
-      setUsuariosAlt(usuarios)
-    }else{
-      setView(1)
-      setWorkerAlt(worker)
+    if (view === 1) {
+      setView(2);
+      setUsuariosAlt(usuarios);
+    } else {
+      setView(1);
+      setWorkerAlt(worker);
     }
   };
 
@@ -114,28 +142,31 @@ function NewTicketsSupervisor() {
     );
   };
 
-  //console.log("usuariosAlt", usuariosAlt);
-
   return (
     <div className={mainStyle.container}>
       <div className={style.barContainerTickets}>
         <div className={style.barContainerMenu}>
           <h2>Tickets sin Asignar</h2>
-          {
-            soporteUnfinished && soporteUnfinished !== null ? <h5>{soporteUnfinished.length}</h5> : <h5>0</h5>
-          }
+          {soporteUnfinished && soporteUnfinished !== null ? (
+            <h5>{soporteUnfinished.length}</h5>
+          ) : (
+            <h5>0</h5>
+          )}
         </div>
         <div className={style.changeCircleIcon}>
-          {
-            viewMenu === 1 ? <KeyboardArrowDownIcon onClick={(e) => handleOpenMenu(e)} /> : <KeyboardArrowUpIcon onClick={(e) => handleOpenMenu(e)} />
-          }
-          
+          {viewMenu === 1 ? (
+            <KeyboardArrowDownIcon onClick={(e) => handleOpenMenu(e)} />
+          ) : (
+            <KeyboardArrowUpIcon onClick={(e) => handleOpenMenu(e)} />
+          )}
         </div>
       </div>
-      {
-        viewMenu === 2 ? <div className={style.listadoContainer}><ListadoSinAsignar soportes={soporteUnfinished}/> </div> : null
-      }
-      {/* nueva barra horizontal con busqueda por usuario y perfiles de usuarios */}
+      {viewMenu === 2 ? (
+        <div className={style.listadoContainer}>
+          <ListadoSinAsignar soportes={soporteUnfinished} />
+        </div>
+      ) : null}
+
       <div className={style.barContainer}>
         <input
           type="text"
@@ -165,9 +196,11 @@ function NewTicketsSupervisor() {
               )
             ) : usuarios.length > 0 ? (
               usuarios.map((u) => (
-                <p className={style.circles}
-                    onClick={(e) => handleClickUsuarios(e)}
-                    value={u}>
+                <p
+                  className={style.circles}
+                  onClick={(e) => handleClickUsuarios(e)}
+                  value={u}
+                >
                   {devuelveInicialDesdeUsuario(u)}
                 </p>
               ))
@@ -182,6 +215,7 @@ function NewTicketsSupervisor() {
           <FilterAltOffRoundedIcon onClick={(e) => handleResetFilters(e)} />
         </div>
       </div>
+
       {view === 1 ? (
         workerAlt !== null && workerAlt.length >= 1 ? (
           <div className={style.cardInformacionContainer}>
@@ -189,11 +223,12 @@ function NewTicketsSupervisor() {
               <CardInformacionGeneral />
             ) : null}
             {workerAlt.map((e) => (
-              <div className={style.containerInfoTicket}>
+              <div className={style.containerInfoTicket} key={e.id}>
                 <CardInformacionWorker
                   id={e.id}
                   firstname={e.firstname}
                   lastname={e.lastname}
+                  data={infoWorkers ? infoWorkers.find((w) => w.id === e.id) : null}
                 />
                 {workerAlt.length !== worker.length ? (
                   <CardInformacionTicketsWorker id={e.id} />
@@ -202,23 +237,24 @@ function NewTicketsSupervisor() {
             ))}
           </div>
         ) : null
-      ) : (
-    usuariosAlt !== null && usuariosAlt.length >= 1 ? (
-      <div className={style.cardInformacionContainer}>
-        {usuariosAlt.length === usuarios.length ? <CardInformacionGeneral /> : null}
-        {usuariosAlt.map((e) => (
-          <div className={style.containerInfoTicket}>
-            <CardInformacionUsuario
-              user={e}
-            />
-            {usuariosAlt.length !== usuarios.length ? (
-              <CardInformacionTicketUsuario user={e} />
-            ) : null}
-          </div>
-        ))}
-      </div>
-    ) : null
-  )}
+      ) : usuariosAlt !== null && usuariosAlt.length >= 1 ? (
+        <div className={style.cardInformacionContainer}>
+          {usuariosAlt.length === usuarios.length ? (
+            <CardInformacionGeneral />
+          ) : null}
+          {usuariosAlt.map((e) => (
+            <div className={style.containerInfoTicket} key={e}>
+              <CardInformacionUsuario
+                user={e}
+                data={infoUsuarios ? infoUsuarios.find((u) => u.username === e) : null}
+              />
+              {usuariosAlt.length !== usuarios.length ? (
+                <CardInformacionTicketUsuario user={e} />
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -29,10 +29,10 @@ function CardTicketSupervisor({key , id , subject , created, userFirstname, user
   return (
     <div key={key} className={style.cardContainer}>
         <h5
-          onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`);
+          onClick={(e) => { idKeep(e); router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);
           }}>N° {id}</h5>
         <h5 className={style.subject}
-            onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`) }}
+            onClick={(e) => { idKeep(e); router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`) }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             >
@@ -40,11 +40,11 @@ function CardTicketSupervisor({key , id , subject , created, userFirstname, user
         </h5>
         <h5 onClick={(e) => {
             idKeep(e);
-            router.push(`/soportes/[id]`, `/soportes/${id}`);
+            router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);
           }}>{extraeFecha(created)}</h5>
         <h5 
           className={style.subject}
-          onClick={(e) => { idKeep(e); router.push(`/soportes/[id]`, `/soportes/${id}`);}}
+          onClick={(e) => { idKeep(e); router.push(`/soportes/v2/[id]`, `/soportes/v2/${id}`);}}
           
           >{`${userFirstname} ${userLastname}`}</h5>
     </div>

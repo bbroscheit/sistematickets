@@ -32,9 +32,9 @@ const postNewProject = async (
 
     const folderPath = path.join(__dirname, '../../../../client/public/Proyectos', folderName);
 
-    // Crear la carpeta si no existe
+    // Crear la carpeta si no existe (recursive: la carpeta "Proyectos" tampoco existe todavia)
     if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath);
+        fs.mkdirSync(folderPath, { recursive: true });
     }
 
 

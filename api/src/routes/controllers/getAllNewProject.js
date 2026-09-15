@@ -4,7 +4,7 @@ const getAllNewProjects = async () => {
     try {
         let getAllProject = await Newproject.findAll(
             {
-                where: { isdelete : false , state : "creado" },
+                where: { isdelete : false },
                 include:[{
                     model: User,
                     attribute: ["username"]

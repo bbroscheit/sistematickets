@@ -155,6 +155,20 @@ export default function PrimarySearchAppBar() {
     userLogin ? setLogin(1) : setLogin(0);
   }, []);
 
+  // el sector "Mesa de Ayuda" es quien administra usuarios (distinto de Sistemas);
+  // se resuelve el id dinámicamente porque puede variar entre entornos
+  const [mesaDeAyudaSectorId, setMesaDeAyudaSectorId] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+      .then((res) => res.json())
+      .then((data) => {
+        const mesaDeAyuda = data.find((s) => s.sectorname === "Mesa de Ayuda");
+        if (mesaDeAyuda) setMesaDeAyudaSectorId(mesaDeAyuda.id);
+      })
+      .catch(() => {});
+  }, []);
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -494,8 +508,8 @@ export default function PrimarySearchAppBar() {
           </List>
         ) : null}
 
-        {/* condicion para que solo los usuarios del sector sistemas puedan tener acceso al control de usuarios */}
-        {user !== null && ( user.sector === "Sistemas" || user.name === "Bbroscheit" )  ? (
+        {/* solo los usuarios del sector "Mesa de Ayuda" tienen acceso al control de usuarios */}
+        {user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId) ? (
           <List>
             {["Inicio", "Usuarios", "Nuevo Usuario"].map((text, index) => (
               <Link
@@ -503,7 +517,7 @@ export default function PrimarySearchAppBar() {
                   index === 0
                     ? "/"
                     : index === 1
-                    ? "/Usuarios"
+                    ? "/UsuariosV2"
                     : "/usuarios/nuevoUsuario"
                 }
               >
@@ -596,9 +610,9 @@ export default function PrimarySearchAppBar() {
               <Link
                 href={
                   index === 0
-                    ? "/NewTicketSupervisor" 
+                    ? "/NewTicketSupervisorV2"
                     : index === 1
-                    ? "/soportes/nuevoSoporte"
+                    ? "/soportes/nuevoSoporteV2"
                     : index === 2
                     ? "/Faq"
                     : index === 3
@@ -652,9 +666,9 @@ export default function PrimarySearchAppBar() {
               <Link
                 href={
                   index === 0
-                    ? "/Tickets" 
+                    ? "/TicketsV2"
                     : index === 1
-                    ? "/soportes/nuevoSoporte"
+                    ? "/soportes/nuevoSoporteV2"
                     : index === 2
                     ? "/soportes/historicoSoportes"
                     : null
@@ -702,9 +716,9 @@ export default function PrimarySearchAppBar() {
               <Link
                 href={
                   index === 0
-                    ? "/NewTicketSupervisorGeneral" 
+                    ? "/NewTicketSupervisorGeneralV2"
                     : index === 1
-                    ? "/soportes/nuevoSoporte"
+                    ? "/soportes/nuevoSoporteV2"
                     : index === 2
                     ? "/soportes/historicoSoportes"
                     : null
@@ -801,7 +815,7 @@ export default function PrimarySearchAppBar() {
           user.isprojectmanager === true || user.isprojectworker === true || usersGerentes.includes(user.name) ? (
             <List>
               {["Proyectos"].map((text, index) => (
-                <Link href={index === 0 ? "/Dashboard" : "/"}>
+                <Link href={index === 0 ? "/DashboardV2" : "/"}>
                   <ListItem key={text} disablePadding sx={{ display: "block" }}>
                     <ListItemButton
                       className={styles.listItemButton}
@@ -845,7 +859,7 @@ export default function PrimarySearchAppBar() {
           user.isprojectmanager === true || user.isprojectworker === true ? (
             <List>
               {["Dashboard"].map((text, index) => (
-                <Link href={index === 0 ? "/Tablero" : "/"}>
+                <Link href={index === 0 ? "/TableroV2" : "/"}>
                   <ListItem key={text} disablePadding sx={{ display: "block" }}>
                     <ListItemButton
                       className={styles.listItemButton}

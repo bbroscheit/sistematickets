@@ -92,8 +92,7 @@ function Soporte() {
   const [errorInfo, setErrorInfo] = useState("");
   const [buttonMoreInfo, setButtonMoreInfo] = useState({complete:false})
   const [yesState, setYesState] = useState(0);
-  const [soporteId, setSoporteId] = useState(1)
-  const [answer , setAnswer] = useState({ 
+  const [answer , setAnswer] = useState({
     info: "" , 
     firstname:"",
     lastname:"",
@@ -102,7 +101,7 @@ function Soporte() {
   const [errorAnswer, setErrorAnswer] = useState("");
   const [buttonAnswer, setButtonAnswer] = useState({complete:false})
   const [email, setEmail] = useState({
-    idTicket: id ? id : soporteId,
+    idTicket: null,
     useremail: "",
     worker: "",
     detail:"",
@@ -119,6 +118,7 @@ function Soporte() {
   
   // trae el detalle del soporte segun el id y la lista de los programadores
   useEffect(() => {
+    if (!id) return;
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
     // fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`)
       .then((res) => res.json())
@@ -143,9 +143,6 @@ function Soporte() {
         setWorker(data);
       });
 
-      let idSoporte = localStorage.getItem("idSoporte");
-      setSoporteId(idSoporte);
-      
   }, [router.query.id]);
   
   //trae toda la lista de proveedores
@@ -539,7 +536,7 @@ function Soporte() {
   // funcion para pasar el estado del ticket a Terminado
   function SubmitCloseTicket(e) {
     e.preventDefault();
-    updateCloseTicket(soporteId)
+    updateCloseTicket(id)
       .then(res => {
         if (res.state === "success") {
           sendEmailCloseTicket(email);

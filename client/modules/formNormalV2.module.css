@@ -1,0 +1,160 @@
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.hint {
+  font-size: 0.76rem;
+  color: #8a8f98;
+  font-weight: 400;
+}
+
+.field input,
+.field select,
+.field textarea {
+  border-radius: 8px;
+  border: 1px solid #dde1e6;
+  background: #fbfbfc;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  font-family: 'Titillium Web', sans-serif;
+  color: #3C3C3B;
+  box-shadow: none;
+  outline: none;
+}
+
+.field input {
+  height: 44px;
+}
+
+.field textarea {
+  min-height: 140px;
+  resize: none;
+  line-height: 1.5;
+}
+
+.field select {
+  height: 44px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a8f98' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #EA6558;
+  background: #ffffff;
+}
+
+.fieldError {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-dangerForm);
+}
+
+.dropzone {
+  position: relative;
+  border: 1.5px dashed #dde1e6;
+  border-radius: 10px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fbfbfc;
+  cursor: pointer;
+}
+
+.dropzone.dragOver {
+  border-color: #EA6558;
+  background: #fdece9;
+}
+
+.dropzone .ic {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #fdece9;
+  color: #c9463a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dropzone .txt strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #3C3C3B;
+}
+
+.dropzone .txt span {
+  font-size: 0.78rem;
+  color: #8a8f98;
+}
+
+.dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: #EA6558;
+  color: #ffffff;
+}
+
+.btnPrimary:disabled {
+  background: #f3c6c0;
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  background: #ffffff;
+  color: #8a8f98;
+  border: 1px solid #dde1e6;
+}

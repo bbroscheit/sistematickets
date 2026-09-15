@@ -1,0 +1,322 @@
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageHead h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+/* --- kpis de cola --- */
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.kpiCard {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-left: 4px solid #dde1e6;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kpiGreen { border-left-color: #3a7a4d; }
+.kpiOrange { border-left-color: #a8752c; }
+.kpiRed { border-left-color: #d92d20; }
+
+.kpiLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #8a8f98;
+}
+
+.kpiSub {
+  font-size: 0.7rem;
+  color: #8a8f98;
+  margin-top: -6px;
+}
+
+.kpiValue {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.kpiValueDanger {
+  color: #d92d20;
+}
+
+@media (max-width: 900px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- card generica --- */
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardHead h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.cardHead p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #8a8f98;
+}
+
+/* --- matriz sucursal x estado --- */
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.matrixTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.matrixTable th,
+.matrixTable td {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.thLabel {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8a8f98;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #e3e6ea;
+}
+
+.thState {
+  text-align: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e3e6ea;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.thState:hover .pill {
+  filter: brightness(0.96);
+}
+
+.thTotal {
+  text-align: center;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  border-bottom: 1px solid #e3e6ea;
+}
+
+.pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.pillGray { background: #eef0f2; color: #6b7280; }
+.pillBlue { background: #e4eefb; color: #2f5f96; }
+.pillAmber { background: #fbf1e0; color: #a8752c; }
+.pillPurple { background: #f2eaf9; color: #7a4ea0; }
+.pillGreen { background: #eaf5ec; color: #3a7a4d; }
+
+.matrixRow:hover {
+  background: #f6f7f9;
+}
+
+.rowLabel {
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  border-bottom: 1px solid #f0f1f3;
+  cursor: pointer;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: left;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.rowLabel:hover {
+  color: #EA6558;
+}
+
+.cellNum {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #3C3C3B;
+  border-bottom: 1px solid #f0f1f3;
+  cursor: pointer;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  font-family: 'Titillium Web', sans-serif;
+  border-radius: 8px;
+}
+
+.cellNum:hover {
+  background: #fdece9;
+  color: #c9463a;
+  font-weight: 700;
+}
+
+.totalCell {
+  text-align: center;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  border-bottom: 1px solid #f0f1f3;
+}
+
+.footRow td {
+  padding: 12px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #8a8f98;
+  border-top: 2px solid #e3e6ea;
+  text-align: center;
+}
+
+.footRow td:first-child {
+  text-align: left;
+}
+
+.footRow td:last-child {
+  color: #3C3C3B;
+}
+
+/* --- drill-down --- */
+
+.drillHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.drillHeadLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drillHeadLeft h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.drillCount {
+  font-size: 0.86rem;
+  color: #8a8f98;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #8a8f98;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.backBtn:hover {
+  color: #EA6558;
+}
+
+.drillTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.drillTable th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #8a8f98;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid #e3e6ea;
+}
+
+.drillTable td {
+  padding: 12px;
+  font-size: 0.88rem;
+  color: #3C3C3B;
+  border-bottom: 1px solid #f0f1f3;
+}
+
+.drillTable tbody tr:hover {
+  background: #f6f7f9;
+  cursor: pointer;
+}
+
+.drillTable .muted {
+  font-size: 0.86rem;
+  color: #8a8f98;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 46px 0;
+  font-size: 0.88rem;
+  color: #8a8f98;
+  font-weight: 600;
+}

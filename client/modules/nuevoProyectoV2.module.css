@@ -1,0 +1,322 @@
+.pageWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pageHead h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.pageHead p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #8a8f98;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #c9463a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cardTitle .n {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #fdece9;
+  color: #c9463a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  flex-shrink: 0;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.field input,
+.field select,
+.field textarea {
+  border-radius: 8px;
+  border: 1px solid #dde1e6;
+  background: #fbfbfc;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  font-family: 'Titillium Web', sans-serif;
+  color: #3C3C3B;
+  box-shadow: none;
+  outline: none;
+}
+
+.field input,
+.field select {
+  height: 42px;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 96px;
+  line-height: 1.5;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #EA6558;
+  background: #ffffff;
+}
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a8f98' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.fieldError {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #d92d20;
+}
+
+.charCount {
+  margin: 0;
+  font-size: 0.76rem;
+  color: #b9bdc4;
+  text-align: right;
+}
+
+.charCountBad {
+  color: #d92d20;
+}
+
+/* --- chips desarrolladores --- */
+
+.chipRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  border: 1.5px solid #e3e6ea;
+  background: #fff;
+  white-space: nowrap;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #3C3C3B;
+  cursor: pointer;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+.chip:hover {
+  border-color: #EA6558;
+}
+
+.chipActive {
+  background: #EA6558;
+  border-color: #EA6558;
+  color: #fff;
+}
+
+.avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.avatarOnDark {
+  background: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+}
+
+.c0 { background: #e4eefb; color: #2f5f96; }
+.c1 { background: #fdece9; color: #c14b3d; }
+.c2 { background: #eaf5ec; color: #3a7a4d; }
+.c3 { background: #fbf1e0; color: #a8752c; }
+.c4 { background: #f2eaf9; color: #7a4ea0; }
+.c5 { background: #e5f4f5; color: #2f7d84; }
+
+/* --- archivos --- */
+
+.dropzone {
+  border: 1.5px dashed #dde1e6;
+  border-radius: 10px;
+  padding: 26px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #8a8f98;
+  text-align: center;
+  background: #fbfbfc;
+  cursor: pointer;
+}
+
+.dropzoneActive {
+  border-color: #EA6558;
+  background: #fdf1f0;
+}
+
+.dropzone strong {
+  color: #3C3C3B;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dropzone span {
+  font-size: 0.78rem;
+}
+
+.dropzone svg {
+  color: #c3c7cd;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  background: #fbfbfc;
+  font-size: 0.84rem;
+  color: #3C3C3B;
+}
+
+.fileRow svg:first-child {
+  color: #8a8f98;
+  flex-shrink: 0;
+}
+
+.fileName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  color: #8a8f98;
+  font-size: 0.76rem;
+  flex-shrink: 0;
+}
+
+.fileRemove {
+  border: none;
+  background: none;
+  color: #b9bdc4;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.fileRemove:hover {
+  color: #d92d20;
+}
+
+/* --- acciones --- */
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: #EA6558;
+  color: #ffffff;
+}
+
+.btnSecondary {
+  background: #ffffff;
+  color: #8a8f98;
+  border: 1px solid #dde1e6;
+}
+
+@media (max-width: 640px) {
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+}

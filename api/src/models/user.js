@@ -54,6 +54,11 @@ module.exports = ( sequelize ) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        managerId:{
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: null,
+        },
 
     })
 }

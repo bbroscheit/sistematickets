@@ -1,0 +1,144 @@
+.row {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.row:hover {
+  border-color: #EA6558;
+  box-shadow: 0 4px 14px rgba(234, 101, 88, 0.12);
+}
+
+.clickArea {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.num {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #8a8f98;
+  width: 64px;
+  flex-shrink: 0;
+}
+
+.subject {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: #3C3C3B;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  font-size: 0.78rem;
+  color: #8a8f98;
+  text-align: right;
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.chev {
+  color: #c3c7cd;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 12px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pillGray {
+  background: #eef0f2;
+  color: #6b7280;
+}
+
+.pillBlue {
+  background: #e4eefb;
+  color: #2f5f96;
+}
+
+.pillAmber {
+  background: #fbf1e0;
+  color: #a8752c;
+}
+
+.pillPurple {
+  background: #f2eaf9;
+  color: #7a4ea0;
+}
+
+.pillGreen {
+  background: #eaf5ec;
+  color: #3a7a4d;
+}
+
+.action {
+  color: #EA6558;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.action:hover {
+  color: #c9463a;
+}
+
+.modalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 26px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.modalBox h2 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  text-align: center;
+}
+
+.modalSelect {
+  width: 100%;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #EA6558;
+  color: #ffffff;
+}

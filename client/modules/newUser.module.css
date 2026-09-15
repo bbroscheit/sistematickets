@@ -1,6 +1,196 @@
-.buttonContainer{
-    width: 100%;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: right;
+.pageWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  width: 100%;
+  max-width: 840px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.pageHead p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #8a8f98;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #c9463a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cardTitle .n {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #fdece9;
+  color: #c9463a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  flex-shrink: 0;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.field input,
+.field select {
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid #dde1e6;
+  background: #fbfbfc;
+  padding: 0 14px;
+  font-size: 0.92rem;
+  font-family: 'Titillium Web', sans-serif;
+  color: #3C3C3B;
+  box-shadow: none;
+  outline: none;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #EA6558;
+  background: #ffffff;
+}
+
+.field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a8f98' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.fieldError {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--color-dangerForm);
+}
+
+.toggleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toggleGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3C3C3B;
+}
+
+.togglePair {
+  display: flex;
+  border: 1px solid #dde1e6;
+  border-radius: 999px;
+  padding: 3px;
+  width: fit-content;
+  background: #fbfbfc;
+}
+
+.togglePair button {
+  border: none;
+  background: none;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 7px 20px;
+  border-radius: 999px;
+  color: #8a8f98;
+  cursor: pointer;
+}
+
+.togglePair button.selectedYes {
+  background: #EA6558;
+  color: #ffffff;
+}
+
+.togglePair button.selectedNo {
+  background: #e7e9ec;
+  color: #3C3C3B;
+}
+
+.permisosRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: #EA6558;
+  color: #ffffff;
+}
+
+.btnSecondary {
+  background: #ffffff;
+  color: #8a8f98;
+  border: 1px solid #dde1e6;
+}
+
+@media (max-width: 768px) {
+  .fieldRow,
+  .permisosRow {
+    grid-template-columns: 1fr;
+  }
 }

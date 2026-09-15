@@ -1,0 +1,512 @@
+/* --- layout shell --- */
+
+.page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ticketsBar {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ticketsBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ticketsBarLeft h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.countBadge {
+  background: #EA6558;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.chevronBtn {
+  color: #8a8f98;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chevronBtn:hover {
+  color: #EA6558;
+}
+
+.listadoContainer {
+  width: 100%;
+}
+
+/* --- toolbar: tabs + search + chips --- */
+
+.toolbarCard {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.toolbarTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e3e6ea;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tabs {
+  display: flex;
+  gap: 26px;
+}
+
+.tab {
+  padding: 10px 2px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #8a8f98;
+  border-bottom: 3px solid transparent;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+}
+
+.tabActive {
+  color: #EA6558;
+  border-bottom-color: #EA6558;
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.searchInput {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #fff;
+  height: 38px;
+  width: 240px;
+  color: #8a8f98;
+  box-shadow: none;
+}
+
+.searchInput input {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  font-size: 0.86rem;
+  padding: 0;
+  width: 100%;
+  background: transparent;
+  color: #3C3C3B;
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8a8f98;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  color: #EA6558;
+}
+
+.chipRow {
+  padding: 14px 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chipScroll {
+  max-height: 112px;
+  overflow-y: auto;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  border: 1.5px solid #e3e6ea;
+  background: #fff;
+  white-space: nowrap;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #3C3C3B;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: #EA6558;
+}
+
+.chipActive {
+  background: #EA6558;
+  border-color: #EA6558;
+  color: #fff;
+}
+
+.chipAll {
+  background: #EA6558;
+  border-color: #EA6558;
+  color: #fff;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+}
+
+.chipCount {
+  background: rgba(255, 255, 255, 0.28);
+  color: #fff;
+  border-radius: 999px;
+  padding: 1px 9px;
+  font-size: 0.75rem;
+  margin-left: 2px;
+}
+
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* --- summary strip ("Información General") --- */
+
+.summaryStrip {
+  background: #fdece9;
+  border: 1px solid #f6d9d4;
+  border-radius: 12px;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  overflow-x: auto;
+}
+
+.summaryTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #c9463a;
+  white-space: nowrap;
+  padding-right: 20px;
+  margin-right: 4px;
+  border-right: 1px solid #f0cec7;
+}
+
+.summaryStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.summaryStat .n {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.summaryStat .l {
+  font-size: 0.7rem;
+  color: #c9463a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* --- card grid --- */
+
+.cardGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.containerInfoTicket {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* cuando se muestra el panel de tickets (un solo worker/usuario seleccionado),
+   el contenedor tiene que ocupar todo el ancho de la fila para que el panel
+   se estire; en la grilla de "Todos" (varias personCard sin panel) no se
+   aplica, para no romper el wrap de varias columnas */
+.containerInfoTicketFull {
+  width: 100%;
+}
+
+.containerInfoTicketFull .personCard {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.containerInfoTicketFull .ticketsPanel {
+  flex: 1 1 0%;
+}
+
+/* --- person card --- */
+
+.personCard {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 2px rgba(20, 20, 30, 0.05);
+  min-width: 230px;
+  flex: 1 1 230px;
+}
+
+.personCard:hover {
+  border-color: #EA6558;
+  box-shadow: 0 4px 14px rgba(234, 101, 88, 0.14);
+}
+
+.personHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatarLg {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.personName {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  line-height: 1.15;
+}
+
+.personSub {
+  font-size: 0.76rem;
+  color: #8a8f98;
+  margin-top: 2px;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.statCell {
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #f6f7f9;
+}
+
+.statCell.wide {
+  grid-column: 1 / -1;
+}
+
+.statCell.alert {
+  background: #fdeceb;
+}
+
+.statLabel {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #8a8f98;
+  font-weight: 600;
+  display: block;
+}
+
+.statCell.alert .statLabel {
+  color: #d92d20;
+}
+
+.statValue {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  display: block;
+}
+
+.statValue.muted {
+  color: #c3c7cd;
+  font-weight: 600;
+}
+
+.statCell.alert .statValue {
+  color: #d92d20;
+}
+
+.footerPill {
+  align-self: flex-end;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c9463a;
+  background: #fdece9;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* --- panel de tickets (detalle de worker/usuario seleccionado) --- */
+
+.ticketsPanel {
+  background: #ffffff;
+  border: 1px solid #e3e6ea;
+  border-radius: 12px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1 1 480px;
+}
+
+.ticketsPanelHead {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ticketsPanelHead h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.ticketRows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticketRow {
+  display: grid;
+  grid-template-columns: 64px 92px 1fr 180px 108px;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 4px;
+  border-bottom: 1px solid #f0f1f3;
+  cursor: pointer;
+}
+
+.ticketRow:last-child {
+  border-bottom: none;
+}
+
+.ticketRow:hover .ticketNum {
+  color: #EA6558;
+}
+
+.ticketNum {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #3C3C3B;
+}
+
+.ticketDate {
+  font-size: 0.82rem;
+  color: #8a8f98;
+}
+
+.ticketSubject {
+  font-size: 0.88rem;
+  color: #3C3C3B;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ticketRequester {
+  font-size: 0.86rem;
+  color: #3C3C3B;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pill {
+  justify-self: end;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.pillGray { background: #eef0f2; color: #6b7280; }
+.pillBlue { background: #e4eefb; color: #2f5f96; }
+.pillAmber { background: #fbf1e0; color: #a8752c; }
+.pillPurple { background: #f2eaf9; color: #7a4ea0; }
+.pillGreen { background: #eaf5ec; color: #3a7a4d; }
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 46px 0;
+}
+
+.emptyState span {
+  font-size: 0.88rem;
+  color: #8a8f98;
+  font-weight: 600;
+}
+
+/* --- avatar color rotation (shared by chips and card avatars) --- */
+
+.c0 { background: #e4eefb; color: #2f5f96; }
+.c1 { background: #fdece9; color: #c14b3d; }
+.c2 { background: #eaf5ec; color: #3a7a4d; }
+.c3 { background: #fbf1e0; color: #a8752c; }
+.c4 { background: #f2eaf9; color: #7a4ea0; }
+.c5 { background: #e5f4f5; color: #2f7d84; }
