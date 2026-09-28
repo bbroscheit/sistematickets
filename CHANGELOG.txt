@@ -4,6 +4,24 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-09-15 (fix: redirect de login a NewTicketSupervisorV2 usaba un id de sector hardcodeado)
+-------------------------------------------------------------------
+- Detectado en producción probando con un usuario real (Mesa de Ayuda
+  + rol Gerente): client/pages/index.js redirigía a
+  /NewTicketSupervisorV2 con `sector.includes(5)` - un id de sector
+  hardcodeado que en local correspondía a "Sistemas", y en producción
+  no corresponde a ningún sector real (los ids no coinciden entre
+  entornos, mismo problema de fondo que "Mesa de Ayuda" en Navbar.js).
+  Con eso, cualquier usuario de Mesa de Ayuda caía en
+  NewTicketSupervisorGeneralV2 en vez de NewTicketSupervisorV2.
+- Definido con el usuario: el acceso a NewTicketSupervisorV2 depende
+  del sector "Mesa de Ayuda", sin importar el rol. Se reemplazó el
+  `sector.includes(5)` por una comprobación por nombre de sector
+  (`login.sectors.some(s => s.sectorname === "Mesa de Ayuda")`), sin
+  necesidad de un fetch extra porque el login ya trae los sectores
+  completos con nombre incluido.
+
+
 2026-09-15 (fix crítico: no existía migración para el modelo Role)
 -------------------------------------------------------------------
 - El usuario preguntó si ya estaba todo listo para hacer commit/push y
