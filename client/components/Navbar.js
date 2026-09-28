@@ -347,8 +347,8 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             
-          {/* Se agrega icono de acceso al sector desarrollos - solo usuario bbroscheit */}
-          { user !== null && user.sector.includes(5) ? (
+          {/* Se agrega icono de acceso al sector desarrollos - Mesa de Ayuda */}
+          { user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId) ? (
             <Tooltip title="Desarrollos">  
             
              <IconButton
@@ -601,9 +601,9 @@ export default function PrimarySearchAppBar() {
         <Divider />
 
         
-        {/* Si el usuario pertenece a sistemas se carga la barra de navegacion de sistemas ( soportes , faq e historico ) */}
+        {/* Si el usuario pertenece a Mesa de Ayuda se carga la barra de navegacion de soportes (faq e historico) */}
         {
-        user !== null && user.sector.includes(5) ? 
+        user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId) ?
           <>
           <List>
             {["Soportes", "Nuevo Soporte", "Faq", " Hist. Soportes"].map((text, index) => (

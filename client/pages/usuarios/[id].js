@@ -192,7 +192,7 @@ function Soporte() {
     try {
       const result = await deleteUser(id);
       if (result && result.state === "success") {
-        router.push("/usuarios");
+        router.push("/UsuariosV2");
       } else {
         alert("No se pudo eliminar el usuario. Intentá nuevamente.");
       }

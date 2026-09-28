@@ -4,6 +4,44 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-09-15 (mismo bug de id de sector hardcodeado, encontrado en más lugares)
+-------------------------------------------------------------------
+- Reportado por el usuario probando en producción: el ícono de
+  "Soportes" del Navbar lo mandaba a NewTicketSupervisorGeneralV2 en
+  vez de NewTicketSupervisorV2, y borrar un usuario desde su ficha
+  redirigía a /usuarios (la lista vieja) en vez de /UsuariosV2.
+- Barrida completa por el codebase de `.includes(5)` / `sector ===
+  "Sistemas"` (el mismo patrón que ya veníamos arreglando). Arreglado
+  ahora:
+  - Navbar.js: el gate de la sección "Soportes" (línea ~606) usaba
+    `user.sector.includes(5)` - se cambió a la misma comprobación por
+    nombre "Mesa de Ayuda" que ya usa el gate de "Usuarios".
+  - usuarios/[id].js: el redirect post-borrado apuntaba a "/usuarios"
+    - se cambió a "/UsuariosV2".
+  - usuarios/Perfil.js: el botón "volver" tenía la MISMA lógica
+    hardcodeada que index.js (`user.sector.includes(5)`), más un bug
+    aparte: comparaba `user.roleId` cuando el objeto guardado en
+    localStorage tiene la propiedad `role` (roleId no existe ahí) -
+    ese `else if` nunca se cumplía para nadie. Se agregó la resolución
+    de "Mesa de Ayuda" por nombre (fetch a /sector, igual que en
+    Navbar.js) y se corrigió a `user.role`.
+- Definido con el usuario y resuelto:
+  - Navbar.js línea ~351 (ícono "Desarrollos"): va por "Mesa de Ayuda"
+    (no "Sistemas"). Se cambió al mismo chequeo por nombre que ya usan
+    los otros gates de Navbar.js.
+  - client/pages/soportes/v2/[id].js: la "vista desarrollador" del
+    detalle de ticket debe valer tanto para "Sistemas" como para "Mesa
+    de Ayuda". Se agregó un useEffect que resuelve los ids de ambos
+    sectores por nombre (fetch a /sector) en un estado `devSectorIds`,
+    y `isSistemas` ahora chequea pertenencia a cualquiera de los dos.
+  - Se sacó el sector "Supervisor" (id 7 en local) de esta lógica por
+    pedido explícito del usuario ("deberíamos dejar de usarlo") - se
+    eliminó la variable `isSupervisorOSistemas` y su único uso (el
+    panel de "Asignado a") ahora usa `isSistemas` directamente. El
+    sector "Supervisor" en sí no se tocó (no se borra nada de la
+    base), solo se dejó de leer en este chequeo puntual.
+
+
 2026-09-15 (fix: redirect de login a NewTicketSupervisorV2 usaba un id de sector hardcodeado)
 -------------------------------------------------------------------
 - Detectado en producción probando con un usuario real (Mesa de Ayuda

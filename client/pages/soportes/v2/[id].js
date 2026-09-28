@@ -61,6 +61,7 @@ function Soporte() {
   const [openPriority, setOpenPriority] = useState(false);
   const [newPriority, setNewPriority] = useState({ state: "sin asignar" });
   const [user, setUser] = useUser();
+  const [devSectorIds, setDevSectorIds] = useState([]);
   const [soporte, setSoporte] = useState(null);
   const [worker, setWorker] = useState(null);
   const [proveedor, setProveedor] = useState(null);
@@ -152,6 +153,20 @@ function Soporte() {
         setProveedor(data);
       });
   }, [router.query.id])
+
+  // resuelve los ids de "Sistemas" y "Mesa de Ayuda" por nombre (varian entre entornos,
+  // no se pueden hardcodear como antes)
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+      .then((res) => res.json())
+      .then((data) => {
+        const ids = data
+          .filter((s) => s.sectorname === "Sistemas" || s.sectorname === "Mesa de Ayuda")
+          .map((s) => s.id);
+        setDevSectorIds(ids);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (soporte !== null) {
@@ -693,8 +708,10 @@ function Soporte() {
   const dropAnswer = makeDropHandlers(setDragOverAnswer, (files) => processFilesInto(files, answer, setAnswer));
 
   const pill = soporte ? statePill(soporte.state) : null;
-  const isSistemas = user !== null && Array.isArray(user.sector) && user.sector.includes(5);
-  const isSupervisorOSistemas = user !== null && Array.isArray(user.sector) && (user.sector.includes(5) || user.sector.includes(7));
+  // vista desarrollador: sectores "Sistemas" o "Mesa de Ayuda" (se dejo de usar el sector
+  // "Supervisor" que se chequeaba antes)
+  const isSistemas =
+    user !== null && Array.isArray(user.sector) && user.sector.some((id) => devSectorIds.includes(id));
 
   return (
     <div className={mainStyle.container}>
@@ -727,8 +744,8 @@ function Soporte() {
                   <span className={style.val}>{soporte.user.firstname} {soporte.user.lastname}</span>
                 </div>
 
-                {/* Vista de desarrollador si el usuario es de sistemas o supervisor */}
-                {isSupervisorOSistemas ? (
+                {/* Vista de desarrollador si el usuario es de Sistemas o Mesa de Ayuda */}
+                {isSistemas ? (
                   <div className={style.fieldLine}>
                     <span className={style.lbl}>Asignado a</span>
                     <span className={style.val}>

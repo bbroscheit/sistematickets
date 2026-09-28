@@ -29,6 +29,7 @@ function Perfil() {
 
   const [openChange, setOpenChange] = useState(false);
   const [user, setUser] = useState("");
+  const [mesaDeAyudaSectorId, setMesaDeAyudaSectorId] = useState(null);
   const [modify, setModify] = useState(false);
   const [error, setError] = useState("");
   const [input, setInput] = useState({
@@ -64,6 +65,16 @@ function Perfil() {
       });
   }, [router.query.id]);
 
+  useEffect(() => {
+    fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
+      .then((res) => res.json())
+      .then((data) => {
+        const mesaDeAyuda = data.find((s) => s.sectorname === "Mesa de Ayuda");
+        if (mesaDeAyuda) setMesaDeAyudaSectorId(mesaDeAyuda.id);
+      })
+      .catch(() => {});
+  }, []);
+
   function handleModify(e) {
     e.preventDefault();
     setModify(true);
@@ -95,8 +106,10 @@ function Perfil() {
 
   function handleUserBack(e) {
     e.preventDefault();
+    const esMesaDeAyuda =
+      Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId);
     setTimeout(() => {
-      router.push( user.sector.includes(5) ? "/NewTicketSupervisorV2" : user.roleId === 1 ? "/TicketsV2" : "/NewTicketSupervisorGeneralV2" );
+      router.push(esMesaDeAyuda ? "/NewTicketSupervisorV2" : user.role === 1 ? "/TicketsV2" : "/NewTicketSupervisorGeneralV2");
     }, 1000);
   }
 
