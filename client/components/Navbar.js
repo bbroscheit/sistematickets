@@ -158,6 +158,9 @@ export default function PrimarySearchAppBar() {
   // el sector "Mesa de Ayuda" es quien administra usuarios (distinto de Sistemas);
   // se resuelve el id dinámicamente porque puede variar entre entornos
   const [mesaDeAyudaSectorId, setMesaDeAyudaSectorId] = React.useState(null);
+  // "Sistemas" tambien necesita acceso a la vista de soportes (NewTicketSupervisorV2),
+  // ya que ahi ven los tickets que tienen asignados como worker
+  const [sistemasSectorId, setSistemasSectorId] = React.useState(null);
 
   React.useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
@@ -165,9 +168,16 @@ export default function PrimarySearchAppBar() {
       .then((data) => {
         const mesaDeAyuda = data.find((s) => s.sectorname === "Mesa de Ayuda");
         if (mesaDeAyuda) setMesaDeAyudaSectorId(mesaDeAyuda.id);
+        const sistemas = data.find((s) => s.sectorname === "Sistemas");
+        if (sistemas) setSistemasSectorId(sistemas.id);
       })
       .catch(() => {});
   }, []);
+
+  const esMesaDeAyuda =
+    user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId);
+  const esSistemas =
+    user !== null && Array.isArray(user.sector) && sistemasSectorId !== null && user.sector.includes(sistemasSectorId);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -348,8 +358,8 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             
           {/* Se agrega icono de acceso al sector desarrollos - Mesa de Ayuda */}
-          { user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId) ? (
-            <Tooltip title="Desarrollos">  
+          { esMesaDeAyuda ? (
+            <Tooltip title="Desarrollos">
             
              <IconButton
               size="large"
@@ -509,7 +519,7 @@ export default function PrimarySearchAppBar() {
         ) : null}
 
         {/* solo los usuarios del sector "Mesa de Ayuda" tienen acceso al control de usuarios */}
-        {user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId) ? (
+        {esMesaDeAyuda ? (
           <List>
             {["Inicio", "Usuarios", "Nuevo Usuario"].map((text, index) => (
               <Link
@@ -601,9 +611,11 @@ export default function PrimarySearchAppBar() {
         <Divider />
 
         
-        {/* Si el usuario pertenece a Mesa de Ayuda se carga la barra de navegacion de soportes (faq e historico) */}
+        {/* Si el usuario pertenece a Mesa de Ayuda o a Sistemas se carga la barra de navegacion
+            de soportes (faq e historico) - Sistemas la necesita para ver los tickets que
+            tiene asignados como worker */}
         {
-        user !== null && Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId) ?
+        esMesaDeAyuda || esSistemas ?
           <>
           <List>
             {["Soportes", "Nuevo Soporte", "Faq", " Hist. Soportes"].map((text, index) => (

@@ -30,6 +30,7 @@ function Perfil() {
   const [openChange, setOpenChange] = useState(false);
   const [user, setUser] = useState("");
   const [mesaDeAyudaSectorId, setMesaDeAyudaSectorId] = useState(null);
+  const [sistemasSectorId, setSistemasSectorId] = useState(null);
   const [modify, setModify] = useState(false);
   const [error, setError] = useState("");
   const [input, setInput] = useState({
@@ -71,6 +72,8 @@ function Perfil() {
       .then((data) => {
         const mesaDeAyuda = data.find((s) => s.sectorname === "Mesa de Ayuda");
         if (mesaDeAyuda) setMesaDeAyudaSectorId(mesaDeAyuda.id);
+        const sistemas = data.find((s) => s.sectorname === "Sistemas");
+        if (sistemas) setSistemasSectorId(sistemas.id);
       })
       .catch(() => {});
   }, []);
@@ -108,8 +111,10 @@ function Perfil() {
     e.preventDefault();
     const esMesaDeAyuda =
       Array.isArray(user.sector) && mesaDeAyudaSectorId !== null && user.sector.includes(mesaDeAyudaSectorId);
+    const esSistemas =
+      Array.isArray(user.sector) && sistemasSectorId !== null && user.sector.includes(sistemasSectorId);
     setTimeout(() => {
-      router.push(esMesaDeAyuda ? "/NewTicketSupervisorV2" : user.role === 1 ? "/TicketsV2" : "/NewTicketSupervisorGeneralV2");
+      router.push(esMesaDeAyuda || esSistemas ? "/NewTicketSupervisorV2" : user.role === 1 ? "/TicketsV2" : "/NewTicketSupervisorGeneralV2");
     }, 1000);
   }
 

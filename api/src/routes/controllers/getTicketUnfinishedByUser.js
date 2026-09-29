@@ -1,5 +1,5 @@
 const { Ticket, User, Sector, Salepoint, Role } = require("../../bd");
-const { Op, Sequelize } = require("sequelize");
+const { Op } = require("sequelize");
 
 const getTicketsUnfinishedByUser = async (userId) => {
   //console.log("getTicketsUnfinishedByUser - userId:", userId);
@@ -22,7 +22,8 @@ const getTicketsUnfinishedByUser = async (userId) => {
     const sectorIds = user.sectors.map((s) => s.id);
     const salepointIds = user.salepoints.map((sp) => sp.id);
     //console.log("Usuario encontrado:", user.id, "Role:", roleName, "Sectors:", sectorIds, "Salepoints:", salepointIds);
-    // Roles visibles según jerarquía
+    // Roles visibles según jerarquía (siempre incluye el propio rol, para que
+    // el usuario vea tambien sus propios tickets)
     let visibleRoles = [];
 
     switch (roleName) {
@@ -36,30 +37,16 @@ const getTicketsUnfinishedByUser = async (userId) => {
         visibleRoles = ["empleado", "encargado", "jefe"];
         break;
       case "gerente":
-        visibleRoles = null; // ve todo
+        visibleRoles = ["empleado", "encargado", "jefe", "gerente"];
         break;
       default:
         visibleRoles = [];
     }
 
-    const whereTicket = {
-      state: { [Op.not]: "Terminado" },
-    };
-
-    // Si NO es gerente, aplicamos filtros
-    if (roleName !== "gerente") {
-      whereTicket.userId = {
-        [Op.in]: Sequelize.literal(`
-          (
-            SELECT u.id
-            FROM "Users" u
-            JOIN "Roles" r ON r.id = u."roleId"
-            WHERE r.name IN (${visibleRoles.map((r) => `'${r}'`).join(",")})
-          )
-        `),
-      };
-    }
-
+    // el filtro de rol + sector + sucursal aplica siempre, "gerente" incluido:
+    // un gerente de cobranzas de buenos aires solo debe ver a el mismo y a sus
+    // empleados, dentro de cobranzas y de buenos aires (antes se saltaba todo
+    // esto y veia literalmente a todos los usuarios del sistema)
     const tickets = await Ticket.findAll({
       where: {
         state: { [Op.not]: "Terminado" },
@@ -73,28 +60,22 @@ const getTicketsUnfinishedByUser = async (userId) => {
             {
               model: Role,
               as: "role",
-              ...(roleName !== "gerente" && {
-                where: { name: { [Op.in]: visibleRoles } },
-                required: true,
-              }),
+              where: { name: { [Op.in]: visibleRoles } },
+              required: true,
             },
             {
               model: Sector,
               as: "sectors",
               through: { attributes: [] },
-              ...(roleName !== "gerente" && {
-                where: { id: { [Op.in]: sectorIds } },
-                required: true,
-              }),
+              where: { id: { [Op.in]: sectorIds } },
+              required: true,
             },
             {
               model: Salepoint,
               as: "salepoints",
               through: { attributes: [] },
-              ...(roleName !== "gerente" && {
-                where: { id: { [Op.in]: salepointIds } },
-                required: true,
-              }),
+              where: { id: { [Op.in]: salepointIds } },
+              required: true,
             },
           ],
         },

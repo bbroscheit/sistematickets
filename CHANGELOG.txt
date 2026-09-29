@@ -4,6 +4,63 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-09-29 (Sistemas tambien accede a NewTicketSupervisorV2)
+-------------------------------------------------------------------
+- Reportado por el usuario: vlodigiani (sector Sistemas, worker) veia
+  una pantalla vacia al loguearse - lo mandaba a una vista que le
+  buscaba tickets donde el es el "usuario" (solicitante), pero el solo
+  tiene tickets asignados como "worker" (desarrollador).
+- A pedido del usuario, en vez de armar una vista nueva, se le da a
+  todo el sector "Sistemas" acceso a NewTicketSupervisorV2 (la misma
+  vista de Mesa de Ayuda, con tabs "Workers" y "Usuarios" - Sistemas ve
+  ahi sus propios tickets asignados como worker). Se actualizaron los
+  3 lugares que redirigen o dan acceso a esa vista:
+  - pages/index.js: el redirect post-login ahora chequea "Mesa de
+    Ayuda" O "Sistemas".
+  - components/Navbar.js: el bloque del sidebar "Soportes / Nuevo
+    Soporte / Faq / Hist. Soportes" (antes solo Mesa de Ayuda) ahora
+    tambien se muestra a Sistemas. Se aprovecho para sacar la
+    resolucion de "Mesa de Ayuda"/"Sistemas" por sector-id a dos
+    variables (`esMesaDeAyuda`, `esSistemas`) reusadas en varios
+    lugares del archivo. El icono "Desarrollos" y el menu "Usuarios"
+    siguen siendo SOLO Mesa de Ayuda (sin cambios de comportamiento,
+    solo se limpio la condicion repetida).
+  - usuarios/Perfil.js: el boton "Volver" tiene el mismo chequeo
+    ampliado a Sistemas.
+- NewTicketSupervisorV2 y sus endpoints (/worker, /ticketUnfinished,
+  /informacionTodosWorkers, /informacionTodosUsuarios) ya no tenian
+  NINGUN filtro por usuario logueado (a diferencia de
+  NewTicketSupervisorGeneralV2, que si filtra) - por eso Mesa de Ayuda
+  y ahora Sistemas ven ahi a todos los workers y todos los usuarios sin
+  cambios adicionales de backend.
+
+
+2026-09-29 (bug de visibilidad: gerente veia a todos los usuarios)
+-------------------------------------------------------------------
+- Reportado por el usuario en producción: llamanzarez (gerente de
+  Sistemas) veía los soportes de TODOS los usuarios en vez de solo los
+  suyos y los de su equipo (suarez, lodigiani).
+- Causa: api/src/routes/controllers/getTicketUnfinishedByUser.js ya
+  filtraba correctamente por rol + sector + sucursal para
+  empleado/encargado/jefe, pero para "gerente" saltaba directamente
+  TODOS esos filtros (`visibleRoles = null // ve todo`) - era
+  intencional en el código pero no es el comportamiento esperado por
+  el usuario.
+- Fix: "gerente" ahora se trata igual que el resto de los roles - ve
+  empleado/encargado/jefe/gerente, pero siempre restringido a su mismo
+  sector y su misma sucursal (nunca se salta el filtro). Se sacó
+  además una variable `whereTicket` que quedó como código muerto (se
+  armaba pero nunca se usaba en la consulta real).
+- Probado localmente con los usuarios de prueba ya cargados
+  (cobra_gerente / cordoba_cobra_gerente, mismo sector "Cobranzas" en
+  sucursales distintas): cada uno ahora ve solo los tickets de su
+  propia sucursal, no los de la otra.
+- Nota: esto NO usa la jerarquía de `managerId` (todavía no hay forma
+  de asignar "jefe directo" desde ninguna pantalla) - el usuario
+  confirmó explícitamente que el criterio correcto es rol + sector +
+  sucursal, no la cadena de mánagers.
+
+
 2026-09-15 (mismo bug de id de sector hardcodeado, encontrado en más lugares)
 -------------------------------------------------------------------
 - Reportado por el usuario probando en producción: el ícono de

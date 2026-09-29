@@ -75,11 +75,13 @@ export default function Home() {
       localStorage.setItem("user", JSON.stringify(user));
       let role = login.roleId;
       let esMesaDeAyuda = login.sectors?.some((s) => s.sectorname === "Mesa de Ayuda") || false;
+      let esSistemas = login.sectors?.some((s) => s.sectorname === "Sistemas") || false;
 
-      //direcciona a cualquiera del sector Mesa de Ayuda a la pantalla de supervisor de soportes,
-      //sin importar el rol (antes era un id de sector hardcodeado, "5", que en produccion
-      //no corresponde a ningun sector real)
-      if (esMesaDeAyuda) {
+      //direcciona a cualquiera del sector Mesa de Ayuda (ve todos los soportes y todos los
+      //workers) o Sistemas (ve los soportes que tiene asignados como worker) a la pantalla
+      //de supervisor de soportes, sin importar el rol (antes era un id de sector hardcodeado,
+      //"5", que en produccion no corresponde a ningun sector real)
+      if (esMesaDeAyuda || esSistemas) {
         Router.push("/NewTicketSupervisorV2");
         return;
       }
