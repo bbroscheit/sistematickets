@@ -29,17 +29,15 @@ const getManagersForUser = async (ticketUser) => {
         const salepointIds = fullUser.salepoints.map((sp) => sp.id);
 
         for (const level of levelsAbove) {
-            const isGerente = level === 'gerente';
-
+            // el filtro de sector+sucursal aplica siempre, "gerente" incluido: una gerenta
+            // de contabilidad de ecobahia no debe recibir mails de contabilidad de buenos
+            // aires (antes se salteaba el filtro al llegar a "gerente" y le llegaba a
+            // TODOS los gerentes del sistema)
             const candidates = await User.findAll({
                 include: [
                     { model: Role, as: 'role', where: { name: level }, required: true },
-                    ...(isGerente
-                        ? []
-                        : [
-                            { model: Sector, as: 'sectors', through: { attributes: [] }, where: { id: { [Op.in]: sectorIds } }, required: true },
-                            { model: Salepoint, as: 'salepoints', through: { attributes: [] }, where: { id: { [Op.in]: salepointIds } }, required: true },
-                        ]),
+                    { model: Sector, as: 'sectors', through: { attributes: [] }, where: { id: { [Op.in]: sectorIds } }, required: true },
+                    { model: Salepoint, as: 'salepoints', through: { attributes: [] }, where: { id: { [Op.in]: salepointIds } }, required: true },
                 ],
                 distinct: true,
             });
