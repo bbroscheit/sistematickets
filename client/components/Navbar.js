@@ -41,6 +41,7 @@ import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
@@ -521,14 +522,16 @@ export default function PrimarySearchAppBar() {
         {/* solo los usuarios del sector "Mesa de Ayuda" tienen acceso al control de usuarios */}
         {esMesaDeAyuda ? (
           <List>
-            {["Inicio", "Usuarios", "Nuevo Usuario"].map((text, index) => (
+            {["Inicio", "Usuarios", "Nuevo Usuario", "Sectores"].map((text, index) => (
               <Link
                 href={
                   index === 0
                     ? "/"
                     : index === 1
                     ? "/UsuariosV2"
-                    : "/usuarios/nuevoUsuario"
+                    : index === 2
+                    ? "/usuarios/nuevoUsuario"
+                    : "/usuarios/SectoresV2"
                 }
               >
                 <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -550,7 +553,6 @@ export default function PrimarySearchAppBar() {
                       }}
                     >
                       {
-                        /* { index === 1 ? <InsertDriveFileRoundedIcon /> : <MailIcon />} */
                         index === 0 ? (
                           <InputRoundedIcon />
                         ) : index === 1 ? (
@@ -558,7 +560,7 @@ export default function PrimarySearchAppBar() {
                         ) : index === 2 ? (
                           <PersonAddAltRoundedIcon />
                         ) : (
-                          <MailIcon />
+                          <CategoryRoundedIcon />
                         )
                       }
                     </ListItemIcon>

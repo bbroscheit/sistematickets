@@ -4,6 +4,36 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-09-30 (nueva pantalla: Gestion de Sectores)
+-------------------------------------------------------------------
+- Pedido por el usuario: poder inactivar sectores viejos que quedaron
+  redundantes con la jerarquia de roles nueva (ej. "Jefatura de
+  Compras", "Gerencia Administracion" - ahora eso es Rol=jefe/gerente +
+  Sector=Compras/Administracion, no hace falta un sector aparte por
+  cada combinacion).
+- Se aprovecho que Sector YA tenia un campo `isdelete` (usado hasta
+  ahora solo para "borrar" sectores sin borrarlos de la base) - no hizo
+  falta ninguna migracion. GET /sector (el que usan los desplegables de
+  crear/editar usuario y el filtro de UsuariosV2) YA filtraba
+  `isdelete:false`, asi que un sector inactivado deja de aparecer ahi
+  automaticamente, sin tocar esas pantallas.
+- Nuevo, solo para la pantalla de gestion:
+  - GET /sector/all: trae TODOS los sectores (activos e inactivos) mas
+    la cantidad de usuarios reales asignados a cada uno.
+  - PUT /sector/:id/estado: activa o desactiva un sector (antes solo
+    existia el DELETE que desactiva, no habia forma de reactivar).
+- client/pages/usuarios/SectoresV2.js (nueva): busqueda, filtro
+  Todos/Activos/Inactivos con contador, y un switch por sector.
+  Muestra el id de cada fila porque en produccion hay sectores
+  duplicados con el mismo nombre (ver la entrada de mas abajo).
+- Acceso: agregado como 4to item ("Sectores") en el menu de Navbar.js
+  que ya usa "Usuarios"/"Nuevo Usuario" - mismo gate, solo Mesa de
+  Ayuda, a pedido del usuario.
+- Mockup aprobado antes de programar (ver conversacion) via Claude
+  Design, con un ajuste pedido: la cantidad de usuarios se muestra
+  como texto simple, no como pill.
+
+
 2026-09-30 (sectores duplicados: mails y visibilidad partidos entre dos filas)
 -------------------------------------------------------------------
 - Reportado por el usuario: la gerenta de Contabilidad de Ecobahía
