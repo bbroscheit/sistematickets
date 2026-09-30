@@ -720,7 +720,7 @@ function Soporte() {
 
           {soporte !== null ? (
             <>
-              {isSistemas ? <span className={style.badge}>Vista desarrollador (Sistemas)</span> : null}
+              {/*isSistemas ? <span className={style.badge}>Vista desarrollador (Sistemas)</span> : null*/}
 
               <div className={style.pageHead}>
                 <h1>Soporte N.° {soporte.id}</h1>
