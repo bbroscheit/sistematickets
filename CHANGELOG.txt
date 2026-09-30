@@ -4,6 +4,24 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-09-30 (TableroV2: encabezados de estado sin pills)
+-------------------------------------------------------------------
+- Pedido por el usuario: en la tabla "Soportes por sucursal" de
+  TableroV2, los encabezados de estado (Sin asignar/Asignado/
+  Desarrollo/Informacion/Completado/Terminado) usaban el mismo
+  formato de pill que las celdas de datos - se pidio dejarlos como
+  texto simple, con el mismo formato que "Total" (un poco mas grande
+  de tipografia).
+- client/modules/tableroV2.module.css: nueva clase `.thStateLabel`
+  (texto plano, 0.82rem, bold, #3C3C3B) en vez del span con `.pill`;
+  hover ahora cambia el color de texto a coral en vez del brightness
+  filter que aplicaba sobre el pill. `.thTotal` tambien se subio a
+  0.82rem para que quede igual de tamaño que los demas encabezados.
+- Sin cambios en las celdas de datos ni en el pill del detalle
+  (drill-down) - el pedido era especificamente sobre el encabezado de
+  la tabla.
+
+
 2026-09-30 (nueva pantalla: Gestion de Sectores)
 -------------------------------------------------------------------
 - Pedido por el usuario: poder inactivar sectores viejos que quedaron

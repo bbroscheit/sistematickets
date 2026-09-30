@@ -101,7 +101,7 @@ function Tablero() {
                             className={style.thState}
                             onClick={() => openDrill(null, estado)}
                           >
-                            <span className={`${style.pill} ${style[ESTADO_PILL[estado].cls]}`}>
+                            <span className={style.thStateLabel}>
                               {ESTADO_PILL[estado].label}
                             </span>
                           </th>

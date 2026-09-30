@@ -130,14 +130,21 @@
   background: none;
 }
 
-.thState:hover .pill {
-  filter: brightness(0.96);
+.thStateLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #3C3C3B;
+  white-space: nowrap;
+}
+
+.thState:hover .thStateLabel {
+  color: #EA6558;
 }
 
 .thTotal {
   text-align: center;
   padding: 10px 12px;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: #3C3C3B;
   border-bottom: 1px solid #e3e6ea;
