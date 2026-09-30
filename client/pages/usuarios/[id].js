@@ -85,13 +85,19 @@ function Soporte() {
         const salepointData = await salepointRes.json();
         const roleData = await roleRes.json();
 
-        //eliminar sectores duplicados por nombre
-        const uniqueSectors = Object.values(
-          sectorData.reduce((acc, s) => {
-            acc[s.sectorname] = s;
-            return acc;
-          }, {})
-        );
+        //hay sectores duplicados con el mismo nombre en la base (filas viejas repetidas,
+        //ver CHANGELOG). se agrupan por nombre para mostrar un solo chip por nombre, pero
+        //se guarda el grupo completo de ids para no perder de vista con cual quedo el
+        //usuario realmente
+        const groupsByName = sectorData.reduce((acc, s) => {
+          acc[s.sectorname] = acc[s.sectorname] || [];
+          acc[s.sectorname].push(s);
+          return acc;
+        }, {});
+        const uniqueSectors = Object.values(groupsByName).map((group) => ({
+          ...group[0],
+          groupIds: group.map((s) => s.id),
+        }));
 
         //eliminar salepoints duplicados por nombre
         const uniqueSalepoints = Object.values(
@@ -128,16 +134,22 @@ function Soporte() {
     }));
   }
 
-  // toggle multi-sector
-  function toggleSector(sectorId) {
+  // toggle multi-sector. sectorGroupIds son todos los ids que comparten nombre con
+  // el sector clickeado (puede haber filas duplicadas viejas en la base) - al
+  // activar/desactivar se limpian todos los ids del grupo y se deja como mucho uno
+  // solo (el "canonico" que se muestra), asi se deja de partir usuarios entre
+  // filas duplicadas del mismo sector
+  function toggleSector(sectorId, sectorGroupIds) {
     if (!modify) return;
 
-    setInput((prev) => ({
-      ...prev,
-      sectorIds: prev.sectorIds.includes(sectorId)
-        ? prev.sectorIds.filter((id) => id !== sectorId)
-        : [...prev.sectorIds, sectorId],
-    }));
+    setInput((prev) => {
+      const yaActivo = prev.sectorIds.some((id) => sectorGroupIds.includes(id));
+      const sinElGrupo = prev.sectorIds.filter((id) => !sectorGroupIds.includes(id));
+      return {
+        ...prev,
+        sectorIds: yaActivo ? sinElGrupo : [...sinElGrupo, sectorId],
+      };
+    });
   }
 
   // toggle multi-salepoint
@@ -404,12 +416,12 @@ function Soporte() {
             ) : (
               <div className={style.chipRow}>
                 {sectors.map((sector) => {
-                  const active = input.sectorIds.includes(sector.id);
+                  const active = sector.groupIds.some((id) => input.sectorIds.includes(id));
                   return (
                     <button
                       type="button"
                       key={sector.id}
-                      onClick={() => toggleSector(sector.id)}
+                      onClick={() => toggleSector(sector.id, sector.groupIds)}
                       className={`${style.chip} ${active ? style.chipSelected : ""} ${!modify ? style.chipDisabled : ""}`}
                     >
                       {sector.sectorname}

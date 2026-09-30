@@ -4,6 +4,59 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-09-30 (sectores duplicados: mails y visibilidad partidos entre dos filas)
+-------------------------------------------------------------------
+- Reportado por el usuario: la gerenta de Contabilidad de Ecobahía
+  recibía mails de gente de Contabilidad de Buenos Aires, y algunos
+  usuarios muestran un sector distinto en la lista general de usuarios
+  que al entrar a su ficha (ej: "Administracion" vs "Contabilidad").
+- getManagersForUser.js (helper usado para decidir a quien avisarle por
+  mail) tenía el MISMO bug que ya se había arreglado en
+  getTicketUnfinishedByUser.js: al subir la cadena hasta el nivel
+  "gerente" se saltaba el filtro de sector+sucursal, entonces se le
+  avisaba a TODOS los gerentes del sistema sin importar su sector o
+  sucursal. Se corrigió para que el filtro aplique siempre, gerente
+  incluido.
+- Investigando el segundo reporte (sector distinto entre pantallas) se
+  encontró un problema de datos más de fondo: en producción hay
+  sectores con el mismo nombre repetidos en varias filas (ej.
+  "Administracion" en 11 filas distintas). La mayoría tiene 0 usuarios
+  (filas viejas sin uso, inofensivas), pero "Administracion" (144 y 141
+  usuarios en dos filas) y "Operaciones" (18 y 11) tienen la población
+  real partida en dos grupos - probablemente causado por el bug de
+  abajo.
+- Causa encontrada en client/pages/usuarios/[id].js: la pantalla de
+  edición de usuario armaba la lista de sectores para mostrar
+  deduplicando por nombre (`sectorData.reduce(...)`, se queda con una
+  fila arbitraria por nombre), pero el checkbox de "activo" comparaba
+  por id exacto contra el sector real del usuario. Si la fila elegida
+  como "representante" no era la misma fila que el usuario ya tenía
+  asignada, el chip no se marcaba activo aunque el dato fuera correcto
+  - y si un admin lo tocaba y guardaba, el usuario podía terminar
+  reasignado a la fila "representante" en vez de la suya, partiendo la
+  población de a poco.
+- Fix: ahora se agrupan los sectores por nombre pero se guardan TODOS
+  los ids del grupo (`groupIds`). El chip se marca activo si el usuario
+  tiene CUALQUIERA de esos ids, y al tocar el chip se limpian todos los
+  ids del grupo y se deja como mucho uno solo (autocorrige de a poco a
+  medida que se editan usuarios).
+- Esto se volvió más urgente por el fix de gerentes de la sesión
+  anterior: antes "gerente ve todo" tapaba el problema de sectores
+  partidos (veía todo igual); con el filtro de sector+sucursal ya
+  aplicado siempre, un gerente de Administración o Operaciones puede
+  estar viendo/recibiendo mails de solo la MITAD de su propio equipo si
+  quedaron repartidos en las dos filas duplicadas.
+- Se dejaron dos scripts de un solo uso en api/ (no forman parte de la
+  app, se pueden borrar despues de usarlos):
+  - diagnosticoSectores.js: solo lectura, lista sectores duplicados por
+    nombre y cuantos usuarios tiene cada fila.
+  - unificarSectoresDuplicados.js: por defecto hace dry-run (solo
+    imprime que haría); con `--apply` de verdad mueve a todos los
+    usuarios de las filas duplicadas con menos población a la fila con
+    mas usuarios (el "canonico"), sector por sector. No borra ninguna
+    fila de Sector, solo reasigna usuarios.
+
+
 2026-09-29 (Sistemas tambien accede a NewTicketSupervisorV2)
 -------------------------------------------------------------------
 - Reportado por el usuario: vlodigiani (sector Sistemas, worker) veia
