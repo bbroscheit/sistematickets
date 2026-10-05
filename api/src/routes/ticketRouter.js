@@ -706,14 +706,16 @@ ticketRouter.post('/sendEmailAdvertisement', async (req, res) => {
 ticketRouter.get('/download-tickets-excel', async (req, res) => {
     try {
         // Obtener todos los tickets de la base de datos
-        const tickets = await Ticket.findAll({ 
-                include: { 
-                    model: User, 
-                    include: { 
-                        model: Sector, 
-                        include: Salepoint 
-                    }}, 
-                    order: [['id', 'ASC']]
+        const tickets = await Ticket.findAll({
+                include: {
+                    model: User,
+                    as: 'user',
+                    include: [
+                        { model: Sector, as: 'sectors', through: { attributes: [] } },
+                        { model: Salepoint, as: 'salepoints', through: { attributes: [] } },
+                    ],
+                },
+                order: [['id', 'ASC']]
                 });
 
         // Crear un nuevo workbook de Excel
@@ -757,8 +759,8 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
                 updatedAt: ticket.updatedAt,
                 // Agregar más propiedades según las que quieras incluir en el Excel
                 username: ticket.user ? ticket.user.username : 'Usuario no disponible', // Obtener el nombre de usuario del ticket
-                sectorname: ticket.user && ticket.user.sector ? ticket.user.sector.sectorname : 'Sector no disponible', // Obtener el nombre del sector del usuario del ticket
-                salepoint: ticket.user && ticket.user.sector && ticket.user.sector.salepoint ? ticket.user.sector.salepoint.salepoint : 'Punto de venta no disponible', // Obtener el punto de venta asociado al sector del usuario del ticket
+                sectorname: ticket.user && ticket.user.sectors && ticket.user.sectors.length > 0 ? ticket.user.sectors.map(s => s.sectorname).join(', ') : 'Sector no disponible', // un usuario puede tener varios sectores
+                salepoint: ticket.user && ticket.user.salepoints && ticket.user.salepoints.length > 0 ? ticket.user.salepoints.map(sp => sp.salepoint).join(', ') : 'Punto de venta no disponible', // y varias sucursales
             });
         });
 

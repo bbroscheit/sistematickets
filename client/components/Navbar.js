@@ -42,6 +42,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import PostAddRoundedIcon from '@mui/icons-material/PostAddRounded';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 
 const drawerWidth = 250; // dice cuan ancho es el menu cuando se despliega
 
@@ -423,6 +424,22 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
             </Tooltip>: null}
+
+            {/* boton para descargar el excel con todos los soportes - antes era para Fañaños,
+                ahora solo para bbroscheit */}
+            { user !== null && user.name === "Bbroscheit" ? (
+                <Tooltip title="Descargar Excel">
+                <IconButton
+                  size="large"
+                  aria-label="Descargar Excel de soportes"
+                  onClick={handleDownload}
+                >
+                  <Badge sx={{ color: "white" }}>
+                    <FileDownloadRoundedIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            ) : null}
 
             {/* si el usuario es bbroscheit o Lllamanzarez muestra la vista de mesa de ayuda */}
             { user !== null && (user.name === "Bbroscheit" || user.name === "Lllamanzarez") ? (

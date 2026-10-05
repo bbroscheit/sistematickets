@@ -4,6 +4,34 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-10-05 (vuelve el boton de descargar Excel, ahora solo para bbroscheit)
+-------------------------------------------------------------------
+- Pedido por el usuario: antes existia un boton (solo visible para
+  "Fañaños") que descargaba un Excel con todos los soportes. Se perdio
+  en el rediseño V2 - quedo el handler (`handleDownload` en
+  Navbar.js) pero sin ningun boton que lo llamara.
+- Se volvio a agregar el icono (Tooltip "Descargar Excel", icono de
+  descarga) en la barra superior, ahora gateado a
+  `user.name === "Bbroscheit"` en vez de "Fañaños".
+- De paso se encontro que el endpoint real, GET
+  /download-tickets-excel (api/src/routes/ticketRouter.js), estaba
+  ROTO desde el rediseño: hacia `include: {model: User, include:
+  {model: Sector, include: Salepoint}}`, pero el modelo cambio hace
+  tiempo a sector/sucursal multiples por usuario
+  (`User.belongsToMany(Sector, {as:'sectors'})` /
+  `...Salepoint, {as:'salepoints'}`) - esa query tira error en
+  Sequelize por el alias faltante. O sea que aunque el boton hubiese
+  seguido visible, igual fallaba. Se corrigio el include (usando los
+  alias correctos, como listas) y las columnas de sector/sucursal del
+  Excel ahora muestran todos los sectores/sucursales del usuario
+  separados por coma (antes asumian uno solo). Probado localmente:
+  devuelve un .xlsx valido con las filas correctas.
+- Hay un archivo viejo sin usar,
+  api/src/routes/controllers/excelDownloadBase.js, con una version
+  mas vieja/incompleta del mismo endpoint - no esta importado en
+  ningun lado (confirmado), no se toco.
+
+
 2026-09-30 (TableroV2: encabezados de estado sin pills)
 -------------------------------------------------------------------
 - Pedido por el usuario: en la tabla "Soportes por sucursal" de
