@@ -4,6 +4,24 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-10-05 (excel de soportes: fechas con formato consistente)
+-------------------------------------------------------------------
+- Pedido por el usuario: las columnas Creado/Asignado/Comienzo/
+  Completado/Terminado del Excel de soportes no tenian el mismo
+  formato - la mayoria mostraba fecha y hora al estilo de Excel ("4 12
+  2023 18:18:04") y "Asignado" (randomdate, que en el modelo es
+  DATEONLY) se mostraba como "2023-12-04".
+- Se agrego formatFechaDDMMAAAA en ticketRouter.js: deja las 5
+  columnas como texto plano "dd-mm-aaaa", sin horario. Para el campo
+  DATEONLY parsea el string "YYYY-MM-DD" directo con regex (no
+  `new Date(...)`) para que no se corra un dia por zona horaria; para
+  los campos DATE normales usa los metodos locales de Date. Probado
+  localmente: las 5 columnas quedan identicas, y se confirmo que en el
+  .xlsx generado la fecha queda como texto plano, no como fecha nativa
+  de Excel (asi se ve igual sin importar la configuracion regional de
+  quien lo abra).
+
+
 2026-10-05 (vuelve el boton de descargar Excel, ahora solo para bbroscheit)
 -------------------------------------------------------------------
 - Pedido por el usuario: antes existia un boton (solo visible para

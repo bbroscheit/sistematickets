@@ -703,6 +703,26 @@ ticketRouter.post('/sendEmailAdvertisement', async (req, res) => {
     res.send('Soporte creado exitosamente');
   });
 
+// createdAt/updatedAt/startdate/finishdate vienen como Date; randomdate viene
+// como string "YYYY-MM-DD" (es DATEONLY) - esta funcion deja todas en el mismo
+// formato dd-mm-aaaa sin horario, parseando el string directo para evitar que
+// se corra un dia por zona horaria
+function formatFechaDDMMAAAA(value) {
+    if (!value) return '';
+    if (typeof value === 'string') {
+        const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (!match) return value;
+        const [, yyyy, mm, dd] = match;
+        return `${dd}-${mm}-${yyyy}`;
+    }
+    const date = new Date(value);
+    if (isNaN(date.getTime())) return '';
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${dd}-${mm}-${yyyy}`;
+}
+
 ticketRouter.get('/download-tickets-excel', async (req, res) => {
     try {
         // Obtener todos los tickets de la base de datos
@@ -752,11 +772,11 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
                 subject: ticket.subject,
                 detail: ticket.detail,
                 answer: ticket.answer,
-                createdAt: ticket.createdAt,
-                randomdate: ticket.randomdate,
-                startdate: ticket.startdate,
-                finishdate: ticket.finishdate,
-                updatedAt: ticket.updatedAt,
+                createdAt: formatFechaDDMMAAAA(ticket.createdAt),
+                randomdate: formatFechaDDMMAAAA(ticket.randomdate),
+                startdate: formatFechaDDMMAAAA(ticket.startdate),
+                finishdate: formatFechaDDMMAAAA(ticket.finishdate),
+                updatedAt: formatFechaDDMMAAAA(ticket.updatedAt),
                 // Agregar más propiedades según las que quieras incluir en el Excel
                 username: ticket.user ? ticket.user.username : 'Usuario no disponible', // Obtener el nombre de usuario del ticket
                 sectorname: ticket.user && ticket.user.sectors && ticket.user.sectors.length > 0 ? ticket.user.sectors.map(s => s.sectorname).join(', ') : 'Sector no disponible', // un usuario puede tener varios sectores
