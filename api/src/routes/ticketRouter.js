@@ -64,6 +64,7 @@ const getTicketSupervisorCardGeneral = require('./controllers/getTicketSuperviso
 const getTicketSupervisorCardGeneralGerencia = require('./controllers/getTicketSupervisorCardGeneralGerencia')
 const postTicketAndDesarrollo = require('./controllers/postTicketAndDesarrollo')
 const getTicketsUnfinishedByUser = require('./controllers/getTicketUnfinishedByUser')
+const getSuperiorNameForUser = require('./helpers/getSuperiorNameForUser')
 const sendNotificationPush = require('./controllers/sendNotificacionPush');
 const Excel = require('exceljs');
 const { Ticket, User, Sector, Salepoint } = require('../bd');
@@ -759,9 +760,21 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
             { header: 'Usuario', key: 'username', width: 20 },
             { header: 'Sector', key: 'sectorname', width: 20 }, // Agregar columna para el nombre del sector
             { header: 'Punto de Venta', key: 'salepoint', width: 20 }, // Agregar columna para el nombre del sector
+            { header: 'Superior', key: 'superior', width: 25 },
             // Agregar más columnas según las propiedades de Ticket que desees incluir en el Excel
-            
+
         ];
+
+        // el superior se calcula una sola vez por usuario (no por ticket) para
+        // no repetir la misma consulta decenas de veces si el mismo usuario
+        // creo varios tickets
+        const superiorPorUsuario = {};
+        for (const ticket of tickets) {
+            const userId = ticket.user ? ticket.user.id : null;
+            if (userId && !(userId in superiorPorUsuario)) {
+                superiorPorUsuario[userId] = await getSuperiorNameForUser(userId);
+            }
+        }
 
         // Agregar filas para cada ticket
         tickets.forEach(ticket => {
@@ -781,6 +794,7 @@ ticketRouter.get('/download-tickets-excel', async (req, res) => {
                 username: ticket.user ? ticket.user.username : 'Usuario no disponible', // Obtener el nombre de usuario del ticket
                 sectorname: ticket.user && ticket.user.sectors && ticket.user.sectors.length > 0 ? ticket.user.sectors.map(s => s.sectorname).join(', ') : 'Sector no disponible', // un usuario puede tener varios sectores
                 salepoint: ticket.user && ticket.user.salepoints && ticket.user.salepoints.length > 0 ? ticket.user.salepoints.map(sp => sp.salepoint).join(', ') : 'Punto de venta no disponible', // y varias sucursales
+                superior: ticket.user ? (superiorPorUsuario[ticket.user.id] || 'Sin superior') : 'Sin superior',
             });
         });
 

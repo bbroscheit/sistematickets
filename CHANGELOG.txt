@@ -4,6 +4,27 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-10-06 (excel de soportes: columna "Superior" de quien creo el ticket)
+-------------------------------------------------------------------
+- Pedido por el usuario: agregar una columna con el nombre y apellido
+  del superior de quien creo el ticket - si es empleado, su encargado;
+  si no hay encargado, el jefe; si tampoco, el gerente (el siguiente
+  nivel disponible hacia arriba en la escala, dentro de su mismo
+  sector y sucursal).
+- api/src/routes/helpers/getSuperiorNameForUser.js (nuevo): mismo
+  criterio de jerarquia que getManagersForUser.js (el que ya se usa
+  para los mails), pero devuelve nombre y apellido en vez de email. Si
+  hay mas de un candidato en el mismo nivel (ej. dos encargados del
+  mismo sector+sucursal) se listan todos separados por coma.
+- El calculo se hace una sola vez POR USUARIO (no por ticket) antes de
+  armar las filas, para no repetir la misma consulta si el mismo
+  usuario genero varios tickets.
+- Probado localmente: empleado -> su encargado, jefe (sin nivel
+  intermedio) -> el gerente, gerente -> "Sin superior" (no hay nadie
+  arriba). Confirmado tambien en el .xlsx generado por el endpoint
+  real.
+
+
 2026-10-05 (excel de soportes: fechas con formato consistente)
 -------------------------------------------------------------------
 - Pedido por el usuario: las columnas Creado/Asignado/Comienzo/
