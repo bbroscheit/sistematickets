@@ -17,7 +17,7 @@ const sendEmailManagerNewTicket = async (findTicket, managerEmail) => {
       subject: `${findTicket.user.firstname} ${findTicket.user.lastname} creó el soporte N° ${findTicket.id}`,
       html: `
         <p>Buenos días,</p>
-        <p>Le informamos que su empleado <strong>${findTicket.user.firstname} ${findTicket.user.lastname}</strong> ha creado el soporte N° <strong>${findTicket.id}</strong>.</p>
+        <p>Le informamos que el usuario <strong>${findTicket.user.firstname} ${findTicket.user.lastname}</strong> ha creado el soporte N° <strong>${findTicket.id}</strong>.</p>
         <p>Título: <strong>${findTicket.subject}</strong></p>
         <p>Detalle: <strong>${findTicket.detail}</strong></p>
         <p>Puede hacer el seguimiento haciendo click <a href="http://${LOCALHOST}:${PORTFRONT}/soportes/${findTicket.id}"><strong>aquí</strong></a>.</p>
