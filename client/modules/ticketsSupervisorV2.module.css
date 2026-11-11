@@ -486,6 +486,7 @@
 .pillAmber { background: #fbf1e0; color: #a8752c; }
 .pillPurple { background: #f2eaf9; color: #7a4ea0; }
 .pillGreen { background: #eaf5ec; color: #3a7a4d; }
+.pillTeal { background: #e5f4f5; color: #2f7d84; }
 
 .emptyState {
   display: flex;

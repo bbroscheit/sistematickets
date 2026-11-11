@@ -6,6 +6,7 @@ const TABS = [
   { label: "Todos", value: null },
   { label: "Asignados", value: "Asignado" },
   { label: "Desarrollo", value: "Desarrollo" },
+  { label: "Terceros", value: "Terceros" },
   { label: "Información", value: "Informacion" },
   { label: "Completo", value: "Completado" },
 ];

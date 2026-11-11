@@ -11,6 +11,7 @@ const ESTADO_PILL = {
   "sin asignar": { label: "Sin asignar", cls: "pillGray" },
   "Asignado": { label: "Asignado", cls: "pillBlue" },
   "Desarrollo": { label: "Desarrollo", cls: "pillAmber" },
+  "Terceros": { label: "Terceros", cls: "pillTeal" },
   "Informacion": { label: "Información", cls: "pillPurple" },
   "Completado": { label: "Completado", cls: "pillGreen" },
   "Terminado": { label: "Terminado", cls: "pillGreen" },

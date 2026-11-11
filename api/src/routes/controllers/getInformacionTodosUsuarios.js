@@ -21,6 +21,7 @@ const getInformacionTodosUsuarios = async () => {
                     sinAsignar: 0,
                     asignados: 0,
                     desarrollo: 0,
+                    terceros: 0,
                     informacion: 0,
                     completado: 0,
                     terminado: 0,
@@ -31,6 +32,7 @@ const getInformacionTodosUsuarios = async () => {
             if (t.state === 'sin asignar') entry.sinAsignar++;
             else if (t.state === 'Asignado') entry.asignados++;
             else if (t.state === 'Desarrollo') entry.desarrollo++;
+            else if (t.state === 'Terceros') entry.terceros++;
             else if (t.state === 'Informacion') entry.informacion++;
             else if (t.state === 'Completado') entry.completado++;
             else if (t.state === 'Terminado') entry.terminado++;

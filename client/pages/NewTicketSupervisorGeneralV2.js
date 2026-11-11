@@ -22,6 +22,7 @@ function summarize(tickets) {
     sinAsignar: 0,
     asignados: 0,
     desarrollo: 0,
+    terceros: 0,
     informacion: 0,
     completado: 0,
     terminado: 0,
@@ -30,6 +31,7 @@ function summarize(tickets) {
     if (t.state === "sin asignar") summary.sinAsignar++;
     else if (t.state === "Asignado") summary.asignados++;
     else if (t.state === "Desarrollo") summary.desarrollo++;
+    else if (t.state === "Terceros") summary.terceros++;
     else if (t.state === "Informacion") summary.informacion++;
     else if (t.state === "Completado") summary.completado++;
     else if (t.state === "Terminado") summary.terminado++;
@@ -223,6 +225,10 @@ function NewTicketsSupervisorGeneralV2() {
                 <div className={style.summaryStat}>
                   <span className={style.n}>{summary ? summary.desarrollo : 0}</span>
                   <span className={style.l}>Desarrollo</span>
+                </div>
+                <div className={style.summaryStat}>
+                  <span className={style.n}>{summary ? summary.terceros : 0}</span>
+                  <span className={style.l}>Terceros</span>
                 </div>
                 <div className={style.summaryStat}>
                   <span className={style.n}>{summary ? summary.informacion : 0}</span>

@@ -6,6 +6,7 @@ const getInformacionWorker = async (id) => {
         sinAsignar: 0,
         asignados: 0,
         desarrollo: 0,
+        terceros: 0,
         informacion: 0,
         completado: 0,
         terminado: 0,
@@ -25,6 +26,7 @@ const getInformacionWorker = async (id) => {
         results.sinAsignar = getTickets.filter( e => e.state === "sin asignar").length;
         results.asignados = getTickets.filter( e => e.state === "Asignado").length;
         results.desarrollo = getTickets.filter( e => e.state === "Desarrollo").length;
+        results.terceros = getTickets.filter( e => e.state === "Terceros").length;
         results.informacion = getTickets.filter( e => e.state === "Informacion").length;
         results.completado = getTickets.filter( e => e.state === "Completado").length;
         results.terminado = getTickets.filter( e => e.state === "Terminado").length;

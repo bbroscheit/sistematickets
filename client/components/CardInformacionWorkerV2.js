@@ -9,6 +9,7 @@ function CardInformacionWorkerV2({ id, firstname, lastname, data }) {
 
   const asignados = data ? data.asignados : 0;
   const desarrollo = data ? data.desarrollo : 0;
+  const terceros = data ? data.terceros : 0;
   const informacion = data ? data.informacion : 0;
   const completo = data ? data.completado : 0;
 
@@ -36,6 +37,12 @@ function CardInformacionWorkerV2({ id, firstname, lastname, data }) {
           <span className={style.statLabel}>Desarrollo</span>
           <span className={`${style.statValue} ${desarrollo === 0 ? style.muted : ""}`}>
             {desarrollo}
+          </span>
+        </div>
+        <div className={style.statCell}>
+          <span className={style.statLabel}>Terceros</span>
+          <span className={`${style.statValue} ${terceros === 0 ? style.muted : ""}`}>
+            {terceros}
           </span>
         </div>
         <div className={style.statCell}>

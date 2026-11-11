@@ -36,6 +36,8 @@ function statePill(state) {
       return { label: "Asignado", cls: style.pillBlue };
     case "Desarrollo":
       return { label: "Desarrollo", cls: style.pillAmber };
+    case "Terceros":
+      return { label: "Terceros", cls: style.pillTeal };
     case "Informacion":
       return { label: "Información", cls: style.pillPurple };
     case "Completado":
@@ -782,8 +784,11 @@ function Soporte() {
                 ) : null}
               </div>
 
-              {/* si el soporte esta en desarrollo muestra el boton , sino muestra la informacion del tercero y el boton de finalizar */}
-              {soporte.state === "Desarrollo" && soporte.proveedornote && isSistemas ? (
+              {/* si ya tiene un proveedor cargado se muestra siempre (independientemente
+                  del estado del ticket, que ahora pasa a "Terceros" mientras el proveedor
+                  esta trabajando y vuelve a "Desarrollo" al cerrarlo) - sino, mientras el
+                  ticket esta en desarrollo, se puede agregar uno */}
+              {soporte.proveedornote && isSistemas ? (
                 <div className={style.card}>
                   <span className={style.cardLabel}>Proveedor externo</span>
                   <div className={style.proveedorCard}>
@@ -808,27 +813,6 @@ function Soporte() {
                     <span className={style.val}>
                       <button type="button" className={`${style.btn} ${style.btnSecondary}`} onClick={(e) => handleOpenProveedor(e)}>Agregar</button>
                     </span>
-                  </div>
-                </div>
-              ) : null}
-
-              {/* si el soporte esta terminado o completado , solo muestra la informacion del proveedor */}
-              {(soporte.state === "Terminado" || soporte.state === "Completado") && soporte.proveedornote && isSistemas ? (
-                <div className={style.card}>
-                  <span className={style.cardLabel}>Proveedor externo</span>
-                  <div className={style.proveedorCard}>
-                    <div>
-                      <h4>{soporte.proveedornote.proveedor.name}</h4>
-                      <p>{soporte.proveedornote.description}</p>
-                    </div>
-                    <div className={style.proveedorDates}>
-                      <span>Comienza: {extraeFecha(soporte.proveedornote.createdAt)}</span>
-                      {soporte.proveedornote.state === "Comenzado" ? (
-                        <button type="button" className={`${style.btn} ${style.btnSecondary}`} onClick={e => submitCloseProveedor(e, soporte.proveedornote.id)}>Cerrar</button>
-                      ) : (
-                        <span>Terminado: {extraeFecha(soporte.proveedornote.updatedAt)}</span>
-                      )}
-                    </div>
                   </div>
                 </div>
               ) : null}

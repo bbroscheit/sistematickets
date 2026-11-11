@@ -24,7 +24,12 @@ const updateProveedor = async ( id , name, description ) => {
 
         await newNote.setProveedor(proveedor)
         await newNote.setTicket(ticket)
-    
+
+        // mientras la resolucion esta en manos de un proveedor externo, el
+        // ticket no debe quedar como "Desarrollo" (que implica que lo esta
+        // trabajando el equipo interno)
+        await ticket.update({ state: "Terceros" })
+
         return newNote
 
       } catch (error) {

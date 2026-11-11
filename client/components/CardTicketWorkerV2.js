@@ -11,6 +11,8 @@ function statePill(state) {
       return { label: "Asignado", cls: style.pillBlue };
     case "Desarrollo":
       return { label: "Desarrollo", cls: style.pillAmber };
+    case "Terceros":
+      return { label: "Terceros", cls: style.pillTeal };
     case "Informacion":
       return { label: "Información", cls: style.pillPurple };
     case "Completado":

@@ -27,6 +27,7 @@ const getInformacionTodosWorkers = async () => {
                 sinAsignar: wTickets.filter(t => t.state === 'sin asignar').length,
                 asignados: wTickets.filter(t => t.state === 'Asignado').length,
                 desarrollo: wTickets.filter(t => t.state === 'Desarrollo').length,
+                terceros: wTickets.filter(t => t.state === 'Terceros').length,
                 informacion: wTickets.filter(t => t.state === 'Informacion').length,
                 completado: wTickets.filter(t => t.state === 'Completado').length,
                 terminado: terminados.length,

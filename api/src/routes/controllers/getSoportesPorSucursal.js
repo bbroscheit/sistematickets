@@ -1,6 +1,6 @@
 const { Ticket, User, Sector, Salepoint } = require('../../bd');
 
-const ESTADOS = ["sin asignar", "Asignado", "Desarrollo", "Informacion", "Completado", "Terminado"];
+const ESTADOS = ["sin asignar", "Asignado", "Desarrollo", "Terceros", "Informacion", "Completado", "Terminado"];
 const SIN_SUCURSAL = "Sin sucursal";
 
 // resuelve la sucursal "hogar" de un ticket a partir del primer sector de su creador

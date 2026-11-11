@@ -90,6 +90,11 @@
   color: #3a7a4d;
 }
 
+.pillTeal {
+  background: #e5f4f5;
+  color: #2f7d84;
+}
+
 .action {
   color: #EA6558;
   display: flex;

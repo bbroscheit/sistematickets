@@ -95,6 +95,29 @@ const SoporteActionsV2 = ({
       },
     ],
 
+    // mientras la resolucion esta en manos de un proveedor externo no se
+    // puede "Resolver" (eso es del equipo interno) - solo agregar info
+    Terceros: [
+      {
+        show: user.name === soporteUser?.username,
+        label: "Agregar Información",
+        onClick: handleOpenInfoUser,
+        emphasis: "secondary",
+      },
+      {
+        show: user.name === soporte.worker,
+        label: "Agregar Información",
+        onClick: handleOpenInfo,
+        emphasis: "secondary",
+      },
+      {
+        show: isJefaturaOGerencia,
+        label: "Agregar Información",
+        onClick: handleOpenInfoUser,
+        emphasis: "secondary",
+      },
+    ],
+
     Informacion: [
       {
         show: user.name === soporteUser?.username,

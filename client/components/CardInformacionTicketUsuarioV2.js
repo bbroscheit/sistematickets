@@ -7,6 +7,7 @@ const TABS = [
   { label: "Sin Asignar", value: "sin asignar" },
   { label: "Asignados", value: "Asignado" },
   { label: "Desarrollo", value: "Desarrollo" },
+  { label: "Terceros", value: "Terceros" },
   { label: "Información", value: "Informacion" },
   { label: "Completo", value: "Completado" },
 ];

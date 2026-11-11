@@ -70,7 +70,7 @@ const updateInfoTicketByuser = async (id, answer, firstname, lastname) => {
 
 
         // Actualizamos el ticket en estado informacion con el nuevo detalle y los archivos si existen
-        if( existingTicket.state === "Desarrollo" || existingTicket.state === "Informacion" || existingTicket.state === "Completado" ) {
+        if( existingTicket.state === "Desarrollo" || existingTicket.state === "Informacion" || existingTicket.state === "Completado" || existingTicket.state === "Terceros" ) {
             let setTicket = await existingTicket.update({ 
                 detail: updatedDetail, 
                 state: "Desarrollo" 

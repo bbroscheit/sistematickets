@@ -32,6 +32,10 @@ function CardInformacionGeneralV2() {
         <span className={style.l}>Desarrollo</span>
       </div>
       <div className={style.summaryStat}>
+        <span className={style.n}>{data ? data.terceros : 0}</span>
+        <span className={style.l}>Terceros</span>
+      </div>
+      <div className={style.summaryStat}>
         <span className={style.n}>{data ? data.informacion : 0}</span>
         <span className={style.l}>Información</span>
       </div>

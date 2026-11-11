@@ -4,6 +4,59 @@ Formato: fecha - descripción. Los cambios de código nuevos van arriba de todo.
 Al final hay un apartado de PENDIENTES.
 
 
+2026-11-11 (nuevo estado "Terceros" para soportes con proveedor externo)
+-------------------------------------------------------------------
+- Pedido por el usuario: cuando un soporte se deriva a un proveedor
+  externo (ya existia la carga del proveedor + fecha de inicio/fin via
+  Proveedornote), el ticket quedaba en estado "Desarrollo" - se pidio
+  que pase a un estado propio, "Terceros".
+- Confirmado con el usuario: al cerrar la tarea del proveedor
+  (boton "Cerrar"), el ticket vuelve a "Desarrollo". Y en todos los
+  lugares donde se desglosa por estado, "Terceros" es un bucket propio
+  (no se suma a "Desarrollo").
+- api/src/routes/controllers/updateProveedor.js: al asignar un
+  proveedor, ahora pone ticket.state = "Terceros".
+- api/src/routes/controllers/closeProveedor.js: al cerrar la nota de
+  proveedor, busca el ticket asociado (Proveedornote.belongsTo(Ticket))
+  y lo vuelve a poner en "Desarrollo".
+- api/src/routes/controllers/updateInfoTicketByUser.js: "Terceros" se
+  agrego a la lista de estados que, si el usuario agrega mas
+  informacion, pasan a "Desarrollo" (mismo criterio que ya aplicaba
+  para Desarrollo/Informacion/Completado).
+- client/pages/soportes/v2/[id].js: el panel de "Proveedor externo"
+  (que antes solo se mostraba con soporte.state === "Desarrollo") ahora
+  se muestra siempre que exista soporte.proveedornote, sin importar el
+  estado actual del ticket - asi sigue visible aunque el ticket ya haya
+  vuelto a Desarrollo o pase a Terminado/Completado mas adelante. Se
+  agrego tambien un estado "Terceros" al actionMap de
+  components/soporte/BotonesDetailV2.js (solo "Agregar Informacion" -
+  no "Resolver", porque mientras esta con el proveedor no es el equipo
+  interno el que resuelve).
+- "Terceros" se agrego como bucket propio (pill color teal, mismo
+  token que "Mesa de Ayuda"/"Sistemas" en otras pantallas) en:
+  getSoportesPorSucursal.js (columna del tablero por sucursal),
+  getInformacionGeneral/Usuario/Worker/TodosWorkers/TodosUsuarios.js
+  (tarjetas de estadisticas), y los pills de estado en CardV2.js,
+  CardTicketWorkerV2.js y soportes/v2/[id].js. Se agregaron los tabs/
+  tiles correspondientes en los componentes que ya mostraban
+  Asignados/Desarrollo/Informacion/Completado
+  (CardInformacionGeneralV2, CardInformacionWorkerV2,
+  CardInformacionUsuarioV2, CardInformacionTicketWorkerV2,
+  CardInformacionTicketUsuarioV2, NewTicketSupervisorGeneralV2).
+- Las KPI "En desarrollo" y "En desarrollo hace +24hs" del Tablero
+  (DashboardCardTicketV2, getTicketDesarrollo.js,
+  getTicketsPendientes24.js) siguen filtrando por el estado exacto
+  "Desarrollo" - no cambiaron, y ya excluyen correctamente a los
+  tickets en "Terceros" sin necesidad de tocarlas.
+- No se toco el modelo (Ticket.state es un STRING libre, sin ENUM, no
+  hizo falta migracion). No se tocaron las paginas viejas no-V2
+  (desarrollos/[id].js, soportes/[id].js, etc.) - fuera de alcance,
+  mismo criterio que en cambios anteriores.
+- Probado localmente de punta a punta: asignar proveedor a un ticket
+  en Desarrollo -> pasa a Terceros; cerrar la nota de proveedor ->
+  vuelve a Desarrollo. Se limpiaron los datos de prueba creados.
+
+
 2026-10-06 (excel de soportes: columna "Superior" de quien creo el ticket)
 -------------------------------------------------------------------
 - Pedido por el usuario: agregar una columna con el nombre y apellido
