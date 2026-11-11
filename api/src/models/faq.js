@@ -25,6 +25,9 @@ module.exports = ( sequelize ) => {
             defaultValue: false
         },
         questioner:{
+            // lista de usernames que preguntaron esto mismo (si alguien pregunta
+            // algo que ya existe como faq, se le agrega el username aca en vez de
+            // crear una faq nueva)
             type: DataTypes.ARRAY(DataTypes.STRING),
         },
         isdelete:{

@@ -1,5 +1,7 @@
 const { DataTypes } = require ('sequelize')
 
+// version vieja de proyectos, de antes de Proyectos V2. se dejo de usar para
+// proyectos nuevos, ver newproject.js
 module.exports = (sequelize) => {
     sequelize.define ('project', {
         id:{

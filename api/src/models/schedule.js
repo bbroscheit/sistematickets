@@ -1,5 +1,7 @@
 const { DataTypes } = require ('sequelize');
 
+// esto es la agenda/almanaque (reuniones, eventos). invited/accepted son
+// arrays de usernames, no relaciones de verdad
 module.exports = ( sequelize ) => {
     sequelize.define( "schedule" , {
         id:{

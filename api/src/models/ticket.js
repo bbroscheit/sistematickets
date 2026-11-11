@@ -1,5 +1,11 @@
 const { DataTypes } = require ('sequelize');
 
+// el soporte/ticket. "state" es un string libre, no un enum, los valores
+// reales que se usan son: "sin asignar", "Asignado", "Desarrollo",
+// "Terceros", "Informacion", "Completado", "Terminado" (y "generada" que es
+// el default antes de que se le ponga un estado real). si se agrega un
+// estado nuevo hay que acordarse de sumarlo en todos los lugares que
+// desglosan por estado (tablero, tarjetas de info, pills) - ver CHANGELOG
 module.exports = ( sequelize ) => {
     sequelize.define( "ticket", {
         id:{
@@ -14,6 +20,8 @@ module.exports = ( sequelize ) => {
             allowNull:false,
         },
         worker:{
+            // username del developer asignado, como string plano (no FK a
+            // User). "sin asignar" cuando todavia no tiene a nadie
             type: DataTypes.STRING,
             defaultValue: "sin asignar",
             allowNull:false,
@@ -34,6 +42,9 @@ module.exports = ( sequelize ) => {
             defaultValue: "sin detalle",
         },
         priority:{
+            // esto NO tiene relacion con el modelo priority.js, es un campo
+            // suelto. el modelo priority.js parece una tabla que quedo sin
+            // terminar de usar
             type: DataTypes.STRING,
             defaultValue: "Media",
         },
@@ -62,6 +73,10 @@ module.exports = ( sequelize ) => {
         },
         
         randomdate:{
+            // el nombre no dice nada pero esto es la fecha de "Asignado" que se
+            // muestra en el excel y en las pantallas - se llama asi porque en
+            // algun momento se seteaba con una fecha random, ya no es asi pero
+            // el nombre quedo
             type: DataTypes.DATEONLY,
             defaultValue: DataTypes.NOW,
 

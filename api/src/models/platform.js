@@ -1,5 +1,7 @@
 const { DataTypes } = require ('sequelize');
 
+// plataforma por la que se da una capacitacion (zoom, meet, etc), se linkea
+// con capacitation.js
 module.exports = ( sequelize ) => {
     sequelize.define( "platform", {
         id:{

@@ -1,5 +1,8 @@
 const { DataTypes } = require ('sequelize');
 
+// catalogo de proveedores externos (los que se contratan cuando un soporte
+// no lo resuelve el equipo interno). un ticket se linkea a un proveedor a
+// traves de proveedornote.js, no directo
 module.exports = ( sequelize ) => {
     sequelize.define( "proveedor" , {
         id:{

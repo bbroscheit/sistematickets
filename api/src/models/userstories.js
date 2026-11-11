@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize')
 
+// parte del modulo viejo de proyectos (project.js/task.js), historias de
+// usuario al estilo agile. no tiene relacion con Proyectos V2 (newproject.js)
 module.exports = (sequelize) => {
     sequelize.define('userstories',{
         id:{

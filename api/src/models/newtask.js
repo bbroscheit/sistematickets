@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize')
 
+// tareas de un proyecto nuevo (Proyectos V2). "task.js" es la version vieja,
+// queda solo para lo que ya existia de antes
 module.exports = (sequelize) => {
     sequelize.define('newtask', {
         id:{

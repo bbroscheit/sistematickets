@@ -1,5 +1,8 @@
 const { DataTypes } = require ('sequelize');
 
+// esto es para las capacitaciones que se le dan a los usuarios (clases,
+// charlas de un sistema puntual). tiene profesor, alumnos y una plataforma
+// (zoom, meet, etc) via las relaciones en bd.js
 module.exports = ( sequelize ) => {
     sequelize.define( "capacitation", {
         id:{

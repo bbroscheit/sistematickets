@@ -1,5 +1,7 @@
 const { DataTypes } = require("sequelize");
 
+// vincula un evento (ticketEvent.js) con cada usuario que lo tiene que ver -
+// asi se sabe a quien le llega la notificacion y quien ya la leyo
 module.exports = (sequelize) => {
   sequelize.define("ticketEventRecipient", {
     id: {
@@ -20,11 +22,10 @@ module.exports = (sequelize) => {
     },
 
     readAt: {
+      // null = todavia no lo leyo, con fecha = ya lo leyo
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: null,
-      // null => no leído
-      // date => leído
     },
 
     isDeleted: {

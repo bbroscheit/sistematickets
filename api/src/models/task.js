@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize')
 
+// version vieja de las tareas, de antes de Proyectos V2. ver newtask.js para
+// lo que se usa ahora
 module.exports = (sequelize) => {
     sequelize.define('task', {
         id:{

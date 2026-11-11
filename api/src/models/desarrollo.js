@@ -1,5 +1,7 @@
 const { DataTypes } = require ('sequelize')
 
+// un "desarrollo" es un pedido de desarrollo interno, distinto de un ticket/
+// soporte normal. lo arma sistemas para seguir sus propias tareas
 module.exports = (sequelize) => {
     sequelize.define ('desarrollo', {
         id:{
@@ -15,7 +17,7 @@ module.exports = (sequelize) => {
         },
         state:{
             type: DataTypes.INTEGER,
-            defaultValue: 1, // 0: Inactive, 1: Active, 2: Completed
+            defaultValue: 1, // 0 inactivo, 1 activo, 2 completado
             allowNull: false
         },
         isdelete:{

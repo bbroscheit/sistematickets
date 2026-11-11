@@ -1,5 +1,8 @@
     const { DataTypes } = require("sequelize");
 
+// cada fila es un evento que le paso a un ticket (cambio de estado, info
+// agregada, comentario, reapertura). sirve para armar las notificaciones
+// (ver ticketEventRecipient.js, que es quien tiene que ver cada evento)
 module.exports = (sequelize) => {
   sequelize.define("ticketEvent", {
     id: {
@@ -15,19 +18,16 @@ module.exports = (sequelize) => {
     },
 
     eventType: {
+      // algunos valores que puede tener: "STATE_CHANGED", "INFO_ADDED",
+      // "COMMENT_ADDED", "REOPENED"
       type: DataTypes.STRING,
       allowNull: false,
-      // ejemplos:
-      // "STATE_CHANGED"
-      // "INFO_ADDED"
-      // "COMMENT_ADDED"
-      // "REOPENED"
     },
 
     actorUserId: {
+      // el usuario que genero el evento
       type: DataTypes.INTEGER,
       allowNull: false,
-      // quién generó el evento
     },
 
     isDeleted: {
