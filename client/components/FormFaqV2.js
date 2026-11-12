@@ -12,10 +12,8 @@ import { updateFaq } from "@/pages/api/updateFaq.js";
 
 // formulario de "nuevo soporte" cuando el usuario elige una faq existente
 // (nuevoSoporteV2.js) - precarga asunto/detalle/respuesta desde la faq.
-// ojo: el redirect post-creacion (mas abajo) compara user.sector con
-// strings viejos ("Supervisor", "Jefatura", "Jefe") que ya no existen -
-// user.sector hoy es un array de ids, asi que esas ramas nunca se cumplen
-// y siempre cae a TicketsV2
+// el redirect post-creacion (mas abajo) manda a los empleados a TicketsV2 y
+// al resto (encargado/jefe/gerente/gerente general) a NewTicketSupervisorGeneralV2
 function FormFaqV2({ id, title, description, answer, uresolved, user, useremail }) {
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado
@@ -166,11 +164,7 @@ function FormFaqV2({ id, title, description, answer, uresolved, user, useremail 
         timer: 1500
       }));
       setTimeout(() => {
-        user2.sector === "Supervisor" ? Router.push("/TicketsSupervisor")
-          : user2.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
-          : user2.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral")
-          : Router.push("/TicketsV2");
-
+        user2.role === 1 ? Router.push("/TicketsV2") : Router.push("/NewTicketSupervisorGeneralV2");
       }, 1500);
     }
   })

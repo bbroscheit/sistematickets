@@ -4,14 +4,10 @@ import styles from '@/modules/historicoSoportes.module.css';
 import mainStyle from "@/styles/Home.module.css";
 import Card from "@/components/Card";
 
-// historico de soportes cerrados (faqFinish). en teoria sistemas/supervisor/
-// administrador ven todo y el resto solo lo propio, pero loginParse.sector
-// hoy es un array de ids (no viene mas como string "Sistemas"/"Supervisor"/
-// "Administrador"), asi que esa condicion de abajo nunca se cumple y
-// termina mostrando solo lo propio para TODOS. no lo toco porque la forma
-// correcta hoy seria chequear el id de sector de Mesa de Ayuda/Sistemas,
-// como hace esSistemas en index.js, y prefiero confirmarlo antes de cambiar
-// quien ve que en esta pantalla
+// historico de soportes cerrados (faqFinish). ve todo el historico
+// cualquiera de mesa de ayuda/sistemas (sin importar el rol, mismo criterio
+// que esSistemas en index.js) o cualquiera con rol de encargado para
+// arriba; el resto (empleado comun) solo ve lo propio
 function HistoricoSoportes() {
   const [ soportes, setSoportes ] = useState([]);
   const [ user, setUser ] = useState(null);
@@ -28,14 +24,20 @@ function HistoricoSoportes() {
     setUser(loginParse);
 
     const fetchSoportes = async () => {
-      const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`);
+      const [res, sectorRes] = await Promise.all([
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faqFinish`),
+        fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`),
+      ]);
       const data = await res.json();
+      const sectors = await sectorRes.json();
 
-      if (
-          loginParse.sector === "Sistemas" || 
-          loginParse.sector === "Supervisor" || 
-          loginParse.sector === "Administrador"
-        ) {
+      const esMesaDeAyudaOSistemas = sectors.some(
+        (s) =>
+          loginParse.sector?.includes(s.id) &&
+          (s.sectorname === "Sistemas" || s.sectorname === "Mesa de Ayuda")
+      );
+
+      if (esMesaDeAyudaOSistemas || loginParse.role > 1) {
           setSoportes(data);
           setFilteredSoportes(data);
       } else {

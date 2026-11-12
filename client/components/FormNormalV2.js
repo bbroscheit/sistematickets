@@ -9,8 +9,8 @@ import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 
 
 // formulario de "nuevo soporte" sin faq (nuevoSoporteV2.js). mismo redirect
-// post-creacion roto que FormFaqV2.js (compara user.sector con strings
-// viejos que ya no aplican, siempre termina en TicketsV2) - ver comentario ahi
+// post-creacion que FormFaqV2.js: empleados a TicketsV2, el resto a
+// NewTicketSupervisorGeneralV2
 function FormNormalV2({ user }) {
   const [desarrollos, setDesarrollos] = useState(null);
   const [desarrolloInput, setDesarrolloInput] = useState({option: 0});
@@ -137,11 +137,7 @@ function FormNormalV2({ user }) {
           timer: 1500
         }));
         setTimeout(() => {
-          user.sector === "Supervisor" ? Router.push("/TicketsSupervisor")
-            : user.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
-            : user.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral")
-            : Router.push("/TicketsV2");
-
+          user.role === 1 ? Router.push("/TicketsV2") : Router.push("/NewTicketSupervisorGeneralV2");
         }, 1500);
       }
     })
@@ -162,11 +158,7 @@ function FormNormalV2({ user }) {
           timer: 1500
         }));
         setTimeout(() => {
-          user.sector === "Supervisor" ? Router.push("/TicketsSupervisor")
-            : user.sector.includes("Jefatura") ? Router.push("/TicketsSupervisorSector")
-            : user.sector.includes("Jefe") ? Router.push("/TicketSupervisorGeneral")
-            : Router.push("/TicketsV2");
-
+          user.role === 1 ? Router.push("/TicketsV2") : Router.push("/NewTicketSupervisorGeneralV2");
         }, 1500);
       }
     })
