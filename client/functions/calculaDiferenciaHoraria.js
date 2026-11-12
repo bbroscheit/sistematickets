@@ -1,3 +1,5 @@
+// diferencia entre dos horas "HH:MM" devuelta como string "HH:MM", para la
+// duracion de un turno de agenda
 export function calcularDiferenciaHoraria(horaInicio, horaCierre) {
     // se convierten las horas de cadena a minutos desde la medianoche
     var horaInicioMinutos = parseInt(horaInicio.split(':')[0]) * 60 + parseInt(horaInicio.split(':')[1]);

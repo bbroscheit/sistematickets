@@ -1,3 +1,7 @@
+// ojo, la funcion se llama "getFileName" por copy-paste pero no tiene nada
+// que ver con archivos: para mesa de ayuda, de la lista de usuarios
+// "obligatorios" devuelve los que NO tuvieron actividad (no aparecen en el
+// reporte), para marcarlos como ausentes
 export default function getFileName(data) {
     
     let activity = data.map(e => e.USERID.trim())

@@ -1,3 +1,5 @@
+// usernames de los miembros de un proyecto, salvo el primero (se asume que
+// el primero es el que crea el proyecto, por eso el shift si hay mas de uno)
 export default function arrayUserProject(data) {
       let users = data.users
          let usernames = []

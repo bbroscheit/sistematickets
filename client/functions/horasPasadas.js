@@ -1,3 +1,5 @@
+// filtra los soportes que llevan "time" horas o mas desde que se crearon,
+// para la columna de pendientes de mesa de ayuda
 export function horasPasadas(array , time) {
     const unaHoraEnMs = 3600000; // 1 hora en milisegundos
     const tiempoTotal = unaHoraEnMs*time

@@ -1,3 +1,5 @@
+// busca el interno (phonenumber) de un usuario por username, para mostrarlo
+// en mesa de ayuda
 export function devuelveInterno(userTrim , users) {
     let interno = 0
     let user = userTrim.trim()

@@ -1,3 +1,5 @@
+// cuenta cuantas veces aparece cada usuario en el array (se usa para saber
+// quien pregunto mas veces sobre una faq)
 export function contarUsuarios(usuarios) {
   const frecuenciaUsuarios = {};
 

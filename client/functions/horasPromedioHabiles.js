@@ -1,3 +1,5 @@
+// promedio de horas que tarda en cerrarse un soporte, contando solo horario
+// habil (lunes a viernes, 11 a 20hs) - se usa para el indicador del tablero
 export function horasPromedioHabiles(data) {
     const minutosLaborablesPorDia = 8 * 60; // Jornada laboral de 8 horas en minutos
     const horaInicioLaboral = 11; // Hora de inicio laboral (11 AM)

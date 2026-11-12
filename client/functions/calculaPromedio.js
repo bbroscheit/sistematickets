@@ -1,3 +1,5 @@
+// porcentaje de tareas en estado "cumplido" sobre el total, para la barra
+// de progreso de un proyecto
 export function calculaPromedio(task) {
     let promedioTotal = 0
     

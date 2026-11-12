@@ -1,3 +1,4 @@
+// cuenta cuantos soportes genero cada usuario, para el resumen de mesa de ayuda
 export function contarTicketsPorUsuario(tickets) {
     let conteoPorUsuario = {};
 

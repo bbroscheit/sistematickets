@@ -1,7 +1,7 @@
+// dice si el usuario ya confirmo asistencia a un turno de agenda (esta en
+// el array "accepted" por username o por nombre+apellido)
 export default function scheduleAsistencia(soporte , username ,firstname, lastname){
     let acceptedArray = soporte.accepted
-    
-    console.log("acceptedArray" , acceptedArray)
 
     if(acceptedArray === 0){
         return false

@@ -1,3 +1,5 @@
+// cuenta cuantos soportes tiene asignado cada worker, para el resumen de
+// mesa de ayuda
 export function contarTicketsPorWorker(tickets) {
     let conteoPorWorker = {};
 

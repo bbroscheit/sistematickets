@@ -1,3 +1,4 @@
+// lista de usernames unicos (sin repetidos) de un array de soportes
 export default function arrayUser(data) {
     
     let users= data.map( e => e.user.username)

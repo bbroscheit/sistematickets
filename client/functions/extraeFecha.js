@@ -1,3 +1,4 @@
+// formatea una fecha a DD-MM-YYYY para mostrarla en las cards/tablas
 export  function extraeFecha(date) {
     
     const fecha = new Date(date);
