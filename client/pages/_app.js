@@ -5,6 +5,9 @@ import ContextWrapper from "@/context/ContextWrapper";
 
 
 
+// punto de entrada de next, envuelve TODA la app en Layout (navbar) y
+// ContextWrapper (contexto de la agenda), y registra el service worker
+// para las notificaciones push
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if ('serviceWorker' in navigator) {

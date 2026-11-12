@@ -22,6 +22,7 @@ const styles = {
   p: 4,
 };
 
+// listado de desarrollos con el modal de alta (titulo + usuarios asignados)
 function Desarrollos() {
   const [allUser, setAllUser] = useState(null);
   const [allDesarrollos, setAllDesarrollos] = useState(null);

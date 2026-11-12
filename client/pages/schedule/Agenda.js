@@ -11,6 +11,8 @@ import devuelveHoraDesdeTimestamp from '@/functions/devuelveHoraDesdeTimestamp';
 import scheduleAsistencia from '@/functions/scheduleAsistencia';
 import { toggleAccepted } from '../api/toggleAccepted';
 
+// lista de turnos agendados del mes actual, con quien confirmo asistencia
+// (scheduleAsistencia.js)
 function Agenda() {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext)
   const [schedules, setSchedules] = useState(null)

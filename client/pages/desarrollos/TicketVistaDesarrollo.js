@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import CardTicketDesarrollo from "@/components/CardTicketDesarrollo";
 import styles from "@/modules/Ticket.module.css";
 
+// agrupa por estado los soportes que pertenecen a los desarrollos del
+// usuario, para mostrarlos en columnas dentro de TicketsV2.js
 function TicketVistaDesarrollo({ desarrollos, user }) {
   const [ticketGenerados, setTicketsGenerados] = useState(null);
   const [ticketAsignados, setTicketsAsignados] = useState(null);

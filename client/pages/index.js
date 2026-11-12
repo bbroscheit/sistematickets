@@ -6,6 +6,8 @@ import { getUser } from "../pages/api/getUser";
 import Router from "next/router";
 
 
+// pantalla de login. segun sector/rol del usuario que entra, redirige a
+// una de tres pantallas distintas (ver onHandleSubmit mas abajo)
 export default function Home() {
   const [input, setInput] = useState({
     username: "",

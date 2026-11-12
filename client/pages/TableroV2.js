@@ -17,6 +17,8 @@ const ESTADO_PILL = {
   "Terminado": { label: "Terminado", cls: "pillGreen" },
 };
 
+// tablero general de soportes: tiles por estado (DashboardCardTicketV2) y
+// matriz por sucursal+estado con drill-down
 function Tablero() {
   const [soportes, setSoportes] = useState(null);
   const [matrix, setMatrix] = useState(null);

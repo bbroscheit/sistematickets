@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 import { postPlatform } from '@/pages/api/postPlatform';
 
 
+// alta de una plataforma de conocimiento (con sus "masters"), vuelve a
+// Capacitaciones.js al guardar
 function NewPlatform() {
     const router = useRouter();
     const [user, setUser] = useState(null)

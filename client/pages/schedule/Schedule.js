@@ -31,6 +31,8 @@ const styles = {
     p: 4,
   };
 
+// pantalla de agenda: calendario mensual (Month/Day) para cargar turnos y
+// la vista "Agenda" del dia con los invitados
 function Schedule() {
     const [ open, setOpen   ] = useState(false);
     const [ currentMonth , setCurrentMonth  ] = useState(getDaysForSchedule())

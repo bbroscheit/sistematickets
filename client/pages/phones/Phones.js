@@ -5,6 +5,8 @@ import style from '../../modules/phone.module.css'
 import PhoneCard from './PhoneCard'
 
 
+// listado de internos para llamar por el softphone (dial.php), con
+// buscador por nombre
 function Phones() {
     const [user, setUser] = useState(null)
     const [mainNumber, setMainNumber] = useState(null)

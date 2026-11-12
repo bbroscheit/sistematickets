@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+// detalle de un desarrollo, llamado desde CardTicketDesarrollo.js - trae
+// todo el flujo de un soporte (asignar/responder/cerrar) pero en el
+// contexto de un desarrollo en particular
 import style from "../../modules/detail.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import Swal from "sweetalert2";

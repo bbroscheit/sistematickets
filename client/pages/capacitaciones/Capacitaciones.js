@@ -28,6 +28,8 @@ const style = {
   
 
 
+// listado de capacitaciones con el modal de alta, y link a NewPlatform.js
+// para cargar una plataforma de conocimiento nueva
 function Capacitaciones() {
     const router = useRouter();
     const [user, setUser] = useState(null)

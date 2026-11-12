@@ -4,6 +4,7 @@ import mainStyle from "@/styles/Home.module.css";
 import style from "@/modules/dashboardV2.module.css";
 import ProjectCardV2 from "@/components/ProjectCardV2";
 
+// listado de proyectos, con buscador y filtro de finalizados
 function DashboardV2() {
   const [projects, setProjects] = useState(null);
   const [user, setUser] = useState(null);

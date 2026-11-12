@@ -27,6 +27,7 @@ const modalPosition = {
 const NOMBRE_MIN = 20;
 const DETALLE_MIN = 20;
 
+// detalle de un proyecto: tareas (TaskRowV2), progreso, edicion y archivos
 function ProyectoDetalleV2() {
   const router = useRouter();
   const id = router.query.id;

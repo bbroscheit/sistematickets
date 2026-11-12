@@ -3,6 +3,7 @@ import mainStyles from "@/styles/Home.module.css";
 import style from "@/modules/usuariosV2.module.css";
 import CardUsersV2 from "@/components/CardUsersV2";
 
+// listado de usuarios con buscador y filtro por sector/sucursal
 function UsuariosV2() {
   const [data, setData] = useState({
     users: [],

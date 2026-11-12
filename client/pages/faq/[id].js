@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+// detalle de una faq: completarla, unificarla con otra o borrarla
 import style from "../../modules/detailFaq.module.css";
 import mainStyle from "@/styles/Home.module.css";
 import Box from "@mui/material/Box";

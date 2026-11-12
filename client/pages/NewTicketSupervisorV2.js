@@ -23,6 +23,9 @@ import ListadoSinAsignar from "@/components/ListadoSinAsignar";
 const CACHE_KEY = "supervisor_data_v1";
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
 
+// panel de mesa de ayuda/sistemas: resumen de soportes por usuario y por
+// worker, con cache corto en localStorage y la seleccion sincronizada en
+// la url para sobrevivir al "volver atras" desde el detalle de un ticket
 function NewTicketsSupervisorV2() {
   const router = useRouter();
   const [soporteUnfinished, setSoporteUnfinished] = useState(null);

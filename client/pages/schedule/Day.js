@@ -19,6 +19,8 @@ const styles = {
     p: 4,
   };
 
+// celda de un dia en el calendario: lista los turnos de ese dia
+// (ScheduleCard) y el modal para agregar uno nuevo
 function Day({day , idx }) {
     let days = day.format("DD-MM-YYYY")
     const [open, setOpen] = useState(false);

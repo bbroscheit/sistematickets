@@ -9,6 +9,8 @@ import useAutoFetchDesarrollos from "@/hooks/useAutoFetchDesarrollos.js";
 import TicketVistaV2 from "./ticketVista/TicketVistaV2.js";
 import TicketVistaDesarrollo from "./desarrollos/TicketVistaDesarrollo.js";
 
+// vista de soportes del empleado comun: sus propios tickets por estado
+// (TicketVistaV2) mas los desarrollos en los que participa
 function TicketsV2() {
   const [user, setUser] = useUser("");
   const [ticketGenerados, setTicketsGenerados] = useState(null);

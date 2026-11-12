@@ -39,6 +39,8 @@ function summarize(tickets) {
   return summary;
 }
 
+// panel de supervisor "general" (jefe/gerente/gerente general): resumen de
+// soportes por usuario, con el detalle expandible por tabs de estado
 function NewTicketsSupervisorGeneralV2() {
   const router = useRouter();
   const [user, setUser] = useUser("");

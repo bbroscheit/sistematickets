@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import style from '../../modules/phoneCard.module.css'
 
+// card de un interno, el link abre el softphone para marcar desde el
+// interno del usuario logueado hacia "phone"
 function PhoneCard({id, firstname , lastname, phone}) {
 
   const [mainNumber, setMainNumber] = useState(null)

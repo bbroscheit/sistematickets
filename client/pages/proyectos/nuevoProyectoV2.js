@@ -11,6 +11,8 @@ import formatBytes from "@/functions/formatBytes";
 const NOMBRE_MIN = 20;
 const DETALLE_MIN = 20;
 
+// alta de un proyecto nuevo (nombre, detalle, requirente, developers,
+// archivos adjuntos)
 function nuevoProyectoV2() {
   const fileInputRef = useRef(null);
   const [user, setUser] = useState(null);

@@ -14,6 +14,8 @@ import TicketCardHelpDesk from "@/components/TicketCardHelpDesk";
 import  {devuelveInterno } from "@/functions/devuelveInterno";
 
 
+// tablero de mesa de ayuda: soportes agrupados por estado
+// (TicketCardHelpDesk) mas quien esta conectado en Dynamics GP ahora mismo
 function Principal() {
   const [activity, setActivity] = useState(null);
   const [usuarios, setUsuarios] = useState(null);
