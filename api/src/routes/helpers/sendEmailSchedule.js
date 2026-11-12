@@ -15,7 +15,10 @@ const transporter = nodemailer.createTransport({
   
 });
 
-// Función para enviar correo electrónico
+// manda la invitacion de una reunion a cada invitado. "invited" viene como
+// array de strings "Nombre Apellido", por eso se parsea con split(' ') para
+// buscar al usuario - si alguien tiene mas de un segundo nombre esto se
+// puede llegar a romper, pero no vimos que pase en la practica
 const sendEmailSchedule = async ( detail, invited, startdateModify, starthour, finishhour ) => {
   try {
     for (let i = 1; i < invited.length; i++) {

@@ -9,6 +9,9 @@ const transporter = nodemailer.createTransport({
   auth: { user: MAIL_USER, pass: MAIL_PASS },
 });
 
+// avisa al jefe/encargado/gerente del usuario (el managerEmail se resuelve
+// afuera con getManagersForUser.js) que se resolvio el soporte de su
+// empleado
 const sendEmailManagerComplete = async (ticket, managerEmail, workerFind, onlyDetail) => {
   try {
     await transporter.sendMail({

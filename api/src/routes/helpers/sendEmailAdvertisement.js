@@ -14,7 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// aviso al developer cuando tiene soportes pendientes hace mas tiempo del
+// que deberia (el "time" en horas se lo pasan desde donde se llama esto)
 const sendEmailAdvertisement = async (
   title,
   time,

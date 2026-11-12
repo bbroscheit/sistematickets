@@ -1,3 +1,5 @@
+// devuelve solo el detalle original con el que se creo el ticket, sin las
+// preguntas/respuestas que se le fueron agregando despues
 const getOnlyDetail= async (ticket) => {
     
     try{

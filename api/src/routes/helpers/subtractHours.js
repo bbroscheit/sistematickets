@@ -1,3 +1,5 @@
+// le resta horas a un horario "hh:mm", dando la vuelta al dia anterior si
+// hace falta (ej. 02:00 menos 3 horas = 23:00)
 const subtractHours =(time, hours) => {
     
     const [hour, minute] = time.split(':').map(Number);

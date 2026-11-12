@@ -15,7 +15,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// aviso a la casilla general de mesa de ayuda (no a una persona puntual)
+// de que se creo un ticket nuevo
 const sendEmailNewTicket = async (findTicket) => {
   try {
       

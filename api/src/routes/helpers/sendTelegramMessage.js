@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const { TELEGRAMTOKEN } = process.env
 
+// manda un mensaje por el bot de telegram a un chat puntual. es un canal
+// de aviso aparte de los mails, se usa poco
 const sendTelegramMessage = async (chatId, message) => {
     const TELEGRAM_TOKEN = TELEGRAMTOKEN ;
     const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;

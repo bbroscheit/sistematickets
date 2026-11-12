@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// busca el ticket mas reciente que tenga ese titulo exacto. se usa en algun
+// flujo viejo donde no se tiene el id del ticket a mano, solo el subject
 const getTicketsBySubject = async (subject2) => {
     try {
         const latestTicket = await Ticket.findOne({

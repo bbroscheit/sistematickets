@@ -1,5 +1,8 @@
 const { createCA, createCert } = require ("mkcert") ;
 
+// genera un certificado SSL local (para probar https en dev). hoy no lo
+// esta usando nada del codigo, lo dejo por si algun dia hace falta volver
+// a levantar el server con https local
 const certificates = {}
 
 async function certificateGenerator(){
@@ -18,6 +21,7 @@ async function certificateGenerator(){
     });
 
     return cert
+    // estas dos lineas quedaron despues del return, nunca se ejecutan
     console.log(cert.key, cert.cert); // certificate info
     console.log(`${cert.cert}${ca.cert}`); // create full chain certificate by merging CA and domain certificates
 }

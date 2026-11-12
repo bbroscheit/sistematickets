@@ -14,7 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// avisa al developer que el usuario cerro el soporte (ultimo paso del
+// circuito)
 const sendEmailWorkerFinish = async (
   ticket,
   useremail,

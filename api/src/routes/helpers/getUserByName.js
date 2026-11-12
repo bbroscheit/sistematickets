@@ -1,5 +1,7 @@
 const { User } = require('../../bd');
 
+// busca un usuario por username. ojo que devuelve un array (findAll), aunque
+// el username deberia ser unico
 const getUserByName = async (worker) => {
     
     try{

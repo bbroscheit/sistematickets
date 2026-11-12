@@ -1,3 +1,6 @@
+// esta es la version vieja de abajo, la deje comentada por si hace falta
+// volver a algo mas simple (hacia el update directo con Op.lt en vez de
+// recorrer ticket por ticket)
 // const { Ticket } = require("../../bd");
 // const { Op } = require("sequelize");
 
@@ -27,6 +30,12 @@
 
 const { Ticket } = require("../../bd");
 
+// pasa a "Terminado" los soportes que llevan mas de 10 dias en "Completado"
+// (ya los resolvio el developer y el usuario los dejo sin cerrar). esta
+// pensada para correr sola todos los dias con el cron, pero ojo: hoy el
+// llamado esta comentado en appsHttps.js, asi que en la practica no se
+// ejecuta y los tickets se quedan en "Completado" hasta que alguien los
+// cierre a mano
 const closeTicketByTime = async () => {
   try {
     

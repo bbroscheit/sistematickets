@@ -14,7 +14,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// a pesar del nombre del archivo, este es el mail que confirma que el
+// USUARIO cerro su propio soporte (no el que marca que quedo "completado",
+// ese es sendEmailUserComplete.js). la funcion de aca adentro quedo con el
+// nombre sendEmailUserComplete por un copy-paste, pero funciona bien porque
+// lo que importa es el export
 const sendEmailUserComplete = async (
   ticket,
   useremail,

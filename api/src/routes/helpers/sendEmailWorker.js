@@ -1,3 +1,6 @@
+// a pesar del nombre del archivo, esto es un mailer generico viejo (recibe
+// id/to/subject/text a mano). hoy no lo usa ningun archivo del proyecto,
+// se puede considerar codigo muerto
 const { User, Ticket } = require("../../bd");
 const nodemailer = require("nodemailer");
 

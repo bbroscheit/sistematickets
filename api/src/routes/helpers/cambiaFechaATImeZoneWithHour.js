@@ -1,5 +1,8 @@
 const moment = require('moment-timezone');
 
+// toma una fecha (dd-mm-aaaa) y una hora (hh:mm) sueltas y las junta en un
+// solo datetime en UTC, para guardar en la base. ver el comentario del
+// subtract de abajo, es un ajuste a mano
 const cambiaFechaATimeZoneWithHour =(date, hour) => {
     
     try{

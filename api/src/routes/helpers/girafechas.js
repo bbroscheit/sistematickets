@@ -1,3 +1,5 @@
+// da vuelta el orden de una fecha con guiones, de dd-mm-aaaa a aaaa-mm-dd
+// (o al reves, es simetrica)
 const giraFechas = (date) => {
     
         let partes = date.split("-");

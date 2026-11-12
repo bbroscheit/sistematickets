@@ -1,5 +1,7 @@
 const moment = require('moment-timezone');
 
+// version sin hora de cambiaFechaATImeZoneWithHour.js: solo convierte una
+// fecha dd-mm-aaaa a UTC, sin el ajuste manual de minutos
 const cambiaFechaATimeZone =(startdate) => {
     
     try{

@@ -1,5 +1,6 @@
 const { Ticket, User } = require('../../bd');
 
+// dado el id de un ticket, devuelve el mail del usuario que lo creo
 const getUserEmailByTicketID = async (idTicket) => {
     try {
         const ticketData  = await Ticket.findOne({

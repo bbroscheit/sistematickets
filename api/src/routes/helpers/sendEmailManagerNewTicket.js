@@ -9,6 +9,8 @@ const transporter = nodemailer.createTransport({
   auth: { user: MAIL_USER, pass: MAIL_PASS },
 });
 
+// avisa al jefe/encargado/gerente (resuelto con getManagersForUser.js) que
+// su empleado creo un soporte nuevo
 const sendEmailManagerNewTicket = async (findTicket, managerEmail) => {
   try {
     await transporter.sendMail({

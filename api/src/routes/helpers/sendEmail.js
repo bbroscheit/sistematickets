@@ -14,7 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// mail que le llega al usuario cuando crea un ticket nuevo, confirmandole
+// que quedo registrado y con el numero de soporte
 const sendEmail = async (email, findTicket) => {
   
   try {

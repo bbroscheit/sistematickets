@@ -14,7 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// avisa al usuario que el developer empezo a trabajar en su soporte
+// (cuando el developer "acepta" el ticket asignado)
 const sendEmailWorkerAceptAssigment = async (
   ticket,
   useremailFind,

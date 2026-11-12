@@ -14,7 +14,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Función para enviar correo electrónico
+// mail al usuario cuando el developer le pide mas informacion sobre su
+// soporte (le manda la pregunta para que la responda desde la app)
 const sendEmailInfoToUser = async (
   ticket,
   useremail,
