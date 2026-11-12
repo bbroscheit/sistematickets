@@ -2,12 +2,15 @@ const { Newproject, User, Formproject } = require("../../bd");
 const fs = require('fs');
 const path = require('path');
 
+// no se usa en esta funcion, quedo de algun intento anterior
 function convertFromStringToDate(finishDate) {
   let datePieces = finishDate.split("-");
-  
+
   return(new Date(datePieces[2], (datePieces[1] - 1), datePieces[0]))
 }
 
+// edita un proyecto V2: actualiza los datos, mueve los archivos nuevos a
+// la carpeta del proyecto y reasigna requirer + workers
 const updateNewProject = async (
     idProject,
     projectname,

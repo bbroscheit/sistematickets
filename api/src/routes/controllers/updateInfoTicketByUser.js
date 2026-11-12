@@ -4,6 +4,10 @@ const path = require('path');
 const { TELEGRAMCHATID } = process.env
 const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 
+// el usuario responde la pregunta que le hizo el developer. si el ticket
+// estaba en desarrollo/informacion/completado/terceros vuelve a
+// "Desarrollo" (vuelve a manos del equipo interno); si todavia no estaba
+// asignado, solo se agrega la respuesta sin cambiar el estado
 const updateInfoTicketByuser = async (id, answer, firstname, lastname) => {
     //console.log("updateInfoTicketByuser", id, answer, firstname, lastname);
     try {

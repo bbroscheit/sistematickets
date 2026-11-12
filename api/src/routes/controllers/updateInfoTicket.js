@@ -2,6 +2,9 @@ const { Ticket } = require('../../bd');
 const fs = require('fs').promises;
 const path = require('path');
 
+// el developer agrega info/avance al ticket (texto libre, se concatena al
+// detail existente con fecha y quien lo escribio) y pasa el ticket a
+// "Informacion"
 const updateInfoTicket = async (id, info, files) => {
     console.log("updateInfoTicket", id, info);
     try {

@@ -1,5 +1,6 @@
 const { Desarrollo } = require("../../bd");
 
+// edita el titulo de un desarrollo interno
 const updateTitleDesarrollo = async ( id,  title) => {
     
     try {

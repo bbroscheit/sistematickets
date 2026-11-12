@@ -1,20 +1,27 @@
 const { Ticket, Proveedor, Proveedornote } = require('../../bd'); 
 
+// le asigna un proveedor externo al ticket: crea la nota y manda el
+// ticket a "Terceros" (vuelve a "Desarrollo" cuando se cierra la nota,
+// ver closeProveedor.js)
 const updateProveedor = async ( id , name, description ) => {
-   
+
     try {
         // Buscamos ticket por id
         const ticket = await Ticket.findByPk(id);
-    
+
         if (!ticket) {
-          return res.status(404).json({ error: 'Ticket no encontrado' });
+          // esto usaba "res" (no existe en esta funcion, no es un
+          // controller de express) y tiraba su propio ReferenceError en
+          // vez de devolver el mensaje real - lo cambio por un throw como
+          // en el resto de los controllers
+          throw new Error('Ticket no encontrado');
         }
-    
+
         // Buscamos proveedor por su nombre
         const proveedor = await Proveedor.findOne({ where: { name : name } });
-    
+
         if (!proveedor) {
-          return res.status(404).json({ error: 'Proveedor no encontrado' });
+          throw new Error('Proveedor no encontrado');
         }
 
         let newNote = await Proveedornote.create({

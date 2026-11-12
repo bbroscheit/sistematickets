@@ -1,5 +1,6 @@
 const { Desarrollo } = require("../../bd");
 
+// marca un desarrollo interno como completado (state: 2 - ver desarrollo.js)
 const updateStateDesarrollo = async ( id,  title) => {
     
     try {

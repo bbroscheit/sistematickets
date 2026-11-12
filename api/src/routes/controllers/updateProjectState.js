@@ -1,5 +1,6 @@
 const { Newproject } = require('../../bd')
 
+// marca un proyecto V2 como finalizado
 const updateProjectState = async (id) => {
 
     let setProject = await Newproject.update(

@@ -1,5 +1,7 @@
 const { Faq } = require('../../bd')
 
+// agrega un usuario mas al array "questioner" de una faq existente (sin
+// tocar los demas campos)
 const updateUserFaq = async (id, userQuestioner) => {
   try {
       

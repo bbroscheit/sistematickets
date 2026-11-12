@@ -1,5 +1,7 @@
 const { Desarrollo, User } = require("../../bd");
 
+// reemplaza los usuarios asignados a un desarrollo interno. acepta tanto
+// objetos {id} como usernames sueltos en el array "users"
 const updateUsersDesarrollo = async ( id,  users) => {
     
     try {

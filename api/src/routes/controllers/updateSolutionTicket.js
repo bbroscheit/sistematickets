@@ -2,6 +2,8 @@ const { Ticket, sequelize } = require('../../bd')
 const fs = require('fs').promises;
 const path = require('path');
 
+// el developer carga la solucion/respuesta final: pasa el ticket a
+// "Completado" y guarda la fecha de finalizacion
 const updateSolutionTicket = async (id, solution) => {
   try {
 

@@ -61,8 +61,16 @@
 
 // module.exports = updateUser;
 
+// la version vieja de arriba (comentada) usaba setSector/setSalepoint
+// (singular, para una relacion que ya no es 1 a 1) y se cambio por esta,
+// que recibe arrays de ids y usa setSectors/setSalepoints - el mismo tipo
+// de bug que se arreglo hace poco en postUser.js, pero aca ya estaba
+// resuelto de antes
 const { User, Sector, Salepoint, Role } = require("../../bd");
 
+// edita un usuario existente: datos basicos, rol, manager, y reemplaza
+// completamente sus sectores/sucursales por los que vengan en
+// sectorIds/salepointIds
 const updateUser = async (
   id,
     username,
