@@ -1,3 +1,5 @@
+// rutas de los "desarrollo" (pedidos de desarrollo interno de sistemas,
+// no confundir con el estado "Desarrollo" de un ticket - ver desarrollo.js)
 const desarrolloRouter = require("express").Router()
 const getAllDesarrollo = require('../routes/controllers/getAllDesarrollo')
 const getDesarrolloById = require('../routes/controllers/getDesarrolloByID')
@@ -93,8 +95,10 @@ desarrolloRouter.post( '/desarrollo' , async (req, res) => {
     }
 })
 
+// esto quedo pegado de un copy-paste de capacitationRouter.js, no tiene
+// nada que ver con desarrollo
 // capacitationRouter.put( '/updateCapacitations' , async (req, res) => {
-//     const { id, finishdate , finishhour, state } = req.body  
+//     const { id, finishdate , finishhour, state } = req.body
 
 //     try {
 //         let updateCapacitations = await updateCapacitation( id, finishdate , finishhour, state )

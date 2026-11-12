@@ -1,16 +1,11 @@
+// rutas de los proveedores externos y sus notas (proveedornote). asignar
+// un proveedor a un ticket es lo que lo manda al estado "Terceros"
 const proveedorRouter = require("express").Router();
 const postProveedor = require('../routes/controllers/postProveedor')
 const getAllProveedor = require('../routes/controllers/getAllProveedor')
 const updateProveedor = require('../routes/controllers/updateProveedor')
 const getAllNotes = require('../routes/controllers/getAllNote')
 const closeProveedor = require ('../routes/controllers/closeProveedor')
-// const getAllUser = require("../routes/controllers/getAllUser");
-// const getUserDetail = require("../routes/controllers/getUserDetail");
-// const getAllWorker = require("../routes/controllers/getAllWorker");
-// const loginUser = require("../routes/controllers/loginUser");
-// const postUser = require("./controllers/postUser");
-// const updateUser = require("./controllers/updateUser");
-// const deleteUser = require("./controllers/deleteUser");
 
 
 proveedorRouter.get("/proveedor", async (req, res) => {

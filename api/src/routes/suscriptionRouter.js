@@ -1,3 +1,4 @@
+// guarda las suscripciones de web push (notificaciones del navegador)
 const suscriptionRouter = require('express').Router()
 const { Suscription } = require('../bd');
 

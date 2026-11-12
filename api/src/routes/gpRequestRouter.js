@@ -1,3 +1,5 @@
+// usuarios con conexion activa (para saber quien esta online, lo usa el
+// chat/soporte en vivo)
 const gpRequestRouter = require("express").Router();
 const getActiveConnection = require("../routes/controllers/getActiveConnection");
 

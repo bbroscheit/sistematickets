@@ -1,3 +1,4 @@
+// trae la lista de roles (empleado/encargado/jefe/gerente - ver role.js)
 const roleRouter = require('express').Router();
 
 const getAllRoles = require('./controllers/getAllRoles');

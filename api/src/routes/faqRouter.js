@@ -1,3 +1,6 @@
+// rutas de las preguntas frecuentes (faq.js). cuando alguien crea un
+// soporte que ya tiene respuesta en el faq, se le muestra ahi mismo en vez
+// de abrir un ticket nuevo
 const faqRouter = require("express").Router();
 const getAllFaq = require("../routes/controllers/getAllFaq");
 const getAllFaqFinish = require("../routes/controllers/getAllFaqFinish.js")

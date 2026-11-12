@@ -1,3 +1,4 @@
+// rutas de los puntos de venta / sucursales
 const salepointRouter = require('express').Router();
 const getAllSalepoint = require('./controllers/getAllSalepoint');
 const postSalepoint = require('./controllers/postSalepoint');

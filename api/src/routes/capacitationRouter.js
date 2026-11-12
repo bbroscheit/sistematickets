@@ -1,3 +1,5 @@
+// rutas de las capacitaciones (sesiones de entrenamiento con teacher,
+// students y plataforma - ver capacitation.js)
 const capacitationRouter = require("express").Router()
 const getAllCapacitation = require('../routes/controllers/getAllCapacitation')
 const getCapacitationById = require('../routes/controllers/getCapacitationById')

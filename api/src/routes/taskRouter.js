@@ -1,3 +1,5 @@
+// mezcla rutas del modulo viejo de tareas ("/task", project.js/task.js)
+// con el modulo V2 ("/newtask") que es el que se usa hoy
 const taskRouter = require("express").Router()
 const getAllTask = require("./controllers/getAllTask")
 const getAllNewTask = require('./controllers/getAllNewtask')

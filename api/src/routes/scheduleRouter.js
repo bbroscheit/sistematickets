@@ -1,3 +1,4 @@
+// rutas de la agenda/reuniones (schedule.js)
 const scheduleRouter = require("express").Router();
 const dayjs = require("dayjs"); 
 const getAllSchedule = require("../routes/controllers/getAllSchedule");

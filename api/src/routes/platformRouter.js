@@ -1,11 +1,8 @@
+// rutas de las plataformas donde se dan las capacitaciones (ej. zoom,
+// meet - ver platform.js)
 const platformRouter = require("express").Router()
 const getAllPlatform = require('./controllers/getAllPlatform')
 const postPlatform = require('./controllers/postPlatform')
-//const postCapacitation = require('../routes/controllers/postCapacitation')
-
-
-
-
 platformRouter.get("/platform" , async (req, res) => {
     
     try{
@@ -29,8 +26,9 @@ platformRouter.post("/postPlatform" , async (req, res) => {
     }
 })
 
+// estas dos tambien quedaron pegadas del copy-paste de capacitationRouter.js
 // capacitationRouter.put( '/updateCapacitations' , async (req, res) => {
-//     const { id, finishdate , finishhour, state } = req.body  
+//     const { id, finishdate , finishhour, state } = req.body
 
 //     try {
 //         let updateCapacitations = await updateCapacitation( id, finishdate , finishhour, state )
@@ -42,7 +40,7 @@ platformRouter.post("/postPlatform" , async (req, res) => {
 
 // capacitationRouter.get( '/capacitationByWorker' , async ( req, res ) => {
 //     const workerName = req.query.worker
-    
+
 //     try {
 //         let capacitation = await getCapacitationByWorker(workerName);
 //         capacitation !== 0 ? res.status(200).json(capacitation) : res.status(400).send([])

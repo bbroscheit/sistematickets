@@ -1,3 +1,5 @@
+// rutas de usuarios: alta, edicion, login y los listados de usuarios/
+// developers (worker)
 const userRouter = require("express").Router();
 const getAllUser = require("../routes/controllers/getAllUser");
 const getUserDetail = require("../routes/controllers/getUserDetail");

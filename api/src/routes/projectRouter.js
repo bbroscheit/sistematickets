@@ -1,3 +1,6 @@
+// mezcla rutas del modulo viejo de proyectos (project/task/userstories,
+// los endpoints "/project") con el modulo V2 ("/newproject") que es el que
+// se usa hoy - ver newproject.js vs project.js
 const projectRouter = require("express").Router()
 const uploadFiles = require('./middlewares/uploadFiles');
 const getAllProject = require('../routes/controllers/getAllProject')

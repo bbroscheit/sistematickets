@@ -1,6 +1,8 @@
 const path = require ( 'path' );
 const downloadRouter = require("express").Router()
 
+// descarga un archivo adjunto de un ticket viejo por nombre de archivo
+
 downloadRouter.get("/download/:fileName" , async (req, res) => {
     
     const nombreArchivo = req.params.fileName;

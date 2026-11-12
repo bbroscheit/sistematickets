@@ -1,3 +1,7 @@
+// el router mas grande de la app: todas las rutas de soportes (listados
+// por estado/sector/sucursal/worker, alta, cambios de estado, los mails de
+// cada paso del circuito, estadisticas y la exportacion a excel al final
+// del archivo)
 const ticketRouter = require('express').Router()
 const { format, parseISO, isDate } = require ('date-fns');
 const fs = require('fs');
@@ -5,7 +9,7 @@ const path = require('path');
 const getAllTicket = require('./controllers/getAllTicket');
 const getAllTicketUnfinished = require('./controllers/getAllTicketUnfinished')
 const getTicketsDesarrollo = require('./controllers/getTicketDesarrollo');
-const getTicketsDesarrollo2 = require('./controllers/getTicketDesarrollo2');
+const getTicketsDesarrollo2 = require('./controllers/getTicketDesarrollo2'); // a pesar del nombre, trae los tickets en estado "Informacion"
 const getTicketCompletado = require('./controllers/getTicketCompletado');
 const getTicketsAsignados = require('./controllers/getTicketAsignados')
 const getTicketsGenerados = require('./controllers/getTicketGenerado');
@@ -195,6 +199,8 @@ ticketRouter.get( '/ticketsPendientes24' , async ( req, res ) => {
     }
 })
 
+// esta ruta no sirve hoy: getPriority tiene el return comentado, asi que
+// "prioridades" siempre es undefined y cae siempre al 400
 ticketRouter.get( '/priority' , async ( req, res ) => {
     console.log("entre en la ruta de prioridad")
     try {
@@ -551,6 +557,10 @@ ticketRouter.put( '/updateCloseTicket/:id' , async ( req, res ) => {
 
 })
 
+// de aqui para abajo (hasta el excel) son rutas de notificacion: el
+// front las llama por separado DESPUES de que la accion principal (crear/
+// asignar/completar/cerrar el ticket) ya se guardo, para no trabar esa
+// respuesta esperando a que salgan todos los mails
 ticketRouter.post('/sendEmailNewTicket', async (req, res) => {
     const {subject, email} = req.body
 

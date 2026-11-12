@@ -1,3 +1,5 @@
+// rutas del modulo viejo de historias de usuario (userstories.js), parte
+// del proyecto V1 que ya no se usa para nada nuevo
 const userstoriesRouter = require("express").Router()
 const getAllUserStories = require("./controllers/getAllUserstories")
 const getStoriedetail = require('./controllers/getStoriedetail')
