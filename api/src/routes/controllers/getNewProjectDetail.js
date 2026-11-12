@@ -1,5 +1,7 @@
 const { Newproject, User, Newtask, Formproject, sequelize} = require('../../bd')
 
+// detalle de un proyecto V2, con sus tareas (ordenadas por fecha de fin)
+// y los adjuntos
 const getNewProjectDetail = async (id) => {
     
     try {

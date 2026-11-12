@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// lo mismo que getInformacionWorker.js pero para todos los developers de
+// una, con sus horas promedio de resolucion - para la tabla general
 const getInformacionTodosWorkers = async () => {
     try {
         const [workers, allTickets] = await Promise.all([

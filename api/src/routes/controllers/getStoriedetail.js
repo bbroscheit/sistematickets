@@ -1,5 +1,6 @@
 const { Project, User, Userstories, Task} = require('../../bd')
 
+// modulo viejo (V1): detalle de una userstory con sus tareas
 const getStoriedetail = async (id) => {
     try {
         let getDetail = await Userstories.findAll({

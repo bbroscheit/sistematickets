@@ -1,5 +1,8 @@
 const { Newproject, User } = require('../../bd');
 
+// trae los proyectos V2 donde este developer participa como colaborador
+// (no como el primero/responsable, ese queda afuera a proposito con el
+// slice(1))
 const getProjectByWorker = async (workerName) => {
     
     try {

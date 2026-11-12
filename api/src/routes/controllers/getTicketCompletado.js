@@ -1,5 +1,6 @@
 const { Ticket, User } = require('../../bd');
 
+// todos los tickets en estado "Completado"
 const getTicketCompletado = async () => {
     try{
         let getTickets = await Ticket.findAll({

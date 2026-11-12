@@ -4,7 +4,7 @@ const { Dropbox } = require('dropbox');
 const path = require('path');
 const { DROPBOX } = process.env
 
-
+// genera un link publico de dropbox para un archivo subido ahi
 const getSharedLink = async (filePath) => {
     try {
       

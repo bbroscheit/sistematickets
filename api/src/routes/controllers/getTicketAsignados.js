@@ -1,5 +1,6 @@
 const { Ticket, User } = require('../../bd');
 
+// trae todos los tickets en estado "Asignado"
 const getTicketsAsignados = async () => {
     try{
         let getTickets = await Ticket.findAll({

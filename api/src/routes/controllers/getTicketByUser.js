@@ -1,6 +1,7 @@
 const { Ticket, User } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// tickets no terminados de un usuario puntual, buscado por username
 const getTicketByUser = async (username) => {
     
     try{

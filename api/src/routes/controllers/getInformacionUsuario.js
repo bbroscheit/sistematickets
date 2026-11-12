@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// desglose por estado de los tickets de un usuario puntual (para su
+// tarjeta de informacion)
 const getInformacionUsuario = async (user) => {
     const results = {
         totalTickets: 0,

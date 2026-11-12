@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// lo mismo que getInformacionUsuario.js pero para todos los usuarios de
+// una - trae el desglose por estado de cada uno, para la tabla general
 const getInformacionTodosUsuarios = async () => {
     try {
         const allTickets = await Ticket.findAll({

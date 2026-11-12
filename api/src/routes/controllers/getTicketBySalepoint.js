@@ -1,5 +1,12 @@
 const { Ticket, User, Sector, Salepoint } = require('../../bd');
 
+// trae los tickets de una sucursal puntual.
+// ojo: el include de Sector y Salepoint no tiene "as", pero hoy esas
+// relaciones son many-to-many con alias ('sectors'/'salepoints' en
+// user.js) - probablemente esto tira error al ejecutarse en vez de
+// filtrar bien. no lo toco porque arreglarlo bien implica revisar que
+// sucursal usar cuando un usuario tiene mas de un sector/sucursal
+// cargado (mismo tema que se resolvio para el excel de tickets)
 const getTicketBySalepoint = async (salepoint) => {
     
     try {

@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// lo mismo que getTicketByWorker.js pero recibe el id del developer en
+// vez del username, y lo resuelve primero
 const getTicketByWorkerId = async (id) => {
     
     try{

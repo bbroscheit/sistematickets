@@ -1,5 +1,6 @@
 const { Ticket, User } = require('../../bd');
 
+// todos los tickets asignados a este developer (por username)
 const getTicketByWorker = async (workerName) => {
     
     try{

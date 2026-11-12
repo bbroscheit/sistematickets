@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// todos los tickets en estado "Desarrollo" (no incluye "Terceros", que es
+// un estado separado aunque tambien esta "en desarrollo" en la practica)
 const getTicketsDesarrollo = async () => {
     try{
         let getTickets = await Ticket.findAll({

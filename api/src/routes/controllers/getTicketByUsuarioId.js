@@ -1,6 +1,8 @@
 const { Ticket, User } = require("../../bd");
 const { Sequelize } = require('sequelize');
 
+// a pesar del nombre, busca por username igual que getTicketByUser.js
+// (el parametro "usuarioId" en realidad es el username, no un id numerico)
 const getTicketByUsuarioId = async (usuarioId) => {
   try {
     let getTIcketByName = await Ticket.findAll({

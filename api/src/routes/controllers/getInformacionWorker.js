@@ -1,5 +1,7 @@
 const { Ticket, User } = require('../../bd');
 
+// desglose por estado de los tickets de un developer, mas las horas
+// promedio que tarda en terminarlos
 const getInformacionWorker = async (id) => {
     const results = {
         totalTickets: 0,
