@@ -1,5 +1,6 @@
 const { Schedule } = require('../../bd');
 
+// "elimina" una reunion de la agenda (soft delete)
 const deleteSchedule = async (id) => {
     try{
         const deleteSchedule = await Schedule.findByPk(id)

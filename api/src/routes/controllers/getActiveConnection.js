@@ -1,5 +1,9 @@
 const sql = require('mssql');
 
+// se conecta directo a la base de Dynamics GP (el sistema de gestion) para
+// ver que usuarios estan conectados ahi en este momento. las credenciales
+// estan hardcodeadas aca mismo, ya que esta base es interna y no tiene que
+// ver con la de soportes
 const config = {
     user: 'sa',
     password: 'Barriletec0smic',

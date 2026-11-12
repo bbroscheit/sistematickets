@@ -1,5 +1,6 @@
 const { Platform} = require('../../bd');
 
+// trae las plataformas activas (zoom, meet, etc)
 const getAllPlatform = async () => {
     try{
         let getPlatform = await Platform.findAll({
@@ -10,6 +11,7 @@ const getAllPlatform = async () => {
 
         return getPlatform;
     }catch(e){
+        // este mensaje dice "getAllCapacitation" por un copy-paste, el error es de aca
         console.log( "error en controller getAllCapacitation" , e.message)
     }
 }

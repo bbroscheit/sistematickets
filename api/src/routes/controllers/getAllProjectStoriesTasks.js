@@ -1,6 +1,8 @@
 const { Project, User, Userstories, Task } = require("../../bd");
 const { Op } = require("sequelize");
 
+// modulo viejo (V1): trae los proyectos no finalizados con sus
+// userstories y tareas pendientes, para armar un tablero tipo kanban
 const getAllProjectsStoriesTask = async () => {
   try {
     const result = await Project.findAll({

@@ -1,5 +1,6 @@
 const { Proveedornote } = require('../../bd');
 
+// trae todas las notas de proveedor externo activas
 const getAllNotes = async() => {
     try {
         let allNotes = await Proveedornote.findAll({

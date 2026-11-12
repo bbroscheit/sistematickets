@@ -1,5 +1,6 @@
 const { Faq } = require ('../../bd');
 
+// "elimina" una faq (soft delete)
 const deleteFaq = async ( id ) => {
     
     try{

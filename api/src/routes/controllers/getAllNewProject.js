@@ -1,5 +1,7 @@
 const { Newproject, User, Newtask, Formproject, sequelize} = require('../../bd')
 
+// trae los proyectos V2 activos con sus tareas (ordenadas por fecha de
+// fin) y los archivos adjuntos (formproject)
 const getAllNewProjects = async () => {
     try {
         let getAllProject = await Newproject.findAll(

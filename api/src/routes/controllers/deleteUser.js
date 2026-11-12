@@ -1,5 +1,6 @@
 const { User } = require('../../bd');
 
+// "elimina" un usuario (soft delete)
 const deleteUser = async (id) => {
     try{
         const userToDelete = await User.findByPk(id)

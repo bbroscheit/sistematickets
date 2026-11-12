@@ -1,5 +1,7 @@
 const { Project, User, Userstories} = require('../../bd')
 
+// trae los proyectos del modulo viejo (V1) activos, con sus userstories.
+// hoy se usa newproject.js para proyectos nuevos
 const getAllProjects = async () => {
     try {
         let getAllProject = await Project.findAll(

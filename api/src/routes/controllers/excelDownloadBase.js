@@ -1,3 +1,6 @@
+// version vieja/de prueba del excel de tickets, con 2 columnas nomas. hoy
+// no la monta ningun router, quedo muerta - el excel real esta al final
+// de ticketRouter.js (/download-tickets-excel)
 const express = require('express');
 const router = express.Router();
 const Excel = require('exceljs');

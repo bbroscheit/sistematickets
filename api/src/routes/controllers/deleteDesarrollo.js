@@ -1,5 +1,6 @@
 const { Desarrollo } = require("../../bd");
 
+// "elimina" un desarrollo interno (soft delete, solo marca isdelete)
 const deleteDesarrollo = async (id) => {
     try{
         let updateDelete = await Desarrollo.findByPk(id);

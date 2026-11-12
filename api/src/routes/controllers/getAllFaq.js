@@ -1,5 +1,6 @@
 const { Faq } = require('../../bd');
 
+// trae todas las faq activas
 const getAllFaq = async () => {
     try {
         let allFaq = await Faq.findAll({

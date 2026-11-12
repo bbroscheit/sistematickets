@@ -1,5 +1,6 @@
 const { Project, User, Newtask } = require('../../bd');
 
+// trae las tareas V2 activas, ordenadas por fecha de fin
 const getAllNewTask = async() => {
     try {
         let allTask = await Newtask.findAll({

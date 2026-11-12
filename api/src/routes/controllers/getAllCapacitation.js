@@ -1,5 +1,7 @@
 const { Capacitation, User} = require('../../bd');
 
+// trae las capacitaciones que todavia estan en estado "Generado" (sin
+// terminar), con el teacher y los students cargados
 const getAllCapacitation = async () => {
     try{
         let getCapacitation = await Capacitation.findAll({

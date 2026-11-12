@@ -1,5 +1,7 @@
 const { Desarrollo , User, Ticket} = require('../../bd');
 
+// trae todos los desarrollos internos activos, con los usuarios
+// asignados y los tickets que se le fueron linkeando
 const getAllDesarrollo = async () => {
     try{
         let getDesarrollo = await Desarrollo.findAll({
