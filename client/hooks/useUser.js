@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
+// trae el usuario logueado desde localStorage. si no hay nada guardado (o
+// esta corrupto) manda a la pantalla de login
 function useUser() {
-  //console.log("useUser hook initialized");
   const [user, setUser] = useState(null);
   const router = useRouter();
 

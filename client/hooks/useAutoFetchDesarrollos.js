@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+// como useAutoFetch, pero ademas filtra los desarrollos y deja solo los que
+// tienen al usuario logueado entre sus miembros
 export default function useAutoFetchDesarrollos(url, setDesarrollos, intervalTime = 15000) {
   useEffect(() => {
     let isMounted = true;

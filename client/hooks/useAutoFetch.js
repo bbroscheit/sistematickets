@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 
+// pollea una url cada intervalTime ms y pisa el estado con la respuesta -
+// asi las listas de soportes se van actualizando solas sin que el usuario
+// tenga que refrescar la pagina
 export default function useAutoFetch(url, setState, intervalTime = 15000) {
   useEffect(() => {
     let isMounted = true;
