@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { extraeFecha } from "@/functions/extraeFecha";
 import style from "@/modules/listadoSinAsignar.module.css";
 
+// tabla chica de soportes sin asignar (NewTicketSupervisorV2.js/GeneralV2.js),
+// cada fila linkea al detalle v2
 function ListadoSinAsignar({ soportes }) {
   const router = useRouter();
   function idKeep(e) {

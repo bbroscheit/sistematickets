@@ -25,6 +25,9 @@ const styles = {
     p: 4,
   };
 
+// columna del tablero de mesa de ayuda (helpDesk/Principal.js): lista de
+// soportes de una categoria (sin asignar/asignados/etc), con boton para
+// mandar un recordatorio por mail si llevan mucho tiempo sin moverse
 function TicketCardHelpDesk({ array, title, time }) {
   const [open, setOpen] = useState(false);
   const [openDesarrollo, setOpenDesarrollo] = useState(0);

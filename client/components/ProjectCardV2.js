@@ -19,6 +19,9 @@ const modalPosition = {
   maxWidth: "calc(100vw - 40px)",
 };
 
+// card de un proyecto en DashboardV2.js, con el modal para marcarlo
+// finalizado. el primer usuario de project.users se toma como quien pidio
+// el proyecto, el resto son los workers (ver tambien arrayUserProject.js)
 function ProjectCardV2({ project, user, onProjectFinished }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);

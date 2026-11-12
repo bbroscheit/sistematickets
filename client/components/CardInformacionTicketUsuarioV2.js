@@ -12,6 +12,8 @@ const TABS = [
   { label: "Completo", value: "Completado" },
 ];
 
+// trae y lista los soportes de un usuario (por tabs de estado), para la
+// card expandida de usuario en NewTicketSupervisorGeneralV2.js/NewTicketSupervisorV2.js
 function CardInformacionTicketUsuarioV2({ user }) {
   const [soportes, setSoportes] = useState(null);
   const [soportesAlt, setSoportesAlt] = useState(null);

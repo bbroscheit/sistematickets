@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 
 
+// card de una faq en el listado (Faq.js), linkea al detalle. el segundo
+// div (faqContainerMobile) es la misma card con otro css para mobile
 function CardFaq({ id, title }) {
   return (
     <>

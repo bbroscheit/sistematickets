@@ -102,12 +102,19 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+// el menu principal, se monta una vez por Layout.js en todas las paginas
+// (salvo "/"). el contenido de la lista cambia segun sector/rol del usuario
+// logueado (mas abajo hay varias ramas por sector: Mesa de Ayuda, Sistemas,
+// rol empleado vs el resto, etc)
 export default function PrimarySearchAppBar() {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [login, setLogin] = React.useState(0);
+  // lista de usernames hardcodeada para mostrar el menu de Proyectos a
+  // gente que es "gerente" de hecho pero no tiene marcado isprojectmanager/
+  // isprojectworker en la base (ver uso mas abajo)
   let usersGerentes = [
     "Gparente",
     "Fañaños",
@@ -117,6 +124,7 @@ export default function PrimarySearchAppBar() {
     "Rgonzalez"
   ]
 
+  // mismo patron que usersGerentes pero para quien ve el menu de Agenda
   let usersAlmanaque = [
     "Lalvarez",
     "Fañaños",

@@ -1,7 +1,9 @@
 import React from "react";
 import style from "@/modules/detailV2.module.css";
 
-
+// decide que botones de accion mostrar en el detalle de un soporte v2
+// (soportes/v2/[id].js) segun quien esta mirando: el creador, el worker
+// asignado, o alguien de jefatura/gerencia del mismo sector+sucursal
 const ROLE = {
   EMPLEADO: 1,
   ENCARGADO: 2,

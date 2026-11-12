@@ -11,6 +11,8 @@ const TABS = [
   { label: "Completo", value: "Completado" },
 ];
 
+// igual que CardInformacionTicketUsuarioV2 pero para los soportes asignados
+// a un worker
 function CardInformacionTicketsWorkerV2({ id }) {
   const [soportes, setSoportes] = useState(null);
   const [soportesAlt, setSoportesAlt] = useState(null);

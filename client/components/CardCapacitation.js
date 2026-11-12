@@ -25,6 +25,8 @@ const styles = {
     alignItems: "center",
   };
 
+// card de una capacitacion en el listado, con el modal para marcarla
+// finalizada
 function CardCapacitation( { key, id, teacher, subject, student, startdate }) {
     const [open, setOpen] = useState(false);
     const [ input, setInput ] = useState({

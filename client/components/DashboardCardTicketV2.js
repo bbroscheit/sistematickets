@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import style from '../modules/tableroV2.module.css'
 
+// tile del tablero (TableroV2.js) con el conteo de soportes por estado -
+// trae las 4 listas por separado y cuenta del lado del cliente
 function DashboardCardTicketV2({ id }) {
   const [pendientes, setPendientes] = useState(null)
   const [desarrollo, setDesarrollo] = useState(null)

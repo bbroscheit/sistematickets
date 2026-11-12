@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import style from "../modules/ticketsSupervisorV2.module.css";
 
+// tira con los totales generales de soportes (arriba de todo en
+// NewTicketSupervisorV2.js)
 function CardInformacionGeneralV2() {
   const [data, setData] = useState(null);
 

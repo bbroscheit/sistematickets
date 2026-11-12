@@ -22,6 +22,8 @@ const styles = {
   p: 4,
 };
 
+// card de un turno dentro de un dia de la agenda (Day.js), con el modal
+// para borrarlo
 function ScheduleCard({ id, detail, starthour, finishhour }) {
   const router = useRouter();
 

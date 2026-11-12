@@ -27,6 +27,8 @@ const styles = {
   p: 4,
 };
 
+// card de un desarrollo en el listado (desarrollos/Desarrollos.js): permite
+// editar el titulo, los usuarios asignados, finalizarlo o anularlo
 function CardDesarrollo({ title, id, state }) {
   const [allUser, setAllUser] = useState(null);
   const [openTitle, setOpenTitle] = useState(false);

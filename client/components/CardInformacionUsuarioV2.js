@@ -3,6 +3,8 @@ import style from "../modules/ticketsSupervisorV2.module.css";
 import colorIndex from "@/functions/colorIndex";
 import { devuelveInicialDesdeUsuario } from "@/functions/devuelveInicialDesdeUsuario";
 
+// card resumen de un usuario (avatar + contadores por estado), se expande
+// con CardInformacionTicketUsuarioV2 al hacer click
 function CardInformacionUsuarioV2({ user, data }) {
   const nombre = data ? data.nombreCompleto : user;
   const avatarColor = style[`c${colorIndex(user)}`];

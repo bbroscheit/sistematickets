@@ -25,6 +25,8 @@ function esVencida(fecha) {
   return new Date(fecha) < hoy;
 }
 
+// fila de una tarea dentro del detalle de proyecto v2 (proyectos/v2/[id].js),
+// con el modal para editarla/tildarla cumplida
 function TaskRowV2({ task, onChanged }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);

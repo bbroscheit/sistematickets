@@ -26,6 +26,8 @@ const style = {
   alignItems: "center",
 };
 
+// card de un soporte dentro de la vista de un desarrollo
+// (TicketVistaDesarrollo.js), con el modal para cerrarlo
 function CardTicketDesarrollo({ id, subject, state, created, username, title }) {
   const router = useRouter();
   const [openCloseTicket, setOpenCloseTicket] = useState(false);

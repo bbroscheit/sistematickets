@@ -3,6 +3,7 @@ import style from "../modules/ticketsSupervisorV2.module.css";
 import colorIndex from "@/functions/colorIndex";
 import { devuelveIniciales } from "@/functions/devuelveIniciales";
 
+// igual que CardInformacionUsuarioV2 pero para un worker
 function CardInformacionWorkerV2({ id, firstname, lastname, data }) {
   const nombreCompleto = `${firstname} ${lastname}`;
   const avatarColor = style[`c${colorIndex(id)}`];

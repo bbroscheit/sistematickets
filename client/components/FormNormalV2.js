@@ -8,6 +8,9 @@ import { postTicketFormData } from "@/pages/api/postTicketFormData.js";
 import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 
 
+// formulario de "nuevo soporte" sin faq (nuevoSoporteV2.js). mismo redirect
+// post-creacion roto que FormFaqV2.js (compara user.sector con strings
+// viejos que ya no aplican, siempre termina en TicketsV2) - ver comentario ahi
 function FormNormalV2({ user }) {
   const [desarrollos, setDesarrollos] = useState(null);
   const [desarrolloInput, setDesarrolloInput] = useState({option: 0});

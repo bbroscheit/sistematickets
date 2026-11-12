@@ -10,6 +10,12 @@ import { sendEmailNewTicket } from "@/pages/api/sendEmailNewTIcket";
 import { updateFaq } from "@/pages/api/updateFaq.js";
 
 
+// formulario de "nuevo soporte" cuando el usuario elige una faq existente
+// (nuevoSoporteV2.js) - precarga asunto/detalle/respuesta desde la faq.
+// ojo: el redirect post-creacion (mas abajo) compara user.sector con
+// strings viejos ("Supervisor", "Jefatura", "Jefe") que ya no existen -
+// user.sector hoy es un array de ids, asi que esas ramas nunca se cumplen
+// y siempre cae a TicketsV2
 function FormFaqV2({ id, title, description, answer, uresolved, user, useremail }) {
   const [option, setOption] = useState(false); // abre la opcion para agregar mas detalles al soporte
   const [open, setOpen] = useState(false); //estado para saber si el modal esta abierto o cerrado

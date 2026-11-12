@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+// card de soporte usada en historicoSoportes.js - link al detalle v2 y
+// modal para asignar worker/cerrar el ticket desde ahi mismo
 import styles from "../modules/card.module.css";
 import Link from "next/link";
 import MenuItem from "@mui/material/MenuItem";

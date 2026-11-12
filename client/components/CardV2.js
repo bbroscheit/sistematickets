@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+// version con pills de color por estado de Card.js, usada en TicketVistaV2.js
 import style from "../modules/cardV2.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";

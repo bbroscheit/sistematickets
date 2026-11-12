@@ -24,6 +24,8 @@ function statePill(state) {
   }
 }
 
+// fila de soporte con pill de estado, usada dentro de
+// CardInformacionTicketUsuarioV2/WorkerV2 al expandir un usuario/worker
 function CardTicketWorkerV2({ soportes }) {
   const router = useRouter();
 

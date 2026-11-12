@@ -4,6 +4,8 @@ import Head from "next/head";
 import styles from '../modules/Layout.module.css'
 import { useRouter } from 'next/router';
 
+// envuelve TODAS las paginas (se monta una vez en _app.js) - pone el <head>
+// comun y el Navbar, salvo en "/" (la pantalla de login, que no tiene menu)
 const Layout = ({ children }) => {
   const router = useRouter();
 

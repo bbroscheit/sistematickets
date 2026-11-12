@@ -4,6 +4,9 @@ import style from "@/modules/usuariosV2.module.css";
 import colorIndex from "@/functions/colorIndex";
 import { devuelveIniciales } from "@/functions/devuelveIniciales";
 
+// card de un usuario en el listado (UsuariosV2.js), linkea al detalle.
+// si el usuario tiene mas de un sector/sucursal cargado solo se muestra el
+// primero de cada uno (mismo tema de siempre con sectores/sucursales multiples)
 function CardUsersV2({ id, username, firstname, lastname, phonenumber, email, sectors, salepoints }) {
   const sector = sectors && sectors.length > 0 ? sectors[0] : null;
   const salepoint = salepoints && salepoints.length > 0 ? salepoints[0] : null;
