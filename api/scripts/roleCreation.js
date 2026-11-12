@@ -14,7 +14,8 @@ async function createRoles() {
         { name: 'empleado', level: 0 },
         { name: 'encargado', level: 1 },
         { name: 'jefe', level: 2 },
-        { name: 'gerente', level: 3 }
+        { name: 'gerente', level: 3 },
+        { name: 'gerente general', level: 4 }
       ],
       {
         ignoreDuplicates: true

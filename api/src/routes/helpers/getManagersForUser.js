@@ -1,7 +1,7 @@
 const { User, Role, Sector, Salepoint } = require('../../bd');
 const { Op } = require('sequelize');
 
-const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente'];
+const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'];
 
 // dado el usuario que creo/completo el ticket, busca a quien avisarle por mail:
 // el primer nivel superior (mismo sector + sucursal) que tenga al menos un

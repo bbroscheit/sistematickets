@@ -7,6 +7,7 @@ const ROLE = {
   ENCARGADO: 2,
   JEFE: 3,
   GERENTE: 4,
+  GERENTE_GENERAL: 5,
 };
 
 // helper: intersección por id, "a" es un arreglo de ids planos (user.sector/user.salePoint
@@ -38,7 +39,7 @@ const SoporteActionsV2 = ({
 
   // regla FINAL: jefatura / gerencia
   const isJefaturaOGerencia =
-    [ROLE.ENCARGADO, ROLE.JEFE, ROLE.GERENTE].includes(userRoleId) &&
+    [ROLE.ENCARGADO, ROLE.JEFE, ROLE.GERENTE, ROLE.GERENTE_GENERAL].includes(userRoleId) &&
     user.name !== soporteUser?.username &&
     hasIntersection(userSectors, suporteUserSectors) &&
     hasIntersection(userSalepoints, suporteUserSalepoints);

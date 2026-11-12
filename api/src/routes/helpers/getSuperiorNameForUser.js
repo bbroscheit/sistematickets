@@ -1,7 +1,7 @@
 const { User, Role, Sector, Salepoint } = require('../../bd');
 const { Op } = require('sequelize');
 
-const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente'];
+const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'];
 
 // mismo criterio de jerarquia que getManagersForUser.js (sube de nivel en
 // nivel, respetando sector+sucursal, hasta encontrar a alguien), pero

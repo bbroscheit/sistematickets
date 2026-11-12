@@ -86,7 +86,7 @@ export default function Home() {
         return;
       }
 
-      if (role === 3 || role === 4 || role === 2) {
+      if (role === 2 || role === 3 || role === 4 || role === 5) {
         Router.push("/NewTicketSupervisorGeneralV2");
       } else {
         Router.push("/TicketsV2");

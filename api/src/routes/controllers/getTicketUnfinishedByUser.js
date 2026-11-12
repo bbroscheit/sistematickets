@@ -39,6 +39,9 @@ const getTicketsUnfinishedByUser = async (userId) => {
       case "gerente":
         visibleRoles = ["empleado", "encargado", "jefe", "gerente"];
         break;
+      case "gerente general":
+        visibleRoles = ["empleado", "encargado", "jefe", "gerente", "gerente general"];
+        break;
       default:
         visibleRoles = [];
     }
