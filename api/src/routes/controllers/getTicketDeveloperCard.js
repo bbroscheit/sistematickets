@@ -1,6 +1,8 @@
 const { Ticket, User } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// tickets activos (ni terminados ni sin asignar) de un developer puntual,
+// para su tarjeta en la vista de developer
 const getTicketDeveloperCard = async (workerName) => {
     try{
         let getTickets = await Ticket.findAll({
@@ -21,6 +23,8 @@ const getTicketDeveloperCard = async (workerName) => {
             }]
         });
 
+        // esto no ordena nada en realidad: state es texto, restar dos
+        // strings da NaN siempre
         getTickets.sort((a , b) => { return a.state - b.state })
 
         return getTickets;

@@ -2,6 +2,12 @@ const { Ticket, User, Sector, Salepoint } = require('../../bd');
 
 const SIN_SUCURSAL = "Sin sucursal";
 
+// ojo: esto resuelve la sucursal a traves de sector.salepoint, pero en la
+// practica el salepointId de Sector esta en null en TODOS los sectores
+// (ver sector.js) - asi que esta funcion devuelve "Sin sucursal" para
+// practicamente todos los tickets. la sucursal real de un usuario esta en
+// user.salepoints (relacion directa), no colgada del sector. es el mismo
+// resolveSalepoint que hay en getSoportesPorSucursal.js, duplicado
 function resolveSalepoint(ticket) {
     const sectors = ticket.user ? ticket.user.sectors : [];
     if (!sectors || sectors.length === 0) return SIN_SUCURSAL;

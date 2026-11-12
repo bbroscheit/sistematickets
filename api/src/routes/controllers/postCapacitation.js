@@ -1,5 +1,8 @@
 const { Capacitation, User , Platform} = require('../../bd');
 
+// crea una capacitacion nueva: busca al teacher y a los students por
+// nombre y apellido (vienen como texto desde el form, no como id) y los
+// linkea
 const postCapacitation = async ( state, subject, teacher, students,  startdate, starthour, platform) => {
     
     // tratamos la fecha para llevarla al formato date + timezone

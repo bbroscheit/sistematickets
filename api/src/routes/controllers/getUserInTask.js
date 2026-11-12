@@ -1,6 +1,7 @@
 const {User} = require('../../bd');
 const {Newtask} = require('../../bd');
 
+// usuarios asignados a una tarea V2 puntual
 const getUserInTask = async (id) => {
     try{
         const task = await Newtask.findByPk ( id, {

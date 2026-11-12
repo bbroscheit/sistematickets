@@ -1,6 +1,7 @@
 const { Ticket, User } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// todos los tickets no terminados, para la vista general de supervisor
 const getTicketSupervisorView = async () => {
     try{
         let getTickets = await Ticket.findAll({
@@ -15,6 +16,7 @@ const getTicketSupervisorView = async () => {
             }]
         });
 
+        // "createAt" no existe (es "createdAt"), esto no ordena nada
         getTickets.sort((a , b) => { return a.createAt - b.createAt })
 
         return getTickets;

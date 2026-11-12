@@ -2,14 +2,17 @@ const { Newproject, User, Formproject } = require("../../bd");
 const fs = require('fs');
 const path = require('path');
 
+// no se usa en esta funcion, quedo de algun intento anterior
 function convertFromStringToDate(finishDate) {
   let datePieces = finishDate.split("-");
-  
+
   return(new Date(datePieces[2], (datePieces[1] - 1), datePieces[0]))
 }
 
 
-
+// crea un proyecto V2: arma la carpeta del proyecto en client/public,
+// mueve ahi los archivos recien subidos (los que tienen el prefijo
+// "new_"), linkea el requirer y los workers por username
 const postNewProject = async (
   state,
   projectname,

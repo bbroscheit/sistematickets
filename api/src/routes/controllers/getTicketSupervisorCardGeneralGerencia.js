@@ -1,9 +1,11 @@
 const { Ticket, User, Sector } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// lo mismo que getTicketSupervisorCardGeneral.js pero con una lista mas
+// larga de empleados hardcodeados, para la vista de gerencia
 const getTicketSupervisorCardGeneralGerencia = async () => {
-    
-    let employees = [   
+
+    let employees = [
                         "Pranieri" , 
                         "Lalfaro", 
                         "Tbobadilla", 

@@ -1,5 +1,7 @@
 const { User, Sector, Salepoint } = require('../../bd');
 
+// detalle completo de un usuario: sectores, sucursales y su manager (el
+// campo managerId casi nunca esta cargado - ver user.js)
 const getUserDetail = async (id) => {
 
     try{

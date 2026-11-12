@@ -1,8 +1,11 @@
 const { Ticket, User, Sector } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// tickets de un sector puntual, para la tarjeta del jefe/supervisor de
+// ese sector. recibe el nombre del ROL ("Jefatura de Cobranzas") y lo
+// traduce al nombre del SECTOR ("Cobranzas")
 const getTicketSupervisorCard = async (supervisorSector) => {
-    
+
     let sector = ''
 
     switch (supervisorSector) {
@@ -31,10 +34,15 @@ const getTicketSupervisorCard = async (supervisorSector) => {
     }
 
     sector = sector.trim();
-    // creamos un array con los nombres de los desarrolladores hasta encontrar el problema con la BD y el sector Sistemas
+    // lista de developers hardcodeada a mano como parche mientras estaba
+    // el lio de los sectores duplicados (ver sector.js) - para el sector
+    // "Sistemas" no se confia en la relacion sector/usuario, se filtra
+    // directo por estos usernames
     const desarrolladores = ["Lllamanzarez", "Vlodigiani", "Llamanzarez","Asuarez","Masencio","Fduhalde","Cobranzasprueba1"]
     //console.log("sector en controller", sector)
 
+    // esto no hace nada (el forEach esta vacio, era para debuggear a mano
+    // en algun momento), lo dejo porque no afecta pero no tiene uso real
     const sectores = await Sector.findAll();
     sectores.forEach(s => {
         //console.log(`Sector: '${s.sectorname}'`);

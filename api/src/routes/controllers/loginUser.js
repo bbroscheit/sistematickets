@@ -4,7 +4,10 @@ const {Salepoint} = require ('../../bd');
 const {Role} = require ('../../bd');
 
 const loginUser = async (username,password) => {
-    
+
+    // los usernames se guardan con la primera letra en mayuscula, por eso
+    // se normaliza asi antes de buscar (para que de igual si escriben
+    // "juan" o "Juan")
     let modifiedUsername = username.charAt(0).toUpperCase() + username.slice(1)
     
     try {

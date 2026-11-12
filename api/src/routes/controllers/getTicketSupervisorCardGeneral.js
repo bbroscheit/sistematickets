@@ -1,9 +1,12 @@
 const { Ticket, User, Sector } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// tickets de un grupo de empleados hardcodeado a mano (en vez de resolverse
+// por sector/rol) - parece un workaround puntual para una gerencia en
+// particular, no escala si se suma gente nueva a ese grupo
 const getTicketSupervisorCardGeneral = async () => {
-    
-    let employees = [   
+
+    let employees = [
                         "Pranieri" , 
                         "Lalfaro", 
                         "Tbobadilla", 

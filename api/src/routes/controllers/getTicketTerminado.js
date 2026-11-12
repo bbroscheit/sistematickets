@@ -1,5 +1,6 @@
 const { Ticket, User } = require('../../bd');
 
+// todos los tickets en estado "Terminado"
 const getTicketTerminado = async () => {
     try{
         let getTickets = await Ticket.findAll({

@@ -1,5 +1,6 @@
 const { Desarrollo, User } = require("../../bd");
 
+// crea un desarrollo interno nuevo y le asigna los usuarios por username
 const postDesarrollo = async (title, state, users) => {
   try {
     // Creo el ticket vacio para tener el ID que le va a dar nombre a la carpeta

@@ -1,5 +1,7 @@
 const { User , Platform } = require('../../bd');
 
+// crea una plataforma nueva (zoom, meet) y le asigna los masters
+// (responsables) buscandolos por nombre y apellido
 const postPlatform = async ( name, detail, masters ) => {
     //console.log("entre a la funcion")
     try {

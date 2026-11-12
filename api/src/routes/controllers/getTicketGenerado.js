@@ -1,5 +1,6 @@
 const { Ticket, User } = require('../../bd');
 
+// todos los tickets en estado "sin asignar" (los que todavia nadie tomo)
 const getTicketsGenerados = async () => {
     try{
         let getTickets = await Ticket.findAll({

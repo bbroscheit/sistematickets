@@ -1,5 +1,8 @@
 const { Ticket, User, Proveedornote, Proveedor, Workernote, Sector, Salepoint } = require('../../bd');
 
+// detalle completo de un ticket: usuario con sus sectores/sucursales, la
+// nota de proveedor externo si tiene una (y el proveedor), y el historial
+// de reasignaciones (workernote)
 const getTicketDetail = async (id) => {
     //console.log("id en controller", id)
 
