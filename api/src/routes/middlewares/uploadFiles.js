@@ -1,5 +1,9 @@
 const multer = require ('multer')
 
+// middleware de multer para subir archivos (tickets, proyectos, etc). los
+// deja todos con el prefijo "new_" en client/public, y despues cada
+// controller (postTicket.js, postNewProject.js, etc) los mueve a su
+// carpeta final usando ese prefijo para identificarlos
 function uploadFile(){
     const storage = multer.diskStorage({
       destination: '../client/public', //lugar donde queremos que se guarden los archivos

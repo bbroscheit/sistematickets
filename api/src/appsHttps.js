@@ -1,5 +1,7 @@
-//archivo generado para cuando tengamos certificados HTTPS
-
+// archivo generado para cuando tengamos certificados HTTPS - hoy no se usa
+// (index.js levanta app.js, este queda comentado). ojo si algun dia se
+// activa: le faltan varios routers que si estan en app.js (capacitation,
+// platform, desarrollo, role) - habria que agregarlos
 const express = require ('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require ('body-parser');

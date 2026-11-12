@@ -1,3 +1,6 @@
+// server express activo (http) - lo levanta index.js. acá se cargan
+// todos los routers y el middleware de cors/logging a mano (no se usa el
+// paquete "cors", se pone el header directo)
 const express = require ('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require ('body-parser');

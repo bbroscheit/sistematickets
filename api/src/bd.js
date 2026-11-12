@@ -1,3 +1,7 @@
+// conexion a la base y TODAS las relaciones entre modelos. carga cada
+// archivo de /models de forma dinamica, les inyecta la conexion, y recien
+// aca abajo se definen los belongsTo/belongsToMany/hasMany de cada tabla -
+// los modelos en si no saben nada de sus relaciones
 require('dotenv').config();
 
 const { Sequelize, Op } = require ( 'sequelize');
@@ -97,6 +101,10 @@ Salepoint.belongsToMany(User, {
     as: 'users'
 });
 
+// relacion vieja, sin alias - en la practica el salepointId de Sector
+// casi siempre queda en null (ver sector.js y postSector.js). la sucursal
+// real de un usuario se resuelve por user.salepoints (la relacion de
+// abajo), no por esta
 Sector.belongsTo(Salepoint);
 Salepoint.hasMany(Sector);
 
