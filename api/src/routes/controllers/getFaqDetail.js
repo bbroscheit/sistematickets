@@ -1,5 +1,6 @@
 const { Faq } = require('../../bd');
 
+// detalle de una faq puntual
 const getFaqDetail = async (id) => {
     
     try {

@@ -1,5 +1,6 @@
 const { Schedule } = require('../../bd');
 
+// trae todas las reuniones activas, sin filtrar por fecha
 const getAllSchedule = async() => {
     try {
         let allSchedule = await Schedule.findAll({

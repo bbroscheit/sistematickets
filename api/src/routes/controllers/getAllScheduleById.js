@@ -1,6 +1,6 @@
 const { Schedule } = require('../../bd')
 
-
+// trae una reunion puntual por id
 const getAllScheduleById = async (id) => {
             
     try {

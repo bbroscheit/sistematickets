@@ -3,6 +3,14 @@ const { Sequelize } = require('sequelize');
 const dayjs = require('dayjs');
 
 
+// trae las reuniones de un usuario en un mes dado. "invited" es un array
+// de texto con nombres/usernames (ver sendEmailSchedule.js), por eso se
+// busca con ANY() en vez de una relacion normal.
+// ojo: el username y el nombre completo se meten directo en el literal
+// de sequelize (no van como parametro bindeado) - si algun username o
+// nombre tuviera una comilla simple esto rompería la query. hoy no se ve
+// el problema porque los usuarios se cargan a mano, pero no es la forma
+// segura de armar la consulta
 const getAllScheduleByMonth = async (month, user) => {
     
     try {

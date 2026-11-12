@@ -1,5 +1,6 @@
 const { Capacitation, User } = require('../../bd');
 
+// detalle de una capacitacion puntual
 const getCapacitationById = async (id) => {
     
     try {

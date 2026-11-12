@@ -1,5 +1,6 @@
 const { Project, User, Userstories, Task } = require('../../bd');
 
+// modulo viejo (V1): trae las userstories activas con sus tareas
 const getAllUserstories = async() => {
     try {
         let allUserstories = await Userstories.findAll({

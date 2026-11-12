@@ -1,5 +1,6 @@
 const { Desarrollo, User } = require('../../bd');
 
+// detalle de un desarrollo interno puntual
 const getDesarrolloById = async (id) => {
     
     try {

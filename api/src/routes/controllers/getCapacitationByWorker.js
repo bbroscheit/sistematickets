@@ -1,5 +1,7 @@
 const { Capacitation, User } = require('../../bd');
 
+// trae las capacitaciones ya terminadas donde este developer fue el
+// teacher (profesor)
 const getCapacitationByWorker = async (workerName) => {
     
     try{

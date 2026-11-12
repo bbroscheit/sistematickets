@@ -1,5 +1,6 @@
 const { Salepoint, Sector } = require('../../bd');
 
+// trae los puntos de venta / sucursales activos
 const getAllSalepoint = async() => {
     try {
         let allSalepoint = await Salepoint.findAll({

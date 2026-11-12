@@ -1,6 +1,9 @@
 const { Ticket, User } = require('../../bd');
 const { Sequelize } = require('sequelize');
 
+// trae todos los tickets que no estan "Terminado" (sin filtrar por
+// usuario/sector - ver getTicketUnfinishedByUser.js para la version que
+// si filtra por quien esta mirando)
 const getAllTicketUnfinished = async () => {
     try{
         let getTickets = await Ticket.findAll({

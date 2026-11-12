@@ -1,5 +1,6 @@
 const { Proveedor } = require('../../bd');
 
+// trae los proveedores externos activos
 const getAllProveedor = async () => {
     try {
         let allProveedor= await Proveedor.findAll({

@@ -1,5 +1,7 @@
 const { Ticket } = require('../../bd');
 
+// numeros generales para el dashboard: cuantos tickets hay en cada
+// estado y las horas promedio que tardan en terminarse
 const getInformacionGeneral = async () => {
     const results = {
         totalTickets: 0,

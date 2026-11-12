@@ -1,5 +1,6 @@
 const {User, Sector, Salepoint} = require('../../bd');
 
+// trae todos los usuarios activos con sus sectores y puntos de venta
 const getAllUsers = async () => {
     try {
         let allUsers = await User.findAll({

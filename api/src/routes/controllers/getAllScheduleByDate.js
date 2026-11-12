@@ -1,7 +1,7 @@
 const { Schedule } = require('../../bd')
 const cambiaFechaATimeZone = require('../helpers/cambiaFechaATimeZone')
 
-
+// trae las reuniones de un dia puntual, ordenadas por hora de inicio
 const getAllScheduleByDate = async (date) => {
     const formatedDate = cambiaFechaATimeZone(date)
         

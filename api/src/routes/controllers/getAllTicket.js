@@ -1,5 +1,8 @@
 const { Ticket, User, Salepoint} = require('../../bd');
 
+// trae todos los tickets sin filtrar (incluye terminados). lo usa el
+// excel viejo y poco mas, para listados grandes se usa otro controller
+// mas especifico
 const getAllTicket = async () => {
     try{
         let getTickets = await Ticket.findAll({

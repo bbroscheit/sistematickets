@@ -7,6 +7,10 @@ const subtractHours = require('../helpers/subtractHours')
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+// busca si ya hay alguna reunion que se superponga con el horario pedido
+// (se usa para avisar "ese horario ya esta ocupado" al armar una reunion
+// nueva). el ajuste de -3hs es porque la hora que llega viene en hora
+// local y hay que llevarla a UTC a mano
 const getAllScheduleByDateBase = async (date, startHour, finishHour) => {
 
     const timezone = 'America/Argentina/Buenos_Aires';
