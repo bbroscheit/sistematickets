@@ -4,6 +4,8 @@ import style from "@/modules/sectoresV2.module.css";
 import SearchIcon from "@mui/icons-material/Search";
 import Swal from "sweetalert2";
 
+// listado de sectores, con buscador y toggle para dar de baja/alta uno
+// (actualiza optimista y revierte si falla el pedido)
 function SectoresV2() {
   const [sectors, setSectors] = useState(null);
   const [search, setSearch] = useState("");

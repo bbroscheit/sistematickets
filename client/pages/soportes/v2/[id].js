@@ -28,6 +28,9 @@ import { updateReasignar } from "../../api/updateReasignar";
 import ajustaDevuelveHoraDesdeTimestamp from "@/functions/ajustaDevuelveHoraDesdeTimestamp";
 import useUser from "@/hooks/useUser";
 
+// detalle de un soporte v2: todo el flujo (asignar worker, agregar info,
+// responder, cerrar, derivar a proveedor) vive en esta pantalla, y
+// BotonesDetailV2.js decide que botones mostrar segun quien mira
 function statePill(state) {
   switch (state) {
     case "sin asignar":

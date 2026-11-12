@@ -23,6 +23,7 @@ const styles = {
   alignItems: "center",
 };
 
+// perfil del usuario logueado: cambiar su propia contraseña
 function Perfil() {
   const router = useRouter();
   const id = router.query.id;

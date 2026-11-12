@@ -26,6 +26,7 @@ const style = {
 
 
 
+// detalle de una tarea de proyecto, con el modal para editarla
 function TaskId() {
     const router = useRouter();
     const id = router.query.id;

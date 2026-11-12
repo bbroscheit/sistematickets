@@ -7,6 +7,8 @@ import mainStyle from "@/styles/Home.module.css";
 import FormNormalV2 from "@/components/FormNormalV2";
 import FormFaqV2 from "@/components/FormFaqV2";
 
+// pantalla de "nuevo soporte": elegir una faq existente (FormFaqV2) o
+// cargarlo de cero (FormNormalV2)
 function nuevoSoporteV2() {
 
   const [select, setSelect] = useState({ select: "principal" });

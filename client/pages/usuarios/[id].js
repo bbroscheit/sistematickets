@@ -17,6 +17,9 @@ const modalPosition = {
   maxWidth: "calc(100vw - 40px)",
 };
 
+// detalle/edicion de un usuario (sectores, sucursales, rol, baja). el
+// nombre de la funcion ("Soporte") es un copy-paste, no tiene nada que ver
+// con soportes
 function Soporte() {
   const router = useRouter();
   const id = router.query.id;

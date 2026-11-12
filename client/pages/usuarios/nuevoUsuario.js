@@ -3,6 +3,8 @@ import { postUser } from '../api/postuser'
 import mainStyles from "../../styles/Home.module.css";
 import style from "@/modules/newUser.module.css";
 
+// alta de un usuario nuevo. no tiene selector de rol - el rol se asigna
+// despues desde usuarios/[id].js
 function nuevoUsuario() {
   const [sector, setSector] = useState(null);
   const [salepoint, setSalepoint] = useState(null);

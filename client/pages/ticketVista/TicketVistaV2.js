@@ -2,6 +2,8 @@ import React from "react";
 import CardV2 from "@/components/CardV2";
 import style from "@/modules/TicketV2.module.css";
 
+// agrupa los soportes del usuario logueado en secciones por estado
+// (TicketsV2.js), cada soporte se muestra con CardV2
 function Section({ title, tickets }) {
   if (tickets.length === 0) return null;
   return (
