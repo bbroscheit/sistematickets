@@ -1,5 +1,7 @@
 const { Faq } = require ('../../bd');
 
+// edita los campos de una faq que vengan cargados en inputFaq (solo
+// actualiza los que efectivamente mandaron, uno por uno)
 const updateFaq = async ( id , inputFaq  ) => {
     console.log( " updateFaq", id, inputFaq)
     try{

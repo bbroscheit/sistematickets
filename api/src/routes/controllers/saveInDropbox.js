@@ -1,3 +1,7 @@
+// esto quedo a medio hacer y no lo usa ningun router - la version de abajo
+// (la que no esta comentada) ni siquiera compila bien el flujo: usa "res"
+// sin recibirlo como parametro. codigo muerto/experimental, no tocar sin
+// retomarlo en serio
 // require("dotenv").config();
 
 // const { Dropbox } = require("dropbox");

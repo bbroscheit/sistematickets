@@ -2,6 +2,9 @@ const { Ticket, Workernote, sequelize } = require('../../bd')
 const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 const { TELEGRAMCHATID } = process.env
 
+// reasigna un ticket a otro developer, deja un historial en workernote
+// (concatenando la descripcion si ya habia una reasignacion previa) y
+// avisa por telegram al nuevo developer
 const reassigmentAcepted = async (id, name, description) => {
     let lastWorker = ""
     let newNote 

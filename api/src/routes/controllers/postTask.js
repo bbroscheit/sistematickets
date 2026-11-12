@@ -1,5 +1,6 @@
 const {  Newproject, Newtask, User, sequelize } = require("../../bd");
 
+// crea una tarea V2 nueva y la linkea al proyecto y al worker
 const postTask = async (
     idProject, state, taskdetail, taskfinishdate, worker, taskdate = sequelize.literal('CURRENT_TIMESTAMP')
 ) => {

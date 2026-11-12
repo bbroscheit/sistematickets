@@ -2,6 +2,8 @@ const { Ticket, User, Desarrollo } = require('../../bd');
 const fs = require('fs');
 const path = require('path');
 
+// igual que postTicket.js, pero ademas linkea el ticket a un desarrollo
+// interno existente (desarrolloId)
 const postTicketAndDesarrollo = async (state, worker, subject, detail, answer, userresolved, user, desarrolloId, files) => {
     
     

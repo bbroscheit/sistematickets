@@ -33,7 +33,12 @@ const postUser = async (
         },
       });
       if (sector) {
-       await newUser.setSector(sector.id);
+       // sector/salepoint de user son relaciones many-to-many (ver user.js),
+       // asi que el metodo es "addSector" y no "setSector" (ese ultimo no
+       // existe y tiraba "newUser.setSector is not a function" - la pantalla
+       // de alta de usuario quedaba creando el usuario sin sector asignado y
+       // devolviendo error al front)
+       await newUser.addSector(sector.id);
       }
     }
 
@@ -44,7 +49,7 @@ const postUser = async (
         },
       });
       if (setSalepoint) {
-        await newUser.setSalepoint(setSalepoint.id);
+        await newUser.addSalepoint(setSalepoint.id);
       }
     }
 

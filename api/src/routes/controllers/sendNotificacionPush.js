@@ -8,6 +8,10 @@ const privateVapidKey = PUSH_PRIVATE_KEY;
 //console.log('keys', PUSH_PUBLIC_KEY, "key priv", PUSH_PRIVATE_KEY)
 webpush.setVapidDetails('mailto:bernardo.broscheit@basani.com.ar', publicVapidKey, privateVapidKey);
 
+// manda una notificacion push generica ("Nuevo Ticket Creado") a todas las
+// suscripciones guardadas (ver suscription.js). no distingue a quien le
+// interesa cada ticket, le llega a todos los que tengan la app con
+// notificaciones activadas
 const sendNotificationPush = async () => {
  try {
     

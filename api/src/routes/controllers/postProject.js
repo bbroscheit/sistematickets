@@ -1,14 +1,16 @@
 const { Project, User } = require("../../bd");
 
 
+// no se usa en esta funcion, quedo de algun intento anterior
 function convertFromStringToDate(finishDate) {
   let datePieces = finishDate.split("-");
-  
+
   return(new Date(datePieces[2], (datePieces[1] - 1), datePieces[0]))
 }
 
 
-
+// modulo viejo (V1): crea un proyecto y linkea el requirer y los workers
+// por username. la version actual es postNewProject.js
 const postProject = async (
   state,
   projectname,

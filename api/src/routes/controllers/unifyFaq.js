@@ -1,5 +1,7 @@
 const { Faq } = require("../../bd");
 
+// junta dos faqs duplicadas: le pasa todos los "questioner" de la faq
+// "id" a la faq de filterFaq[0], y despues borra (soft delete) la "id"
 const unifyFaq = async (id, filterFaq) => {
   try {
     let setFaq = await Faq.findByPk(id);

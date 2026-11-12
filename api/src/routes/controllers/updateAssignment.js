@@ -2,6 +2,9 @@ const { Ticket, sequelize } = require('../../bd')
 const { TELEGRAMCHATID } = process.env
 const sendTelegramMessage = require('../helpers/sendTelegramMessage')
 
+// asigna un ticket a un developer: pasa a "Asignado" y resetea el
+// "created" (que en realidad funciona como fecha de asignacion, ver
+// ticket.js), y avisa por telegram
 const updateAssignment = async (id, name) => {
     let setTicket = await Ticket.update(
         { worker: name , state: "Asignado",created: sequelize.literal('CURRENT_TIMESTAMP') },

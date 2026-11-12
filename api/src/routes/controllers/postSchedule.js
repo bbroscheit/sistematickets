@@ -2,6 +2,7 @@ const { Schedule } = require('../../bd');
 const cambiaFechaATimeZoneWithHour = require('../helpers/cambiaFechaATImeZoneWithHour');
 const cambiaFechaATimeZone = require('../helpers/cambiaFechaATimeZone')
 
+// crea una reunion nueva, pasando fecha y horas a UTC antes de guardar
 const postSchedule = async (detail, invited, accepted , startdate, starthour, finishhour) => {
 
         formatedDate = cambiaFechaATimeZone(startdate)

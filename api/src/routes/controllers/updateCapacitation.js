@@ -1,5 +1,6 @@
 const { Capacitation } = require('../../bd')
 
+// cierra/actualiza una capacitacion con su fecha de fin
 const updateCapacitation = async (id, finishdate , finishhour, state) => {
 
     // tratamos la fecha para llevarla al formato date + timezone

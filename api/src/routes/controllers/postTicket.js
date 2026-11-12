@@ -2,6 +2,10 @@ const { Ticket, User } = require('../../bd');
 const fs = require('fs');
 const path = require('path');
 
+// crea un ticket nuevo: primero crea el registro vacio para tener el id,
+// arma la carpeta "ticket_<id>" en client/public y mueve ahi los archivos
+// recien subidos (los que el front dejo con el prefijo "new_"), y recien
+// despues completa los datos reales
 const postTicket = async (state, worker, subject, detail, answer, userresolved, user, files) => {
     
     

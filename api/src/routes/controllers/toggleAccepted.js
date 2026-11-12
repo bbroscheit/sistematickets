@@ -1,5 +1,7 @@
 const { Schedule } = require('../../bd')
 
+// un invitado confirma o cancela su asistencia a una reunion (si ya
+// estaba en la lista de aceptados lo saca, si no esta lo agrega)
 const toggleAccepted = async (id, user, firstname , lastname) => {
     let completeName = `${firstname} ${lastname}`
     let updateSchedule

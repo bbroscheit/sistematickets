@@ -1,5 +1,6 @@
 const { Userstories, Project } = require("../../bd");
 
+// modulo viejo (V1): crea una userstory y la linkea a un proyecto
 const postUserStories = async (
   id, state, storiesname, storiesdetail, priority
 ) => {

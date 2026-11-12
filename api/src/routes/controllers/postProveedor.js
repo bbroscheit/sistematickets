@@ -1,5 +1,6 @@
 const { Proveedor } = require("../../bd");
 
+// crea un proveedor externo nuevo
 const postProveedor = async (
   name, description, address, zone
 ) => {
