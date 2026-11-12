@@ -1,3 +1,4 @@
+// dispara el mail generico de prueba/aviso (POST /sendEmail)
 export async function sendEmail() {
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmail`, {
       // const res = await fetch(`https://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmail`, {

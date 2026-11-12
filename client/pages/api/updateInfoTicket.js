@@ -1,3 +1,5 @@
+// agrega informacion/archivos a un soporte, del lado del worker
+// (POST /updateInfoTicket/:id, FormData)
 export async function updateInfoTicket(id, info) {
   const formData = new FormData();
 

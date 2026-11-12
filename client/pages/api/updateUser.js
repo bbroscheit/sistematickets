@@ -1,3 +1,4 @@
+// edita un usuario, desde la pantalla de admin de usuarios (PUT /updateUser/:id)
 export async function updateUser(id, input) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateUser/${id}`, {

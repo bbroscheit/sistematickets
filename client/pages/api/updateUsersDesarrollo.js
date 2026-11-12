@@ -1,3 +1,4 @@
+// cambia los usuarios asignados a un desarrollo (PUT /updateUsersDesarrollo/:id)
 export async function updateUsersDesarrollo(input, id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateUsersDesarrollo/${id}`, {

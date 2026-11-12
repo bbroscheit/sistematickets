@@ -1,3 +1,4 @@
+// marca un proyecto como finalizado (PUT /project/:id)
 export async function projectChangeState(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/project/${id}`, {

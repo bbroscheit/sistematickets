@@ -1,3 +1,4 @@
+// asigna/cambia el proveedor de un soporte (POST /selectProveedor/:id)
 export async function updateProveedor(id, asignarProveedor) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/selectProveedor/${id}`, {

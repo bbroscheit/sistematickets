@@ -1,3 +1,4 @@
+// alta de un usuario (POST /user)
 export async function postUser(input) {
   
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/user`, {

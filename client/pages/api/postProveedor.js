@@ -1,3 +1,4 @@
+// alta de una nota de proveedor para un soporte (POST /proveedor)
 export async function postProveedor(inputProveedor) {
   
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedor`, {

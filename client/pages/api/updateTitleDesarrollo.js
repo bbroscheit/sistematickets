@@ -1,3 +1,4 @@
+// cambia el titulo de un desarrollo (PUT /updateTitleDesarrollo/:id)
 export async function updateTitleDesarrollo(input, id) {
     console.log("updateTitleDesarrollo", input, id);
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateTitleDesarrollo/${id}`, {

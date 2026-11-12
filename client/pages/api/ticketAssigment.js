@@ -1,3 +1,5 @@
+// marca el soporte como "en desarrollo" cuando el worker arranca a
+// trabajarlo (PUT /ticketAssignment/:id)
 export async function ticketAssigment(id) {
     console.log("ticketAssigment", id)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketAssignment/${id}`, {

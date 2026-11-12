@@ -1,3 +1,4 @@
+// borra un turno de agenda (PUT /deleteSchedule/:id)
 export async function deleteSchedule(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/deleteSchedule/${id}`, {

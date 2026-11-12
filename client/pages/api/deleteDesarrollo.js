@@ -1,3 +1,4 @@
+// anula un desarrollo (PUT /deleteDesarrollo/:id)
 export async function deleteDesarrollo(id) {
     //console.log("updateTitleDesarrollo", input, id);
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/deleteDesarrollo/${id}`, {

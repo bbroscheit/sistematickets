@@ -1,3 +1,4 @@
+// borra una faq (PUT /deleteFaq/:id)
 export async function deleteFaq(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/deleteFaq/${id}`, {

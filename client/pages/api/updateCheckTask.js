@@ -1,3 +1,4 @@
+// tilda/destilda una tarea de proyecto v2 como cumplida (PUT /newtask/:id)
 export async function updateCheckTask(idTask) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/newtask/${idTask}`, {

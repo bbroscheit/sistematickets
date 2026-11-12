@@ -1,3 +1,4 @@
+// alta de un soporte sin archivos adjuntos (POST /ticket)
 export async function postTicket(input) {
   
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {

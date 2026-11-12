@@ -1,3 +1,4 @@
+// asigna un worker a un soporte (PUT /updateAssignment/:id)
 export async function updateWorker(id, asignar) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateAssignment/${id}`, {

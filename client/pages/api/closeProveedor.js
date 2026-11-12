@@ -1,3 +1,4 @@
+// cierra la nota de proveedor de un ticket (PUT /proveedornote/:id)
 export async function closeProveedor(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/proveedornote/${id}`, {

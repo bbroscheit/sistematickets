@@ -1,3 +1,4 @@
+// alta de una plataforma de conocimiento (POST /postPlatform)
 export async function postPlatform(inputPlatform) {
   console.log("entre al post", inputPlatform)
   try {

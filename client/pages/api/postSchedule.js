@@ -1,3 +1,4 @@
+// alta de un turno de agenda (POST /schedule)
 export async function postSchedule(input) {
     console.log("entre a postSchedule api" , input)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/schedule`, {

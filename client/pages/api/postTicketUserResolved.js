@@ -1,3 +1,5 @@
+// variante de alta de soporte cuando ya viene resuelto por el usuario
+// (POST /ticket)
 export async function postTicketUserResolved(input) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticket`, {

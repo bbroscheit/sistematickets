@@ -1,3 +1,4 @@
+// marca un desarrollo como finalizado (PUT /updateStateDesarrollo/:id)
 export async function updateStateDesarrollo(id) {
     //console.log("updateTitleDesarrollo", input, id);
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateStateDesarrollo/${id}`, {

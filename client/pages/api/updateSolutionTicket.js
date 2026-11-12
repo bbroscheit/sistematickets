@@ -1,3 +1,5 @@
+// carga la solucion de un soporte, con archivos adjuntos
+// (POST /updateSolutionTicket/:id, FormData)
 export async function updateSolutionTicket(id, solution) {
   const formData = new FormData();
 

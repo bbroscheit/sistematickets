@@ -1,3 +1,5 @@
+// avisa por mail al usuario que su soporte fue asignado a un worker
+// (POST /sendEmailAssigmentUser)
 export async function sendEmailAssigmentUser(email) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailAssigmentUser`, {

@@ -1,3 +1,4 @@
+// edita una tarea de proyecto v2 (PUT /updateNewtask)
 export async function updateNewtask(inputTask) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateNewtask`, {

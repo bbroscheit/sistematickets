@@ -1,3 +1,5 @@
+// avisa por mail que el worker pidio mas informacion sobre el soporte
+// (POST /sendEmailMoreInfo)
 export async function sendEmailMoreInfo(email) {
     // console.log(email)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailMoreInfo`, {

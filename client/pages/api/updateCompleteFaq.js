@@ -1,3 +1,4 @@
+// completa una faq con la respuesta final (PUT /updateFaq/:id)
 export async function updateCompleteFaq(id, inputFaq) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateFaq/${id}`, {

@@ -1,3 +1,5 @@
+// alta de un soporte con archivos adjuntos (POST /ticket, FormData) - la
+// que realmente usa nuevoSoporteV2.js
 export async function postTicketFormData(input) {
    const formData = new FormData();
 

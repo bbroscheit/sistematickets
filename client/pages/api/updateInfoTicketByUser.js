@@ -1,3 +1,5 @@
+// responde el pedido de mas informacion, del lado del usuario que creo el
+// soporte (POST /updateInfoTicketByUser/:id, FormData)
 export async function updateInfoTicketByUser(id, answer) {
   console.log("updateInfoTicketByUser", id, answer);
   const formData = new FormData();

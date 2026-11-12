@@ -1,3 +1,4 @@
+// alta de una capacitacion (POST /capacitation)
 export async function postCapacitation(capacitation) {
   
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/capacitation`, {

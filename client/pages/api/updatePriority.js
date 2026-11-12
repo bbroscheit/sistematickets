@@ -1,3 +1,4 @@
+// cambia la prioridad de un soporte (PUT /priorityAssigment/:id)
 export async function updatePriority(id, newPriority) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/priorityAssigment/${id}`, {

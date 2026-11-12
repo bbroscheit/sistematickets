@@ -1,3 +1,4 @@
+// avisa por mail que se creo un soporte nuevo (POST /sendEmailNewTicket)
 export async function sendEmailNewTicket(input) {
     // console.log(email)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailNewTicket`, {

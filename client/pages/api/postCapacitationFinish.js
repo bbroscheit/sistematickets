@@ -1,3 +1,4 @@
+// marca una capacitacion como finalizada (PUT /updateCapacitations)
 export async function postCapacitationFinish(input) {
   
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateCapacitations`, {

@@ -1,3 +1,4 @@
+// edita los propios datos, desde Perfil.js (PUT /updateUserByUser/:id)
 export async function updateUserByUser(id, input) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateUserByUser/${id}`, {

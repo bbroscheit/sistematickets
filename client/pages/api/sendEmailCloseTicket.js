@@ -1,3 +1,4 @@
+// avisa por mail que el soporte se cerro (POST /sendEmailCloseTicket)
 export async function sendEmailCloseTicket(email) {
     // console.log(email)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailCloseTicket`, {

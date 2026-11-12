@@ -1,3 +1,5 @@
+// igual que postTicketFormData pero asociando el soporte a un desarrollo
+// existente (POST /ticketanddesarrollo, FormData)
 export async function postTicketFormDataAndDesarrollo(input, desarrolloInput) {
    const formData = new FormData();
 
@@ -14,7 +16,7 @@ export async function postTicketFormDataAndDesarrollo(input, desarrolloInput) {
     }
   });
 
-  // 👉 Agregamos el nuevo campo desarrolloInput al FormData
+  // agregamos el campo desarrolloInput al FormData
   if (desarrolloInput) {
     formData.append('desarrolloInput', JSON.stringify(desarrolloInput.option));
   }

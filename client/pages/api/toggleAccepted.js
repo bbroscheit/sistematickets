@@ -1,3 +1,5 @@
+// confirma/retira la asistencia de un usuario a un turno de agenda
+// (PUT /toggleAccepted/:id)
 export async function toggleAccepted(id, user, firstname , lastname) {
     let userData = {
         user : user,

@@ -1,3 +1,4 @@
+// edita una faq existente (PUT /faq)
 export async function updateFaq(obj) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/faq`, {

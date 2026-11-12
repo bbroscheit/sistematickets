@@ -1,3 +1,4 @@
+// reasigna un soporte a otro worker (PUT /updatereassignment/:id)
 export async function updateReasignar(id, reasignarWorker) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updatereassignment/${id}`, {

@@ -1,3 +1,4 @@
+// alta de un proyecto, con archivos adjuntos (POST /newproject, FormData)
 export async function postProject(input) {
   const formData = new FormData();
 

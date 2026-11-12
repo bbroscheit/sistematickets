@@ -1,3 +1,4 @@
+// tilda/destilda una userstorie como cumplida (PUT /userstories/:id)
 export async function updateCheckStorie(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/userstories/${id}`, {

@@ -1,3 +1,5 @@
+// trae el detalle de un soporte (POST /ticketDetail/:id - es GET en la
+// practica, el backend no usa el body)
 export async function getTicketDetail(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/ticketDetail/${id}`, {

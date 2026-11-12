@@ -1,3 +1,4 @@
+// da de baja un usuario (PUT /deleteUser/:id)
 export async function deleteUser(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/deleteUser/${id}`, {

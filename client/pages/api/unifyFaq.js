@@ -1,3 +1,4 @@
+// unifica una faq con otra existente (PUT /unifyFaq/:id)
 export async function unifyFaq(id, filterFaq) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/unifyFaq/${id}`, {

@@ -1,3 +1,4 @@
+// edita una tarea de proyecto legacy (PUT /updateTask)
 export async function updateTask(input) {
     //console.log("front", input)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateTask`, {

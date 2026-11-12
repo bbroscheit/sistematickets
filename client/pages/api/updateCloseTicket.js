@@ -1,3 +1,4 @@
+// cierra un soporte (PUT /updateCloseTicket/:id)
 export async function updateCloseTicket(id) {
     
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/updateCloseTicket/${id}`, {

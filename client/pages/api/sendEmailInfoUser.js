@@ -1,3 +1,5 @@
+// avisa por mail que el usuario respondio el pedido de mas informacion
+// (POST /sendEmailInfoUser)
 export async function sendEmailInfoUser(email) {
     // console.log(email)
     const res = await fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sendEmailInfoUser`, {
