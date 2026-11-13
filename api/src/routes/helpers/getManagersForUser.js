@@ -3,6 +3,15 @@ const { Op } = require('sequelize');
 
 const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'];
 
+// ggranetto y gparente son gerente general, no tienen nadie arriba en la
+// jerarquia normal, pero el negocio pidio puntualmente que su superior sea
+// gcurcio (sin importar sector/sucursal). hardcodeado a pedido, no hay
+// forma de modelar esto con la jerarquia por niveles que usa el resto
+const SUPERIOR_HARDCODEADO = {
+    ggranetto: 'gcurcio',
+    gparente: 'gcurcio',
+};
+
 // dado el usuario que creo/completo el ticket, busca a quien avisarle por mail:
 // el primer nivel superior (mismo sector + sucursal) que tenga al menos un
 // usuario, subiendo la cadena hasta gerente si hace falta (por ejemplo si
@@ -20,6 +29,12 @@ const getManagersForUser = async (ticketUser) => {
         });
 
         if (!fullUser) return [];
+
+        const superiorHardcodeado = SUPERIOR_HARDCODEADO[fullUser.username?.toLowerCase()];
+        if (superiorHardcodeado) {
+            const superior = await User.findOne({ where: { username: { [Op.iLike]: superiorHardcodeado } } });
+            if (superior && superior.email) return [superior.email];
+        }
 
         const roleName = fullUser.role ? fullUser.role.name : 'empleado';
         const startIndex = HIERARCHY.indexOf(roleName);

@@ -11,6 +11,14 @@ const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'
 // separados por coma
 const SIN_SUPERIOR = 'Sin superior';
 
+// mismo hardcode puntual que getManagersForUser.js: ggranetto y gparente son
+// gerente general (sin nadie arriba en la jerarquia normal) pero su superior
+// para el excel tiene que ser gcurcio
+const SUPERIOR_HARDCODEADO = {
+    ggranetto: 'gcurcio',
+    gparente: 'gcurcio',
+};
+
 const getSuperiorNameForUser = async (userId) => {
     try {
         if (!userId) return SIN_SUPERIOR;
@@ -24,6 +32,12 @@ const getSuperiorNameForUser = async (userId) => {
         });
 
         if (!fullUser) return SIN_SUPERIOR;
+
+        const superiorHardcodeado = SUPERIOR_HARDCODEADO[fullUser.username?.toLowerCase()];
+        if (superiorHardcodeado) {
+            const superior = await User.findOne({ where: { username: { [Op.iLike]: superiorHardcodeado } } });
+            if (superior) return `${superior.firstname} ${superior.lastname}`;
+        }
 
         const roleName = fullUser.role ? fullUser.role.name : 'empleado';
         const startIndex = HIERARCHY.indexOf(roleName);
