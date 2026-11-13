@@ -11,12 +11,13 @@ const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'
 // separados por coma
 const SIN_SUPERIOR = 'Sin superior';
 
-// mismo hardcode puntual que getManagersForUser.js: ggranetto y gparente son
-// gerente general (sin nadie arriba en la jerarquia normal) pero su superior
-// para el excel tiene que ser gcurcio
+// mismo hardcode puntual que getManagersForUser.js (ver comentario ahi sobre
+// el match case-insensitive y la variante "ggraneto")
 const SUPERIOR_HARDCODEADO = {
     ggranetto: 'gcurcio',
+    ggraneto: 'gcurcio',
     gparente: 'gcurcio',
+    fdenegri: 'gcurcio',
 };
 
 const getSuperiorNameForUser = async (userId) => {

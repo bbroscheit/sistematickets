@@ -3,13 +3,18 @@ const { Op } = require('sequelize');
 
 const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'];
 
-// ggranetto y gparente son gerente general, no tienen nadie arriba en la
-// jerarquia normal, pero el negocio pidio puntualmente que su superior sea
-// gcurcio (sin importar sector/sucursal). hardcodeado a pedido, no hay
-// forma de modelar esto con la jerarquia por niveles que usa el resto
+// ggranetto, gparente y fdenegri no tienen nadie arriba en la jerarquia
+// normal (o el negocio quiere que reporten igual a gcurcio puntualmente),
+// pero el negocio pidio que su superior sea gcurcio sin importar sector/
+// sucursal. el match es case-insensitive (ver uso de .toLowerCase()/iLike
+// mas abajo), asi que da igual si el usuario se dio de alta como
+// "Ggranetto" o "ggranetto"; "ggraneto" esta por si el username real quedo
+// con esa ortografia (le falta una "t" respecto al apellido)
 const SUPERIOR_HARDCODEADO = {
     ggranetto: 'gcurcio',
+    ggraneto: 'gcurcio',
     gparente: 'gcurcio',
+    fdenegri: 'gcurcio',
 };
 
 // dado el usuario que creo/completo el ticket, busca a quien avisarle por mail:
