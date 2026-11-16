@@ -12,12 +12,17 @@ const HIERARCHY = ['empleado', 'encargado', 'jefe', 'gerente', 'gerente general'
 const SIN_SUPERIOR = 'Sin superior';
 
 // mismo hardcode puntual que getManagersForUser.js (ver comentario ahi sobre
-// el match case-insensitive y la variante "ggraneto")
+// el match case-insensitive y la variante "ggraneto"), pero aca ademas se
+// agrega gcurcio apuntando a si mismo: a pedido, en el excel los soportes
+// creados por gcurcio tienen que mostrar "gcurcio" como superior (esto es
+// solo para esta columna del excel, no afecta a quien se le manda el mail
+// de notificacion en getManagersForUser.js)
 const SUPERIOR_HARDCODEADO = {
     ggranetto: 'gcurcio',
     ggraneto: 'gcurcio',
     gparente: 'gcurcio',
     fdenegri: 'gcurcio',
+    gcurcio: 'gcurcio',
 };
 
 const getSuperiorNameForUser = async (userId) => {
