@@ -15,6 +15,7 @@ const SUPERIOR_HARDCODEADO = {
     ggraneto: 'gcurcio',
     gparente: 'gcurcio',
     fdenegri: 'gcurcio',
+    jbaetti:'gcurcio'
 };
 
 // dado el usuario que creo/completo el ticket, busca a quien avisarle por mail:

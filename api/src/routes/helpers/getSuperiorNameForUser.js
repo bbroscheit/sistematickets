@@ -23,6 +23,7 @@ const SUPERIOR_HARDCODEADO = {
     gparente: 'gcurcio',
     fdenegri: 'gcurcio',
     gcurcio: 'gcurcio',
+    jbaetti: 'gcurcio'
 };
 
 const getSuperiorNameForUser = async (userId) => {

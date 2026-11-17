@@ -5,6 +5,7 @@ import mainStyles from '@/styles/Home.module.css';
 import CardFaq from "@/components/CardFaq";
 
 
+// listado de preguntas frecuentes, cada card linkea al detalle (faq/[id].js)
 function Faq() {
     const [faq, setFaq] = useState(null);
 
