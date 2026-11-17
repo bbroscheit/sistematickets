@@ -1,20 +1,22 @@
+require('dotenv').config();
 const sql = require('mssql');
 
 // se conecta directo a la base de Dynamics GP (el sistema de gestion) para
 // ver que usuarios estan conectados ahi en este momento. las credenciales
-// estan hardcodeadas aca mismo, ya que esta base es interna y no tiene que
-// ver con la de soportes
+// vienen de .env (antes estaban hardcodeadas aca mismo en texto plano)
+const { GP_DB_USER, GP_DB_PASSWORD, GP_DB_SERVER, GP_DB_DATABASE } = process.env;
+
 const config = {
-    user: 'sa',
-    password: 'Barriletec0smic',
-    server: 'SQL2-BA\\GP',
-    database: 'DYNAMICS',
+    user: GP_DB_USER,
+    password: GP_DB_PASSWORD,
+    server: GP_DB_SERVER,
+    database: GP_DB_DATABASE,
     options: {
         trustedConnection: true,
         encrypt: true,
         enableArithAbort: true,
         trustServerCertificate: true,
-    
+
     },
 };
 
