@@ -494,9 +494,10 @@ ticketRouter.put( '/priorityAssigment/:id' , async ( req, res ) => {
 
 ticketRouter.put( '/ticketAssignment/:id' , async ( req, res ) => {
     const { id } = req.params
-    
+    const { estimatedfinishdate } = req.body
+
     try {
-        let acepted = await assigmentAcepted(id)
+        let acepted = await assigmentAcepted(id, estimatedfinishdate)
         acepted ? res.status(200).json({state: "success"}) : res.status(400).json({state:"failure"})
     } catch (e) {
         console.log( "error en ruta put assigmentAcepted" , e.message)

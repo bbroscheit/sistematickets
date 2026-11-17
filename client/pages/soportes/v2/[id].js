@@ -65,8 +65,11 @@ function Soporte() {
   const [openProveedor, setOpenProveedor] = useState(false);
   const [openPriority, setOpenPriority] = useState(false);
   const [newPriority, setNewPriority] = useState({ state: "sin asignar" });
+  const [openEstimatedDate, setOpenEstimatedDate] = useState(false);
+  const [estimatedDate, setEstimatedDate] = useState("");
   const [user, setUser] = useUser();
   const [devSectorIds, setDevSectorIds] = useState([]);
+  const [mesaDeAyudaSectorIds, setMesaDeAyudaSectorIds] = useState([]);
   const [soporte, setSoporte] = useState(null);
   const [worker, setWorker] = useState(null);
   const [proveedor, setProveedor] = useState(null);
@@ -160,7 +163,9 @@ function Soporte() {
   }, [router.query.id])
 
   // resuelve los ids de "Sistemas" y "Mesa de Ayuda" por nombre (varian entre entornos,
-  // no se pueden hardcodear como antes)
+  // no se pueden hardcodear como antes). mesaDeAyudaSectorIds es SOLO Mesa de
+  // Ayuda (sin Sistemas), a diferencia de devSectorIds - lo usa la fecha
+  // estimada de terminacion, que a pedido es visible solo para ese sector
   useEffect(() => {
     fetch(`http://${process.env.NEXT_PUBLIC_LOCALHOST}:3001/sector`)
       .then((res) => res.json())
@@ -169,6 +174,9 @@ function Soporte() {
           .filter((s) => s.sectorname === "Sistemas" || s.sectorname === "Mesa de Ayuda")
           .map((s) => s.id);
         setDevSectorIds(ids);
+        setMesaDeAyudaSectorIds(
+          data.filter((s) => s.sectorname === "Mesa de Ayuda").map((s) => s.id)
+        );
       })
       .catch(() => {});
   }, []);
@@ -284,6 +292,18 @@ function Soporte() {
   function handleClosePriority() {
     control === 0 ? setControl(1) : setControl(0);
     setOpenPriority(false);
+  }
+
+  // abre el modal donde el developer carga la fecha aproximada de
+  // terminacion antes de pasar el ticket de "Asignado" a "Desarrollo"
+  function handleOpenEstimatedDate(e) {
+    e.preventDefault();
+    setEstimatedDate("");
+    setOpenEstimatedDate(true);
+  }
+
+  function handleCloseEstimatedDate() {
+    setOpenEstimatedDate(false);
   }
 
   // Guarda los datos para asignar un worker al soporte
@@ -569,7 +589,7 @@ function Soporte() {
 
   function submitAcceptAssigment(e) {
     e.preventDefault();
-    ticketAssigment(id)
+    ticketAssigment(id, estimatedDate)
       .then(res => {
         if (res.state === "success") {
           sendEmailAssigmentUser(email);
@@ -717,6 +737,10 @@ function Soporte() {
   // "Supervisor" que se chequeaba antes)
   const isSistemas =
     user !== null && Array.isArray(user.sector) && user.sector.some((id) => devSectorIds.includes(id));
+  // a diferencia de isSistemas, la fecha estimada de terminacion es visible
+  // SOLO para Mesa de Ayuda (sin Sistemas), a pedido
+  const isMesaDeAyuda =
+    user !== null && Array.isArray(user.sector) && user.sector.some((id) => mesaDeAyudaSectorIds.includes(id));
 
   return (
     <div className={mainStyle.container}>
@@ -783,6 +807,15 @@ function Soporte() {
                       {soporte.priority}
                       <button type="button" className={style.linkbtn} onClick={(e) => handleOpenPriority(e)}>Cambiar</button>
                     </span>
+                  </div>
+                ) : null}
+
+                {/* fecha aproximada de terminacion que carga el developer al pasar el
+                    ticket a "Desarrollo" - visible solo para Mesa de Ayuda, a pedido */}
+                {isMesaDeAyuda && soporte.estimatedfinishdate ? (
+                  <div className={style.fieldLine}>
+                    <span className={style.lbl}>Fecha estimada de finalización</span>
+                    <span className={style.val}>{extraeFecha(soporte.estimatedfinishdate)}</span>
                   </div>
                 ) : null}
               </div>
@@ -859,7 +892,7 @@ function Soporte() {
               <BotonesDetailV2
                 soporte={soporte}
                 user={user}
-                submitAcceptAssigment={submitAcceptAssigment}
+                submitAcceptAssigment={handleOpenEstimatedDate}
                 handleOpenSolution={handleOpenSolution}
                 handleOpenInfo={handleOpenInfo}
                 SubmitCloseTicket={SubmitCloseTicket}
@@ -951,6 +984,30 @@ function Soporte() {
           </div>
           <button type="button" className={`${style.btn} ${style.btnPrimary}`} onClick={(e) => { submitAsignarPriority(e); handleClosePriority(); }}>
             Asignar
+          </button>
+        </Box>
+      </Modal>
+
+      {/* modal donde el developer carga la fecha aproximada de terminacion
+          al pasar el ticket de "Asignado" a "Desarrollo" */}
+      <Modal open={openEstimatedDate} onClose={handleCloseEstimatedDate}>
+        <Box className={style.modalBox}>
+          <h2>Fecha aproximada de terminación</h2>
+          <div className={style.field}>
+            <label>¿Para cuándo estimás terminarlo?</label>
+            <input
+              type="date"
+              value={estimatedDate}
+              onChange={(e) => setEstimatedDate(e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            className={`${style.btn} ${style.btnPrimary}`}
+            disabled={!estimatedDate}
+            onClick={(e) => { submitAcceptAssigment(e); handleCloseEstimatedDate(); }}
+          >
+            Comenzar Desarrollo
           </button>
         </Box>
       </Modal>

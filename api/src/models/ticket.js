@@ -84,6 +84,16 @@ module.exports = ( sequelize ) => {
         isdelete:{
             type: DataTypes.BOOLEAN,
             defaultValue: false,
+        },
+
+        estimatedfinishdate:{
+            // fecha aproximada de terminacion que carga el developer cuando
+            // pasa el ticket de "Asignado" a "Desarrollo" (ver
+            // assigmentAcepted.js). null hasta ese momento. no confundir con
+            // finishdate, que es la fecha REAL en la que se resolvio
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+            defaultValue: null,
         }
 
     } )
