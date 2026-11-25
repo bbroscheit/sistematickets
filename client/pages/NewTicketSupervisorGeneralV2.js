@@ -51,6 +51,11 @@ function NewTicketsSupervisorGeneralV2() {
   const [summary, setSummary] = useState(null);
   const [viewMenu, setViewMenu] = useState(1);
   const [finder, setFinder] = useState("");
+  // si hay una seleccion/filtro activo sobre usuarios. no se puede inferir
+  // comparando longitudes (usuariosAlt.length === usuarios.length) porque
+  // eso falla cuando la lista completa tiene un solo elemento: seleccionar
+  // ese unico usuario da un array de longitud 1, igual que "todos"
+  const [usuarioFilterActive, setUsuarioFilterActive] = useState(false);
   const restoredFromUrl = useRef(false);
 
   // sincroniza la seleccion actual en la URL (sin agregar historial), asi
@@ -79,6 +84,7 @@ function NewTicketsSupervisorGeneralV2() {
     setInfoUsuarios(infoUsuariosRes);
     setSummary(summarize(unfinishedRes));
     setUsuariosAlt(usuariosRes);
+    setUsuarioFilterActive(false);
   };
 
   useEffect(() => {
@@ -102,7 +108,9 @@ function NewTicketsSupervisorGeneralV2() {
     const { usuario: qUsuario } = router.query;
     if (qUsuario) {
       const found = usuarios.filter((u) => u === qUsuario);
-      setUsuariosAlt(found.length > 0 ? found : usuarios);
+      const matched = found.length > 0;
+      setUsuariosAlt(matched ? found : usuarios);
+      setUsuarioFilterActive(matched);
     }
   }, [router.isReady, router.query, usuarios]);
 
@@ -110,6 +118,7 @@ function NewTicketsSupervisorGeneralV2() {
     e.preventDefault();
     const clickedValue = e.currentTarget.getAttribute("value");
     setUsuariosAlt(usuarios.filter((f) => f === clickedValue));
+    setUsuarioFilterActive(true);
     syncUrl(clickedValue);
   };
 
@@ -120,6 +129,7 @@ function NewTicketsSupervisorGeneralV2() {
   const handleResetFilters = (e) => {
     e.preventDefault();
     setUsuariosAlt(usuarios);
+    setUsuarioFilterActive(false);
     setFinder("");
     syncUrl(null);
   };
@@ -132,6 +142,7 @@ function NewTicketsSupervisorGeneralV2() {
         ? usuarios
         : usuarios.filter((f) => f.toLowerCase().includes(value))
     );
+    setUsuarioFilterActive(value !== "");
   };
 
   return (
@@ -209,7 +220,7 @@ function NewTicketsSupervisorGeneralV2() {
 
         {usuariosAlt !== null && usuariosAlt.length >= 1 ? (
           <>
-            {usuariosAlt.length === usuarios.length ? (
+            {!usuarioFilterActive ? (
               <div className={style.summaryStrip}>
                 <div className={style.summaryTitle}>Información General</div>
                 <div className={style.summaryStat}>
@@ -248,12 +259,12 @@ function NewTicketsSupervisorGeneralV2() {
             ) : null}
             <div className={style.cardGrid}>
               {usuariosAlt.map((e) => (
-                <div className={`${style.containerInfoTicket} ${usuariosAlt.length !== usuarios.length ? style.containerInfoTicketFull : ""}`} key={e}>
+                <div className={`${style.containerInfoTicket} ${usuarioFilterActive ? style.containerInfoTicketFull : ""}`} key={e}>
                   <CardInformacionUsuarioV2
                     user={e}
                     data={infoUsuarios ? infoUsuarios.find((u) => u.username === e) : null}
                   />
-                  {usuariosAlt.length !== usuarios.length ? (
+                  {usuarioFilterActive ? (
                     <CardInformacionTicketUsuarioV2 user={e} />
                   ) : null}
                 </div>

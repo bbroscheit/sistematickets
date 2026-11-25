@@ -38,6 +38,12 @@ function NewTicketsSupervisorV2() {
   const [view, setView] = useState(1);
   const [viewMenu, setViewMenu] = useState(1);
   const [finder, setFinder] = useState("");
+  // si hay una seleccion/filtro activo sobre workers o usuarios. no se puede
+  // inferir comparando longitudes (workerAlt.length === worker.length) porque
+  // eso falla cuando la lista completa tiene un solo elemento: seleccionar
+  // ese unico worker/usuario da un array de longitud 1, igual que "todos"
+  const [workerFilterActive, setWorkerFilterActive] = useState(false);
+  const [usuarioFilterActive, setUsuarioFilterActive] = useState(false);
   const [user, setUser] = useUser();
   const restoredFromUrl = useRef(false);
 
@@ -60,6 +66,8 @@ function NewTicketsSupervisorV2() {
     setSoporteUnfinished(ticketSinAsignar(unfinishedRes));
     setWorkerAlt(workerRes);
     setUsuariosAlt(usuariosRes);
+    setWorkerFilterActive(false);
+    setUsuarioFilterActive(false);
   };
 
   const fetchData = async () => {
@@ -114,10 +122,14 @@ function NewTicketsSupervisorV2() {
     if (qView === "2") {
       setView(2);
       const found = qUsuario ? usuarios.filter((u) => u === qUsuario) : usuarios;
-      setUsuariosAlt(found.length > 0 ? found : usuarios);
+      const matched = found.length > 0;
+      setUsuariosAlt(matched ? found : usuarios);
+      setUsuarioFilterActive(matched && Boolean(qUsuario));
     } else if (qWorker) {
       const found = worker.filter((w) => w.id.toString() === qWorker);
-      setWorkerAlt(found.length > 0 ? found : worker);
+      const matched = found.length > 0;
+      setWorkerAlt(matched ? found : worker);
+      setWorkerFilterActive(matched);
     }
   }, [router.isReady, router.query, worker, usuarios]);
 
@@ -125,6 +137,7 @@ function NewTicketsSupervisorV2() {
     e.preventDefault();
     const clickedId = e.currentTarget.getAttribute("value");
     setWorkerAlt(worker.filter((f) => f.id.toString() === clickedId));
+    setWorkerFilterActive(true);
     syncUrl(1, clickedId, null);
   };
 
@@ -132,6 +145,7 @@ function NewTicketsSupervisorV2() {
     e.preventDefault();
     const clickedValue = e.currentTarget.getAttribute("value");
     setUsuariosAlt(usuarios.filter((f) => f === clickedValue));
+    setUsuarioFilterActive(true);
     syncUrl(2, null, clickedValue);
   };
 
@@ -141,8 +155,10 @@ function NewTicketsSupervisorV2() {
     setFinder("");
     if (nextView === 2) {
       setUsuariosAlt(usuarios);
+      setUsuarioFilterActive(false);
     } else {
       setWorkerAlt(worker);
+      setWorkerFilterActive(false);
     }
     syncUrl(nextView, null, null);
   };
@@ -155,6 +171,8 @@ function NewTicketsSupervisorV2() {
     e.preventDefault();
     setWorkerAlt(worker);
     setUsuariosAlt(usuarios);
+    setWorkerFilterActive(false);
+    setUsuarioFilterActive(false);
     setFinder("");
     syncUrl(view, null, null);
   };
@@ -175,6 +193,8 @@ function NewTicketsSupervisorV2() {
             return fullName.includes(value.toLowerCase());
           })
     );
+    setUsuarioFilterActive(value !== "");
+    setWorkerFilterActive(value !== "");
   };
 
   return (
@@ -304,17 +324,17 @@ function NewTicketsSupervisorV2() {
         {view === 1 ? (
           workerAlt !== null && workerAlt.length >= 1 ? (
             <>
-              {workerAlt.length === worker.length ? <CardInformacionGeneralV2 /> : null}
+              {!workerFilterActive ? <CardInformacionGeneralV2 /> : null}
               <div className={style.cardGrid}>
                 {workerAlt.map((e) => (
-                  <div className={`${style.containerInfoTicket} ${workerAlt.length !== worker.length ? style.containerInfoTicketFull : ""}`} key={e.id}>
+                  <div className={`${style.containerInfoTicket} ${workerFilterActive ? style.containerInfoTicketFull : ""}`} key={e.id}>
                     <CardInformacionWorkerV2
                       id={e.id}
                       firstname={e.firstname}
                       lastname={e.lastname}
                       data={infoWorkers ? infoWorkers.find((w) => w.id === e.id) : null}
                     />
-                    {workerAlt.length !== worker.length ? (
+                    {workerFilterActive ? (
                       <CardInformacionTicketsWorker id={e.id} />
                     ) : null}
                   </div>
@@ -324,15 +344,15 @@ function NewTicketsSupervisorV2() {
           ) : null
         ) : usuariosAlt !== null && usuariosAlt.length >= 1 ? (
           <>
-            {usuariosAlt.length === usuarios.length ? <CardInformacionGeneralV2 /> : null}
+            {!usuarioFilterActive ? <CardInformacionGeneralV2 /> : null}
             <div className={style.cardGrid}>
               {usuariosAlt.map((e) => (
-                <div className={`${style.containerInfoTicket} ${usuariosAlt.length !== usuarios.length ? style.containerInfoTicketFull : ""}`} key={e}>
+                <div className={`${style.containerInfoTicket} ${usuarioFilterActive ? style.containerInfoTicketFull : ""}`} key={e}>
                   <CardInformacionUsuarioV2
                     user={e}
                     data={infoUsuarios ? infoUsuarios.find((u) => u.username === e) : null}
                   />
-                  {usuariosAlt.length !== usuarios.length ? (
+                  {usuarioFilterActive ? (
                     <CardInformacionTicketUsuario user={e} />
                   ) : null}
                 </div>
