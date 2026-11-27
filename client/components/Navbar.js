@@ -154,7 +154,9 @@ export default function PrimarySearchAppBar() {
     "Pzuberec",
     "Bbroscheit",
     "Cbornetto",
-    "Mmaritato"
+    "Mmaritato",
+    "Cchiarelli",
+    "Gcruz"
     
   ]
  
